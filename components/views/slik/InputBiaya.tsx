@@ -714,11 +714,9 @@ export default function InputPembiayaan({
                   label="Nama Bank"
                   name={"nama_bank"}
                   className="w-full md:w-50"
-                  required
                 >
                   <Input
                     onChange={(e) => setNamaBank(e.target.value)}
-                    required
                     style={{ backgroundColor: "white", color: "black" }}
                   />
                 </Form.Item>
@@ -728,9 +726,8 @@ export default function InputPembiayaan({
                   label="No Rekening"
                   name={"no_rekening"}
                   className="w-full md:w-50 flex-1"
-                  required
                 >
-                  <Input onChange={(e) => setNoBank(e.target.value)} required />
+                  <Input onChange={(e) => setNoBank(e.target.value)}  />
                 </Form.Item>
                 <Form.Item
                   label="Tempat Lahir"

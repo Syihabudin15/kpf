@@ -520,6 +520,26 @@ export default function TabsForm({
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
+              <Form.Item
+                label="Sumber Dana"
+                name={"sumber_dana"}
+                className="flex-1"
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Jenis Margin"
+                name={"jenis_margin"}
+                className="flex-1"
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
               </Form.Item>
               <Form.Item label="Refferal" name={"refferal"}>
                 <Input
@@ -708,26 +728,6 @@ export default function TabsForm({
                 />
               </Form.Item>
               <Form.Item label="Agent Fronting" name={"fronting"}>
-                <Input
-                  disabled
-                  style={{ backgroundColor: "white", color: "black" }}
-                />
-              </Form.Item>
-              <div className="p-3 font-bold bg-orange-500 text-gray-100 my-2 text-center">
-                SUMBER DANA & JENIS MARGIN
-              </div>
-              <Form.Item label="Sumber Dana" name={"sumber_dana"}>
-                <Input
-                  disabled
-                  style={{ backgroundColor: "white", color: "black" }}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Jenis Margin"
-                name={"jenis_margin"}
-                required
-                className="flex-1"
-              >
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1125,6 +1125,24 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
+              <Form.Item label="Pembiayaan Sebelumnya" name={"pembiayaan_sebelumnya"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="No Rekening" name={"no_rekening"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Nama Bank" name={"nama_bank"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
               <Form.Item label="Tanggal Lahir" name={"tanggal_lahir"}>
                 <Input
                   disabled
@@ -1144,6 +1162,22 @@ export default function TabsForm({
                 />
               </Form.Item>
               <Form.Item label="Jenis Pembiayaan" name={"jenis_pembiayaan"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Sumber Dana" name={"sumber_dana"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Jenis Margin"
+                name={"jenis_margin"}
+                className="flex-1"
+              >
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1325,26 +1359,6 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <div className="p-3 font-bold bg-orange-500 text-gray-100 my-2 text-center">
-                SUMBER DANA & JENIS MARGIN
-              </div>
-              <Form.Item label="Sumber Dana" name={"sumber_dana"}>
-                <Input
-                  disabled
-                  style={{ backgroundColor: "white", color: "black" }}
-                />
-              </Form.Item>
-              <Form.Item
-                label="Jenis Margin"
-                name={"jenis_margin"}
-                required
-                className="flex-1"
-              >
-                <Input
-                  disabled
-                  style={{ backgroundColor: "white", color: "black" }}
-                />
-              </Form.Item>
             </Form>
           ),
         },
@@ -1519,6 +1533,9 @@ export default function TabsForm({
       posisi: data?.User.posisi,
       unit_cabang: data?.User.UnitCabang.name,
       status_pkwt: data?.User.status_pkwt,
+      pembiayaan_sebelumnya: data?.DataPembiayaan.pembiayaan_sebelumnya,
+      no_rekening: data?.DataPembiayaan.no_rekening,
+      nama_bank: data?.DataPembiayaan.nama_bank,
     });
     formProses.setFieldsValue({
       keterangan: data[`keterangan_${pathname as keyof typeof obj}`],

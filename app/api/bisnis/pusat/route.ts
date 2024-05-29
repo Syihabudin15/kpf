@@ -12,7 +12,7 @@ export const GET = async (req: NextRequest) => {
               include: {
                 DataPengajuan: {
                   where: {
-                    status_pencairan: "TRANSFER",
+                    is_active: true,
                   },
                   include: {
                     DataPembiayaan: {

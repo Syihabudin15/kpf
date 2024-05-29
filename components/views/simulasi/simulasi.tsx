@@ -348,7 +348,7 @@ export default function Simulasi() {
           inputTextToDecimal(plafond)
         )
       ),
-      parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
+      parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "1")
     );
     setAngsuranBulan(formatNumber(result.toFixed(0)));
   };

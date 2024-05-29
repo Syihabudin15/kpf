@@ -51,6 +51,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "NO",
       dataIndex: "no",
       key: "no",
+      width: 50,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -67,6 +68,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "NO PENSIUN",
       dataIndex: "no",
       key: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -83,6 +85,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "No SK PENSIUN",
       dataIndex: "no_skep",
       key: "no_skep",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -100,6 +103,7 @@ export default function DokumenPengajuanMitraBank() {
       dataIndex: "nama",
       key: "nama",
       fixed: "left",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -116,6 +120,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "AREA Pelayanan",
       dataIndex: "up",
       key: "up",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -132,6 +137,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -147,6 +153,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "PLAFOND",
       dataIndex: "plafon",
       key: "plafon",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -160,9 +167,27 @@ export default function DokumenPengajuanMitraBank() {
       },
     },
     {
+      title: "TENOR",
+      dataIndex: "tenor",
+      key: "tenor",
+      width: 100,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{record.DataPembiayaan.tenor} Bulan</>;
+      },
+    },
+    {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk_pembiayaan",
       key: "produk_pembiayaan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -178,6 +203,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "jenis_pembiayaan",
       key: "jenis_pembiayaan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -204,6 +230,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -225,6 +252,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -254,6 +282,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -277,6 +306,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -304,9 +334,10 @@ export default function DokumenPengajuanMitraBank() {
       key: "berkas_pelunasan",
       children: [
         {
-          title: "View",
+          title: "VIEW",
           key: "view",
           dataIndex: "view",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -332,6 +363,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -361,6 +393,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "VIEW",
           key: "view",
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -386,6 +419,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "TANGGAL",
           key: "tanggal",
+          width: 100,
           dataIndex: "tanggal",
           onHeaderCell: (text, record) => {
             return {
@@ -416,6 +450,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "VIEW",
           key: "view",
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -441,6 +476,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "NO REKENING",
           key: "no_Rek",
+          width: 100,
           dataIndex: "no_rek",
           onHeaderCell: (text, record) => {
             return {
@@ -457,6 +493,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "NAMA BANK",
           key: "nama_bank",
+          width: 150,
           dataIndex: "nama_bank",
           onHeaderCell: (text, record) => {
             return {
@@ -473,6 +510,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "TANGGAL",
           key: "tanggal",
+          width: 100,
           dataIndex: "tanggal",
           onHeaderCell: (text, record) => {
             return {
@@ -503,6 +541,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "VIEW",
           key: "view",
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -528,6 +567,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "TANGGAL",
           key: "tanggal",
+          width: 100,
           dataIndex: "tanggal",
           onHeaderCell: (text, record) => {
             return {
@@ -558,6 +598,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "VIEW",
           key: "view",
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -584,6 +625,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -613,6 +655,7 @@ export default function DokumenPengajuanMitraBank() {
         {
           title: "VIEW",
           key: "view",
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -639,6 +682,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -666,9 +710,10 @@ export default function DokumenPengajuanMitraBank() {
       key: "video_cair",
       children: [
         {
-          title: "View",
+          title: "VIEW",
           key: "view",
           dataIndex: "view",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -694,6 +739,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -716,6 +762,120 @@ export default function DokumenPengajuanMitraBank() {
       ],
     },
     {
+      title: "VIDEO CAIR 2",
+      dataIndex: "video_cair2",
+      key: "video_cair3",
+      children: [
+        {
+          title: "VIEW",
+          key: "view",
+          width: 100,
+          dataIndex: "view",
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <>
+                <ModalBerkas
+                  data={{
+                    url: record.BerkasPengajuan.video_cair2 || "",
+                    type: "video/mp4",
+                    title: `VIDEO CAIR 2 ${record.DataPembiayaan.name}`,
+                  }}
+                />
+              </>
+            );
+          },
+        },
+        {
+          title: "TANGGAL",
+          key: "tanggal",
+          width: 100,
+          dataIndex: "tanggal",
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return (
+              <>
+                {record.BerkasPengajuan.tanggal_video_cair2 &&
+                  moment(record.BerkasPengajuan.tanggal_video_cair2).format(
+                    "DD-MM-YYYY"
+                  )}
+              </>
+            );
+          },
+        },
+      ],
+    },
+    {
+      title: "VIDEO CAIR 3",
+      dataIndex: "video_cair3",
+      key: "video_cai3",
+      children: [
+        {
+          title: "VIEW",
+          key: "view",
+          dataIndex: "view",
+          width: 100,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <>
+                <ModalBerkas
+                  data={{
+                    url: record.BerkasPengajuan.video_cair3 || "",
+                    type: "video/mp4",
+                    title: `VIDEO CAIR 3 ${record.DataPembiayaan.name}`,
+                  }}
+                />
+              </>
+            );
+          },
+        },
+        {
+          title: "TANGGAL",
+          key: "tanggal",
+          dataIndex: "tanggal",
+          width: 100,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return (
+              <>
+                {record.BerkasPengajuan.tanggal_video_cair3 &&
+                  moment(record.BerkasPengajuan.tanggal_video_cair3).format(
+                    "DD-MM-YYYY"
+                  )}
+              </>
+            );
+          },
+        },
+      ],
+    },
+    {
       title: "EPOTPEN",
       dataIndex: "epotpen",
       key: "epotpen",
@@ -724,6 +884,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -749,6 +910,7 @@ export default function DokumenPengajuanMitraBank() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {

@@ -243,7 +243,7 @@ model DataPengajuan {
   tujuan_penggunaan1        String
   tujuan_penggunaan2        String?
   geo_location              String?
-  agent_fronting            String
+  agent_fronting            String?
   status_slik               StatusPengajuan?
   keterangan_slik           String?          @db.Text
   tanggal_slik              DateTime?
@@ -523,7 +523,7 @@ model DataTaspen {
   agama              Agama?
   masa_kerja         Int?
   status_rumah       StatusRumah?
-  menempati_tahun    Int?
+  menempati_tahun    String?
   nama_ibu_kandung   String?
   pekerjaan_sekarang String?
   alamat_pekerjaan   String?

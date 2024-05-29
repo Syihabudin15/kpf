@@ -179,7 +179,6 @@ export const POST = async (req: NextRequest) => {
     );
   data.DataPembiayaan.user_id = findUser.id;
   try {
-    console.log(data.DataPembiayaan.nopen);
     const findPengajuan = await prisma.dataPengajuan.findFirst({
       where: {
         AND: [
@@ -220,10 +219,10 @@ export const POST = async (req: NextRequest) => {
     const trans = await prisma.$transaction(async (tx) => {
       const berkas = await tx.berkasPengajuan.create({
         data: {
-          berkas_pengajuan: data.BerkasPengajuan.berkas_pengajuan || null,
-          berkas_slik: data.BerkasPengajuan.berkas_slik || null,
-          video_wawancara: data.BerkasPengajuan.video_wawancara || null,
-          video_asuransi: data.BerkasPengajuan.video_asuransi || null,
+          berkas_pengajuan: data.BerkasPengajuan && data.BerkasPengajuan.berkas_pengajuan ? data.BerkasPengajuan.berkas_pengajuan : null,
+          berkas_slik: data.BerkasPengajuan && data.BerkasPengajuan.berkas_slik ? data.BerkasPengajuan.berkas_slik : null,
+          video_wawancara: data.BerkasPengajuan && data.BerkasPengajuan.video_wawancara ? data.BerkasPengajuan.video_wawancara :  null,
+          video_asuransi: data.BerkasPengajuan && data.BerkasPengajuan.video_asuransi ? data.BerkasPengajuan.video_asuransi : null,
         },
       });
       const biaya = await tx.dataPembiayaan.create({
@@ -299,15 +298,14 @@ export const POST = async (req: NextRequest) => {
               pendidikan: data.pendidikan,
               jenis_kelamin: data.jenis_kelamin,
               agama: data.agama,
-              masa_kerja: parseInt(data.masa_kerja) || null,
+              masa_kerja: data.masa_kerja || null,
               status_rumah: data.status_rumah,
-              menempati_tahun: parseInt(data.menempati_tahun) || null,
+              menempati_tahun: data.menempati_tahun || null,
               nama_ibu_kandung: data.nama_ibu_kandung,
               pekerjaan_sekarang: data.pekerjaan_sekarang,
               alamat_pekerjaan: data.alamat_pekerjaan,
               jenis_usaha: data.jenis_usaha,
               status_kawin: data.status_kawin,
-
               nomor_sk_pensiun: data.nomor_sk_pensiun,
               tanggal_sk_pensiun: data.tanggal_sk_pensiun,
               tanggal_lahir: data.tanggal_lahir,
@@ -425,19 +423,23 @@ export const POST = async (req: NextRequest) => {
                 golongan: data.golongan,
                 jenis_pensiun: data.jenis_pensiun,
                 geo_location: data.geo_location || null,
-                agent_fronting: data.agent_fronting,
+                agent_fronting: data.agent_fronting || null,
                 user_id: data.user_id,
                 data_pembiayaan_id: biaya.id,
                 berkasPengajuanId: berkas.id,
                 status_verifikasi: "SETUJU",
+                keterangan_verifikasi: "VERIFIKASI PASS",
                 tanggal_verifikasi: new Date(),
                 status_slik: "SETUJU",
+                keterangan_slik: "SLIK PASS",
                 tanggal_slik: new Date(),
                 status_checker: "SETUJU",
                 tanggal_checker: new Date(),
                 status_maker: "SETUJU",
                 tanggal_maker: new Date(),
-                status_approval: "ANTRI",
+                status_approval: "SETUJU",
+                keterangan_approval: "APPROVAL PASS",
+                tanggal_approval: new Date(),
                 dataTaspenId: dataTaspenId,
                 bankId: data.bankId,
                 dataPengajuanKeluargaId: pengajuanKeluarga.id,
@@ -475,7 +477,7 @@ export const POST = async (req: NextRequest) => {
                 golongan: data.golongan,
                 jenis_pensiun: data.jenis_pensiun,
                 geo_location: data.geo_location || null,
-                agent_fronting: data.agent_fronting,
+                agent_fronting: data.agent_fronting || null,
                 user_id: data.user_id,
                 data_pembiayaan_id: biaya.id,
                 berkasPengajuanId: berkas.id,

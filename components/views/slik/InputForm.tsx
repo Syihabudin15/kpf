@@ -16,7 +16,6 @@ import {
 } from "@prisma/client";
 import {
   Checkbox,
-  DatePicker,
   Divider,
   Form,
   Input,
@@ -151,7 +150,7 @@ export default function InputForm({
       kota_domisili: domisiliSama ? e.kota : e.kota_domisili,
       provinsi_domisili: domisiliSama
         ? findProvince[0].label
-        : findProvinceDomisili[0].label,
+        : findProvinceDomisili[0] ? findProvinceDomisili[0].label : findProvince[0].label,
       kode_pos_domisili: domisiliSama ? e.kode_pos : e.kode_pos_domisili,
       geo_location: e.geo_location,
       alamat: e.alamat || null,
@@ -181,7 +180,7 @@ export default function InputForm({
     };
     e.BerkasPengajuan = berkas;
     e.DataPembiayaan = pembiayaan;
-    e.menempati_tahun = e.menempati_tahun;
+    e.menempati_tahun = e.menempati_tahun ? e.menempati_tahun.toString() : null;
     e.masa_kerja = parseInt(e.masa_kerja) || null;
     e.tanggal_lahir = pembiayaan.tanggal_lahir;
     e.nopen = nopen;
@@ -229,16 +228,16 @@ export default function InputForm({
         rw: taspen.Domisili?.rw || "",
         kelurahan: taspen.Domisili?.kelurahan || "",
         kecamatan: taspen.Domisili?.kecamatan || "",
-        kota: taspen.Domisili?.kota || "",
-        provinsi: taspen.Domisili?.provinsi || "",
+        // kota: taspen.Domisili?.kota || "",
+        // provinsi: taspen.Domisili?.provinsi || "",
         kode_pos: taspen.Domisili?.kode_pos || "",
         alamat_domisili: taspen.Domisili?.alamat_domisili || "",
         rt_domisili: taspen.Domisili?.rt_domisili || "",
         rw_domisili: taspen.Domisili?.rw_domisili || "",
         kelurahan_domisili: taspen.Domisili?.kelurahan_domisili || "",
         kecamatan_domisili: taspen.Domisili?.kecamatan_domisili || "",
-        kota_domisili: taspen.Domisili?.kota_domisili || "",
-        provinsi_domisili: taspen.Domisili?.provinsi_domisili || "",
+        // kota_domisili: taspen.Domisili?.kota_domisili || "",
+        // provinsi_domisili: taspen.Domisili?.provinsi_domisili || "",
         kode_pos_domisili: taspen.Domisili?.kode_pos_domisili || "",
         geo_location: taspen.Domisili?.geo_location || "",
         no_telepon: taspen.no_telepon || "",
@@ -256,13 +255,18 @@ export default function InputForm({
         jenis_usaha: taspen.jenis_usaha || "",
         status_kawin: taspen.status_kawin || "",
         nama_pasangan: taspen.DataPasangan.nama_pasangan || "",
-        tempat_lahir_pasangan: taspen.DataPasangan.tanggal_lahir_pasangan || "",
+        tempat_lahir_pasangan: taspen.DataPasangan.tempat_lahir_pasangan || "",
         nik_pasangan: taspen.DataPasangan.nik_pasangan || "",
         pekerjaan_pasangan: taspen.DataPasangan.pekerjaan_pasangan || "",
         no_sk_pensiun: taspen.nomor_sk_pensiun || "",
         penerbit_sk: taspen.penerbit_sk || "",
         jenis_pensiun: taspen.jenis_pensiun || "",
       });
+      if(taspen.status_kawin && taspen.status_kawin === "KAWIN"){
+        setStatusKawinDisable(false);
+      }else{
+        setStatusKawinDisable(true);
+      }
     }
   }, [nopen, taspen]);
 
@@ -404,7 +408,26 @@ export default function InputForm({
                   </Form.Item>
                 </div>
               </div>
-              <div className="block md:flex justify-between gap-5">
+              <div className="block">
+                <div className="block md:flex gap-5">
+                  <Form.Item
+                    label="Kelurahan"
+                    name={"kelurahan"}
+                    required
+                    className="flex-1"
+                  >
+                    <Input required />
+                  </Form.Item>
+                  <Form.Item
+                    label="Kecamatan"
+                    name={"kecamatan"}
+                    required
+                    className="flex-1"
+                  >
+                    <Input required />
+                  </Form.Item>
+                </div>
+                <div className="block md:flex justify-between gap-5">
                 <Form.Item
                   label="Provinsi"
                   name={"provinsi"}
@@ -429,25 +452,6 @@ export default function InputForm({
                   <Select options={kabupaten} showSearch />
                 </Form.Item>
               </div>
-              <div className="block">
-                <div className="block md:flex gap-5">
-                  <Form.Item
-                    label="Kecamatan"
-                    name={"kecamatan"}
-                    required
-                    className="flex-1"
-                  >
-                    <Input required />
-                  </Form.Item>
-                  <Form.Item
-                    label="Kelurahan"
-                    name={"kelurahan"}
-                    required
-                    className="flex-1"
-                  >
-                    <Input required />
-                  </Form.Item>
-                </div>
                 <Form.Item
                   label="Kode Pos"
                   name={"kode_pos"}
@@ -525,6 +529,32 @@ export default function InputForm({
                   </Form.Item>
                 </div>
               </div>
+              <div className="block md:flex justify-center gap-5">
+                <Form.Item
+                  label="Kecamatan"
+                  name={"kecamatan_domisili"}
+                  required
+                  hidden={domisiliSama}
+                  className="flex-1"
+                >
+                  <Input
+                    required
+                    disabled={isDisable ? isDisable : domisiliSama}
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Kelurahan"
+                  name={"kelurahan_domisili"}
+                  required
+                  hidden={domisiliSama}
+                  className="flex-1"
+                >
+                  <Input
+                    required
+                    disabled={isDisable ? isDisable : domisiliSama}
+                  />
+                </Form.Item>
+              </div>
               <div className="block md:flex justify-between gap-5">
                 <Form.Item
                   label="Provinsi"
@@ -552,32 +582,6 @@ export default function InputForm({
                     options={kabupatenDomisili}
                     disabled={isDisable ? isDisable : domisiliSama}
                     showSearch
-                  />
-                </Form.Item>
-              </div>
-              <div className="block md:flex justify-center gap-5">
-                <Form.Item
-                  label="Kecamatan"
-                  name={"kecamatan_domisili"}
-                  required
-                  hidden={domisiliSama}
-                  className="flex-1"
-                >
-                  <Input
-                    required
-                    disabled={isDisable ? isDisable : domisiliSama}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Kelurahan"
-                  name={"kelurahan_domisili"}
-                  required
-                  hidden={domisiliSama}
-                  className="flex-1"
-                >
-                  <Input
-                    required
-                    disabled={isDisable ? isDisable : domisiliSama}
                   />
                 </Form.Item>
               </div>
@@ -667,7 +671,7 @@ export default function InputForm({
                       },
                     ]}
                   >
-                    <DatePicker type="date" required width="100%" format="DD/MM/YYYY" />
+                    <Input type="date" required />
                   </Form.Item>
                   <Form.Item
                     label="Gelar Pendidikan"
@@ -773,7 +777,6 @@ export default function InputForm({
                       {
                         required: true,
                         message: "Mohon isi field ini minimum 4 angka!",
-                        min: 4,
                       },
                     ]}
                   >
@@ -788,11 +791,10 @@ export default function InputForm({
                       {
                         required: true,
                         message: "Mohon isi field ini!",
-                        min: 1,
                       },
                     ]}
                   >
-                    <Input suffix="Tahun" required />
+                    <Input suffix="Tahun" required type="number"/>
                   </Form.Item>
                 </div>
               </div>
@@ -926,11 +928,10 @@ export default function InputForm({
                     className="flex-1"
                     required={!statusKawinDisable}
                   >
-                    <DatePicker
+                    <Input
                       type="date"
                       disabled={isDisable ? isDisable : statusKawinDisable}
                       required={!statusKawinDisable}
-                      format="DD/MM/YYYY"
                     />
                   </Form.Item>
                   <Form.Item
@@ -939,11 +940,10 @@ export default function InputForm({
                     className="flex-1"
                     required={!statusKawinDisable}
                   >
-                    <DatePicker
+                    <Input
                       type="date"
                       disabled={isDisable ? isDisable : statusKawinDisable}
                       required={!statusKawinDisable}
-                      format={"DD/MM/YYYY"}
                     />
                   </Form.Item>
                 </div>
@@ -1034,7 +1034,6 @@ export default function InputForm({
                     {
                       required: true,
                       message: "Mohon isi field ini!",
-                      min: 2,
                     },
                   ]}
                 >
@@ -1053,7 +1052,7 @@ export default function InputForm({
                       },
                     ]}
                   >
-                    <DatePicker format="DD/MM/YYYY" type="date" required />
+                    <Input  type="date" required />
                   </Form.Item>
                   <Form.Item
                     label="TMT Pensiun"
@@ -1067,7 +1066,7 @@ export default function InputForm({
                       },
                     ]}
                   >
-                    <DatePicker type="date" required format="DD/MM/YYYY" />
+                    <Input type="date" required  />
                   </Form.Item>
                 </div>
               </div>
@@ -1204,10 +1203,9 @@ export default function InputForm({
                 <Form.Item
                   label="Agent Fronting"
                   name={"agent_fronting"}
-                  required
                   className="flex-1"
                 >
-                  <Input required />
+                  <Input  />
                 </Form.Item>
               </div>
               <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
