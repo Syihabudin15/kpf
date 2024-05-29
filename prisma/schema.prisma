@@ -1,0 +1,777 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  MASTER
+  ENTRY_DATA
+  BANK
+  VERIFIKASI
+  CHECKER
+  MAKER
+  APPROVAL
+  MARKETING
+  OPERASIONAL
+  BISNIS
+  PEMBERKASAN
+  KEUANGAN
+}
+
+enum StatusPengajuan {
+  ANTRI
+  DITOLAK
+  SETUJU
+  PENDING
+}
+
+enum StatusPencairan {
+  TRANSFER
+  PROSES
+  BATAL
+}
+
+enum Pendidikan {
+  SD
+  SMP
+  SMA
+  D3
+  S1
+  S2
+  S3
+  LAINNYA
+}
+
+enum JenisKelamin {
+  LAKI_LAKI
+  PEREMPUAN
+}
+
+enum Agama {
+  ISLAM
+  KATHOLIK
+  KONGHUCU
+  HINDU
+  BUDHA
+  ATHEIS
+  LAINNYA
+}
+
+enum StatusRumah {
+  SEWA
+  MILIK_SENDIRI
+  MILIK_KELUARGA
+  MILIK_ORANGLAIN
+  NGEKOS
+  TIDAK_PUNYA_RUMAH
+}
+
+enum JenisUsaha {
+  WARUNG_KOPI
+  TOKO_KELONTONG
+  JASA_CUCI_MOBIL_DAN_MOTOR
+  KATERING
+  LOUNDRY
+  SALON_KECANTIKAN
+  LAINNYA
+}
+
+enum StatusKawin {
+  BELUM_KAWIN
+  KAWIN
+  JANDA
+  DUDA
+}
+
+enum JenisMargin {
+  FLAT
+  ANUITAS
+}
+
+model Produk {
+  id             String   @id @default(uuid())
+  name           String
+  by_asuransi    Float
+  mg_bunga       Float
+  min_age        Float
+  max_age        Float
+  max_usia_lunas Float
+  max_tenor      Int
+  max_plafon     Int
+  is_active      Boolean  @default(true)
+  created_at     DateTime @default(now())
+
+  bank_id        String?
+  Bank           Bank?            @relation(fields: [bank_id], references: [id])
+  DataPembiayaan DataPembiayaan[]
+}
+
+model Bank {
+  id               String  @id @default(uuid())
+  name             String  @unique
+  kode             String? @unique
+  by_admin         Float
+  by_admin_bank    Float?
+  by_lainnya       Float?
+  by_tatalaksana   Int
+  by_materai       Int
+  by_buka_rekening Int
+  by_angsuran      Float
+  by_flagging      Int     @default(20000)
+  by_epotpen       Int     @default(35000)
+  by_provisi       Int?    @default(0)
+  margin_bank      Float?  @default(14)
+  is_syariah       Boolean @default(false)
+
+  logo              String?
+  up_direktur       String?
+  direktur          String?
+  penanggung_jawab  String?
+  account_officer   String?
+  credit_review     String?
+  ketua_credit      String?
+  wakil_ketua       String?
+  diperiksa_oleh    String?
+  jabatan_diperiksa String?
+  otorisasi_oleh    String?
+  jabatan_otorisasi String?
+  akad              String?
+  sk_akad           String?  @db.LongText
+  alamat            String?
+  no_telepon        String?
+  email             String?
+  is_active         Boolean  @default(true)
+  created_at        DateTime @default(now())
+
+  products          Produk[]
+  User              User[]
+  DataPengajuan     DataPengajuan[]
+  DataPencairan     DataPencairan[]
+  PenyerahanBerkas  PenyerahanBerkas[]
+  PenyerahanJaminan PenyerahanJaminan[]
+}
+
+model JenisPembiayaan {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  by_mutasi  Int
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+
+  DataPembiayaan DataPembiayaan[]
+}
+
+model Refferal {
+  id         String   @id @default(uuid())
+  name       String   @unique
+  kode       String?
+  alamat     String?
+  no_telepon String?
+  email      String?
+  is_active  Boolean  @default(true)
+  created_at DateTime @default(now())
+
+  DataPembiayaan DataPembiayaan[]
+}
+
+model DataPembiayaan {
+  id                    String   @id @default(uuid())
+  nopen                 String
+  name                  String
+  keterangan            String?
+  alamat                String
+  tanggal_lahir         String
+  tempat_lahir          String?
+  juru_bayar_asal       String?
+  juru_bayar_tujuan     String?
+  pembiayaan_sebelumnya String?
+  no_rekening           String?
+  nama_bank             String?
+  tanggal_input         DateTime @default(now())
+  gaji_bersih           Int
+  by_tatalaksana        Int
+  by_mutasi             Int
+  by_provisi            Int
+  mg_bunga              Float
+  by_admin              Float
+  by_admin_bank         Float    @default(0)
+  by_lainnya            Float    @default(0)
+  by_asuransi           Float
+  by_buka_rekening      Int
+  by_materai            Int
+  by_flagging           Int      @default(20000)
+  by_epotpen            Int      @default(35000)
+  tenor                 Int
+  plafond               Int
+  retensi               Int      @default(0)
+  blokir                Int      @default(0)
+  bpp                   Int      @default(0)
+  pelunasan             Int      @default(0)
+  fee                   Int      @default(0)
+  margin_bank           Int      @default(0)
+  pembulatan            Int      @default(100)
+
+  is_simulasi Boolean
+  is_active   Boolean @default(true)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  Produk              Produk?          @relation(fields: [produk_id], references: [id])
+  produk_id           String?
+  JenisPembiayaan     JenisPembiayaan? @relation(fields: [jenis_pembiayaan_id], references: [id])
+  jenis_pembiayaan_id String?
+  User                User?            @relation(fields: [user_id], references: [id])
+  user_id             String?
+  DataPengajuan       DataPengajuan[]
+  Refferal            Refferal?        @relation(fields: [refferal_id], references: [id])
+  refferal_id         String?
+}
+
+model DataPengajuan {
+  id                        String           @id @default(uuid())
+  tujuan_penggunaan1        String
+  tujuan_penggunaan2        String?
+  geo_location              String?
+  agent_fronting            String
+  status_slik               StatusPengajuan?
+  keterangan_slik           String?          @db.Text
+  tanggal_slik              DateTime?
+  nama_pemeriksa_slik       String?
+  status_verifikasi         StatusPengajuan?
+  keterangan_verifikasi     String?          @db.Text
+  tanggal_verifikasi        DateTime?
+  nama_pemeriksa_verifikasi String?
+  status_checker            StatusPengajuan?
+  keterangan_checker        String?          @db.Text
+  tanggal_checker           DateTime?
+  nama_pemeriksa_checker    String?
+  status_maker              StatusPengajuan?
+  keterangan_maker          String?          @db.Text
+  tanggal_maker             DateTime?
+  nama_pemeriksa_maker      String?
+  status_approval           StatusPengajuan?
+  keterangan_approval       String?          @db.Text
+  tanggal_approval          DateTime?
+  nama_pemeriksa_approval   String?
+  status_pencairan          StatusPencairan?
+  tanggal_pencairan         DateTime?
+  tanggal_cetak_akad        DateTime?
+  nomor_akad                String?
+  jenis_margin              JenisMargin?
+  is_active                 Boolean          @default(true)
+
+  nopen         String?
+  nama          String?
+  nama_skep     String?
+  kode_jiwa     String?
+  golongan      String?
+  jenis_pensiun String?
+  nik           String?
+
+  masa_ktp           String?
+  npwp               String?
+  pendidikan         Pendidikan?
+  jenis_kelamin      JenisKelamin?
+  agama              Agama?
+  masa_kerja         Int?
+  status_rumah       StatusRumah?
+  menempati_tahun    String?
+  nama_ibu_kandung   String?
+  pekerjaan_sekarang String?
+  alamat_pekerjaan   String?
+  jenis_usaha        JenisUsaha?
+  status_kawin       StatusKawin?
+
+  nomor_sk_pensiun   String?
+  tanggal_sk_pensiun String?
+  tmt_pensiun        String?
+  penerbit_sk        String?
+  no_telepon         String?
+
+  is_cetak            Boolean @default(false)
+  pembayaran_asuransi Boolean @default(false)
+  status_lunas        Boolean @default(false)
+
+  BerkasPengajuan   BerkasPengajuan? @relation(fields: [berkasPengajuanId], references: [id])
+  berkasPengajuanId String?
+
+  DataTaspen   DataTaspen? @relation(fields: [dataTaspenId], references: [id])
+  dataTaspenId String?
+
+  User    User?   @relation(fields: [user_id], references: [id])
+  user_id String?
+
+  data_pembiayaan_id      String
+  DataPembiayaan          DataPembiayaan        @relation(fields: [data_pembiayaan_id], references: [id])
+  Bank                    Bank?                 @relation(fields: [bankId], references: [id])
+  bankId                  String?
+  JadwalAngsuran          JadwalAngsuran[]
+  DataPencairan           DataPencairan?        @relation(fields: [dataPencairanId], references: [id])
+  dataPencairanId         String?
+  DataPengajuanPasangan   DataPengajuanKeluarga @relation(fields: [dataPengajuanKeluargaId], references: [id])
+  dataPengajuanKeluargaId String
+
+  DataPengajuanAlamat   DataPengajuanAlamat? @relation(fields: [dataPengajuanAlamatId], references: [id])
+  dataPengajuanAlamatId String?
+  PenyerahanBerkas      PenyerahanBerkas?    @relation(fields: [penyerahanBerkasId], references: [id])
+  penyerahanBerkasId    String?
+  PenyerahanJaminan     PenyerahanJaminan?   @relation(fields: [penyerahanJaminanId], references: [id])
+  penyerahanJaminanId   String?
+}
+
+model DataPengajuanAlamat {
+  id                 String          @id @default(uuid())
+  alamat             String?
+  rt                 String?
+  rw                 String?
+  kelurahan          String?
+  kecamatan          String?
+  kota               String?
+  provinsi           String?
+  kode_pos           String?
+  no_telepon         String?
+  alamat_domisili    String?
+  rt_domisili        String?
+  rw_domisili        String?
+  kelurahan_domisili String?
+  kecamatan_domisili String?
+  kota_domisili      String?
+  provinsi_domisili  String?
+  kode_pos_domisili  String?
+  geo_location       String?
+  DataPengajuan      DataPengajuan[]
+}
+
+model DataPengajuanKeluarga {
+  id                          String          @id @default(uuid())
+  nama_pasangan               String?
+  tempat_lahir_pasangan       String?
+  alamat_pasangan             String?
+  tanggal_lahir_pasangan      String?
+  nik_pasangan                String?
+  masa_ktp_pasangan           String?
+  pekerjaan_pasangan          String?
+  nama_keluarga_tidak_serumah String?
+  hubungan                    String?
+  no_telepon_keluarga         String?
+  alamat_keluarga             String?
+  DataPengajuan               DataPengajuan[]
+}
+
+model BerkasPengajuan {
+  id                     String          @id @default(uuid())
+  berkas_slik            String?
+  berkas_pengajuan       String?
+  video_wawancara        String?
+  video_asuransi         String?
+  berkas_akad            String?
+  tanggal_akad           String?
+  bukti_cair             String?
+  tanggal_bukti_cair     DateTime?
+  pelunasan              String?
+  tanggal_pelunasan      DateTime?
+  jaminan                String?
+  tanggal_jaminan        DateTime?
+  rekening               String?
+  tanggal_rekening       DateTime?
+  mutasi                 String?
+  tanggal_mutasi         DateTime?
+  flagging               String?
+  tanggal_flagging       DateTime?
+  video_cair             String?
+  tanggal_video_cair     DateTime?
+  no_rekening            String?
+  nama_bank              String?
+  berkas_lainnya         String?
+  tanggal_berkas_lainnya DateTime?
+  video_cair2            String?
+  tanggal_video_cair2    DateTime?
+  video_cair3            String?
+  tanggal_video_cair3    DateTime?
+  epotpen                String?
+  tanggal_epotpen        DateTime?
+  DataPengajuan          DataPengajuan[]
+}
+
+model PenyerahanBerkas {
+  id                   String    @id @default(uuid())
+  tanggal_cetak        DateTime?
+  nomor_surat_berkas   String?
+  surat_berkas         String?
+  tanggal_surat_berkas DateTime?
+  is_active            Boolean   @default(true)
+
+  Bank          Bank?           @relation(fields: [bankId], references: [id])
+  bankId        String?
+  DataPengajuan DataPengajuan[]
+}
+
+model PenyerahanJaminan {
+  id              String    @id @default(uuid())
+  tanggal_cetak   String?
+  nomor_jaminan   String?
+  jaminan         String?
+  tanggal_jaminan DateTime?
+  is_active       Boolean   @default(true)
+
+  Bank          Bank?           @relation(fields: [bankId], references: [id])
+  bankId        String?
+  DataPengajuan DataPengajuan[]
+}
+
+model DataPencairan {
+  id                     String    @id @default(uuid())
+  tanggal_cetak          DateTime
+  nomor_surat            String
+  is_active              Boolean   @default(true)
+  berkas_si              String?
+  tanggal_berkas_si      DateTime?
+  bukti_transfer         String?
+  tanggal_bukti_transfer DateTime?
+  status                 Boolean   @default(false)
+  tanggal_proses         DateTime?
+
+  DataPengajuan DataPengajuan[]
+  Bank          Bank?           @relation(fields: [bankId], references: [id])
+  bankId        String?
+}
+
+model User {
+  id            String    @id @default(uuid())
+  nip           String?   @unique
+  nik           String?   @unique
+  first_name    String
+  last_name     String
+  username      String    @unique
+  email         String    @unique
+  tempat_lahir  String?
+  tanggal_lahir DateTime?
+  alamat        String?
+  no_telepon    String
+  password      String
+  role          Role
+  posisi        String?
+  status_pkwt   String?
+  status_active Boolean
+  picture       String?   @default("/profile/profile_default.svg")
+  mulai_kontrak DateTime  @default(now())
+  masa_kotrak   Int       @default(3)
+  created_at    DateTime  @default(now())
+  target        Int       @default(50000000)
+
+  DataPembiayaan DataPembiayaan[]
+
+  unit_cabang_id String?
+  UnitCabang     UnitCabang?     @relation(fields: [unit_cabang_id], references: [id])
+  DataPengajuan  DataPengajuan[]
+  Bank           Bank?           @relation(fields: [bank_id], references: [id])
+  bank_id        String?
+  Cost           Cost[]
+}
+
+model UnitPelayanan {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  kode_area   String   @unique
+  number_kode String?
+  created_at  DateTime @default(now())
+
+  is_active Boolean @default(true)
+
+  UnitCabang UnitCabang[]
+}
+
+model UnitCabang {
+  id            String   @id @default(uuid())
+  name          String   @unique
+  kode_area     String   @unique
+  number_code   String?
+  alamat_cabang String?
+  created_at    DateTime @default(now())
+
+  is_active Boolean @default(true)
+
+  unit_pelayanan_id String?
+  UnitPelayanan     UnitPelayanan? @relation(fields: [unit_pelayanan_id], references: [id])
+  User              User[]
+}
+
+model DataTaspen {
+  id                 String        @id @default(uuid())
+  nopen              String        @unique
+  nama               String
+  nama_skep          String?
+  no_skep            String?
+  kode_jiwa          String
+  no_telepon         String?
+  nik                String?
+  masa_ktp           String?
+  npwp               String?
+  pendidikan         Pendidikan?
+  jenis_kelamin      JenisKelamin?
+  agama              Agama?
+  masa_kerja         Int?
+  status_rumah       StatusRumah?
+  menempati_tahun    Int?
+  nama_ibu_kandung   String?
+  pekerjaan_sekarang String?
+  alamat_pekerjaan   String?
+  jenis_usaha        JenisUsaha?
+  status_kawin       StatusKawin?
+
+  nomor_sk_pensiun          String?
+  tanggal_sk_pensiun        DateTime?
+  tanggal_lahir             String?
+  tanggal_wafat             String?
+  tanggal_nikah             String?
+  akhir_sks                 String?
+  tmt_pensiun               String?
+  penerbit_sk               String?
+  golongan                  String?
+  jenis_pensiun             String?
+  nipnrp                    String?
+  status_peserta            String?   @default("PENSIUN")
+  jandadudaypdari           String?
+  tanggal_lahir_jandadudayp String?
+  awal_flagging             String?
+  akhir_flagging            String?
+  alamat_cabang             String?
+  blth_rincian              String?
+  cicilan                   String?
+  jenis_hutang              String?
+  jumlah_kotor              String?
+  jumlah_potongan           String?
+  jumlah_total              String?
+  jumlah_hutang             String?
+  jenis_dapem               String?
+  kantor_cabang             String?
+  ktr_bay_dapem             String?
+  mitra_flagging            String?
+  no_dosir                  String?
+  no_rek                    String?
+  nu_dapem                  String?
+  pembulatan                String?
+  penpok                    String?
+  status_dapem              String?
+
+  tanggal_sekarang String?
+  tanggal_surat    String?
+  tkd              String?
+  tmt_stop         String?
+  tpmtp            String?
+  tpp              String?
+  tpph21           String?
+  no_kk            String?
+  no_ktp           String?
+  data_tidak_baik  Boolean  @default(false)
+  is_active        Boolean  @default(true)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now())
+
+  Domisili            DataDomisili?      @relation(fields: [dataDomisiliId], references: [id])
+  dataDomisiliId      String?
+  DataPasangan        DataPasangan?      @relation(fields: [dataPasanganId], references: [id])
+  dataPasanganId      String?
+  TunjanganPotongan   TunjanganPotongan? @relation(fields: [tunjanganPotonganId], references: [id])
+  tunjanganPotonganId String?
+
+  DataKeluarga  DataKeluarga[]
+  DataPengajuan DataPengajuan[]
+}
+
+model TunjanganPotongan {
+  id             String       @id @default(uuid())
+  t_anak         String?
+  t_istri        String?
+  t_beras        String?
+  t_cacat        String?
+  t_dahor        String?
+  pot_alimentasi String?
+  pot_askes      String?
+  pot_assos      String?
+  pot_ganti_rugi String?
+  pot_kasda      String?
+  pot_kpkn       String?
+  pot_pph21      String?
+  pot_sewa_rumah String?
+  kpkn           String?
+  spn            String?
+  DataTaspen     DataTaspen[]
+}
+
+model DataPasangan {
+  id                     String       @id @default(uuid())
+  nama_pasangan          String?
+  tempat_lahir_pasangan  String?
+  tanggal_lahir_pasangan String?
+  nik_pasangan           String?
+  masa_ktp_pasangan      String?
+  pekerjaan_pasangan     String?
+  alamat_pasangan        String?
+  rt_pasangan            String?
+  rw_pasangan            String?
+  kelurahan_pasangan     String?
+  kecamatan_pasangan     String?
+  kota_pasangan          String?
+  provinsi_pasangan      String?
+  kode_pos_pasangan      String?
+  DataTaspen             DataTaspen[]
+}
+
+model DataDomisili {
+  id                 String       @id @default(uuid())
+  alamat             String
+  rt                 String?
+  rw                 String?
+  kelurahan          String?
+  kecamatan          String?
+  kota               String?
+  provinsi           String?
+  kode_pos           String?
+  alamat_domisili    String?
+  rt_domisili        String?
+  rw_domisili        String?
+  kelurahan_domisili String?
+  kecamatan_domisili String?
+  kota_domisili      String?
+  provinsi_domisili  String?
+  geo_location       String?
+  kode_pos_domisili  String?
+  DataTaspen         DataTaspen[]
+}
+
+model DataKeluarga {
+  id            String      @id @default(uuid())
+  nama          String
+  hubungan      String?
+  no_telepon    String?
+  alamat        String?
+  tanggal_lahir String?
+  tanggal_wafat String?
+  tanggal_nikah String?
+  akhir_sks     String?
+  no_kk         String?
+  no_ktp        String?
+  no_skep       String?
+  npwp          String?
+  kode_tunjang  String?     @default("1")
+  keterangan    String?
+  hak_bagi      Float?
+  tat_tunjang   String?
+  tmt_tunjang   String?
+  gelar_depan   String?
+  gelar_akhir   String?
+  dataTaspenId  String?
+  DataTaspen    DataTaspen? @relation(fields: [dataTaspenId], references: [id])
+  updated_at    DateTime    @default(now())
+}
+
+model JadwalAngsuran {
+  id                String    @id @default(uuid())
+  angsuran_ke       Int
+  angsuran          Int
+  pokok             Int
+  margin            Int
+  margin_bank       Int
+  collfee           Int
+  status            Boolean   @default(false)
+  tanggal_bayar     DateTime?
+  tanggal_pelunasan DateTime?
+  sisa              Int
+
+  DataPengajuan   DataPengajuan @relation(fields: [dataPengajuanId], references: [id])
+  dataPengajuanId String
+}
+
+model Maintenance {
+  id             String  @id @default(uuid())
+  is_maintenance Boolean
+  route          String
+  timeInMinutes  String
+  currentTime    String
+}
+
+model HardTaspen {
+  AKHIR_FLAGGING       String?
+  ALAMATRUMAH          String?
+  ALAMAT_CABANG        String?
+  AWAL_FLAGGING        String?
+  BLTHRINCIAN          String?
+  CICILAN              String?
+  JANDADUDAYPDARI      String?
+  JENISHUTANG          String?
+  JMLKOTOR             String?
+  JMLPOTONGAN          String?
+  JMLTOTAL             String?
+  JNSDAPEM             String?
+  JNSPENS              String?
+  JUMLAH_HUTANG        String?
+  KANTOR_CABANG        String?
+  KDJIWA               String?
+  KELUARGA             String?
+  KPKN                 String?
+  KTRBAYDAPEM          String?
+  MITRA_FLAGGING       String?
+  NAMA_PENERIMA        String?
+  NIPNRP               String?
+  NODOSIR              String?
+  NOREK                String?
+  NOSKEP               String?
+  NOTAS                String  @id
+  NUDAPEM              String?
+  PANGKAT              String?
+  PEMBULATAN           String?
+  PENPOK               String?
+  POTALIMENTASI        String?
+  POTASKES             String?
+  POTASSOS             String?
+  POTGANTIRUGI         String?
+  POTKASDA             String?
+  POTKPKN              String?
+  POTPPH21             String?
+  POTSEWARUMAH         String?
+  SPN                  String?
+  STATUS_PESERTA       String?
+  STSDAPEM             String?
+  TANAK                String?
+  TBERAS               String?
+  TCACAT               String?
+  TDAHOR               String?
+  TGLLAHIR_JANDADUDAYP String?
+  TGLLAHIR_PENERIMA    String?
+  TGLSKEP              String?
+  TGL_SEKARANG         String?
+  TGL_SURAT            String?
+  TISTRI               String?
+  TKD                  String?
+  TMTPENS              String?
+  TMT_STOP             String?
+  TPMTP                String?
+  TPP                  String?
+  TPPH21               String?
+}
+
+model Cost {
+  id         String    @id @default(uuid())
+  name       String
+  nominal    Int
+  keterangan String
+  is_active  Boolean   @default(true)
+  created_at DateTime  @default(now())
+  updated_at DateTime?
+  is_fixed   Boolean   @default(false)
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+}

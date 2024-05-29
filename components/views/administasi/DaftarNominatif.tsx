@@ -1,0 +1,745 @@
+"use client";
+import { DataDataPengajuan } from "@/components/utils/Interfaces";
+import { formatNumber } from "@/components/utils/inputUtils";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
+import { DatePicker, Input, Table, TableProps, Typography } from "antd";
+import moment from "moment";
+import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
+import { useEffect, useState } from "react";
+
+export default function DaftarNominatif() {
+  const [data, setData] = useState<DataDataPengajuan[]>();
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [year, setYear] = useState<string>();
+  const [nama, setNama] = useState<string>();
+  const [loading, setLoading] = useState(false);
+
+  const getData = async () => {
+    setLoading(true);
+    const res = await fetch(
+      `/api/administrasi/daftar-nominatif?page=${page}${
+        nama ? "&name=" + nama : ""
+      }${year ? "&year=" + year : ""}`
+    );
+    const { data, total } = await res.json();
+    setTotal(total);
+    setData(data);
+    setLoading(false);
+  };
+  useEffect(() => {
+    (async () => {
+      await getData();
+    })();
+  }, [nama, page, year]);
+
+  return (
+    <div>
+      <div className="flex gap-5 my-1 mx-1">
+        <DatePicker
+          picker="year"
+          onChange={(date, dateString) => setYear(dateString as string)}
+        />
+        <Input.Search
+          style={{ width: 200 }}
+          onChange={(e) => setNama(e.target.value)}
+        />
+      </div>
+      <div className="px-2">
+        <Table
+          dataSource={data}
+          columns={columns}
+          bordered
+          size="small"
+          loading={loading}
+          scroll={{ x: 5000, y:320 }}
+          pagination={{
+            pageSize: 20,
+            total: total,
+            onChange(page, pageSize) {
+              setPage(page);
+            },
+          }}
+          summary={(pageData) => {
+            let plafon = 0;
+            let adminBank = 0;
+            let adminKoperasi = 0;
+            let adminCadangan = 0;
+            let tatalaksana = 0;
+            let asuransi = 0;
+            let dataInformasi = 0;
+            let tabungan = 0;
+            let materai = 0;
+            let mutasi = 0;
+            let blokir = 0;
+            let takeover = 0;
+            pageData.forEach((pd, ind) => {
+              plafon += pd.DataPembiayaan.plafond;
+              adminBank +=
+                pd.DataPembiayaan.plafond *
+                (pd.DataPembiayaan.by_admin_bank / 100);
+              adminKoperasi +=
+                pd.DataPembiayaan.plafond * (pd.DataPembiayaan.by_admin / 100);
+              adminCadangan +=
+                pd.DataPembiayaan.plafond *
+                (pd.DataPembiayaan.by_lainnya / 100);
+              tatalaksana += pd.DataPembiayaan.by_tatalaksana;
+              asuransi +=
+                pd.DataPembiayaan.plafond *
+                (pd.DataPembiayaan.by_asuransi / 100);
+              dataInformasi +=
+                pd.DataPembiayaan.by_epotpen + pd.DataPembiayaan.by_flagging;
+              tabungan += pd.DataPembiayaan.by_buka_rekening;
+              materai += pd.DataPembiayaan.by_materai;
+              mutasi += pd.DataPembiayaan.by_mutasi;
+              const angsuran = ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    pd.DataPembiayaan.mg_bunga,
+                    pd.DataPembiayaan.tenor,
+                    pd.DataPembiayaan.plafond
+                  )
+                ),
+                pd.DataPembiayaan.pembulatan
+              );
+              blokir += pd.DataPembiayaan.blokir * angsuran;
+              takeover += pd.DataPembiayaan.pelunasan + pd.DataPembiayaan.bpp;
+            });
+            const pencairan =
+              plafon -
+              (adminBank +
+                adminKoperasi +
+                adminCadangan +
+                tatalaksana +
+                asuransi +
+                dataInformasi +
+                tabungan +
+                materai +
+                mutasi +
+                blokir +
+                takeover);
+            return (
+              <Table.Summary.Row className="bg-green-500 text-white">
+                <Table.Summary.Cell index={1}></Table.Summary.Cell>
+                <Table.Summary.Cell index={2}>
+                  Summary
+                  {/* {pageData.length} (Area Pelayanan) */}
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={3}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={4}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={5}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={6}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={7}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={8}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={9}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={10}>
+                  <>{formatNumber(plafon.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={11}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={12}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={13}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={14}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={15}>
+                  <>{formatNumber(adminBank.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(adminKoperasi.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(adminCadangan.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(tatalaksana.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(asuransi.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(dataInformasi.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(tabungan.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(materai.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(mutasi.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(blokir.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(takeover.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(pencairan.toFixed(0))}</>
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            );
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+const columns: TableProps<DataDataPengajuan>["columns"] = [
+  {
+    title: "NO",
+    dataIndex: "no",
+    key: "no",
+    width: 50,
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{index + 1}</>;
+    },
+  },
+  {
+    title: "AREA PELAYANAN",
+    dataIndex: "area_pelayanan",
+    key: "area_pelayanan",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.User.UnitCabang.UnitPelayanan.name}</>;
+    },
+  },
+  {
+    title: "UNIT PELAYANAN",
+    dataIndex: "unit_pelayanan",
+    key: "unit_pelayanan",onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.User.UnitCabang.name}</>;
+    },
+  },
+  {
+    title: "NOPEN",
+    dataIndex: "nopen",
+    key: "nopen",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.DataPembiayaan.nopen}</>;
+    },
+  },
+  {
+    title: "NO SK PENSIUN",
+    dataIndex: "no_sk_pensiun",
+    key: "no_sk_pensiun",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.nomor_sk_pensiun}</>;
+    },
+  },
+  {
+    title: "NAMA PEMOHON",
+    dataIndex: "nama_pemohon",
+    key: "nama_pemohon",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.DataPembiayaan.name}</>;
+    },
+  },
+  {
+    title: "MITRA BANK",
+    dataIndex: "mitra_bank",
+    key: "mitra_bank",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.DataPembiayaan.Refferal.name}</>;
+    },
+  },
+  {
+    title: "SUMBER DANA",
+    dataIndex: "sumber_dana",
+    key: "sumber_dana",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.Bank.name}</>;
+    },
+  },
+  {
+    title: "TENOR",
+    dataIndex: "tenor",
+    key: "tenor",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.DataPembiayaan.tenor}</>;
+    },
+  },
+  {
+    title: "PLAFOND",
+    dataIndex: "plafon",
+    key: "plafon",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
+    },
+  },
+  {
+    title: "TANGGAL AKAD",
+    dataIndex: "tanggal_akad",
+    key: "tanggal_akad",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        record.tanggal_cetak_akad && (
+          <>{moment(record.tanggal_cetak_akad).format("DD-MM-YYYY")}</>
+        )
+      );
+    },
+  },
+  {
+    title: "TANGGAL CAIR",
+    dataIndex: "tanggal_cair",
+    key: "tanggal_cair",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        record.tanggal_pencairan && (
+          <>{moment(record.tanggal_pencairan).format("DD-MM-YYYY")}</>
+        )
+      );
+    },
+  },
+  {
+    title: "TANGGAL LUNAS",
+    dataIndex: "tanggal_lunas",
+    key: "tanggal_lunas",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      const lunas = moment(record.tanggal_cetak_akad)
+        .add(record.DataPembiayaan.tenor, "M")
+        .format("DD-MM-YYYY");
+      return <>{lunas}</>;
+    },
+  },
+  {
+    title: "MARGIN (%)",
+    dataIndex: "margin",
+    key: "margin",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{record.DataPembiayaan.mg_bunga}</>;
+    },
+  },
+  {
+    title: "ADMIN BANK",
+    dataIndex: "admin bank",
+    key: "admin bank",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        <>
+          {formatNumber(
+            (
+              record.DataPembiayaan.plafond *
+              (record.DataPembiayaan.by_admin_bank / 100)
+            ).toFixed(0)
+          )}
+        </>
+      );
+    },
+  },
+  {
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    title: "ADMIN MITRA",
+    dataIndex: "admin mitra",
+    key: "admin mitra",
+    render(value, record, index) {
+      return (
+        <>
+          {formatNumber(
+            (
+              record.DataPembiayaan.plafond *
+              (record.DataPembiayaan.by_admin / 100)
+            ).toFixed(0)
+          )}
+        </>
+      );
+    },
+  },
+  {
+    title: "PENCADANGAN PUSAT",
+    dataIndex: "pencadangan_pusat",
+    key: "pencadangan_pusat",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        <>
+          {formatNumber(
+            (
+              record.DataPembiayaan.plafond *
+              (record.DataPembiayaan.by_lainnya / 100)
+            ).toFixed(0)
+          )}
+        </>
+      );
+    },
+  },
+  {
+    title: "TATALAKSANA",
+    dataIndex: "tatalaksana",
+    key: "tatalaksana",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        <>{formatNumber(record.DataPembiayaan.by_tatalaksana.toFixed(0))}</>
+      );
+    },
+  },
+  {
+    title: "PREMI ASURANSI",
+    dataIndex: "premi_asuransi",
+    key: "premi_asuransi",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        <>
+          {formatNumber(
+            (
+              record.DataPembiayaan.plafond *
+              (record.DataPembiayaan.by_asuransi / 100)
+            ).toFixed(0)
+          )}
+        </>
+      );
+    },
+  },
+  {
+    title: "DATA INFORMASI",
+    dataIndex: "data_informasi",
+    key: "data_informasi",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        <>
+          {formatNumber(
+            (
+              record.DataPembiayaan.by_epotpen +
+              record.DataPembiayaan.by_flagging
+            ).toFixed(0)
+          )}
+        </>
+      );
+    },
+  },
+  {
+    title: "PEMBUKAAN TABUNGAN",
+    dataIndex: "pembukaan_tabungan",
+    key: "pembukaan_tabungan",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        <>{formatNumber(record.DataPembiayaan.by_buka_rekening.toFixed(0))}</>
+      );
+    },
+  },
+  {
+    title: "BIAYA MATERAI",
+    dataIndex: "biaya_materai",
+    key: "biaya_materai",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{formatNumber(record.DataPembiayaan.by_materai.toFixed(0))}</>;
+    },
+  },
+  {
+    title: "BIAYA MUTASI",
+    dataIndex: "biaya_mutasi",
+    key: "biaya_mutasi",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return <>{formatNumber(record.DataPembiayaan.by_mutasi.toFixed(0))}</>;
+    },
+  },
+  {
+    title: "BLOKIR ANGSURAN",
+    dataIndex: "blokir",
+    key: "blokir",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      const angsuran = ceiling(
+        parseInt(
+          getAngsuranPerBulan(
+            record.DataPembiayaan.mg_bunga,
+            record.DataPembiayaan.tenor,
+            record.DataPembiayaan.plafond
+          )
+        ),
+        parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
+      );
+      return (
+        <>
+          {/* {record.DataPembiayaan.blokir}x |{" "} */}
+          {formatNumber((angsuran * record.DataPembiayaan.blokir).toFixed(0))}
+        </>
+      );
+    },
+  },
+  {
+    title: "NOMINAL TAKE OVER",
+    dataIndex: "nominal take over",
+    key: "nominal take over",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return (
+        <>
+          {formatNumber(
+            (
+              record.DataPembiayaan.bpp + record.DataPembiayaan.pelunasan
+            ).toFixed(0)
+          )}
+        </>
+      );
+    },
+  },
+  {
+    title: "PENCAIRAN",
+    dataIndex: "pencairan",
+    key: "pencairan",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      const by_admin =
+        record.DataPembiayaan.plafond *
+        ((record.DataPembiayaan.by_admin +
+          record.DataPembiayaan.by_admin_bank +
+          record.DataPembiayaan.by_lainnya) /
+          100);
+      const informasi =
+        record.DataPembiayaan.by_epotpen + record.DataPembiayaan.by_flagging;
+      const asuransi =
+        record.DataPembiayaan.plafond *
+        (record.DataPembiayaan.by_asuransi / 100);
+      const angsuran = ceiling(
+        parseInt(
+          getAngsuranPerBulan(
+            record.DataPembiayaan.mg_bunga,
+            record.DataPembiayaan.tenor,
+            record.DataPembiayaan.plafond
+          )
+        ),
+        parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
+      );
+      const blokir = record.DataPembiayaan.blokir * angsuran;
+      const kotor =
+        record.DataPembiayaan.plafond -
+        (by_admin +
+          informasi +
+          asuransi +
+          record.DataPembiayaan.by_tatalaksana +
+          record.DataPembiayaan.by_mutasi +
+          record.DataPembiayaan.by_materai +
+          record.DataPembiayaan.by_buka_rekening +
+          record.DataPembiayaan.by_provisi +
+          blokir);
+      const bersih =
+        kotor - (record.DataPembiayaan.bpp + record.DataPembiayaan.pelunasan);
+      return <>{formatNumber(bersih.toFixed(0))}</>;
+    },
+  },
+];

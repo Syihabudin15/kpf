@@ -1,0 +1,35 @@
+import { DataTableBisnis } from "@/components/utils/Interfaces";
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/components/prisma";
+
+export const GET = async (req: NextRequest) => {
+  const dataTable: DataTableBisnis[] = <any>await prisma.unitPelayanan.findMany(
+    {
+      include: {
+        UnitCabang: {
+          include: {
+            User: {
+              include: {
+                DataPengajuan: {
+                  where: {
+                    status_pencairan: "TRANSFER",
+                  },
+                  include: {
+                    DataPembiayaan: {
+                      include: {
+                        Produk: { include: { Bank: true } },
+                        JenisPembiayaan: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }
+  );
+
+  return NextResponse.json({ data: dataTable }, { status: 200 });
+};
