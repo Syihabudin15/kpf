@@ -30,33 +30,65 @@ export default function RegulerBulanan() {
 
   const columns: TableProps<AngsuranPengajuan>["columns"] = [
     {
-      title: "Nama Pemohon",
+      title: "NAMA PEMOHON",
       key: "nama",
       dataIndex: "nama",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.name}</>;
       },
     },
     {
-      title: "Nopen",
+      title: "NOPEN",
       key: "nopen",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       dataIndex: "nopen",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.nopen}</>;
       },
     },
     {
-      title: "Produk",
+      title: "PRODUK",
       key: "produk",
       dataIndex: "produk",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.Produk.name}</>;
       },
     },
     {
-      title: "Jenis Pembiayaan",
+      title: "JENIS PEMBIAYAAN",
       key: "jenis",
       dataIndex: "jenis",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return (
           <>
@@ -68,8 +100,16 @@ export default function RegulerBulanan() {
       },
     },
     {
-      title: "Plafon",
+      title: "PLAFOND",
       key: "plafon",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       dataIndex: "plafon",
       render(value, record, index) {
         return (
@@ -82,18 +122,33 @@ export default function RegulerBulanan() {
       },
     },
     {
-      title: "Tenor",
+      title: "TENOR",
       key: "tenor",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       dataIndex: "tenor",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.tenor}</>;
       },
     },
     {
-      title: "Sisa Tenor",
+      title: "SISA TENOR",
       dataIndex: "sisa tenor",
       key: "sisa tenor",
       width: 100,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
       className: "text-center",
       render(value, record, index) {
         return (
@@ -102,51 +157,82 @@ export default function RegulerBulanan() {
       },
     },
     {
-      title: "Angsuran Ke",
+      title: "ANGSURAN KE",
       dataIndex: "angsuran_ke",
       key: "angsuran_ke",
       width: 100,
       className: "text-center",
-    },
-    {
-      title: "Jadwal Bayar",
-      dataIndex: "tanggal_bayar",
-      key: "tanggal_bayar",
-      render(value, record, index) {
-        return <>{moment(record.tanggal_bayar).format("DD-MM-YYYY")}</>;
-      },
-    },
-    {
-      title: "Angsuran",
-      dataIndex: "angsuran",
-      key: "angsuran",
-      render(value, record, index) {
-        return <>{formatNumber(record.angsuran.toFixed(0))}</>;
-      },
-    },
-    {
-      title: "Sisa Plafon",
-      dataIndex: "sisa_plafond",
-      key: "sisa_plafond",
-      render(value, record, index) {
-        return <>{formatNumber(record.sisa.toFixed(0))}</>;
-      },
-    },
-    {
-      title: "Status Pembayaran",
-      dataIndex: "status",
-      key: "status",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
           },
-          className: "example-class-in-td bg-green-500 text-white",
+        };
+      },
+    },
+    {
+      title: "JADWAL BAYAR",
+      dataIndex: "tanggal_bayar",
+      key: "tanggal_bayar",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{moment(record.tanggal_bayar).format("DD-MM-YYYY")}</>;
+      },
+    },
+    {
+      title: "ANGSURAN",
+      dataIndex: "angsuran",
+      key: "angsuran",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{formatNumber(record.angsuran.toFixed(0))}</>;
+      },
+    },
+    {
+      title: "SISA PLAFOND",
+      dataIndex: "sisa_plafond",
+      key: "sisa_plafond",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{formatNumber(record.sisa.toFixed(0))}</>;
+      },
+    },
+    {
+      title: "STATUS PEMBAYARAN",
+      dataIndex: "status",
+      key: "status",
+      className: "text-center",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
         };
       },
       render(value, record, index) {
         return (
-          <div className="flex justify-center">
+          <div className="flex justify-center font-bold text-xs italic">
             {record.tanggal_pelunasan ? (
               <div
                 className={`py-1 px-2 text-center text-white bg-green-500 text-xs`}
@@ -165,9 +251,17 @@ export default function RegulerBulanan() {
       },
     },
     {
-      title: "Tanggal Pembayaran",
+      title: "TANGGAL PEMBAYARAN",
       dataIndex: "tgl_pembayaran",
       key: "tgl_pembayaran",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return (
           <>
@@ -178,7 +272,7 @@ export default function RegulerBulanan() {
       },
     },
     {
-      title: "Aksi",
+      title: "AKSI",
       dataIndex: "id",
       onHeaderCell: (text, record) => {
         return {
@@ -258,7 +352,7 @@ export default function RegulerBulanan() {
     <div>
       <div className="flex gap-2 my-1 mx-1">
         <Input.Search
-          style={{ width: 200 }}
+          style={{ width: 170 }}
           onChange={(e) => setName(e.target.value)}
         />
         <CetakAngsuranBulanan data={data || []} />

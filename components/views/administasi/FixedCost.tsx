@@ -38,37 +38,76 @@ export default function FixedCost() {
 
   const columns: TableProps<DataCost>["columns"] = [
     {
-      title: "No",
+      title: "NO",
       key: "no",
       dataIndex: "no",
-      className: "text-center",
+      className: "text-center",onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      width: 500,
       render(value, record, index) {
         return <>{index + 1}</>;
       },
     },
     {
-      title: "Nama",
+      title: "NAMA",
       key: "name",
       dataIndex: "name",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
     {
-      title: "Keterangan",
+      title: "KETERANGAN",
       key: "keterangan",
       dataIndex: "keterangan",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-justify",
       width: 220,
     },
     {
-      title: "Nominal",
+      title: "NOMINAL",
       key: "nominal",
       dataIndex: "nominal",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{formatNumber(record.nominal.toFixed(0))}</>;
       },
     },
     {
-      title: "Pembuat",
+      title: "PEMBUAT",
       key: "user",
       dataIndex: "user",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return (
           <>
@@ -78,7 +117,7 @@ export default function FixedCost() {
       },
     },
     {
-      title: "Aksi",
+      title: "AKSI",
       key: "aksi",
       dataIndex: "aksi",
       width: 100,

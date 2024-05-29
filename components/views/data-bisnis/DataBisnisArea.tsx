@@ -175,20 +175,20 @@ export default function DataBisnisArea() {
 
 const columns: TableProps<DataTableEntryData>["columns"] = [
   {
-    title: "Nama Area",
+    title: "AREA",
     dataIndex: "nama_area",
     key: "nama_area",
-    width: 200,
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    width: 250,
     render(value, record, index) {
       return <>{record.name}</>;
-    },
-  },
-  {
-    title: "Kode Area",
-    dataIndex: "kode_area",
-    key: "kode_area",
-    render(value, record, index) {
-      return <>{record.kode_area}</>;
     },
   },
   {
@@ -213,11 +213,11 @@ const columns: TableProps<DataTableEntryData>["columns"] = [
     },
   },
   {
-    title: "Total Plafond",
+    title: "TOTAL PLAFOND",
     key: "total_plafon",
     dataIndex: "total_plafon",
     fixed: "right",
-    width: 200,
+    width: 150,
     className: "text-center",
     onHeaderCell: (text, record) => {
       return {
@@ -240,8 +240,16 @@ const columns: TableProps<DataTableEntryData>["columns"] = [
 
 const columnsExpandUser: TableProps<DataUser>["columns"] = [
   {
-    title: "Marketing",
+    title: "MARKETING",
     key: "nama_marketing",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
     dataIndex: "nama_marketing",
     render(value, record, index) {
       return <>{record.first_name + " " + record.last_name}</>;
@@ -265,7 +273,7 @@ const columnsExpandUser: TableProps<DataUser>["columns"] = [
     },
   },
   {
-    title: "Total Plafond",
+    title: "TOTAL PLAFOND",
     key: "total_plafond",
     fixed: "right",
     width: 200,
@@ -290,32 +298,56 @@ const columnsExpandUser: TableProps<DataUser>["columns"] = [
 
 const columnsExpandPengajuan: TableProps<DataTypePengajuan>["columns"] = [
   {
-    title: "Nama Pemohon",
+    title: "PEMOHON",
     key: "nama_pemohon",
     dataIndex: "nama_pemohon",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
       return <>{record.DataPembiayaan.name}</>;
     },
   },
   {
-    title: "Nopen",
+    title: "NOPEN",
     key: "nopen",
     dataIndex: "nopen",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
       return <>{record.DataPembiayaan.nopen}</>;
     },
   },
   {
-    title: "Sumber Dana",
+    title: "SUMBER DANA",
     key: "sumber_dana",
     dataIndex: "sumber_dana",
     width: 200,
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
       return <>{record.DataPembiayaan.Produk.Bank.name}</>;
     },
   },
   {
-    title: "Tenor",
+    title: "TENOR",
     key: "tenor",
     width: 100,
     dataIndex: "tenor",
@@ -332,7 +364,7 @@ const columnsExpandPengajuan: TableProps<DataTypePengajuan>["columns"] = [
     },
   },
   {
-    title: "Plafond",
+    title: "PLAFOND",
     key: "plafond",
     fixed: "right",
     width: 200,

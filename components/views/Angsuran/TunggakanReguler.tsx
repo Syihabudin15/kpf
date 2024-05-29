@@ -7,7 +7,6 @@ import {
   LoadingOutlined,
   MinusCircleFilled,
 } from "@ant-design/icons";
-import { JadwalAngsuran } from "@prisma/client";
 import { Input, Table, TableProps, Tooltip, message } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
@@ -31,15 +30,31 @@ export default function TuggakanReguler() {
 
   const columns: TableProps<AngsuranPengajuan>["columns"] = [
     {
-      title: "Nama Pemohon",
+      title: "NAMA PEMOHON",
       key: "nama",
       dataIndex: "nama",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.name}</>;
       },
     },
     {
-      title: "Nopen",
+      title: "NOPEN",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       key: "nopen",
       dataIndex: "nopen",
       render(value, record, index) {
@@ -47,17 +62,33 @@ export default function TuggakanReguler() {
       },
     },
     {
-      title: "Produk",
+      title: "PRODUK",
       key: "produk",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       dataIndex: "produk",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.Produk.name}</>;
       },
     },
     {
-      title: "Jenis Pembiayaan",
+      title: "JENIS PEMBIAYAAN",
       key: "jenis",
       dataIndex: "jenis",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return (
           <>
@@ -69,8 +100,16 @@ export default function TuggakanReguler() {
       },
     },
     {
-      title: "Plafon",
+      title: "PLAFOND",
       key: "plafon",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       dataIndex: "plafon",
       render(value, record, index) {
         return (
@@ -83,48 +122,88 @@ export default function TuggakanReguler() {
       },
     },
     {
-      title: "Tenor",
+      title: "TENOR",
       key: "tenor",
       dataIndex: "tenor",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.tenor}</>;
       },
     },
     {
-      title: "Angsuran Ke",
+      title: "ANGSURAN KE",
       dataIndex: "angsuran_ke",
       key: "angsuran_ke",
       width: 100,
       className: "text-center",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
     },
     {
-      title: "Jadwal Bayar",
+      title: "JADWAL BAYAR",
       dataIndex: "tanggal_bayar",
       key: "tanggal_bayar",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{moment(record.tanggal_bayar).format("DD-MM-YYYY")}</>;
       },
     },
     {
-      title: "Angsuran",
+      title: "ANGSURAN",
       dataIndex: "angsuran",
       key: "angsuran",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{formatNumber(record.angsuran.toFixed(0))}</>;
       },
     },
     {
-      title: "Sisa Plafon",
+      title: "SISA PLAFOND",
       dataIndex: "sisa_plafond",
       key: "sisa_plafond",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{formatNumber(record.sisa.toFixed(0))}</>;
       },
     },
     {
-      title: "Status Pembayaran",
+      title: "STATUS PEMBAYARAN",
       dataIndex: "status",
       key: "status",
+      className: "text-center",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -134,7 +213,7 @@ export default function TuggakanReguler() {
       },
       render(value, record, index) {
         return (
-          <div className="flex justify-center">
+          <div className="flex justify-center text-xs font-bold italic">
             {record.tanggal_pelunasan ? (
               <div
                 className={`py-1 px-2 text-center text-white bg-green-500 text-xs`}
@@ -153,8 +232,16 @@ export default function TuggakanReguler() {
       },
     },
     {
-      title: "Tanggal Pembayaran",
+      title: "TANGGAL PEMBAYARAN",
       dataIndex: "tgl_pembayaran",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       key: "tgl_pembayaran",
       render(value, record, index) {
         return (
@@ -166,7 +253,7 @@ export default function TuggakanReguler() {
       },
     },
     {
-      title: "Aksi",
+      title: "AKSI",
       dataIndex: "id",
       onHeaderCell: (text, record) => {
         return {
@@ -249,7 +336,7 @@ export default function TuggakanReguler() {
     <div>
       <div className="flex gap-2 my-1 mx-1">
         <Input.Search
-          style={{ width: 200 }}
+          style={{ width: 170 }}
           onChange={(e) => setName(e.target.value)}
         />
         <CetakTunggakan data={data || []} />

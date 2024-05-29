@@ -43,18 +43,34 @@ export default function DeletedPengajuan() {
   }, [year, nameOrNopen, page]);
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
-      title: "No",
+      title: "NO",
       dataIndex: "nopen",
       key: "nopen",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       width: 50,
       render(value, record, index) {
         return <>{index + 1}</>;
       },
     },
     {
-      title: "Tanggal Pengajuan",
+      title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return (
           <>
@@ -65,33 +81,65 @@ export default function DeletedPengajuan() {
       },
     },
     {
-      title: "Sumber Dana",
+      title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.Bank.name}</>;
       },
     },
     {
-      title: "Nopen",
+      title: "NOPEN",
       dataIndex: "nopen",
       key: "nopen",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.nopen}</>;
       },
     },
     {
-      title: "Nama Pemohon",
+      title: "NAMA PEMOHON",
       dataIndex: "name",
       key: "name",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.nama}</>;
       },
     },
     {
-      title: "Produk Pembiayaan",
+      title: "PRODUK PEMBIAYAAN",
       dataIndex: "data_pembiayaan_id",
       key: "data_pembiayaan_id",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return (
           <>{record.DataPembiayaan && record.DataPembiayaan.Produk.name}</>
@@ -99,9 +147,17 @@ export default function DeletedPengajuan() {
       },
     },
     {
-      title: "Jenis Pembiayaan",
+      title: "JENIS PEMBIAYAAN",
       dataIndex: "data_pembiayaan_id",
       key: "data_pembiayaan_id",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return (
           <>
@@ -113,23 +169,40 @@ export default function DeletedPengajuan() {
       },
     },
     {
-      title: "Plafon",
+      title: "PLAFOND",
       dataIndex: "plafon",
       key: "plafon",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
       },
     },
     {
-      title: "Tenor",
+      title: "TENOR",
       dataIndex: "tenor",
       key: "tenor",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      width: 100,
       render(value, record, index) {
         return <>{record.DataPembiayaan.tenor}</>;
       },
     },
     {
-      title: "Ajukan Ulang",
+      title: "AJUKAN ULANG",
       dataIndex: "id",
       key: "id",
       fixed: "right",
