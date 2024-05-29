@@ -65,6 +65,7 @@ export default function MonitoringMarketing() {
       title: "NO PENSIUN",
       dataIndex: "nopen",
       key: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -82,6 +83,7 @@ export default function MonitoringMarketing() {
       dataIndex: "name",
       key: "name",
       fixed: "left",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -98,6 +100,7 @@ export default function MonitoringMarketing() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -114,6 +117,7 @@ export default function MonitoringMarketing() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -132,6 +136,7 @@ export default function MonitoringMarketing() {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk_pembiayaan",
       key: "produk_pembiayaan",
+      width: 150,
       render(value, record, index) {
         return <>{record.DataPembiayaan.Produk.name}</>;
       },
@@ -140,6 +145,7 @@ export default function MonitoringMarketing() {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "jenis_pembiayaan",
       key: "jenis_pembiayaan",
+      width: 150,
       render(value, record, index) {
         return (
           <>
@@ -154,6 +160,7 @@ export default function MonitoringMarketing() {
       title: "TENOR",
       dataIndex: "tenor",
       key: "tenor",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -170,6 +177,7 @@ export default function MonitoringMarketing() {
       title: "PLAFOND",
       dataIndex: "plafond",
       key: "plafond",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -187,6 +195,7 @@ export default function MonitoringMarketing() {
       title: "BERKAS PENGAJUAN",
       dataIndex: "berkas_pengajuan",
       key: "berkas_pengajuan",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -216,6 +225,7 @@ export default function MonitoringMarketing() {
           title: "STATUS",
           dataIndex: "status_slik",
           key: "status_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -268,6 +278,7 @@ export default function MonitoringMarketing() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_slik",
           key: "nama_pemeriksa_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -283,6 +294,7 @@ export default function MonitoringMarketing() {
           title: "TANGGAL",
           dataIndex: "tanggal_slik",
           key: "tanggal_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -322,6 +334,7 @@ export default function MonitoringMarketing() {
           title: "STATUS",
           dataIndex: "status_verifikasi",
           key: "status_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -373,6 +386,7 @@ export default function MonitoringMarketing() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_verifikasi",
           key: "nama_pemeriksa_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -388,6 +402,7 @@ export default function MonitoringMarketing() {
           title: "TANGGAL",
           dataIndex: "tanggal_verifikasi",
           key: "tanggal_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -641,6 +656,7 @@ export default function MonitoringMarketing() {
           title: "STATUS",
           dataIndex: "status_approval",
           key: "status_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -692,6 +708,7 @@ export default function MonitoringMarketing() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_approval",
           key: "nama_pemeriksa_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -707,6 +724,7 @@ export default function MonitoringMarketing() {
           title: "TANGGAL",
           dataIndex: "tanggal_approval",
           key: "tanggal_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -732,6 +750,7 @@ export default function MonitoringMarketing() {
       title: "STATUS PENCAIRAN",
       dataIndex: "status_pencairan",
       key: "status_pencairan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

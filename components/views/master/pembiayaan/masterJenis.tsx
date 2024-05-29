@@ -140,20 +140,42 @@ export default function MasterJenis() {
 
   const columns: TableProps<DataType>["columns"] = [
     {
-      title: "Nama Jenis",
+      title: "NAMA",
       dataIndex: "name",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
       className: "font-semibold",
     },
     {
-      title: "Biaya Mutasi (Rp)",
+      title: "MUTASI (Rp)",
       dataIndex: "by_mutasi",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <span>{formatNumber(value.toString())}</span>;
       },
     },
     {
-      title: "Action",
+      title: "AKSI",
       dataIndex: "id",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
       render: (value, record, index) => (
         <div className="flex flex-wrap gap-2" key={value}>
           <button
@@ -200,7 +222,7 @@ export default function MasterJenis() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 500 }}
+        scroll={{ x: 500, y: 320 }}
         size="middle"
         pagination={{
           pageSize: 20,

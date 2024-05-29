@@ -32,7 +32,7 @@ interface DataTypeCabang extends UnitCabang {
 const columnsUser: TableProps<User>["columns"] = [
   {
     key: "name",
-    title: "Nama",
+    title: "NAMA",
     dataIndex: "id",
     render(value, record, index) {
       return (
@@ -42,12 +42,12 @@ const columnsUser: TableProps<User>["columns"] = [
       );
     },
   },
-  { key: "username", title: "Username", dataIndex: "username" },
-  { key: "email", title: "Email", dataIndex: "email" },
-  { key: "role", title: "Role", dataIndex: "role" },
+  { key: "username", title: "USERNAME", dataIndex: "username" },
+  { key: "email", title: "EMAIL", dataIndex: "email" },
+  { key: "role", title: "ROLE", dataIndex: "role" },
   {
     key: "status_active",
-    title: "Status Aktif",
+    title: "STATUS",
     dataIndex: "status_active",
     render(value, record, index) {
       return (
@@ -341,10 +341,9 @@ export default function UnitPelayananView() {
     },
   ];
   const columnsExpanded: TableProps<DataTypeCabang>["columns"] = [
-    { title: "Nama Area", dataIndex: "name", key: "name" },
-    { title: "Kode Area", dataIndex: "kode_area", key: "kode_area" },
+    { title: "AREA", dataIndex: "name", key: "name" },
     {
-      title: "Aksi",
+      title: "AKSI",
       dataIndex: "id",
       key: "id",
       render: (value, record, index) => (
@@ -369,10 +368,9 @@ export default function UnitPelayananView() {
     },
   ];
   const columnsInactive: TableProps<DataType>["columns"] = [
-    { title: "Nama Area", dataIndex: "name", key: "name" },
-    { title: "Kode Area", dataIndex: "kode_area", key: "kode" },
+    { title: "AREA", dataIndex: "name", key: "name" },
     {
-      title: "Aksi",
+      title: "AKSI",
       dataIndex: "id",
       key: "id",
       render: (value, record, index) => (
@@ -389,9 +387,8 @@ export default function UnitPelayananView() {
     },
   ];
   const columnsExpandedInactive: TableProps<DataTypeCabang>["columns"] = [
-    { title: "Nama Area", dataIndex: "name", key: "name" },
-    { title: "Kode Area", dataIndex: "kode_area", key: "kode_area" },
-    { title: "Aksi", dataIndex: "id", key: "id" },
+    { title: "AREA", dataIndex: "name", key: "name" },
+    { title: "AKSI", dataIndex: "id", key: "id" },
   ];
   return (
     <div>
@@ -425,7 +422,7 @@ export default function UnitPelayananView() {
         bordered
         columns={columns}
         dataSource={data}
-        scroll={{ x: 400 }}
+        scroll={{ x: 400, y: 320 }}
         pagination={{
           total: total,
           pageSize: 20,
@@ -473,7 +470,7 @@ export default function UnitPelayananView() {
           bordered
           columns={columnsInactive}
           dataSource={dataInactive}
-          scroll={{ x: 400 }}
+          scroll={{ x: 400, y: 320 }}
           loading={loading}
           expandable={{
             expandedRowRender: (record) => {

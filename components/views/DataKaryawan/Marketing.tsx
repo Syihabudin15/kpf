@@ -68,7 +68,7 @@ export default function DataMarketing() {
 
 const columns: TableProps<DataDataUser>["columns"] = [
   {
-    title: "AREA",
+    title: "AREA PELAYANAN",
     key: "area",
     dataIndex: "area",
     onHeaderCell: (text, record) => {
@@ -91,7 +91,7 @@ const columns: TableProps<DataDataUser>["columns"] = [
     },
   },
   {
-    title: "CABANG",
+    title: "UNIT PELAYANAN",
     key: "cabang",
     onHeaderCell: (text, record) => {
       return {

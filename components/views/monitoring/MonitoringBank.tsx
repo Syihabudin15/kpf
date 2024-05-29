@@ -65,6 +65,7 @@ export default function MonitoringBank() {
       title: "NO PENSIUN",
       dataIndex: "nopen",
       key: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -82,6 +83,7 @@ export default function MonitoringBank() {
       dataIndex: "name",
       key: "name",
       fixed: "left",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -98,6 +100,7 @@ export default function MonitoringBank() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      width: 150,
       render(value, record, index) {
         return (
           <>{moment(record.DataPembiayaan.created_at).format("DD-MM-YYYY")}</>
@@ -105,30 +108,10 @@ export default function MonitoringBank() {
       },
     },
     {
-      title: "AREA PELAYANAN",
-      dataIndex: "Unit Pelayanan",
-      key: "Unit Pelayanan",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      className: "text-center",
-      render(value, record, index) {
-        return (
-          <>
-            {record.User.UnitCabang.unit_pelayanan_id &&
-              record.User.UnitCabang.UnitPelayanan.name}
-          </>
-        );
-      },
-    },
-    {
       title: "UNIT PELAYANAN",
       dataIndex: "Unit Cabang",
       key: "Unit Cabang",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -145,6 +128,7 @@ export default function MonitoringBank() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -160,6 +144,7 @@ export default function MonitoringBank() {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk_pembiayaan",
       key: "produk_pembiayaan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -175,6 +160,7 @@ export default function MonitoringBank() {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "jenis_pembiayaan",
       key: "jenis_pembiayaan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -196,6 +182,7 @@ export default function MonitoringBank() {
       title: "TENOR",
       dataIndex: "tenor",
       key: "tenor",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -212,6 +199,7 @@ export default function MonitoringBank() {
       title: "PLAFOND",
       dataIndex: "plafond",
       key: "plafond",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -229,6 +217,7 @@ export default function MonitoringBank() {
       title: "BERKAS PENGAJUAN",
       dataIndex: "berkas_pengajuan",
       key: "berkas_pengajuan",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -260,6 +249,7 @@ export default function MonitoringBank() {
           title: "STATUS",
           dataIndex: "status_verifikasi",
           key: "status_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -321,11 +311,13 @@ export default function MonitoringBank() {
             };
           },
           className: "text-center",
+          width: 150,
         },
         {
           title: "TANGGAL",
           dataIndex: "tanggal_verifikasi",
           key: "tanggal_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -361,6 +353,7 @@ export default function MonitoringBank() {
           title: "STATUS",
           dataIndex: "status_slik",
           key: "status_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -413,6 +406,7 @@ export default function MonitoringBank() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_slik",
           key: "nama_pemeriksa_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -428,6 +422,7 @@ export default function MonitoringBank() {
           title: "TANGGAL",
           dataIndex: "tanggal_slik",
           key: "tanggal_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -681,6 +676,7 @@ export default function MonitoringBank() {
           title: "STATUS",
           dataIndex: "status_approval",
           key: "status_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -747,6 +743,7 @@ export default function MonitoringBank() {
           title: "TANGGAL",
           dataIndex: "tanggal_approval",
           key: "tanggal_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {

@@ -247,7 +247,15 @@ export default function MasterUser() {
 
   const columns: TableProps<DataType>["columns"] = [
     {
-      title: "Nama",
+      title: "NAMA",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      fixed: "left",
       dataIndex: "first_name",
       key: "firt_name",
       width: 200,
@@ -259,23 +267,86 @@ export default function MasterUser() {
         );
       },
     },
-    { title: "NIP", dataIndex: "nip", key: "nip", width: 200 },
-    { title: "NIK", dataIndex: "nik", key: "nik", width: 200 },
-    { title: "Username", dataIndex: "username", key: "username", width: 200 },
-    { title: "Email", dataIndex: "email", key: "email", width: 200 },
-    { title: "No Telepon", dataIndex: "no_telepon", key: "no_telepon" },
-    { title: "Status PKWT", dataIndex: "status_pkwt", key: "status_pkwt" },
-    { title: "Masa Kontrak", dataIndex: "masa_kotrak", key: "masa_kontrak" },
+    { title: "NIP", dataIndex: "nip", key: "nip", width: 200, onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
+    { title: "NIK", dataIndex: "nik", key: "nik", width: 200,onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
+    { title: "USERNAME", dataIndex: "username", key: "username", width: 200,onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
+    { title: "EMAIL", dataIndex: "email", key: "email", width: 200,onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      }, },
+    { title: "NO TELEPON", dataIndex: "no_telepon", key: "no_telepon",onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
+    { title: "STATUS PKWT", dataIndex: "status_pkwt", key: "status_pkwt", onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
+    { title: "MASA KONTRAK", dataIndex: "masa_kotrak", key: "masa_kontrak",onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
     {
-      title: "Role",
+      title: "ROLE",
       dataIndex: "role",
       key: "role",
-      className: "font-semibold",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "font-semibold text-center",
     },
     {
-      title: "Unit Pelayanan",
+      title: "AREA PELAYANAN",
       dataIndex: "cabang",
       key: "unit_pelayanan",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return (
           <>
@@ -284,27 +355,57 @@ export default function MasterUser() {
         );
       },
     },
-    { title: "Cabang", dataIndex: "cabang", key: "cabang" },
+    { title: "UNIT PELAYANAN", dataIndex: "cabang", key: "cabang", onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
     {
-      title: "Bank",
+      title: "BANK",
       dataIndex: "bank",
       key: "bank",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.bank_id && record.Bank.name}</>;
       },
     },
     {
-      title: "Target",
+      title: "TARGET",
       key: "target",
       dataIndex: "target",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{formatNumber(record.target.toFixed(0))}</>;
       },
     },
     {
-      title: "Status",
+      title: "STATUS",
       dataIndex: "status_active",
       key: "status_active",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
       className: "text-center",
       render(value, record, index) {
         if (value) {
@@ -323,9 +424,17 @@ export default function MasterUser() {
       },
     },
     {
-      title: "Action",
+      title: "AKSI",
       dataIndex: "status_active",
       key: "action",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       width: 100,
       render: (value, record, index) => (
         <div className="flex flex-wrap justify-center gap-2" key={index}>

@@ -4,7 +4,6 @@ import {
   Input,
   InputNumber,
   Modal,
-  Select,
   Table,
   TableProps,
   Tooltip,
@@ -19,7 +18,6 @@ import {
 import { useEffect, useState } from "react";
 import {
   formatNumber,
-  inputTextToDecimal,
 } from "@/components/utils/inputUtils";
 import { Bank } from "@prisma/client";
 
@@ -173,69 +171,174 @@ export default function MasterBank() {
 
   const columns: TableProps<DataType>["columns"] = [
     {
-      title: "Nama Bank",
+      title: "NAMA",
       dataIndex: "name",
       className: "font-semibold",
       width: 250,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
     },
-    { title: "Biaya Admin (%)", dataIndex: "by_admin" },
-    { title: "Biaya Admin Bank (%)", dataIndex: "by_admin_bank" },
-    { title: "Biaya Cadangan (%)", dataIndex: "by_lainnya" },
+    { title: "ADMIN KOPERASI (%)", dataIndex: "by_admin", onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
+    { title: "ADMIN BANK (%)", dataIndex: "by_admin_bank", onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
+    { title: "PENCADANGAN (%)", dataIndex: "by_lainnya", onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
     {
-      title: "Biaya Tatalaksana (Rp)",
+      title: "TATALAKSANA (Rp)",
       dataIndex: "by_tatalaksana",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <span>{formatNumber(value.toString())}</span>;
       },
     },
     {
-      title: "Biaya Materai (Rp)",
+      title: "MATERAI (Rp)",
       dataIndex: "by_materai",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <span>{formatNumber(value.toString())}</span>;
       },
     },
     {
-      title: "Biaya Buka rekening (Rp)",
+      title: "BUKA REKENING (Rp)",
       dataIndex: "by_buka_rekening",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <span>{formatNumber(value.toString())}</span>;
       },
     },
     {
-      title: "Biaya Flagging",
+      title: "FLAGGING",
       dataIndex: "by_flagging",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{formatNumber(record.by_flagging.toString())}</>;
       },
     },
     {
-      title: "Biaya Epotpen",
+      title: "EPOTPEN",
       dataIndex: "by_epotpen",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{formatNumber(record.by_epotpen.toString())}</>;
       },
     },
     {
-      title: "Biaya Provisi",
+      title: "PROVISI",
       dataIndex: "by_provisi",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{formatNumber((record.by_provisi || 0).toString())}</>;
       },
     },
-    { title: "Sisa Gaji (%)", dataIndex: "by_angsuran" },
-    { title: "Margin Bank (%)", dataIndex: "margin_bank" },
+    { title: "SISA GAJI (%)", dataIndex: "by_angsuran", onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
+    { title: "Margin Bank (%)", dataIndex: "margin_bank", onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center", },
     {
-      title: "Syariah",
+      title: "SYARIAH",
       dataIndex: "is_syariah",
       width: 80,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
       render(value, record, index) {
         return <>{record.is_syariah ? "YA" : "TIDAK"}</>;
       },
     },
     {
-      title: "Action",
+      title: "AKSI",
       dataIndex: "id",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
       fixed: "right",
       width: 100,
       render: (value, record, index) => (
@@ -281,7 +384,7 @@ export default function MasterBank() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 2500 }}
+        scroll={{ x: 2200, y: 320 }}
         size="middle"
         pagination={{
           pageSize: 20,

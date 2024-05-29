@@ -164,6 +164,7 @@ export default function MonitoringEntryData() {
       title: "NO PENSIUN",
       dataIndex: "nopen",
       key: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -180,6 +181,7 @@ export default function MonitoringEntryData() {
       title: "NAMA PEMOHON",
       dataIndex: "name",
       key: "name",
+      width: 200,
       fixed: "left",
       onHeaderCell: (text, record) => {
         return {
@@ -197,6 +199,7 @@ export default function MonitoringEntryData() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -212,30 +215,10 @@ export default function MonitoringEntryData() {
       },
     },
     {
-      title: "AREA PELAYANAN",
-      dataIndex: "Unit Pelayanan",
-      key: "Unit Pelayanan",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      className: "text-center",
-      render(value, record, index) {
-        return (
-          <>
-            {record.User.UnitCabang.unit_pelayanan_id &&
-              record.User.UnitCabang.UnitPelayanan.name}
-          </>
-        );
-      },
-    },
-    {
       title: "UNIT PELAYANAN",
       dataIndex: "Unit Cabang",
       key: "Unit Cabang",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -252,6 +235,7 @@ export default function MonitoringEntryData() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -267,6 +251,7 @@ export default function MonitoringEntryData() {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk_pembiayaan",
       key: "produk_pembiayaan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -282,6 +267,7 @@ export default function MonitoringEntryData() {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "jenis_pembiayaan",
       key: "jenis_pembiayaan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -303,6 +289,7 @@ export default function MonitoringEntryData() {
       title: "TENOR",
       dataIndex: "tenor",
       key: "tenor",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -319,6 +306,7 @@ export default function MonitoringEntryData() {
       title: "PLAFOND",
       dataIndex: "plafond",
       key: "plafond",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -348,6 +336,7 @@ export default function MonitoringEntryData() {
           title: "CETAK",
           dataIndex: "cetak",
           key: "cetak",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -365,6 +354,7 @@ export default function MonitoringEntryData() {
           title: "VIEW",
           dataIndex: "view",
           key: "view",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -390,6 +380,7 @@ export default function MonitoringEntryData() {
       title: "BERKAS PENGAJUAN",
       dataIndex: "berkas_pengajuan",
       key: "berkas_pengajuan",
+      width: 100,
       render(value, record, index) {
         return (
           <ViewBerkasPengajuan data={record} role="MASTER" allowForm={true} />
@@ -414,6 +405,7 @@ export default function MonitoringEntryData() {
           title: "STATUS",
           dataIndex: "status_slik",
           key: "status_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -466,6 +458,7 @@ export default function MonitoringEntryData() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_slik",
           key: "nama_pemeriksa_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -481,6 +474,7 @@ export default function MonitoringEntryData() {
           title: "TANGGAL",
           dataIndex: "tanggal_slik",
           key: "tanggal_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -520,6 +514,7 @@ export default function MonitoringEntryData() {
           title: "STATUS",
           dataIndex: "status_verifikasi",
           key: "status_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -571,6 +566,7 @@ export default function MonitoringEntryData() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_verifikasi",
           key: "nama_pemeriksa_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -586,6 +582,7 @@ export default function MonitoringEntryData() {
           title: "TANGGAL",
           dataIndex: "tanggal_verifikasi",
           key: "tanggal_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -839,6 +836,7 @@ export default function MonitoringEntryData() {
           title: "STATUS",
           dataIndex: "status_approval",
           key: "status_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -890,6 +888,7 @@ export default function MonitoringEntryData() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_approval",
           key: "nama_pemeriksa_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -905,6 +904,7 @@ export default function MonitoringEntryData() {
           title: "TANGGAL",
           dataIndex: "tanggal_approval",
           key: "tanggal_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
