@@ -119,6 +119,7 @@ export default function PengajuanPencairan() {
         };
       },
       className: "text-center",
+      fixed: "left",
     },
     {
       title: "SUMBER DANA",
