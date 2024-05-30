@@ -299,9 +299,10 @@ model DataPengajuan {
   penerbit_sk        String?
   no_telepon         String?
 
-  is_cetak            Boolean @default(false)
-  pembayaran_asuransi Boolean @default(false)
-  status_lunas        Boolean @default(false)
+  is_cetak                    Boolean   @default(false)
+  pembayaran_asuransi         Boolean   @default(false)
+  status_lunas                Boolean   @default(false)
+  tanggal_pembayaran_asuransi DateTime?
 
   BerkasPengajuan   BerkasPengajuan? @relation(fields: [berkasPengajuanId], references: [id])
   berkasPengajuanId String?

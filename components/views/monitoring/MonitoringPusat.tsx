@@ -1051,7 +1051,7 @@ export default function MonitoringPusat() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 4000, y: 320 }}
+          scroll={{ x: "max-content", y: 'calc(65vh - 100px)' }}
           size="small"
           loading={loading}
           pagination={{

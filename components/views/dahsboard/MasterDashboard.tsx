@@ -134,6 +134,7 @@ const columns: TableProps<DataMasterDashboard>["columns"] = [
   {
     title: "SUMBER DANA",
     key: "sumdan",
+    width: 200,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -149,6 +150,7 @@ const columns: TableProps<DataMasterDashboard>["columns"] = [
     title: "ANTRI",
     key: "antri",
     dataIndex: "antri",
+    width: 150,
     className: "text-center",
     onHeaderCell: (text, record) => {
       return {
@@ -173,6 +175,7 @@ const columns: TableProps<DataMasterDashboard>["columns"] = [
   {
     title: "DITOLAK",
     key: "tolak",
+    width: 150,
     dataIndex: "tolak",
     className: "text-center",
     onHeaderCell: (text, record) => {
@@ -195,6 +198,7 @@ const columns: TableProps<DataMasterDashboard>["columns"] = [
   {
     title: "DROPPING",
     key: "dropping",
+    width: 150,
     dataIndex: "dropping",
     className: "text-center",
     onHeaderCell: (text, record) => {
@@ -218,6 +222,7 @@ const columns: TableProps<DataMasterDashboard>["columns"] = [
     title: "OS",
     key: "os",
     dataIndex: "os",
+    width: 150,
     className: "text-center",
     onHeaderCell: (text, record) => {
       return {

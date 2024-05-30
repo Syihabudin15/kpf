@@ -6,7 +6,7 @@ USER:kpf-sipboss
 PASS:VoSXAEVbVx87megDk19q
 DBUSER: sipboss
 DBPASS: ViizqJlLAo58uJNvBJvR
-DBNAME: kpf_database
+DBNAME: kpfdatabase
 
 DOMAIN:sip-kpf-app.kpf.co.id
 USER:kpf-sip-kpf-app
