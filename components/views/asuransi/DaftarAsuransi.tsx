@@ -1,38 +1,27 @@
 "use client";
 
-import { DataCost, DataDataPengajuan } from "@/components/utils/Interfaces";
-import { formatNumber, formatNumberTitik } from "@/components/utils/inputUtils";
+import { DataDataPengajuan } from "@/components/utils/Interfaces";
+import { formatNumber } from "@/components/utils/inputUtils";
+import { CheckCircleFilled, MinusCircleFilled } from "@ant-design/icons";
 import { DatePicker, Spin, Table, TableProps } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 
 export default function LaporanBulananMaster() {
   const [month, setMonth] = useState<string>(`${new Date().getFullYear()}-${new Date().getMonth()+1}`);
-  const [dataTable, setDataTable] = useState<DataDataPengajuan[]>();
-  const [dataCost, setDataCost] = useState<DataCost[]>();
+  const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
-  const [totalPemasukan, setPemasukan] = useState(0);
-  const [totalPengeluaran, setPengeluaran] = useState(0);
-
+    const [total, setTotal] = useState(0);
+    const [page, setPage] = useState(1);
 
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/administrasi/bulanan${month ? "?month=" + month : ""}`
+      `/api/asuransi?page=${page}&is-true=true${month ? "?month=" + month : ""}`
     );
-    const { dataTable,  dataCost } = await res.json();
-    setDataTable(dataTable);
-    setDataCost(dataCost);
-    let pemasukan = 0;
-    let pengeluaran = 0;
-    dataTable.forEach((masuk:DataDataPengajuan) => {
-      pemasukan += masuk.DataPembiayaan.plafond;
-    });
-    dataCost.forEach((keluar:DataCost) => {
-      pengeluaran += keluar.nominal;
-    });
-    setPemasukan(pemasukan);
-    setPengeluaran(pengeluaran);
+    const { data, total } = await res.json();
+    setData(data);
+    setTotal(total);
     setLoading(false);
   };
 
@@ -54,35 +43,9 @@ export default function LaporanBulananMaster() {
           }`}
         />
       </div>
-        <div className="px-2">
-            <Table columns={columnsPengajuan} dataSource={dataTable} size="small" bordered pagination={false} scroll={{x:1500, y: 320}} />
-        </div>
-      <div className="mt-5 text-xs font-bold italic">
-        <div className="flex gap-2">
-          <span style={{width: 150}}>PEMASUKAN</span>
-          <span style={{width: 30}}>:</span>
-          <div className="flex gap-2">
-            <span style={{width: 20}}>Rp.</span>
-            <span>{formatNumber(totalPemasukan.toFixed(0))}</span>
-          </div>
-        </div>
-        <div className="flex gap-2 border-b border-black">
-          <span style={{width: 150}}>PENGELUARAN</span>
-          <span style={{width: 30}}>:</span>
-          <div className="flex gap-2">
-            <span style={{width: 20}}>Rp.</span>
-            <span>{formatNumber(totalPengeluaran.toFixed(0))}</span>
-          </div>
-        </div>
-        <div className="mt-2 flex gap-2">
-          <span style={{width: 150}}>TOTAL</span>
-          <span style={{width: 30}}>:</span>
-          <div className="flex gap-2">
-            <span style={{width: 20}}>Rp.</span>
-            <span>{formatNumber((totalPemasukan - totalPengeluaran).toFixed(0))}</span>
-          </div>
-        </div>
-      </div>
+    <div className="px-2">
+        <Table columns={columnsPengajuan} dataSource={data} size="small" bordered pagination={false} scroll={{x:1500, y: 320}} />
+    </div>
     </Spin>
   );
 }
@@ -251,7 +214,87 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{formatNumberTitik(record.DataPembiayaan.plafond.toFixed(0))}</>
+      return<>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>
+    },
+  },
+  {
+    title: "ASURANSI",
+    key: "asuransi",
+    dataIndex: "asuransi",
+    width: 150,
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return<>{formatNumber((record.DataPembiayaan.plafond* (record.DataPembiayaan.by_asuransi/100)).toFixed(0))}</>
+    },
+  },
+  {
+    title: "STATUS PEMBAYARAN",
+    key: "status_bayar",
+    dataIndex: "status_bayar",
+    width: 150,
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return(
+        <div className="flex justify-center">
+            <div className={`w-32 py-1 px-2 text-xs font-bold italic text-white bg-${record.pembayaran_asuransi ? "green" : "red"}-500`}>
+                {record.pembayaran_asuransi ? "DIBAYAR" : "BELUM DIBAYAR" }
+            </div>
+        </div>
+      )
+    },
+  },
+  {
+    title: "TANGGAL PEMBAYARAN",
+    key: "tgl_pembayaran",
+    dataIndex: "tgl_pembayaran",
+    width: 150,
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return<>{record.tanggal_pembayaran_asuransi && moment(record.tanggal_pembayaran_asuransi).format("DD-MM-YYYY")}</>
+    },
+  },
+  {
+    title: "AKSI",
+    key: "aksi",
+    dataIndex: "aksi",
+    width: 100,
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+        return(
+            <div className="flex justify-center">
+                <button className={`py-1 px-2 text-xs bg-${record.pembayaran_asuransi ? "red" : "green"}`}>
+                    {record.pembayaran_asuransi ? <MinusCircleFilled/> : <CheckCircleFilled/>}
+                </button>
+            </div>
+        )
     },
   },
 ]

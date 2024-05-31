@@ -1,7 +1,7 @@
 "use client";
 
 import { DataCost, DataDataPengajuan } from "@/components/utils/Interfaces";
-import { formatNumber, formatNumberTitik } from "@/components/utils/inputUtils";
+import { formatNumber } from "@/components/utils/inputUtils";
 import { DatePicker, Spin, Table, TableProps } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -377,7 +377,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{formatNumberTitik(record.DataPembiayaan.plafond.toFixed(0))}</>
+      return<>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>
     },
   },
 ]

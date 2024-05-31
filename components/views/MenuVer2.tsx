@@ -68,7 +68,7 @@ export default async function MenuVer({
             </div>
           </div>
           <div className="mt-3">
-            <ListMenuVer2 role={user?.role || "MARKETING"} />
+            <ListMenuVer2 role={user?.role || "MARKETING"} open={false}/>
           </div>
         </div>
         <div style={{ flex: 2 }} className="childWrap">
