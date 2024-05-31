@@ -6,6 +6,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { notifContext } from "../NotifContext";
 import { DataDataPengajuan } from "./Interfaces";
 import moment from "moment";
+import { ceiling } from "./pdf/pdfUtil";
 
 const obj = {
   slik: "slik",
@@ -1364,11 +1365,11 @@ export default function TabsForm({
         },
       ]);
     }
-    const angs = getAngsuranPerBulan(
+    const angs = ceiling(parseInt(getAngsuranPerBulan(
       data?.DataPembiayaan.mg_bunga as number,
       data?.DataPembiayaan.tenor as number,
       data?.DataPembiayaan.plafond as number
-    );
+    )), data.DataPembiayaan.pembulatan);
     const kotor =
       (data?.DataPembiayaan.plafond || 0) -
       (data?.DataPembiayaan.plafond || 0) *
@@ -1385,7 +1386,7 @@ export default function TabsForm({
       (data?.DataPembiayaan.by_mutasi || 0) -
       data.DataPembiayaan.by_epotpen -
       data.DataPembiayaan.by_flagging -
-      (data?.DataPembiayaan.blokir || 0) * parseInt(angs);
+      (data?.DataPembiayaan.blokir || 0) * angs;
     form.setFieldsValue({
       id: data?.id,
       nopen: data?.DataPembiayaan.nopen || "",
@@ -1414,7 +1415,7 @@ export default function TabsForm({
       tenor: data?.DataPembiayaan.tenor || 0,
       plafond: formatNumber((data?.DataPembiayaan.plafond || 0).toString()),
       jumlah_blokir_angsuran: data.DataPembiayaan.blokir,
-      angsuran: formatNumber(angs),
+      angsuran: formatNumber(angs.toFixed(0)),
       biaya_admin: formatNumber(
         (
           (data?.DataPembiayaan.plafond || 0) *
@@ -1457,7 +1458,7 @@ export default function TabsForm({
         (data?.DataPembiayaan.by_buka_rekening || 0).toString()
       ),
       blokir_angsuran: formatNumber(
-        ((data?.DataPembiayaan.blokir || 0) * parseInt(angs)).toString()
+        ((data?.DataPembiayaan.blokir || 0) * angs).toString()
       ),
       terima_kotor: formatNumber(kotor.toString()),
       bpp: formatNumber((data?.DataPembiayaan.bpp || 0).toString()),
@@ -1469,7 +1470,7 @@ export default function TabsForm({
         ).toString()
       ),
       sisa_gaji: formatNumber(
-        ((data?.DataPembiayaan.gaji_bersih || 0) - parseInt(angs)).toString()
+        ((data?.DataPembiayaan.gaji_bersih || 0) - angs).toString()
       ),
       unit_pelayanan: data?.User.UnitCabang.UnitPelayanan.name || "",
       marketing:

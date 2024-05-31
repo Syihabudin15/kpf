@@ -18,7 +18,7 @@ export default function MobileMenuVer2({ role }: { role: Role }) {
         </div>
       </Button>
       <Drawer onClose={() => setOpenMenu(false)} open={openMenu} width={"80vw"}>
-        <ListMenuVer2 role={role} setOpen={setOpenMenu} />
+        <ListMenuVer2 role={role} open={false} />
         <div
           style={{
             display: "flex",
