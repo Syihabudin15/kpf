@@ -1,4 +1,4 @@
-import { CopyrightCircleOutlined, EditFilled } from "@ant-design/icons";
+import { CopyrightCircleOutlined } from "@ant-design/icons";
 
 import React from "react";
 import Link from "next/link";
@@ -7,8 +7,8 @@ import { redirect } from "next/navigation";
 import prisma from "@/components/prisma";
 import Logout from "@/components/views/Logout";
 import MobileMenuVer2 from "@/components/utils/menu/MobileMenuVer2";
-import ListMenuVer2 from "@/components/utils/menu/ListMenuVer2";
 import NotifVer2 from "@/components/utils/menu/NotifVer2";
+import MenuWrapper from "@/components/utils/menu/MenuWrapper";
 
 export default async function UserLayout({
   children,
@@ -68,8 +68,9 @@ export default async function UserLayout({
           </div>
         </div>
       </div>
-      <div style={{ flex: 10 }} className="flex gap-5 p-2">
-        <div style={{ flex: 0.6 }} className="hidden md:block">
+      <div style={{ flex: 10 }} className="flex gap-2 p-2">
+        <MenuWrapper user={user}/>
+        {/* <div style={{ flex: 0.6 }} className="hidden md:block">
           <div className="flex flex-col gap-2">
             <div
               className={`flex gap-4 text-xs items-center bg-${process.env.NEXT_PUBLIC_APP_BG_BIO}-500 text-white rounded p-2`}
@@ -105,13 +106,13 @@ export default async function UserLayout({
               </div>
             </div>
             <div style={{ flex: 1 }}>
-              <ListMenuVer2 role={user?.role || "MARKETING"} />
+              <ListMenuVer2 role={user?.role || "MARKETING"} open={false} />
             </div>
           </div>
-        </div>
+        </div> */}
         <div
           style={{
-            flex: 2,
+            // flex: 2,
             height: "80vh",
             overflow: "auto",
             // backgroundColor: "white",

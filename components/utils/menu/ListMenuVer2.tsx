@@ -8,10 +8,10 @@ import Link from "next/link";
 
 export default function ListMenuVer2({
   role,
-  setOpen,
+  open,
 }: {
   role: Role;
-  setOpen?: Function;
+  open: boolean;
 }) {
   const pathname = usePathname();
 
@@ -33,10 +33,12 @@ export default function ListMenuVer2({
     }
   });
   return (
-    <Menu
+    <div>
+      <Menu
       mode="inline"
+      inlineCollapsed={open}
       defaultSelectedKeys={[pathname]}
-      style={{ height: "65vh", overflowY: "auto" }}
+      style={{  overflowY: "auto", width: !open ? 300 : 100, height: "60vh" }}
       items={menuUser.map((menu) => {
         const child =
           menu.child &&
@@ -91,5 +93,6 @@ export default function ListMenuVer2({
         }
       })}
     />
+    </div>
   );
 }
