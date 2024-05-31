@@ -38,7 +38,7 @@ export default function ListMenuVer2({
       mode="inline"
       inlineCollapsed={open}
       defaultSelectedKeys={[pathname]}
-      style={{  overflowY: "auto", width: !open ? 300 : 100, height: "60vh" }}
+      style={{  overflowY: "auto", width: "100%", height: open ? "72vh" : "60vh" }}
       items={menuUser.map((menu) => {
         const child =
           menu.child &&

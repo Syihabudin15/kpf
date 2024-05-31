@@ -7,8 +7,7 @@ export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
   const name = req.nextUrl.searchParams.get("name");
   const month =
-    req.nextUrl.searchParams.get("month") ||
-    "2024-" + new Date().getMonth() + 1;
+    req.nextUrl.searchParams.get("month") || "2024-" + new Date().getMonth();
   const isTrue = req.nextUrl.searchParams.get("is-true");
   const skip = (page - 1) * 20;
 

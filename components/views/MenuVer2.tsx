@@ -1,5 +1,4 @@
 import React from "react";
-import BadgeNotif from "../utils/menu/BadgeNotif";
 import { CopyrightCircleOutlined, EditFilled } from "@ant-design/icons";
 import { getServerSession } from "next-auth";
 import Logout from "./Logout";

@@ -8,7 +8,7 @@ export default function MenuWrapper({user}: {user: any}){
     const [collapse, setCollapse] = useState(false);
 
     return (
-        <div style={{ flex: 0.6 }} className="hidden md:block">
+        <div style={{ width: collapse ? 100 : 350 }} className="hidden md:block">
           <div className={`flex flex-col gap-2`}>
             <div
               className={`flex gap-4 text-xs items-center bg-${process.env.NEXT_PUBLIC_APP_BG_BIO}-500 text-white rounded p-2 ${collapse && "hidden"}`}
@@ -44,7 +44,7 @@ export default function MenuWrapper({user}: {user: any}){
               </div>
             </div>
             <div style={{ flex: 1 }}>
-                <div className="bg-white p-1 flex justify-center">
+                <div className={`bg-white p-1 flex ${collapse ? "justify-center" : "justify-end"}`}>
                     <button className="border px-2 py-0 rounded shadow" onClick={() => setCollapse(!collapse)}>
                         <MenuOutlined/>
                     </button>

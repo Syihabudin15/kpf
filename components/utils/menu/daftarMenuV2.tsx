@@ -472,6 +472,12 @@ export const menusV2: Menus[] = [
         role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
         icon: <DiffOutlined />,
       },
+      {
+        label: "Pembayaran Asuransi",
+        url: "/laporan-administrasi/pembayaran-asuransi",
+        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
+        icon: <DiffOutlined />,
+      },
     ],
   },
   {
