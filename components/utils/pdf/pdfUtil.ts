@@ -2,7 +2,6 @@ import moment from "moment";
 import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { DataDataPengajuan } from "../Interfaces";
-import throttleByAnimationFrame from "antd/es/_util/throttleByAnimationFrame";
 
 export const BilangRatusan = async (dana: number) => {
   const kata = [
@@ -261,18 +260,10 @@ export const angsuranAnuitas = (
 export function ceiling(number: number, precision: number) {
   return Math.ceil(number / precision) * precision;
 }
+
 export function rounded(number: number, precision: number) {
   var factor = Math.pow(10, precision);
   var tempNumber = number * factor;
   var roundedTempNumber = Math.round(tempNumber);
   return roundedTempNumber / factor;
-}
-function roundLikePHP(num: number, dec: number) {
-  var num_sign = num >= 0 ? 1 : -1;
-  return parseFloat(
-    (
-      Math.round(num * Math.pow(10, dec) + num_sign * 0.0001) /
-      Math.pow(10, dec)
-    ).toFixed(dec)
-  );
 }
