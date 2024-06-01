@@ -66,32 +66,32 @@ export default function GantiPassword() {
             </div>
             <div className="flex justify-between">
               <span className="flex-1">Nama Depan</span>
-              <span className="flex-1">:</span>
+              <span style={{flex: .5}}>:</span>
               <span className="flex-1">{data?.first_name}</span>
             </div>
             <div className="flex justify-between">
               <span className="flex-1">Nama Belakang</span>
-              <span className="flex-1">:</span>
+              <span style={{flex: .5}}>:</span>
               <span className="flex-1">{data?.last_name}</span>
             </div>
             <div className="flex justify-between">
               <span className="flex-1">Email</span>
-              <span className="flex-1">:</span>
+              <span style={{flex: .5}}>:</span>
               <span className="flex-1">{data?.email}</span>
             </div>
             <div className="flex justify-between">
               <span className="flex-1">Username</span>
-              <span className="flex-1">:</span>
+              <span style={{flex: .5}}>:</span>
               <span className="flex-1">{data?.username}</span>
             </div>
             <div className="flex justify-between">
               <span className="flex-1">No Telepon</span>
-              <span className="flex-1">:</span>
+              <span style={{flex: .5}}>:</span>
               <span className="flex-1">{data?.no_telepon}</span>
             </div>
             <div className="flex justify-between">
               <span className="flex-1">Jabatan</span>
-              <span className="flex-1">:</span>
+              <span style={{flex: .5}}>:</span>
               <span className="flex-1">{data?.posisi}</span>
             </div>
           </div>

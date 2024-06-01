@@ -1369,7 +1369,7 @@ export default function TabsForm({
       data?.DataPembiayaan.mg_bunga as number,
       data?.DataPembiayaan.tenor as number,
       data?.DataPembiayaan.plafond as number
-    )), data.DataPembiayaan.pembulatan);
+    )), data.DataPembiayaan.pembulatan || 1);
     const kotor =
       (data?.DataPembiayaan.plafond || 0) -
       (data?.DataPembiayaan.plafond || 0) *

@@ -354,7 +354,7 @@ export default function EditBiaya({
           inputTextToDecimal(plafond)
         )
       ),
-      100
+      currData.DataPembiayaan.pembulatan || 1
     );
     setAngsuranBulan(formatNumber(result.toFixed(0)));
   };

@@ -1,7 +1,7 @@
 "use client";
-import { FileFilled, LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { Role } from "@prisma/client";
-import { Input, Modal, Table, TableProps } from "antd";
+import { Input, Table, TableProps } from "antd";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { formatNumber } from "@/components/utils/inputUtils";
@@ -55,6 +55,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "NO",
       dataIndex: "no",
       key: "no",
+      width: 50,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -71,6 +72,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "NO PENSIUN",
       dataIndex: "nopen",
       key: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -87,7 +89,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "NAMA PEMOHON",
       dataIndex: "nama",
       key: "nama",
-      fixed: "left",
+      fixed: "left", width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -103,6 +105,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "PLAFOND",
       dataIndex: "plafond",
       key: "plafond",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -126,6 +129,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk",
       key: "produk",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -142,6 +146,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "jenis",
       key: "jenis",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -162,6 +167,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "ADMIN BANK",
       dataIndex: "by_admin_bank",
       key: "by_admin_bank",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -187,6 +193,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "BUKA REKENING",
       dataIndex: "by_rekening",
       key: "by_rekening",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -205,6 +212,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "CASH COLL TBO JAMINAN",
       dataIndex: "cash_coll",
       key: "cash_coll",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -221,6 +229,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "DROPPING MITRA BANK",
       dataIndex: "dropping_mitra",
       key: "dropping_mitra",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -237,6 +246,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "DROPPING NASABAH",
       dataIndex: "dropping_nasabah",
       key: "dropping_nasabah",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -253,6 +263,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "BERKAS PENGAJUAN",
       dataIndex: "berkas_pengajuan",
       key: "berkas_pengajuan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -275,6 +286,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "TANGGAL KOMITE",
       dataIndex: "tangga_komite",
       key: "tangga_komite",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -296,6 +308,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
           title: "VIEW",
           dataIndex: "view",
           key: "view",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -320,6 +333,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
           key: "tanggal_berkas",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -350,7 +364,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           dataIndex: "view",
-          key: "view",
+          key: "view", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -373,7 +387,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas",
+          key: "tanggal_berkas", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -404,7 +418,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           dataIndex: "view",
-          key: "view",
+          key: "view", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -427,7 +441,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas",
+          key: "tanggal_berkas", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -457,7 +471,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       children: [
         {
           title: "VIEW",
-          dataIndex: "view",
+          dataIndex: "view", width: 150,
           key: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -481,7 +495,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas",
+          key: "tanggal_berkas", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -512,7 +526,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           dataIndex: "view",
-          key: "view",
+          key: "view", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -535,7 +549,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas",
+          key: "tanggal_berkas", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -565,7 +579,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       children: [
         {
           title: "VIEW",
-          dataIndex: "view",
+          dataIndex: "view",width: 150,
           key: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -589,7 +603,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas",
+          key: "tanggal_berkas", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -619,7 +633,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       children: [
         {
           title: "VIEW",
-          dataIndex: "view",
+          dataIndex: "view", width: 150,
           key: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -643,7 +657,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas",
+          key: "tanggal_berkas", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -673,7 +687,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       children: [
         {
           title: "VIEW",
-          key: "view",
+          key: "view", width: 150,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -699,7 +713,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           key: "tanggal",
-          dataIndex: "tanggal",
+          dataIndex: "tanggal", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -729,7 +743,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           key: "view",
-          dataIndex: "view",
+          dataIndex: "view", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -754,7 +768,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           key: "tanggal",
-          dataIndex: "tanggal",
+          dataIndex: "tanggal", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -824,7 +838,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           key: "view",
-          dataIndex: "view",
+          dataIndex: "view", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -849,7 +863,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           key: "tanggal",
-          dataIndex: "tanggal",
+          dataIndex: "tanggal", width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -886,7 +900,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         dataSource={data}
         size="small"
         bordered
-        scroll={{ x: 3500, y:320 }}
+        scroll={{ x: 4000, y:320 }}
         loading={loading}
         pagination={{
           pageSize: 20,

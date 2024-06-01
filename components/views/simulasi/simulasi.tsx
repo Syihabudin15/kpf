@@ -633,13 +633,9 @@ export default function Simulasi() {
     setLoading(true);
     if (
       !tanggalLahir ||
-      !nopen ||
-      !nama ||
-      !alamat ||
       !tenor ||
       !plafond ||
-      !selectedProduk ||
-      !fixKet
+      !selectedProduk
     ) {
       setLoading(false);
       return setRequiredModal(true);
@@ -662,7 +658,7 @@ export default function Simulasi() {
         blokir,
         bpp: inputTextToDecimal(bpp),
         pelunasan: inputTextToDecimal(pelunasan),
-        keterangan: fixKet,
+        keterangan: fixKet || "Simulasi",
         by_tatalaksana: inputTextToDecimal(by_tatalaksana),
         by_mutasi: inputTextToDecimal(by_mutasi),
         by_provisi: inputTextToDecimal(provisi),
@@ -692,7 +688,7 @@ export default function Simulasi() {
   return (
     <section className="rounded border shadow bg-white">
       <div className="bg-orange-500 p-2 rounded">
-        <h1 className="text-1xl font-semibold text-gray-200">Simulasi Makro</h1>
+        <h1 className="text-1xl font-semibold text-gray-200">SIMULASI</h1>
         <p className="text-gray-300 text-xs">Kalkulasi Simulasi Makro</p>
       </div>
       <div className="my-5 px-2">
@@ -716,9 +712,8 @@ export default function Simulasi() {
                 </div>
               </Form.Item>
               <div className="flex justify-between gap-5">
-                <Form.Item label="Nopen" className=" w-full md:w-30" required>
+                <Form.Item label="Nopen" className=" w-full md:w-30" >
                   <Input
-                    required
                     id="nopen"
                     value={nopen}
                     onChange={(e) => setNopen(e.target.value)}
@@ -733,10 +728,8 @@ export default function Simulasi() {
                 <Form.Item
                   label="Nama Lengkap"
                   className=" w-full md:w-30"
-                  required
                 >
                   <Input
-                    required
                     id="nama"
                     value={nama}
                     style={{ backgroundColor: "white", color: "black" }}
@@ -750,9 +743,8 @@ export default function Simulasi() {
                 </Form.Item>
               </div>
               <div className="block md:flex justify-between gap-5">
-                <Form.Item label="Alamat" className=" w-full md:w-30" required>
+                <Form.Item label="Alamat" className=" w-full md:w-30" >
                   <Input.TextArea
-                    required
                     value={alamat}
                     onChange={(e) => setAlamat(e.target.value)}
                     style={{ backgroundColor: "white", color: "black" }}

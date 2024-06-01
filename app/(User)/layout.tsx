@@ -112,7 +112,7 @@ export default async function UserLayout({
         </div> */}
         <div
           style={{
-            // flex: 2,
+            flex: 2,
             height: "80vh",
             overflow: "auto",
             // backgroundColor: "white",

@@ -17,7 +17,7 @@ export default function LaporanBulananMaster() {
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/asuransi?page=${page}&is-true=true${month ? "?month=" + month : ""}`
+      `/api/asuransi?page=${page}${month ? "&month=" + month : ""}`
     );
     const { data, total } = await res.json();
     setData(data);

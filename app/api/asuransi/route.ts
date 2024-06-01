@@ -10,7 +10,7 @@ export const GET = async (req: NextRequest) => {
     req.nextUrl.searchParams.get("month") || "2024-" + new Date().getMonth();
   const isTrue = req.nextUrl.searchParams.get("is-true");
   const skip = (page - 1) * 20;
-
+  console.log(skip);
   let result: DataDataPengajuan[] = [];
 
   if (name) {
@@ -20,14 +20,15 @@ export const GET = async (req: NextRequest) => {
         is_active: true,
         status_pencairan: "TRANSFER",
         tanggal_pencairan: {
-          gte: month + "-01",
-          lte:
+          gte: new Date(month + "-01"),
+          lte: new Date(
             month +
-            "-" +
-            daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            ),
+              "-" +
+              daysInMonth(
+                parseInt(month.split("-")[1]),
+                parseInt(month.split("-")[0])
+              )
+          ),
         },
         OR: [
           { nama: { contains: name } },
@@ -56,16 +57,32 @@ export const GET = async (req: NextRequest) => {
       include: {
         DataPembiayaan: {
           include: {
-            User: true,
+            User: {
+              include: {
+                UnitCabang: {
+                  include: {
+                    UnitPelayanan: true,
+                  },
+                },
+              },
+            },
             Produk: true,
             JenisPembiayaan: true,
           },
         },
-        User: true,
+        User: {
+          include: {
+            UnitCabang: {
+              include: {
+                UnitPelayanan: true,
+              },
+            },
+          },
+        },
         Bank: true,
       },
-      skip: skip,
       take: 20,
+      skip: skip,
     });
   } else {
     result = <any>await prisma.dataPengajuan.findMany({
@@ -74,29 +91,46 @@ export const GET = async (req: NextRequest) => {
         is_active: true,
         status_pencairan: "TRANSFER",
         tanggal_pencairan: {
-          gte: month + "-01",
-          lte:
+          gte: new Date(month + "-01"),
+          lte: new Date(
             month +
-            "-" +
-            daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            ),
+              "-" +
+              daysInMonth(
+                parseInt(month.split("-")[1]),
+                parseInt(month.split("-")[0])
+              )
+          ),
         },
       },
       include: {
         DataPembiayaan: {
           include: {
-            User: true,
+            User: {
+              include: {
+                UnitCabang: {
+                  include: {
+                    UnitPelayanan: true,
+                  },
+                },
+              },
+            },
             Produk: true,
             JenisPembiayaan: true,
           },
         },
-        User: true,
+        User: {
+          include: {
+            UnitCabang: {
+              include: {
+                UnitPelayanan: true,
+              },
+            },
+          },
+        },
         Bank: true,
       },
-      skip: skip,
       take: 20,
+      skip: skip,
     });
   }
 
@@ -107,14 +141,15 @@ export const GET = async (req: NextRequest) => {
       pembayaran_asuransi: isTrue ? true : false,
       DataPembiayaan: {
         created_at: {
-          gte: month + "-01",
-          lte:
+          gte: new Date(month + "-01"),
+          lte: new Date(
             month +
-            "-" +
-            daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            ),
+              "-" +
+              daysInMonth(
+                parseInt(month.split("-")[1]),
+                parseInt(month.split("-")[0])
+              )
+          ),
         },
       },
     },
