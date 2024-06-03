@@ -52,7 +52,7 @@ export const POST = async (req: NextRequest) => {
         angsuran: parseInt(data.data[i].angsuran),
         pokok: parseInt(data.data[i].pokok),
         margin: parseInt(data.data[i].margin),
-        margin_bank: parseInt(parseInt(data.data[i].margin_bank).toFixed(2)),
+        margin_bank: parseInt(data.data[i].margin_bank),
         collfee: parseInt(data.data[i].collfee),
         tanggal_bayar: new Date(data.data[i].tanggal_bayar),
         sisa: parseInt(data.data[i].sisa),

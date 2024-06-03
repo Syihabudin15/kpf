@@ -13,18 +13,6 @@ export const metadata: Metadata = {
 };
 
 export default async function page({ params }: { params: { id: string } }) {
-    const res = await fetch((process.env.NEXTAUTH_URL||"")+"/api/angsuran?id="+params.id);
-    const result = await res.json();
-    result.data.JadwalAngsuran.sort(
-        (a: JadwalAngsuran, b: JadwalAngsuran) => a.angsuran_ke - b.angsuran_ke
-      );
-      if(!params.id){
-        return(
-          <div>
-            <LoadingOutlined/>
-          </div>
-        )
-      }
   return (
     <section className="m-2 rounded border shadow bg-white">
       <div

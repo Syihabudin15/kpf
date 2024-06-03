@@ -685,7 +685,7 @@ model JadwalAngsuran {
   angsuran          Int
   pokok             Int
   margin            Int
-  margin_bank       Int
+  margin_bank       Int       @db.Int()
   collfee           Int
   status            Boolean   @default(false)
   tanggal_bayar     DateTime?

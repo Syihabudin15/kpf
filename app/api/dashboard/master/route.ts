@@ -240,20 +240,50 @@ export const GET = async (req: NextRequest) => {
         DataPembiayaan: true,
       },
     });
+    const angsurans = await prisma.jadwalAngsuran.findMany({
+      where: {
+        tanggal_pelunasan: { not: null },
+      },
+      include: {
+        DataPengajuan: {
+          include: {
+            DataPembiayaan: {
+              include: {
+                Produk: true,
+              },
+            },
+          },
+        },
+      },
+    });
     banks[i].DataPengajuan.forEach((p) => {
       let admin =
-        (p.DataPembiayaan.plafond * p.DataPembiayaan.margin_bank) / 100;
-      if (p.DataPembiayaan.Produk.name !== "Flash Sisa Gaji") {
+        (p.DataPembiayaan.plafond * p.DataPembiayaan.by_admin_bank) / 100;
+      if (
+        p.DataPembiayaan.Produk.name !== "Flash Sisa Gaji" &&
+        p.status_pencairan === "TRANSFER"
+      ) {
         reguller.total[0] += p.DataPembiayaan.plafond;
-        reguller.total[1] +=
-          p.DataPembiayaan.plafond -
-          (admin + p.DataPembiayaan.by_buka_rekening);
+        const notFLash = angsurans.filter(
+          (a) =>
+            a.DataPengajuan.DataPembiayaan.Produk?.name !== "Flash Sisa Gaji"
+        );
+        let totalOS = 0;
+        notFLash.forEach((nf) => (totalOS += nf.angsuran));
+        reguller.total[1] += p.DataPembiayaan.plafond - totalOS;
       }
-      if (p.DataPembiayaan.Produk.name === "Flash Sisa Gaji") {
+      if (
+        p.DataPembiayaan.Produk.name === "Flash Sisa Gaji" &&
+        p.status_pencairan === "TRANSFER"
+      ) {
         flash.total[0] += p.DataPembiayaan.plafond;
-        flash.total[1] +=
-          p.DataPembiayaan.plafond -
-          (admin + p.DataPembiayaan.by_buka_rekening);
+        const notFLash = angsurans.filter(
+          (a) =>
+            a.DataPengajuan.DataPembiayaan.Produk?.name === "Flash Sisa Gaji"
+        );
+        let totalOS = 0;
+        notFLash.forEach((nf) => (totalOS += nf.angsuran));
+        flash.total[1] += p.DataPembiayaan.plafond - totalOS;
       }
     });
     reguller_hari_ini.forEach((regHari) => {
