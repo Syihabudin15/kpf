@@ -89,7 +89,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       title: "NAMA PEMOHON",
       dataIndex: "nama",
       key: "nama",
-      fixed: "left", width: 200,
+      fixed: window.innerWidth < 600 ? false : "left",
+       width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

@@ -226,7 +226,7 @@ export default function JadwalAngsuranDebitur({id}: {id: string}) {
       className: "text-center",
       key: "aksi",
       width: 80,
-      fixed: "right",
+      fixed: window.innerWidth < 600 ? false : "right",
       render(value, record, index) {
         return (
           <div className="flex justify-center gap-2">
@@ -266,7 +266,7 @@ export default function JadwalAngsuranDebitur({id}: {id: string}) {
             loading={loading}
             bordered
             pagination={{ pageSize: 12 }}
-            scroll={{ x: 1000, y: 320 }}
+            scroll={{ x: 1000, y: 'calc(65vh - 100px)' }}
           />
         </div>
       </div>

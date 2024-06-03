@@ -29,7 +29,7 @@ export default function LaporanBulananMaster() {
     (async () => {
       await getData();
     })();
-  }, [month]);
+  }, [month, page]);
 
   return (
     <Spin spinning={loading}>
@@ -44,7 +44,9 @@ export default function LaporanBulananMaster() {
         />
       </div>
     <div className="px-2">
-        <Table columns={columnsPengajuan} dataSource={data} size="small" bordered pagination={false} scroll={{x:1500, y: 320}} />
+        <Table columns={columnsPengajuan} dataSource={data} size="small" bordered pagination={{pageSize: 20, onChange(page, pageSize) {
+          setPage(page)
+        }, total: total}} scroll={{x:1500, y: 'calc(65vh - 100px)'}} />
     </div>
     </Spin>
   );
@@ -106,7 +108,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     key: "nama",
     dataIndex: "nama",
     width: 200,
-    fixed: "left",
+    fixed: window.innerWidth < 600 ? false : "left",
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -164,7 +166,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{record.DataPembiayaan.JenisPembiayaan.name}</>
+      return<>{record.DataPembiayaan.jenis_pembiayaan_id ? record.DataPembiayaan.JenisPembiayaan.name : "Sisa Gaji"}</>
     },
   },
   {
@@ -287,6 +289,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     className: "text-center",
+    fixed: window.innerWidth < 600 ? false : "right",
     render(value, record, index) {
         return(
             <div className="flex justify-center">

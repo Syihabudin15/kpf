@@ -95,6 +95,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       },
       className: "text-center",
       dataIndex: "nama_pemohon",
+      fixed: window.innerWidth < 600 ? false : "left",
       key: "nama_pemohon",
       render(value, record, index) {
         return <>{record.DataPembiayaan.name}</>;
@@ -336,7 +337,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           onChange={(date, dateString) => setYear(dateString as string)}
         />
         <Input.Search
-          style={{ width: 200 }}
+          style={{ width: 170 }}
           onChange={(e) => setNama(e.target.value)}
         />
       </div>
@@ -347,7 +348,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           bordered
           size="small"
           loading={loading}
-          scroll={{ x: 3000, y:320 }}
+          scroll={{ x: 3000, y: 'calc(65vh - 100px)' }}
           pagination={{
             pageSize: 20,
             total: total,

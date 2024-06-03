@@ -71,6 +71,7 @@ export default function DokumenPengajuanMitra() {
       title: "NO PENSIUN",
       dataIndex: "no",
       key: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -87,6 +88,7 @@ export default function DokumenPengajuanMitra() {
       title: "NO SK PENSIUN",
       dataIndex: "no_skep",
       key: "no_skep",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -111,7 +113,7 @@ export default function DokumenPengajuanMitra() {
           },
         };
       },
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       render(value, record, index) {
         return <>{record.DataPembiayaan.name}</>;
       },
@@ -120,6 +122,7 @@ export default function DokumenPengajuanMitra() {
       title: "AREA PELAYANAN",
       dataIndex: "up",
       key: "up",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -152,6 +155,7 @@ export default function DokumenPengajuanMitra() {
       title: "PLAFOND",
       dataIndex: "plafon",
       key: "plafon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -168,6 +172,7 @@ export default function DokumenPengajuanMitra() {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk_pembiayaan",
       key: "produk_pembiayaan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -183,6 +188,7 @@ export default function DokumenPengajuanMitra() {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "jenis_pembiayaan",
       key: "jenis_pembiayaan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -204,6 +210,7 @@ export default function DokumenPengajuanMitra() {
       title: "UPLOAD BERKAS",
       dataIndex: "upload_berkas",
       key: "upload_berkas",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -980,7 +987,7 @@ export default function DokumenPengajuanMitra() {
         columns={columns}
         bordered
         size="small"
-        scroll={{ x: 4700, y: 'calc(65vh - 100px)' }}
+        scroll={{ x: 4000, y: 'calc(65vh - 100px)' }}
         dataSource={data}
         loading={loading}
         pagination={{

@@ -52,7 +52,7 @@ export default function OutstandingAktif() {
           bordered
           size="small"
           loading={loading}
-          scroll={{ x: 3000, y:320 }}
+          scroll={{ x: 3000, y: 'calc(65vh - 100px)' }}
           pagination={{
             pageSize: 20,
             total: total,
@@ -127,6 +127,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     dataIndex: "nama_pemohon",
+    fixed: window.innerWidth < 600 ? false : "left",
     key: "nama_pemohon",
     render(value, record, index) {
       return <>{record.DataPembiayaan.name}</>;

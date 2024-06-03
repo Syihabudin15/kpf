@@ -102,7 +102,7 @@ export default function RiwayatVerifikasi() {
       dataIndex: "name",
       key: "name",
       width: 200,
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -394,7 +394,7 @@ export default function RiwayatVerifikasi() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 2000, y: 320 }}
+          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
           size="small"
           loading={loading}
           pagination={{

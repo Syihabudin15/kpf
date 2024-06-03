@@ -33,7 +33,7 @@ export default async function page() {
         <h1 className="font-bold text-md">DAFTAR OUTSTANDING AKTIF</h1>
       </div>
       <div className="p-2">
-        <OutstandingAktif role={user?.role || "MASTER"} />
+        <OutstandingAktif role={user?.role || "MARKETING"} />
       </div>
     </div>
   );

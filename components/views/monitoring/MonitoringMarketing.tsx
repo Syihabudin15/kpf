@@ -82,7 +82,7 @@ export default function MonitoringMarketing() {
       title: "NAMA PEMOHON",
       dataIndex: "name",
       key: "name",
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       width: 200,
       onHeaderCell: (text, record) => {
         return {

@@ -41,7 +41,7 @@ export default function DaftarNominatif() {
           onChange={(date, dateString) => setYear(dateString as string)}
         />
         <Input.Search
-          style={{ width: 200 }}
+          style={{ width: 170 }}
           onChange={(e) => setNama(e.target.value)}
         />
       </div>
@@ -52,7 +52,7 @@ export default function DaftarNominatif() {
           bordered
           size="small"
           loading={loading}
-          scroll={{ x: 5000, y:320 }}
+          scroll={{ x: 5000, y: 'calc(65vh - 100px)' }}
           pagination={{
             pageSize: 20,
             total: total,
@@ -292,6 +292,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "NAMA PEMOHON",
     dataIndex: "nama_pemohon",
     key: "nama_pemohon",
+    fixed: window.innerWidth < 600 ? false : "left",
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {

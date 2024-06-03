@@ -54,7 +54,7 @@ export default function PengajuanPencairan() {
       title: "NO",
       dataIndex: "no",
       key: "no",
-      width: 10,
+      width: 50,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -71,6 +71,7 @@ export default function PengajuanPencairan() {
       title: "STATUS",
       dataIndex: "status",
       key: "status",
+      width: 120,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -96,6 +97,7 @@ export default function PengajuanPencairan() {
       title: "TANGGAL CETAK",
       dataIndex: "tanggal_cetak",
       key: "tanggal_cetak",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -112,6 +114,7 @@ export default function PengajuanPencairan() {
       title: "NOMOR SURAT",
       dataIndex: "nomor_surat",
       key: "nomor_surat",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -120,12 +123,13 @@ export default function PengajuanPencairan() {
         };
       },
       className: "text-center",
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
     },
     {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -233,6 +237,7 @@ export default function PengajuanPencairan() {
     {
       title: "END USER",
       key: "end_user",
+      width: 100,
       dataIndex: "end_user",
       onHeaderCell: (text, record) => {
         return {
@@ -249,6 +254,7 @@ export default function PengajuanPencairan() {
     {
       title: "PLAFOND",
       key: "plafon",
+      width: 150,
       dataIndex: "plafon",
       onHeaderCell: (text, record) => {
         return {
@@ -269,6 +275,7 @@ export default function PengajuanPencairan() {
     {
       title: "DROPPING",
       key: "dropping",
+      width: 150,
       dataIndex: "dropping",
       onHeaderCell: (text, record) => {
         return {
@@ -301,6 +308,7 @@ export default function PengajuanPencairan() {
       },
       className: "text-center",
       key: "tanggal_cair",
+      width: 100,
       render(value, record, index) {
         return (
           <>
@@ -325,7 +333,7 @@ export default function PengajuanPencairan() {
           dataSource={data}
           columns={columns}
           loading={loading}
-          scroll={{ x: 2500, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
           bordered
           size="small"
           pagination={{

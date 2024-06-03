@@ -145,7 +145,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "NOPEN",
       dataIndex: "nopen",
       key: "nopen",
-      width: 50,
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

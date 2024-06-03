@@ -131,7 +131,7 @@ export default function AntrianApproval() {
         };
       },
       className: "text-center",
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       render(value, record, index) {
         return <>{record.DataPembiayaan && record.DataPembiayaan.name}</>;
       },
@@ -628,7 +628,7 @@ export default function AntrianApproval() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 3000, y:320 }}
+          scroll={{ x: 3000, y: 'calc(65vh - 100px)' }}
           size="small"
           loading={loading}
           pagination={{

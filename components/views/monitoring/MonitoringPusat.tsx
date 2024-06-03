@@ -206,7 +206,7 @@ export default function MonitoringPusat() {
         };
       },
       className: "text-center",
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       width: 150,
       render(value, record, index) {
         return <>{record.DataPembiayaan.name}</>;
@@ -999,7 +999,7 @@ export default function MonitoringPusat() {
           className: "example-class-in-td bg-green-500 text-white",
         };
       },
-      fixed: "right",
+      fixed: window.innerWidth < 600 ? false : "right",
       width: 100,
       render(value, record, index) {
         return (
@@ -1034,7 +1034,7 @@ export default function MonitoringPusat() {
 
   return (
     <div className="px-2">
-      <div className="flex gap-5 my-1 mx-1">
+      <div className="flex gap-5 my-1 mx-1 flex-wrap">
         <DatePicker
           picker="year"
           onChange={(date, dateString) => setYear(dateString as string)}

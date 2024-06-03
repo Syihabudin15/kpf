@@ -102,7 +102,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "NAMA PEMOHON",
       dataIndex: "nama",
       key: "nama",
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       width: 200,
       onHeaderCell: (text, record) => {
         return {
@@ -117,7 +117,7 @@ export default function DokumenPengajuanMitraBank() {
       },
     },
     {
-      title: "AREA Pelayanan",
+      title: "AREA PELAYANAN",
       dataIndex: "up",
       key: "up",
       width: 150,

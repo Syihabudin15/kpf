@@ -82,7 +82,7 @@ export default function AntrianSlik() {
       dataIndex: "name",
       key: "name",
       width: 200,
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -235,7 +235,7 @@ export default function AntrianSlik() {
             allowForm={true}
             isPeriksa={true}
             pathname="slik"
-            nextpath="approval"
+            nextpath="verifikasi"
             getData={getData}
           />
         );

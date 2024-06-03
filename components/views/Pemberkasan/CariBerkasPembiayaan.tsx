@@ -138,7 +138,7 @@ export default function CariBerkasPembiayaan() {
           },
         };
       },
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       render(value, record, index) {
         return <>{record.DataPembiayaan.name}</>;
       },

@@ -41,6 +41,7 @@ export default function FlashBulanan() {
       },
       className: "text-center",
       dataIndex: "nama",
+      fixed: window.innerWidth < 600 ? false : "left",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.name}</>;
       },
@@ -285,7 +286,7 @@ export default function FlashBulanan() {
       },
       key: "aksi",
       width: 80,
-      fixed: "right",
+      fixed: window.innerWidth < 600 ? false : "right",
       render(value, record, index) {
         return (
           <div className="flex justify-center gap-2">
@@ -374,7 +375,7 @@ export default function FlashBulanan() {
               setPage(page);
             },
           }}
-          scroll={{ x: 2000, y:320 }}
+          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
         />
       </div>
     </div>

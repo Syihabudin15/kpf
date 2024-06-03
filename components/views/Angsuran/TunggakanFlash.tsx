@@ -33,6 +33,7 @@ export default function TuggakanFlash() {
       title: "NAMA PEMOHON",
       key: "nama",
       dataIndex: "nama",
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -354,7 +355,7 @@ export default function TuggakanFlash() {
               setPage(page);
             },
           }}
-          scroll={{ x: 2000, y:320 }}
+          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
         />
       </div>
     </div>

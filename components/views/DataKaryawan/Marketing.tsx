@@ -52,7 +52,7 @@ export default function DataMarketing() {
           dataSource={data}
           bordered
           size="small"
-          scroll={{ x: 2500, y: 320 }}
+          scroll={{ x: 2500, y: 'calc(65vh - 100px)' }}
           pagination={{
             pageSize: 20,
             onChange(page, pageSize) {
@@ -153,7 +153,7 @@ const columns: TableProps<DataDataUser>["columns"] = [
         },
       };
     },
-    fixed: "left",
+    fixed: window.innerWidth < 600 ? false : "left",
     render(value, record, index) {
       return <>{record.first_name + " " + record.last_name}</>;
     },

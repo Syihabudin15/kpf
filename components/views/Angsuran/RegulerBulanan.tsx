@@ -41,6 +41,7 @@ export default function RegulerBulanan() {
         };
       },
       className: "text-center",
+      fixed: window.innerWidth < 600 ? false : "left",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.name}</>;
       },
@@ -282,7 +283,7 @@ export default function RegulerBulanan() {
         };
       },
       key: "aksi",
-      fixed: "right",
+      fixed: window.innerWidth < 600 ? false : "right",
       render(value, record, index) {
         return (
           <div className="flex justify-center gap-2">
@@ -371,7 +372,7 @@ export default function RegulerBulanan() {
               setPage(page);
             },
           }}
-          scroll={{ x: 2000, y:320 }}
+          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
         />
       </div>
     </div>

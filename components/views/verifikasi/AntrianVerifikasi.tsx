@@ -106,7 +106,7 @@ export default function AntrianVerifikasi() {
       dataIndex: "name",
       key: "name",
       width: 200,
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -305,7 +305,7 @@ export default function AntrianVerifikasi() {
       title: "PERIKSA",
       dataIndex: "id",
       key: "id",
-      fixed: "right",
+      fixed: window.innerWidth < 600 ? false : "right",
       width: 80,
       onHeaderCell: (text, record) => {
         return {
@@ -323,7 +323,7 @@ export default function AntrianVerifikasi() {
             allowForm={true}
             isPeriksa={true}
             pathname="verifikasi"
-            nextpath="slik"
+            nextpath="approval"
           />
         );
       },
@@ -346,7 +346,7 @@ export default function AntrianVerifikasi() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1200, y:320 }}
+        scroll={{ x: 1200, y: 'calc(65vh - 100px)' }}
         size="small"
         loading={loading}
         pagination={{
