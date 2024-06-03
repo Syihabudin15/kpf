@@ -117,7 +117,7 @@ export default function UploadBerksOps({
   };
 
   return (
-    <div>
+    <div key={data.id}>
       <div className="flex justify-center">
         <button
           className="py-1 px-2 border rounded shadow bg-green-500 hover:bg-green-600 text-white"
@@ -289,23 +289,6 @@ export default function UploadBerksOps({
               setUrl={setUrls}
             />
           </div>
-          {/* <div>
-            <UploadBerkas
-              pathName="berkas_lainnya"
-              name="Upload Video Tambahan"
-              url="/api/ops/uploads/lainnya"
-              dir="lainnya"
-              id={data.berkasPengajuanId || ""}
-              ext="mp4"
-              fileType="video/mp4"
-              filePath={
-                data.BerkasPengajuan.berkas_lainnya ||
-                urls?.berkas_lainnya ||
-                ""
-              }
-              setUrl={setUrls}
-            />
-          </div> */}
           <div>
             <UploadBerkas
               pathName="epotpen"

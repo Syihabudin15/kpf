@@ -1,7 +1,6 @@
 "use client";
 import {
   LineProps,
-  DataMasterDashboard,
   DashboardMaster,
 } from "@/app/api/dashboard/master/route";
 import { formatNumber } from "@/components/utils/inputUtils";
@@ -14,7 +13,6 @@ import ReactApexChart from "react-apexcharts";
 export default function MasterDashboard() {
   const [line, setLine] = useState<LineProps>();
   const [pie, setPie] = useState<LineProps>();
-  // const [dataTable, setDataTable] = useState<DataMasterDashboard[]>();
   const [data, setData] = useState<DashboardMaster[]>();
   const [loading, setLoading] = useState(false);
   const [dataArea, setDataArea] = useState<any[]>();

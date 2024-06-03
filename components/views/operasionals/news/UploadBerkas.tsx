@@ -1,3 +1,4 @@
+"use client"
 import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { GetProp, Progress, Upload, UploadProps, message } from "antd";
 import axios from "axios";
