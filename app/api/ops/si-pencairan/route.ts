@@ -4,6 +4,7 @@ import {
   BankWithDataPengajuan,
   savePencairan,
 } from "@/components/utils/Interfaces";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   try {
@@ -13,7 +14,7 @@ export const GET = async (req: NextRequest) => {
           where: {
             AND: [
               { status_approval: "SETUJU" },
-              {BerkasPengajuan: {berkas_akad: {not: null}}},
+              { BerkasPengajuan: { berkas_akad: { not: null } } },
               { is_active: true },
               { is_cetak: false },
             ],
@@ -65,17 +66,19 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   const data = await req.json();
-  
+
   if (data.pengajuans.length == 0)
-      return NextResponse.json(
-    { msg: "Mohon isi data terlebih dahulu!" },
-    { status: 400 }
-  );
+    return NextResponse.json(
+      { msg: "Mohon isi data terlebih dahulu!" },
+      { status: 400 }
+    );
   try {
     const result = await prisma.$transaction(async (tx) => {
       const createPencairan = await tx.dataPencairan.create({
         data: {
-          tanggal_cetak: data.tanggal_cetak ? new Date(data.tanggal_cetak) : new Date(),
+          tanggal_cetak: data.tanggal_cetak
+            ? new Date(data.tanggal_cetak)
+            : new Date(),
           nomor_surat: data.nomor_surat,
           bankId: data.id,
         },

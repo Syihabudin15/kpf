@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { DataDataTaspen } from "@/components/utils/Interfaces";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;

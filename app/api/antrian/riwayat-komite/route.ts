@@ -3,6 +3,7 @@ import prisma from "@/components/prisma";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { daysInMonth } from "@/components/utils/inputUtils";
 import { getServerSession } from "next-auth";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;

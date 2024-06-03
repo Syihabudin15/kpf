@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
@@ -85,7 +86,7 @@ export const GET = async (req: NextRequest) => {
       },
       skip: skip,
       take: 20,
-      orderBy: {tanggal_pencairan: "asc"},
+      orderBy: { tanggal_pencairan: "asc" },
     });
   }
   const total = await prisma.dataPengajuan.count({

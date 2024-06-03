@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as XLSX from "xlsx";
 import prisma from "@/components/prisma";
 import { DataDataTaspen } from "@/components/utils/Interfaces";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page = req.nextUrl.searchParams.get("page");

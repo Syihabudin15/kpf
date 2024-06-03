@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
+export const dynamic = "force-dynamic";
 
 export const POST = async (req: NextRequest) => {
   const pathname = req.nextUrl.searchParams.get("pathname");

@@ -3,6 +3,7 @@ import prisma from "@/components/prisma";
 import path from "path";
 import { exists, existsSync, promises as fs } from "fs";
 import moment from "moment";
+export const dynamic = "force-dynamic";
 
 export const POST = async (req: NextRequest) => {
   const data = await req.json();

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import path from "path";
 import { promises as fs } from "fs";
-import moment from "moment";
+export const dynamic = "force-dynamic";
 
 export const POST = async (req: NextRequest) => {
   const data = await req.json();

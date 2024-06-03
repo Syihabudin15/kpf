@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const area = req.nextUrl.searchParams.get("area");
@@ -50,10 +51,7 @@ const handleArea = async (area: string) => {
           DataPengajuan: {
             where: {
               is_active: true,
-              OR: [
-                {status_pencairan: "PROSES"},
-                {status_pencairan: null},
-              ]
+              OR: [{ status_pencairan: "PROSES" }, { status_pencairan: null }],
             },
             include: {
               DataPembiayaan: {

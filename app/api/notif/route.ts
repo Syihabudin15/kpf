@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { getServerSession } from "next-auth";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const session = await getServerSession();
@@ -33,7 +34,9 @@ export const GET = async (req: NextRequest) => {
       "status_approval",
       user.bank_id as string
     );
-    si = await prisma.dataPencairan.count({ where: { status: false, berkas_si: {not: null} } });
+    si = await prisma.dataPencairan.count({
+      where: { status: false, berkas_si: { not: null } },
+    });
   } else {
     slik = await getNotifField("status_slik");
     checker = await getNotifField("status_checker");
@@ -47,7 +50,7 @@ export const GET = async (req: NextRequest) => {
     where: {
       status_approval: "SETUJU",
       BerkasPengajuan: {
-        berkas_akad: {not: null}
+        berkas_akad: { not: null },
       },
       is_active: true,
       is_cetak: false,

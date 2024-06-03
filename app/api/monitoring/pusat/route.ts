@@ -4,6 +4,7 @@ import prisma from "@/components/prisma";
 import { daysInMonth } from "@/components/utils/inputUtils";
 import path from "path";
 import { existsSync, promises as fs } from "fs";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;

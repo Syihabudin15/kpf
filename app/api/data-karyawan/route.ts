@@ -1,6 +1,7 @@
 import { DataDataUser } from "@/components/utils/Interfaces";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;

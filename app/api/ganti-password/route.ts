@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import bcrypt from "bcrypt";
 import { getServerSession } from "next-auth";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const session = await getServerSession();

@@ -3,6 +3,7 @@ import prisma from "@/components/prisma";
 import path from "path";
 import { promises as fs } from "fs";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;

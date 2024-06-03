@@ -7,6 +7,7 @@ import {
   DataTypePengajuan,
 } from "@/components/utils/Interfaces";
 import moment from "moment";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const session = await getServerSession();

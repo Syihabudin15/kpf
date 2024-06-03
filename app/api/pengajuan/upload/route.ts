@@ -1,6 +1,7 @@
 import { SaveImageLocaly } from "@/components/utils/Decode";
 import { UploadType } from "@/components/utils/Interfaces";
 import { NextRequest, NextResponse } from "next/server";
+export const dynamic = "force-dynamic";
 
 export interface UploadProps {
   file: string;

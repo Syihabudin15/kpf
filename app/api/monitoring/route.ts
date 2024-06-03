@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { getServerSession } from "next-auth";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const name = req.nextUrl.searchParams.get("name");

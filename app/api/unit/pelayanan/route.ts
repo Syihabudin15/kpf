@@ -1,6 +1,7 @@
 import { UnitPelayanan } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const nama = req.nextUrl.searchParams.get("nama");

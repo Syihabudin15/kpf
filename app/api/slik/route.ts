@@ -4,6 +4,7 @@ import { daysInMonth } from "@/components/utils/inputUtils";
 import { getServerSession } from "next-auth";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import moment from "moment";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
