@@ -1354,7 +1354,7 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Fronting" name={"fronting"}>
+              <Form.Item label="Agent Fronting" name={"fronting"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}

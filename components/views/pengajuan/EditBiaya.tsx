@@ -897,7 +897,7 @@ export default function EditBiaya({
               <div className="block md:flex items-end justify-between gap-5">
                 <Form.Item
                   label="Jenis Pembiayaan"
-                  className="w-full md:w-50"
+                  className="w-full md:w-50 flex-1"
                   required={jenisDisable}
                 >
                   <Select

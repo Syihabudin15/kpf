@@ -111,12 +111,6 @@ export default function FormEditPengajuan({
       setLoading(false);
       return message.error("Mohon lengkapi data pembiayaan terlebih dahulu!");
     }
-    if (!berkas) {
-      setLoading(false);
-      return message.error(
-        "Mohon lengkapi berkas persyaratan terlebih dahulu!"
-      );
-    }
     const findProvince = provinsi.filter((data) => data.value === e.provinsi);
     const findProvinceDomisili = provinsi.filter(
       (data) => data.value === e.provinsi_domisili
@@ -301,7 +295,7 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input disabled={true} />
+                <Input  />
               </Form.Item>
             </div>
             <div className="block md:flex justify-between gap-5">
@@ -311,7 +305,7 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required disabled={true} />
+                <Input required />
               </Form.Item>
               <Form.Item
                 label="Nama SKEP"
@@ -319,7 +313,7 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required disabled={true} />
+                <Input required  />
               </Form.Item>
             </div>
             <Form.Item
@@ -328,7 +322,7 @@ export default function FormEditPengajuan({
               required
               className="flex-1"
             >
-              <Input required disabled={true} />
+              <Input required  />
             </Form.Item>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mt-2 mb-2 font-semibold">
               Data Alamat
@@ -795,18 +789,16 @@ export default function FormEditPengajuan({
                 <Form.Item
                   label="Nama Keluarga Tidak Serumah"
                   name={"keluarga_tidak_serumah"}
-                  required
                   className="flex-1"
                 >
-                  <Input required />
+                  <Input />
                 </Form.Item>
                 <Form.Item
                   label="Hubungan Keluarga"
                   name={"hubungan_keluarga"}
-                  required
                   className="flex-1"
                 >
-                  <Input required />
+                  <Input />
                 </Form.Item>
               </div>
             </div>
@@ -815,17 +807,15 @@ export default function FormEditPengajuan({
                 label="No Telepon Keluarga"
                 name={"no_telepon_keluarga"}
                 className="flex-1"
-                required
               >
-                <Input required />
+                <Input  />
               </Form.Item>
               <Form.Item
                 className="flex-1"
                 label="Alamat"
                 name={"alamat_keluarga"}
-                required
               >
-                <Input.TextArea required />
+                <Input.TextArea  />
               </Form.Item>
             </div>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
@@ -932,7 +922,7 @@ export default function FormEditPengajuan({
                 required
                 className="w-full md:flex-1"
               >
-                <Input disabled />
+                <Input />
               </Form.Item>
             </div>
             <Divider className="divider-input">Data AO</Divider>
@@ -972,10 +962,9 @@ export default function FormEditPengajuan({
               <Form.Item
                 label="Agent Fronting"
                 name={"agent_fronting"}
-                required
                 className="flex-1"
               >
-                <Input required />
+                <Input />
               </Form.Item>
             </div>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">

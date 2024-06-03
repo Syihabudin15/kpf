@@ -67,19 +67,19 @@ export default function UploadDoc({
     if (currData) {
       setBerkasSlik({
         fileName: currData.berkas_slik || "",
-        progres: 100,
+        progres: currData.berkas_slik ? 100 : 0,
       });
       setBerkasPengajuan({
         fileName: currData.berkas_pengajuan || "",
-        progres: 100,
+        progres: currData.berkas_pengajuan ? 100 : 0,
       });
       setBerkasAsuransi({
         fileName: currData.video_asuransi || "",
-        progres: 100,
+        progres: currData.video_asuransi ? 100 : 0,
       });
       setBerkasWawancara({
         fileName: currData.video_wawancara || "",
-        progres: 100,
+        progres: currData.video_wawancara ? 100 : 0,
       });
     }
   }, []);
