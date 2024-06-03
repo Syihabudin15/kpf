@@ -38,6 +38,9 @@ export default function BankDashboard() {
           chart: {
             height: 350,
             type: "area",
+            toolbar: {
+              show: false
+            }
           },
           stroke: {
             curve: "smooth",

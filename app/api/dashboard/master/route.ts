@@ -217,7 +217,8 @@ export const GET = async (req: NextRequest) => {
         status_pencairan: "TRANSFER",
         bankId: banks[i].id,
         tanggal_pencairan: {
-          gte: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+          gte: moment().toISOString(),
+          equals: moment().toISOString(),
         },
         DataPembiayaan: { Produk: { name: { not: "Flash Sisa Gaji" } } },
       },
@@ -230,7 +231,8 @@ export const GET = async (req: NextRequest) => {
         status_pencairan: "TRANSFER",
         bankId: banks[i].id,
         tanggal_pencairan: {
-          gte: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
+          gte: moment().toISOString(),
+          equals: moment().toISOString(),
         },
         DataPembiayaan: { Produk: { name: "Flash Sisa Gaji" } },
       },
@@ -238,7 +240,6 @@ export const GET = async (req: NextRequest) => {
         DataPembiayaan: true,
       },
     });
-
     banks[i].DataPengajuan.forEach((p) => {
       let admin =
         (p.DataPembiayaan.plafond * p.DataPembiayaan.margin_bank) / 100;
@@ -370,6 +371,7 @@ export const GET = async (req: NextRequest) => {
     });
     return {
       nama: m.first_name + " " + m.last_name,
+      jabatan: m.posisi,
       unit_pelayanan: m.UnitCabang?.name,
       area_pelayanan: m.UnitCabang?.UnitPelayanan?.name,
       total_nasabah: m.DataPengajuan.length,

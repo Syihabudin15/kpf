@@ -60,10 +60,7 @@ export default function CetakAkad({ data }: { data: DataDataPengajuan }) {
 
       const getAngsuran = generateTableAngsuran(data);
       setAngsurans(getAngsuran);
-      setOpen(false);
-      setOpenAkad(true);
-      console.log(getAngsuran);
-      await fetch("/api/angsuran", {
+      const angsSave = await fetch("/api/angsuran", {
         method: "POST",
         headers: { "Content-Type": "Application/json" },
         body: JSON.stringify({
@@ -71,6 +68,12 @@ export default function CetakAkad({ data }: { data: DataDataPengajuan }) {
           blokir: data.DataPembiayaan.blokir,
         }),
       });
+      if(!angsSave.ok){
+        setLoading(false);
+        return message.error("Gagal menyimpan data angsuran!");
+      }
+      setOpen(false);
+      setOpenAkad(true);
       message.success("Cetak akad berhasil!");
     } else {
       message.error("Cetak akad gagal. Coba lagi nanti!");

@@ -282,7 +282,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
         const angsuran = record.JadwalAngsuran.filter(
           (e) => e.tanggal_pelunasan === null
         );
-        return <>{angsuran[0].angsuran_ke}</>;
+        return <>{angsuran && angsuran[0].angsuran_ke}</>;
       },
     },
     {
@@ -301,7 +301,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
         const angsuran = record.JadwalAngsuran.filter(
           (e) => e.tanggal_pelunasan === null
         );
-        return <>{angsuran.length}</>;
+        return <>{angsuran && angsuran.length}</>;
       },
     },
     {
@@ -321,8 +321,8 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           (e) => e.tanggal_pelunasan === null
         );
         return (
-          <div onClick={() => console.log(angsuran)}>
-            {formatNumber(angsuran[0].sisa.toFixed(0))}
+          <div>
+            {angsuran && formatNumber(angsuran[0].sisa.toFixed(0))}
           </div>
         );
       },

@@ -34,6 +34,9 @@ export default function MasterDashboard() {
           chart: {
             height: 350,
             type: "area",
+            toolbar: {
+              show: false
+            }
           },
           stroke: {
             curve: "smooth",
@@ -126,7 +129,7 @@ export default function MasterDashboard() {
           </div>
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-          <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs`}>DATA BISNIS BANK (REGULER)</div>
+          <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS BANK (REGULER)</div>
           <Table
             bordered
             size="small"
@@ -134,11 +137,11 @@ export default function MasterDashboard() {
             columns={columnsDashboard}
             dataSource={data}
             loading={loading}
-            scroll={{ x: 1000 }}
+            scroll={{ x: 1000,y:500 }}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-          <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs`}>DATA BISNIS BANK (FLASH)</div>
+          <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS BANK (FLASH)</div>
           <Table
             bordered
             size="small"
@@ -146,11 +149,11 @@ export default function MasterDashboard() {
             columns={columnsDashboard}
             dataSource={dataflash}
             loading={loading}
-            scroll={{ x: 1000 }}
+            scroll={{ x: 1000, y: 500 }}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs`}>DATA BISNIS AREA</div>
+           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS AREA</div>
           <Table
             bordered
             size="small"
@@ -158,31 +161,31 @@ export default function MasterDashboard() {
             columns={columnsArea}
             dataSource={dataArea}
             loading={loading}
-            scroll={{ x: 1000 }}
+            scroll={{ x: 1000,y:500 }}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs`}>DATA BISNIS CABANG</div>
+           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS CABANG</div>
           <Table
             bordered
             size="small"
-            pagination={{pageSize: 10}}
+            pagination={false}
             columns={columnsCabang}
             dataSource={dataCabang}
             loading={loading}
-            scroll={{ x: 1000 }}
+            scroll={{ x: 1000, y: 500 }}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs`}>DATA BISNIS MARKETING</div>
+           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS MARKETING</div>
           <Table
             bordered
             size="small"
-            pagination={{pageSize: 20}}
+            pagination={false}
             columns={columnsMarketing}
             dataSource={dataMarketing}
             loading={loading}
-            scroll={{ x: 1000 }}
+            scroll={{ x: 1000, y: 500 }}
           />
         </div>
       </div>
@@ -360,7 +363,7 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
           return {
             ["style"]: {
               textAlign: "center",
-              backgroundColor: "#ea580c",
+              backgroundColor: "#22c55e",
             color: "white"
             },
           };
@@ -539,6 +542,8 @@ const columnsArea: TableProps<any>['columns'] = [
           return {
             ["style"]: {
               textAlign: "center",
+              backgroundColor: "#22c55e",
+              color: "white"
             },
           };
         },
@@ -641,8 +646,8 @@ const columnsArea: TableProps<any>['columns'] = [
   },
   {
     title: <div className="flex justify-center gap-2 text-center">
-      <Tooltip title="5 TERATAS"><LikeFilled style={{color: "green"}} /></Tooltip>
-      <Tooltip title="5 TERENDAH"><DislikeFilled style={{color: "red"}}/></Tooltip>
+      <Tooltip title="MENCAPAI TARGET"><LikeFilled style={{color: "green"}} /></Tooltip>
+      <Tooltip title="TIDAK MENCAPAI TARGET"><DislikeFilled style={{color: "red"}}/></Tooltip>
     </div>,
     dataIndex: "like",
     key: "like",
@@ -658,7 +663,7 @@ const columnsArea: TableProps<any>['columns'] = [
     render(value, record, index) {
       return (
         <div>
-          {index <=4 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index+1}</span>
+          {record.total_pencairan >= 100000000 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index+1}</span>
         </div>
       )
     },
@@ -674,6 +679,8 @@ const columnsCabang: TableProps<any>['columns'] = [
           return {
             ["style"]: {
               textAlign: "center",
+              backgroundColor: "#22c55e",
+              color: "white"
             },
           };
         },
@@ -760,8 +767,8 @@ const columnsCabang: TableProps<any>['columns'] = [
   },
   {
     title: <div className="flex justify-center gap-2 text-center">
-      <Tooltip title="5 TERATAS"><LikeFilled style={{color: "green"}} /></Tooltip>
-      <Tooltip title="5 TERENDAH"><DislikeFilled style={{color: "red"}}/></Tooltip>
+      <Tooltip title="MENCAPAI TARGET"><LikeFilled style={{color: "green"}} /></Tooltip>
+      <Tooltip title="TIDAK MENCAPAI TARGET"><DislikeFilled style={{color: "red"}}/></Tooltip>
     </div>,
     dataIndex: "like",
     key: "like",
@@ -777,7 +784,7 @@ const columnsCabang: TableProps<any>['columns'] = [
     render(value, record, index) {
       return (
         <div>
-          {index <=4 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index +1}</span>
+          {record.total_pencairan >= 100000000 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index +1}</span>
         </div>
       )
     },
@@ -795,12 +802,30 @@ const columnsMarketing: TableProps<any>["columns"] = [
       return {
         ["style"]: {
           textAlign: "center",
+          backgroundColor: "#22c55e",
+              color: "white"
         },
       };
     },
     className: "text-center",
     render(value, record, index) {
       return<>{record.nama}</>
+    },
+  },
+  {
+    title: "JABATAN",
+    dataIndex: "jabatan",
+    key: "jabatan",
+     onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      return<>{record.jabatan}</>
     },
   },
   {
@@ -873,8 +898,8 @@ const columnsMarketing: TableProps<any>["columns"] = [
   },
   {
     title: <div className="flex justify-center gap-2 text-center">
-      <Tooltip title="10 TERATAS"><LikeFilled style={{color: "green"}} /></Tooltip>
-      <Tooltip title="10 TERENDAH"><DislikeFilled style={{color: "red"}}/></Tooltip>
+      <Tooltip title="MENCAPAI TARGET"><LikeFilled style={{color: "green"}} /></Tooltip>
+      <Tooltip title="TIDAK MENCAPAI TARGET"><DislikeFilled style={{color: "red"}}/></Tooltip>
     </div>,
     dataIndex: "like",
     key: "like",
@@ -890,7 +915,7 @@ const columnsMarketing: TableProps<any>["columns"] = [
     render(value, record, index) {
       return (
         <div>
-          {index <=4 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index+1}</span>
+          {record.total_plafond > 100000000 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index+1}</span>
         </div>
       )
     },
