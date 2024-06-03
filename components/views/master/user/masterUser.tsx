@@ -511,10 +511,10 @@ export default function MasterUser() {
         wrapClassName="modal-create"
         width={"100%"}
         footer={[]}
-        style={{ top: 10 }}
+        style={{ top: 20}}
       >
-        <Form onFinish={handlePost} className="my-5" labelCol={{ span: 8 }}>
-          <div className="block md:flex">
+        <Form onFinish={handlePost} className="my-5" labelCol={{ span: 8 }} >
+          <div className="block md:flex" style={{height: "73vh", overflowY: "auto"}}>
             <div className="flex-1">
               <Form.Item label="Role" name={"role"} required>
                 <Select
@@ -667,7 +667,7 @@ export default function MasterUser() {
         wrapClassName="modal-create"
         width={"100%"}
         footer={[]}
-        style={{ top: 10 }}
+        style={{ top: 20 }}
       >
         <Form
           onFinish={handlePut}
@@ -675,7 +675,7 @@ export default function MasterUser() {
           labelCol={{ span: 8 }}
           form={formData}
         >
-          <div className="block md:flex">
+          <div className="block md:flex" style={{height: "73vh", overflowY: "auto"}}>
             <div className="flex-1">
               <Form.Item label="ID " name={"id"} hidden>
                 <Input />

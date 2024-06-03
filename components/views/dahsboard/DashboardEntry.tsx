@@ -34,7 +34,7 @@ export default function DashboardEntry() {
 
   const getData = async () => {
     setLoading(true);
-    const res = await fetch("/api/dashboard/entry_data", { next: { revalidate: 300 }});
+    const res = await fetch("/api/dashboard/entry_data", { next: { revalidate: 60 }});
     const { pengajuanHariIni, dataTable, namaArea } = await res.json();
     setDataHari(pengajuanHariIni);
     setNamaArea(namaArea);

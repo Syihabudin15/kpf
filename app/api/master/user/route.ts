@@ -157,7 +157,7 @@ export const PUT = async (req: NextRequest) => {
     console.log(err);
     return NextResponse.json(
       { msg: "Server error" },
-      { status: 500, statusText: "Server Error" }
+      { status: 500, statusText: "Gagal update user. coba lagi nanti!" }
     );
   }
 };

@@ -22,7 +22,7 @@ export default function MasterDashboard() {
 
   const getData = async () => {
     setLoading(true);
-      const res = await fetch("/api/dashboard/master", { next: { revalidate: 300 }});
+      const res = await fetch("/api/dashboard/master", { next: { revalidate: 60 }});
       const { line, months, pie, dataTable, dataArea, marketingTerbaik,dataflash, cabang } = await res.json();
       setData(dataTable);
       setDataFlash(dataflash);

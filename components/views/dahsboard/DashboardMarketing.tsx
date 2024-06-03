@@ -25,7 +25,7 @@ export default function DashboardMarketing() {
 
   const getData = async () => {
     setLoading(true);
-    const res = await fetch("/api/dashboard/marketing",{ next: { revalidate: 300 }});
+    const res = await fetch("/api/dashboard/marketing",{ next: { revalidate: 60 }});
     const { dataHariIni, dataTable } = await res.json();
     setDataHari(dataHariIni);
     setDataTable(dataTable);

@@ -1514,9 +1514,9 @@ export default function TabsForm({
       status_kawin: data?.status_kawin,
       nama_pasangan: data?.DataPengajuanPasangan.nama_pasangan,
       tempat_lahir_pasangan: data?.DataPengajuanPasangan.tempat_lahir_pasangan,
+      alamat_pasangan: data.DataPengajuanPasangan.alamat_pasangan,
       tanggal_lahir_pasangan:
         data?.DataPengajuanPasangan.tanggal_lahir_pasangan ? moment(data?.DataPengajuanPasangan.tanggal_lahir_pasangan).format("DD-MM-YYYY") : "",
-      alamat_pasangan: data?.DataPengajuanPasangan.alamat_pasangan,
       nik_pasangan: data?.DataPengajuanPasangan.nik_pasangan,
       masa_ktp_pasangan: data?.DataPengajuanPasangan.masa_ktp_pasangan ? moment(data?.DataPengajuanPasangan.masa_ktp_pasangan).format("DD-MM-YYYY") : "",
       pekerjaan_pasangan: data?.DataPengajuanPasangan.pekerjaan_pasangan,
