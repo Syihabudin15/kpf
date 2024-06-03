@@ -7,6 +7,7 @@ import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 
+
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
@@ -26,6 +27,7 @@ const ViewBerkasPengajuan = dynamic(
   }
 );
 
+
 export default function DokumenPengajuanMitra() {
   const [name, setName] = useState<string>();
   const [page, setPage] = useState(1);
@@ -39,7 +41,9 @@ export default function DokumenPengajuanMitra() {
       `/api/ops/pengajuan-mitra?page=${page}${name ? "&name=" + name : ""}`
     );
     const { data, total } = await res.json();
-    setData(data);
+    setData(data.map((d:any, ind: number) => {
+      return{...d, key: ind}
+    }));
     setTotal(total);
     setLoading(false);
   };

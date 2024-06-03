@@ -1,7 +1,8 @@
 "use client";
-import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 import { Modal } from "antd";
 import { useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
 
 export interface DeleteFile {
   title?: string;
@@ -22,7 +23,7 @@ export default function DeleteFile({ data }: { data: DeleteFile }) {
     });
   }, [open]);
   return (
-    <div>
+    <div key={data.pathUrl ? data.pathUrl : Date.now()}>
       <div className="flex justify-center">
         <button
           style={{ opacity: currData?.url ? 1 : 0.5 }}

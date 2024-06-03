@@ -5,6 +5,7 @@ import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Modal, message } from "antd";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
+
 const UploadBerkas = dynamic(
   () => import("@/components/views/operasionals/news/UploadBerkas"),
   { ssr: false, loading: () => <LoadingOutlined /> }

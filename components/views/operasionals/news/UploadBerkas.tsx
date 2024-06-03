@@ -139,7 +139,7 @@ export default function UploadBerkas({
     setLoading(false);
   };
   return (
-    <div className="block sm:flex justify-between px-3 py-1 border-b border-gray-300 items-center">
+    <div className="block sm:flex justify-between px-3 py-1 border-b border-gray-300 items-center" key={pathName}>
       <p>{name}</p>
       <div>
         {progress > 0 && progress < 100 ? (
