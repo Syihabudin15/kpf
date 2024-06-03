@@ -240,6 +240,7 @@ export const GET = async (req: NextRequest) => {
         DataPembiayaan: true,
       },
     });
+
     const angsurans = await prisma.jadwalAngsuran.findMany({
       where: {
         tanggal_pelunasan: { not: null },
@@ -256,9 +257,8 @@ export const GET = async (req: NextRequest) => {
         },
       },
     });
+
     banks[i].DataPengajuan.forEach((p) => {
-      let admin =
-        (p.DataPembiayaan.plafond * p.DataPembiayaan.by_admin_bank) / 100;
       if (
         p.DataPembiayaan.Produk.name !== "Flash Sisa Gaji" &&
         p.status_pencairan === "TRANSFER"
@@ -277,12 +277,12 @@ export const GET = async (req: NextRequest) => {
         p.status_pencairan === "TRANSFER"
       ) {
         flash.total[0] += p.DataPembiayaan.plafond;
-        const notFLash = angsurans.filter(
+        const fash = angsurans.filter(
           (a) =>
             a.DataPengajuan.DataPembiayaan.Produk?.name === "Flash Sisa Gaji"
         );
         let totalOS = 0;
-        notFLash.forEach((nf) => (totalOS += nf.angsuran));
+        fash.forEach((nf) => (totalOS += nf.angsuran));
         flash.total[1] += p.DataPembiayaan.plafond - totalOS;
       }
     });

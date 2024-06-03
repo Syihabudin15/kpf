@@ -292,11 +292,11 @@ export default function InputForm({
         <Spin spinning={loading}>
           <Form layout="vertical" form={form} onFinish={handleFinish}>
             <div
-              style={{
-                height: "75vh",
-                overflowY: "auto",
-                padding: "0 10px",
-              }}
+              // style={{
+              //   height: "75vh",
+              //   overflowY: "auto",
+              //   padding: "0 10px",
+              // }}
             >
               <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
                 Data Pensiun

@@ -685,7 +685,7 @@ model JadwalAngsuran {
   angsuran          Int
   pokok             Int
   margin            Int
-  margin_bank       Int       @db.Int()
+  margin_bank       Int
   collfee           Int
   status            Boolean   @default(false)
   tanggal_bayar     DateTime?
@@ -776,4 +776,10 @@ model Cost {
 
   User   User?   @relation(fields: [userId], references: [id])
   userId String?
+}
+
+model MemoInternal {
+  id          String @id @default(uuid())
+  title       String
+  description String @db.Text
 }

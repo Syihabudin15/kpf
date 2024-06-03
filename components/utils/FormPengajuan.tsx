@@ -524,7 +524,6 @@ export default function TabsForm({
               <Form.Item
                 label="Sumber Dana"
                 name={"sumber_dana"}
-                className="flex-1"
               >
                 <Input
                   disabled
@@ -534,7 +533,6 @@ export default function TabsForm({
               <Form.Item
                 label="Jenis Margin"
                 name={"jenis_margin"}
-                className="flex-1"
               >
                 <Input
                   disabled
@@ -611,13 +609,7 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Biaya Flagging" name={"biaya_flagging"}>
-                <Input
-                  disabled
-                  style={{ backgroundColor: "white", color: "black" }}
-                />
-              </Form.Item>
-              <Form.Item label="Biaya Epotpen" name={"biaya_epotpen"}>
+              <Form.Item label="Data Informasi" name={"biaya_data_informasi"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1177,7 +1169,6 @@ export default function TabsForm({
               <Form.Item
                 label="Jenis Margin"
                 name={"jenis_margin"}
-                className="flex-1"
               >
                 <Input
                   disabled
@@ -1403,7 +1394,7 @@ export default function TabsForm({
       produk_pembiayaan: data?.DataPembiayaan.Produk.name || "",
       jenis_pembiayaan: data?.DataPembiayaan.jenis_pembiayaan_id
         ? data?.DataPembiayaan.JenisPembiayaan.name
-        : "",
+        : "Sisa Gaji",
       refferal: data?.DataPembiayaan.Refferal.name || "",
       reff_fee: data?.DataPembiayaan.fee || 0,
       biaya_reff_rp: formatNumber(
