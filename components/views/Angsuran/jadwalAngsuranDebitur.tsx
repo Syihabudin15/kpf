@@ -255,8 +255,54 @@ export default function JadwalAngsuranDebitur({id}: {id: string}) {
     <Spin spinning={loading}>
       <div>
         <div className="my-1 px-2 flex gap-2 flex-wrap">
-          {/* {data  ? <CetakPdfAngsuranDebitur data={data} /> : <LoadingOutlined/>} */}
-          {/* {data ? <CetakExcelAngsuranDebitur data={data} /> : <LoadingOutlined/>} */}
+          {data  ? <CetakPdfAngsuranDebitur data={data} /> : <LoadingOutlined/>}
+          {data ? <CetakExcelAngsuranDebitur data={data} /> : <LoadingOutlined/>}
+        </div>
+        <div className="m-1 p-1 border font-bold flex justify-center gap-2 flex-wrap" style={{fontSize: 12}}>
+          <div className="flex-1">
+            <div className="flex gap-2">
+              <span style={{flex: 1.25}}>NOPEN</span>
+              <span style={{flex: .5}}>:</span>
+              <span style={{flex: 1.25}}>{data && data.nopen}</span>
+            </div>
+            <div className="flex gap-2">
+              <span style={{flex: 1.25}}>NAMA</span>
+              <span style={{flex: .5}}>:</span>
+              <span style={{flex: 1.25}}>{data && data.nama}</span>
+            </div>
+            <div className="flex gap-2">
+              <span style={{flex: 1.25}}>TANGGAL AKAD</span>
+              <span style={{flex: .5}}>:</span>
+              <span style={{flex: 1.25}}>{data && moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}</span>
+            </div>
+            <div className="flex gap-2">
+              <span style={{flex: 1.25}}>TANGGAL LUNAS</span>
+              <span style={{flex: .5}}>:</span>
+              <span style={{flex: 1.25}}>{data && moment(data.tanggal_cetak_akad).add(data.DataPembiayaan.tenor, "M").format("DD-MM-YYYY")}</span>
+            </div>
+          </div>
+          <div className="flex-1">
+            <div className="flex gap-2">
+              <span style={{flex: 1.25}}>PLAFOND</span>
+              <span style={{flex: .5}}>:</span>
+              <span style={{flex: 1.25}}>{data && formatNumber(data.DataPembiayaan.plafond.toFixed(0))}</span>
+            </div>
+            <div className="flex gap-2">
+              <span style={{flex: 1.25}}>TENOR</span>
+              <span style={{flex: .5}}>:</span>
+              <span style={{flex: 1.25}}>{data && data.DataPembiayaan.tenor} Bulan</span>
+            </div>
+            <div className="flex gap-2">
+              <span style={{flex: 1.25}}>PRODUK PEMBIAYAAN</span>
+              <span style={{flex: .5}}>:</span>
+              <span style={{flex: 1.25}}>{data && data.DataPembiayaan.Produk.name}</span>
+            </div>
+            <div className="flex gap-2">
+              <span style={{flex: 1.25}}>JENIS PEMBIAYAAN</span>
+              <span style={{flex: .5}}>:</span>
+              <span style={{flex: 1.25}}>{data && data.DataPembiayaan.jenis_pembiayaan_id ? data.DataPembiayaan.JenisPembiayaan.name : "Sisa Gaji"}</span>
+            </div>
+          </div>
         </div>
         <div className="p-2">
           <Table
@@ -266,7 +312,7 @@ export default function JadwalAngsuranDebitur({id}: {id: string}) {
             loading={loading}
             bordered
             pagination={{ pageSize: 12 }}
-            scroll={{ x: 1000, y: 'calc(65vh - 100px)' }}
+            scroll={{ x: 1000, y: 'calc(50vh - 100px)' }}
           />
         </div>
       </div>

@@ -283,6 +283,7 @@ export default function RegulerBulanan() {
         };
       },
       key: "aksi",
+      width: 80,
       fixed: window.innerWidth < 600 ? false : "right",
       render(value, record, index) {
         return (

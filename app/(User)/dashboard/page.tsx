@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
 
+
 const MasterDashboard = dynamic(
   () => import("@/components/views/dahsboard/MasterDashboard"),
   { ssr: false, loading: () => <p>Loading ..</p> }

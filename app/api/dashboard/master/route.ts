@@ -3,6 +3,7 @@ import prisma from "@/components/prisma";
 import moment from "moment";
 import { Bank, DataPembiayaan, DataPengajuan, Produk } from "@prisma/client";
 import { daysInMonth } from "@/components/utils/inputUtils";
+export const dynamic = "force-dynamic";
 
 export interface LineProps {
   options: object;
@@ -241,49 +242,20 @@ export const GET = async (req: NextRequest) => {
       },
     });
 
-    const angsurans = await prisma.jadwalAngsuran.findMany({
-      where: {
-        tanggal_pelunasan: { not: null },
-      },
-      include: {
-        DataPengajuan: {
-          include: {
-            DataPembiayaan: {
-              include: {
-                Produk: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
     banks[i].DataPengajuan.forEach((p) => {
       if (
         p.DataPembiayaan.Produk.name !== "Flash Sisa Gaji" &&
         p.status_pencairan === "TRANSFER"
       ) {
         reguller.total[0] += p.DataPembiayaan.plafond;
-        const notFLash = angsurans.filter(
-          (a) =>
-            a.DataPengajuan.DataPembiayaan.Produk?.name !== "Flash Sisa Gaji"
-        );
-        let totalOS = 0;
-        notFLash.forEach((nf) => (totalOS += nf.angsuran));
-        reguller.total[1] += p.DataPembiayaan.plafond - totalOS;
+        reguller.total[1] += p.DataPembiayaan.plafond;
       }
       if (
         p.DataPembiayaan.Produk.name === "Flash Sisa Gaji" &&
         p.status_pencairan === "TRANSFER"
       ) {
         flash.total[0] += p.DataPembiayaan.plafond;
-        const fash = angsurans.filter(
-          (a) =>
-            a.DataPengajuan.DataPembiayaan.Produk?.name === "Flash Sisa Gaji"
-        );
-        let totalOS = 0;
-        fash.forEach((nf) => (totalOS += nf.angsuran));
-        flash.total[1] += p.DataPembiayaan.plafond - totalOS;
+        flash.total[1] += p.DataPembiayaan.plafond;
       }
     });
     reguller_hari_ini.forEach((regHari) => {
@@ -298,6 +270,36 @@ export const GET = async (req: NextRequest) => {
       data.push(reguller);
       dataflash.push(flash);
     }
+
+    const angsurans = await prisma.jadwalAngsuran.findMany({
+      where: {
+        tanggal_pelunasan: { not: null },
+        DataPengajuan: {
+          bankId: banks[i].id,
+        },
+      },
+      include: {
+        DataPengajuan: {
+          include: {
+            DataPembiayaan: {
+              include: {
+                Produk: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    angsurans.forEach((a) => {
+      if (a.DataPengajuan.DataPembiayaan.jenis_pembiayaan_id) {
+        reguller.total[1] -= a.angsuran;
+      }
+    });
+    angsurans.forEach((a) => {
+      if (!a.DataPengajuan.DataPembiayaan.jenis_pembiayaan_id) {
+        flash.total[1] -= a.angsuran;
+      }
+    });
   }
 
   const area = await prisma.unitPelayanan.findMany({

@@ -9,6 +9,7 @@ import { Spin, Table, TableProps, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+export const dynamic = 'force-dynamic'
 
 export default function MasterDashboard() {
   const [line, setLine] = useState<LineProps>();
@@ -22,7 +23,7 @@ export default function MasterDashboard() {
 
   const getData = async () => {
     setLoading(true);
-      const res = await fetch("/api/dashboard/master", { next: { revalidate: 60 }});
+      const res = await fetch("/api/dashboard/master");
       const { line, months, pie, dataTable, dataArea, marketingTerbaik,dataflash, cabang } = await res.json();
       setData(dataTable);
       setDataFlash(dataflash);

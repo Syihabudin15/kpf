@@ -149,7 +149,7 @@ export interface AngsuranPengajuan extends JadwalAngsuran {
 
 export interface AngsuranDebitur extends DataPengajuan {
   JadwalAngsuran: JadwalAngsuran[];
-  DataPembiayaan: DataPembiayaan;
+  DataPembiayaan: DataTypePembiayaan;
 }
 
 export interface DashboardAntri extends Bank {

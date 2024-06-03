@@ -205,8 +205,15 @@ export default function DeletedPengajuan() {
       title: "AJUKAN ULANG",
       dataIndex: "id",
       key: "id",
-      fixed: "right",
-      width: 70,
+      fixed: window.innerWidth < 600 ? false : "right",
+      width: 80,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
       render(value, record, index) {
         return <></>;
       },
@@ -229,7 +236,7 @@ export default function DeletedPengajuan() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1800, y:320 }}
+        scroll={{ x: 1800, y: 'calc(65vh - 100px)' }}
         size="small"
         loading={loading}
         pagination={{

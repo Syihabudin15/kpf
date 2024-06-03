@@ -91,14 +91,14 @@ export default function CetakPdfAngsuranDebitur({
         </button>
       </div>
       <Modal
-        style={{ height: "75vh", top: 20 }}
+        style={{ height: "80vh", top: 20 }}
         width={"95vw"}
         title={`Angsuran ${data.DataPembiayaan.name}`}
         open={open}
         onCancel={() => setOpen(false)}
         footer={[]}
       >
-        <div style={{ height: "75vh", width: "100%" }}>
+        <div style={{ height: "80vh", width: "100%" }}>
           <PDFViewer style={{ width: "100%", height: "100%" }}>
             <Document title={`Angsuran ${data.DataPembiayaan.name}`}>
               <Page size={"A4"} style={stylePdf.root}>
@@ -142,61 +142,59 @@ export default function CetakPdfAngsuranDebitur({
                   >
                     <View style={{ flex: 1 }}>
                       <View style={{ display: "flex", flexDirection: "row" }}>
-                        <Text style={{ width: 80 }}>Nopen</Text>
+                        <Text style={{ width: 80 }}>NOPEN</Text>
                         <Text style={{ width: 20 }}>:</Text>
                         <Text style={{ width: 150 }}>
                           {data.DataPembiayaan.nopen}
                         </Text>
                       </View>
                       <View style={{ display: "flex", flexDirection: "row" }}>
-                        <Text style={{ width: 80 }}>Nama</Text>
+                        <Text style={{ width: 80 }}>NAMA</Text>
                         <Text style={{ width: 20 }}>:</Text>
                         <Text style={{ width: 150 }}>
                           {data.DataPembiayaan.name || ""}
                         </Text>
                       </View>
                       <View style={{ display: "flex", flexDirection: "row" }}>
-                        <Text style={{ width: 80 }}>Tenor</Text>
-                        <Text style={{ width: 20 }}>:</Text>
-                        <Text style={{ width: 150 }}>
-                          {data.DataPembiayaan.tenor} Bulan
-                        </Text>
-                      </View>
-                      <View style={{ display: "flex", flexDirection: "row" }}>
-                        <Text style={{ width: 80 }}>Plafon</Text>
-                        <Text style={{ width: 20 }}>:</Text>
-                        <Text style={{ width: 150 }}>
-                          {formatNumber(data.DataPembiayaan.plafond.toFixed(0))}
-                        </Text>
-                      </View>
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <View style={{ display: "flex", flexDirection: "row" }}>
-                        <Text style={{ width: 80 }}>Margin Bunga</Text>
-                        <Text style={{ width: 20 }}>:</Text>
-                        <Text style={{ width: 150 }}>
-                          {data.DataPembiayaan.mg_bunga} %
-                        </Text>
-                      </View>
-                      <View style={{ display: "flex", flexDirection: "row" }}>
-                        <Text style={{ width: 80 }}>Jenis Margin</Text>
-                        <Text style={{ width: 20 }}>:</Text>
-                        <Text style={{ width: 150 }}>{data.jenis_margin}</Text>
-                      </View>
-                      <View style={{ display: "flex", flexDirection: "row" }}>
-                        <Text style={{ width: 80 }}>Tanggal Akad</Text>
+                        <Text style={{ width: 80 }}>TANGGAL AKAD</Text>
                         <Text style={{ width: 20 }}>:</Text>
                         <Text style={{ width: 150 }}>
                           {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}
                         </Text>
                       </View>
                       <View style={{ display: "flex", flexDirection: "row" }}>
-                        <Text style={{ width: 80 }}>Tanggal Lunas</Text>
+                        <Text style={{ width: 80 }}>TANGGAL LUNAS</Text>
                         <Text style={{ width: 20 }}>:</Text>
                         <Text style={{ width: 150 }}>
-                          {moment(data.tanggal_cetak_akad)
-                            .add(data.DataPembiayaan.tenor, "M")
-                            .format("DD-MM-YYYY")}
+                          {moment(data.tanggal_cetak_akad).add(data.DataPembiayaan.tenor, "M").format("DD-MM-YYYY")}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                      <View style={{ display: "flex", flexDirection: "row" }}>
+                        <Text style={{ width: 80 }}>PLAFOND</Text>
+                        <Text style={{ width: 20 }}>:</Text>
+                        <Text style={{ width: 150 }}>
+                          {formatNumber(data.DataPembiayaan.plafond.toFixed(0))}
+                        </Text>
+                      </View>
+                      <View style={{ display: "flex", flexDirection: "row" }}>
+                        <Text style={{ width: 80 }}>TENOR</Text>
+                        <Text style={{ width: 20 }}>:</Text>
+                        <Text style={{ width: 150 }}>{data.DataPembiayaan.tenor} Bulan</Text>
+                      </View>
+                      <View style={{ display: "flex", flexDirection: "row" }}>
+                        <Text style={{ width: 80 }}>PRODUK PEMBIAYAAN</Text>
+                        <Text style={{ width: 20 }}>:</Text>
+                        <Text style={{ width: 150 }}>
+                          {data.DataPembiayaan.Produk.name}
+                        </Text>
+                      </View>
+                      <View style={{ display: "flex", flexDirection: "row" }}>
+                        <Text style={{ width: 80 }}>JENIS PEMBIAYAAN</Text>
+                        <Text style={{ width: 20 }}>:</Text>
+                        <Text style={{ width: 150 }}>
+                          {data.DataPembiayaan.jenis_pembiayaan_id ? data.DataPembiayaan.JenisPembiayaan.name : "Sisa Gaji"}
                         </Text>
                       </View>
                     </View>

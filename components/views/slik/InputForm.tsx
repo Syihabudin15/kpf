@@ -287,16 +287,16 @@ export default function InputForm({
         title="Input Pengajuan Slik"
         wrapClassName="input-pengajuan"
         width={"100%"}
-        style={{ top: 20, height: "90vh" }}
+        style={{ top: 20 }}
       >
         <Spin spinning={loading}>
           <Form layout="vertical" form={form} onFinish={handleFinish}>
             <div
-              // style={{
-              //   height: "75vh",
-              //   overflowY: "auto",
-              //   padding: "0 10px",
-              // }}
+              style={{
+                height: "80vh",
+                overflowY: "auto",
+                padding: "0 10px",
+              }}
             >
               <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
                 Data Pensiun
@@ -1215,17 +1215,17 @@ export default function InputForm({
               {/* Dokument */}
               <UploadDoc setBerkas={setBerkas} />
               {/* End Dokumen */}
-            </div>
             <Form.Item className="block md:flex justify-end">
               <button
-                className="bg-orange-500 hover:bg-orange-600 text-gray-100 rounded shadow px-5 py-1 mr-5"
+                className="bg-orange-500 hover:bg-orange-600 text-gray-100 rounded shadow px-10 py-1 mr-5"
                 type="submit"
                 // disabled={isDisable ? isDisable : loading}
                 // style={{ opacity: isDisable ? 0.5 : loading ? 0.5 : 1 }}
               >
-                {loading ? <LoadingOutlined /> : "Submit"}
+                {loading ? <LoadingOutlined /> : isDisable ? <LoadingOutlined/> : "Submit"}
               </button>
             </Form.Item>
+            </div>
           </Form>
         </Spin>
       </Modal>

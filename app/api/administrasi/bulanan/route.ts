@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
-// import { daysInMonth } from "@/components/utils/inputUtils";
-import moment from "moment";
+import { daysInMonth } from "@/components/utils/inputUtils";
 
 export const GET = async (req: NextRequest) => {
   const dateTime = new Date();
   let month =
     req.nextUrl.searchParams.get("month") ||
-    `${dateTime.getFullYear()}-${dateTime.getMonth()}`;
+    `${dateTime.getFullYear()}-${dateTime.getMonth() + 1}`;
 
   const findPengajuan: DataDataPengajuan[] = <any>(
     await prisma.dataPengajuan.findMany({
@@ -18,7 +17,14 @@ export const GET = async (req: NextRequest) => {
           {
             tanggal_pencairan: {
               gte: new Date(month + "-01"),
-              lte: new Date(month + "-" + `${moment(month).daysInMonth()}`),
+              lte: new Date(
+                month +
+                  "-" +
+                  `${daysInMonth(
+                    parseInt(month.split("-")[1]),
+                    parseInt(month.split("-")[0])
+                  )}`
+              ),
             },
           },
         ],
@@ -77,7 +83,14 @@ export const GET = async (req: NextRequest) => {
         {
           created_at: {
             gte: new Date(month + "-01"),
-            lte: new Date(month + "-" + `${moment(month).daysInMonth()}`),
+            lte: new Date(
+              month +
+                "-" +
+                `${daysInMonth(
+                  parseInt(month.split("-")[1]),
+                  parseInt(month.split("-")[0])
+                )}`
+            ),
           },
         },
       ],

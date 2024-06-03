@@ -8,7 +8,12 @@ export const GET = async (req: NextRequest) => {
       where: { id: id },
       include: {
         JadwalAngsuran: true,
-        DataPembiayaan: true,
+        DataPembiayaan: {
+          include: {
+            Produk: true,
+            JenisPembiayaan: true,
+          },
+        },
       },
     });
     if (!result)

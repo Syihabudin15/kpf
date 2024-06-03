@@ -521,6 +521,7 @@ export default function TabsForm({
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
+              </Form.Item>
               <Form.Item
                 label="Sumber Dana"
                 name={"sumber_dana"}
@@ -529,7 +530,7 @@ export default function TabsForm({
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
-              </Form.Item>
+                </Form.Item>
               <Form.Item
                 label="Jenis Margin"
                 name={"jenis_margin"}
@@ -538,7 +539,6 @@ export default function TabsForm({
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
-              </Form.Item>
               </Form.Item>
               <Form.Item label="Refferal" name={"refferal"}>
                 <Input
@@ -1504,6 +1504,7 @@ export default function TabsForm({
       jenis_usaha: data?.jenis_usaha,
       status_kawin: data?.status_kawin,
       nama_pasangan: data?.DataPengajuanPasangan.nama_pasangan,
+      tempat_lahir: data.DataPembiayaan.tempat_lahir,
       tempat_lahir_pasangan: data.DataPengajuanPasangan.tempat_lahir_pasangan,
       alamat_pasangan: data.DataPengajuanPasangan.alamat_pasangan,
       tanggal_lahir_pasangan:

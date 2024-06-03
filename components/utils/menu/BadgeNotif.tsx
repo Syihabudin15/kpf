@@ -13,7 +13,7 @@ export default function BadgeNotif({
 }) {
   return (
     <Link href={link}>
-      <div className="relative" style={{ cursor: "pointer", fontSize: 9 }}>
+      <div className="relative" style={{ cursor: "pointer", fontSize: 10, fontWeight: "bold" }}>
         <span className="px-4 py-2 border rounded shadow bg-white text-black">
           {name}
         </span>

@@ -87,6 +87,7 @@ export default function CetakPenyerahanJaminan() {
       title: "NO",
       dataIndex: "no",
       key: "no",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

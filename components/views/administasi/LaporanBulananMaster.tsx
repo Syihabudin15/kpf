@@ -34,7 +34,7 @@ export default function LaporanBulananMaster() {
     setPemasukan(pemasukan);
     setPengeluaran(pengeluaran);
     setLoading(false);
-  };
+  }; 
 
   useEffect(() => {
     (async () => {
@@ -69,7 +69,7 @@ export default function LaporanBulananMaster() {
             </p>
           </div>
           <div>
-            <Table columns={columnsPengajuan} dataSource={dataTable} size="small" bordered pagination={false} scroll={{x:1500, y: 320}} />
+            <Table columns={columnsPengajuan} dataSource={dataTable} size="small" bordered pagination={false} scroll={{x:1500, y: 'calc(50vh - 100px)'}} />
           </div>
         </div>
         <div className="mt-5">
@@ -92,6 +92,7 @@ export default function LaporanBulananMaster() {
               size="small"
               bordered
               pagination={false}
+              scroll={{x: 1000, y: 'calc(50vh - 100px)'}}
             />
           </div>
         </div>
