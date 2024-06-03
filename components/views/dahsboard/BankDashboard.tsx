@@ -29,7 +29,7 @@ export default function BankDashboard() {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const resTable = await fetch("/api/dashboard/bank");
+      const resTable = await fetch("/api/dashboard/bank", { next: { revalidate: 300 }});
       const { dataTable, line, months, pie } = await resTable.json();
       setDataTable(dataTable);
       setLine({

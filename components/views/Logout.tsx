@@ -23,7 +23,7 @@ export default function Logout() {
         <Button
           onClick={() => setModalLogout(true)}
           icon={<LogoutOutlined />}
-          style={{ color: "red" }}
+          style={{ color: "white", backgroundColor: "#22c55e" }}
         >
           <span className="flex md:hidden">Logout</span>
         </Button>

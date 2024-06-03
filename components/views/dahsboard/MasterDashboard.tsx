@@ -20,11 +20,10 @@ export default function MasterDashboard() {
   const [dataMarketing, setDataMarketing] = useState<any[]>();
   const [dataflash, setDataFlash] = useState<DashboardMaster[]>();
 
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      const res = await fetch("/api/dashboard/master");
-      const { banks, line, months, pie, dataTable, dataArea, marketingTerbaik,dataflash, cabang } = await res.json();
+  const getData = async () => {
+    setLoading(true);
+      const res = await fetch("/api/dashboard/master", { next: { revalidate: 300 }});
+      const { line, months, pie, dataTable, dataArea, marketingTerbaik,dataflash, cabang } = await res.json();
       setData(dataTable);
       setDataFlash(dataflash);
       setDataCabang(cabang);
@@ -95,6 +94,14 @@ export default function MasterDashboard() {
       setDataArea(dataArea);
       setDataMarketing(marketingTerbaik);
       setLoading(false);
+  }
+
+  useEffect(() => {
+    (async () => {
+      await getData();
+      setInterval(async() => {
+        await getData();
+      }, 300000);
     })();
   }, []);
 
@@ -138,6 +145,7 @@ export default function MasterDashboard() {
             dataSource={data}
             loading={loading}
             scroll={{ x: 1000,y:500 }}
+            key={"reguller"}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
@@ -150,6 +158,7 @@ export default function MasterDashboard() {
             dataSource={dataflash}
             loading={loading}
             scroll={{ x: 1000, y: 500 }}
+            key={"flash"}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
@@ -162,6 +171,7 @@ export default function MasterDashboard() {
             dataSource={dataArea}
             loading={loading}
             scroll={{ x: 1000,y:500 }}
+            key={"area"}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
@@ -174,6 +184,7 @@ export default function MasterDashboard() {
             dataSource={dataCabang}
             loading={loading}
             scroll={{ x: 1000, y: 500 }}
+            key={"cabang"}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
@@ -186,158 +197,13 @@ export default function MasterDashboard() {
             dataSource={dataMarketing}
             loading={loading}
             scroll={{ x: 1000, y: 500 }}
+            key={"marketing"}
           />
         </div>
       </div>
     </Spin>
   );
 }
-
-// const columns: TableProps<DataMasterDashboard>["columns"] = [
-//   {
-//     title: "SUMBER DANA",
-//     key: "sumdan",
-//     width: 200,
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "green",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       return <>{record.name.toUpperCase()}</>;
-//     },
-//   },
-//   {
-//     title: "ANTRI",
-//     key: "antri",
-//     dataIndex: "antri",
-//     width: 150,
-//     className: "text-center",
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "orange",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       let plafond = 0;
-//       let total = 0;
-//       record.DataPengajuan.forEach((p) => {
-//         if (
-//           p.status_pencairan !== "TRANSFER" &&
-//           p.status_pencairan !== "BATAL"
-//         ) {
-//           plafond += p.DataPembiayaan.plafond;
-//           total += 1;
-//         }
-//       });
-//       return <div className="flex">
-//         <div className="flex-1" style={{borderRight: "1px solid #aaa"}}>{total}</div>
-//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
-//       </div>;
-//     },
-//   },
-//   {
-//     title: "DITOLAK",
-//     key: "tolak",
-//     width: 150,
-//     dataIndex: "tolak",
-//     className: "text-center",
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "red",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       let plafond = 0;
-//       let total = 0;
-//       record.DataPengajuan.forEach((p) => {
-//         if (p.status_pencairan === "BATAL") {
-//           plafond += p.DataPembiayaan.plafond;
-//           total += 1;
-//         }
-//       });
-//       return <div className="flex">
-//         <div className="flex-1"  style={{borderRight: "1px solid #aaa"}}>{total}</div>
-//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
-//       </div>;
-//     },
-//   },
-//   {
-//     title: "DROPPING",
-//     key: "dropping",
-//     width: 150,
-//     dataIndex: "dropping",
-//     className: "text-center",
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "green",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       let plafond = 0;
-//       let total = 0;
-//       record.DataPengajuan.forEach((p) => {
-//         if (p.status_pencairan === "TRANSFER") {
-//           plafond += p.DataPembiayaan.plafond;
-//           total += 1;
-//         }
-//       });
-//       return <div className="flex">
-//         <div className="flex-1" style={{borderRight: "1px solid #aaa"}}>{total}</div>
-//         <div className="flex-1" >{formatNumber(plafond.toFixed(0))}</div>
-//       </div>;
-//     },
-//   },
-//   {
-//     title: "OS",
-//     key: "os",
-//     dataIndex: "os",
-//     width: 150,
-//     className: "text-center",
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "blue",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       let plafond = 0;
-//       let total = 0;
-//       record.DataPengajuan.forEach((p) => {
-//         if (p.status_pencairan === "TRANSFER") {
-//           plafond +=
-//             p.DataPembiayaan.plafond -
-//             ((p.DataPembiayaan.plafond * (p.DataPembiayaan.by_admin_bank / 100)) +
-//               p.DataPembiayaan.by_buka_rekening);
-//               total += 1;
-//         }
-//       });
-//       return <div className="flex">
-//         <div className="flex-1"  style={{borderRight: "1px solid #aaa"}}>{total}</div>
-//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
-//       </div>;
-//     },
-//   },
-// ];
 
 const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
   {
@@ -921,3 +787,152 @@ const columnsMarketing: TableProps<any>["columns"] = [
     },
   },
 ]
+
+
+
+
+// const columns: TableProps<DataMasterDashboard>["columns"] = [
+//   {
+//     title: "SUMBER DANA",
+//     key: "sumdan",
+//     width: 200,
+//     onHeaderCell: (text, record) => {
+//       return {
+//         ["style"]: {
+//           textAlign: "center",
+//           backgroundColor: "green",
+//           color: "white"
+//         },
+//       };
+//     },
+//     render(value, record, index) {
+//       return <>{record.name.toUpperCase()}</>;
+//     },
+//   },
+//   {
+//     title: "ANTRI",
+//     key: "antri",
+//     dataIndex: "antri",
+//     width: 150,
+//     className: "text-center",
+//     onHeaderCell: (text, record) => {
+//       return {
+//         ["style"]: {
+//           textAlign: "center",
+//           backgroundColor: "orange",
+//           color: "white"
+//         },
+//       };
+//     },
+//     render(value, record, index) {
+//       let plafond = 0;
+//       let total = 0;
+//       record.DataPengajuan.forEach((p) => {
+//         if (
+//           p.status_pencairan !== "TRANSFER" &&
+//           p.status_pencairan !== "BATAL"
+//         ) {
+//           plafond += p.DataPembiayaan.plafond;
+//           total += 1;
+//         }
+//       });
+//       return <div className="flex">
+//         <div className="flex-1" style={{borderRight: "1px solid #aaa"}}>{total}</div>
+//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
+//       </div>;
+//     },
+//   },
+//   {
+//     title: "DITOLAK",
+//     key: "tolak",
+//     width: 150,
+//     dataIndex: "tolak",
+//     className: "text-center",
+//     onHeaderCell: (text, record) => {
+//       return {
+//         ["style"]: {
+//           textAlign: "center",
+//           backgroundColor: "red",
+//           color: "white"
+//         },
+//       };
+//     },
+//     render(value, record, index) {
+//       let plafond = 0;
+//       let total = 0;
+//       record.DataPengajuan.forEach((p) => {
+//         if (p.status_pencairan === "BATAL") {
+//           plafond += p.DataPembiayaan.plafond;
+//           total += 1;
+//         }
+//       });
+//       return <div className="flex">
+//         <div className="flex-1"  style={{borderRight: "1px solid #aaa"}}>{total}</div>
+//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
+//       </div>;
+//     },
+//   },
+//   {
+//     title: "DROPPING",
+//     key: "dropping",
+//     width: 150,
+//     dataIndex: "dropping",
+//     className: "text-center",
+//     onHeaderCell: (text, record) => {
+//       return {
+//         ["style"]: {
+//           textAlign: "center",
+//           backgroundColor: "green",
+//           color: "white"
+//         },
+//       };
+//     },
+//     render(value, record, index) {
+//       let plafond = 0;
+//       let total = 0;
+//       record.DataPengajuan.forEach((p) => {
+//         if (p.status_pencairan === "TRANSFER") {
+//           plafond += p.DataPembiayaan.plafond;
+//           total += 1;
+//         }
+//       });
+//       return <div className="flex">
+//         <div className="flex-1" style={{borderRight: "1px solid #aaa"}}>{total}</div>
+//         <div className="flex-1" >{formatNumber(plafond.toFixed(0))}</div>
+//       </div>;
+//     },
+//   },
+//   {
+//     title: "OS",
+//     key: "os",
+//     dataIndex: "os",
+//     width: 150,
+//     className: "text-center",
+//     onHeaderCell: (text, record) => {
+//       return {
+//         ["style"]: {
+//           textAlign: "center",
+//           backgroundColor: "blue",
+//           color: "white"
+//         },
+//       };
+//     },
+//     render(value, record, index) {
+//       let plafond = 0;
+//       let total = 0;
+//       record.DataPengajuan.forEach((p) => {
+//         if (p.status_pencairan === "TRANSFER") {
+//           plafond +=
+//             p.DataPembiayaan.plafond -
+//             ((p.DataPembiayaan.plafond * (p.DataPembiayaan.by_admin_bank / 100)) +
+//               p.DataPembiayaan.by_buka_rekening);
+//               total += 1;
+//         }
+//       });
+//       return <div className="flex">
+//         <div className="flex-1"  style={{borderRight: "1px solid #aaa"}}>{total}</div>
+//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
+//       </div>;
+//     },
+//   },
+// ];
