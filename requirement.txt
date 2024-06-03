@@ -16,5 +16,5 @@ DBPASS:W6E6IBzNyIJ95zPB5x0W
 DBNAME:kpfdatabases
 
 # Github
-NEW_KPF(VERIF_SLIK):https://github.com/Syihabudin15/new-kpf.git
+NEW_KPF(VERIF_SLIK):https://github.com/Syihabudin15/kpf.git
 GIT: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 -> Active

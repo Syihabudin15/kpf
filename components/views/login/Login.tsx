@@ -36,11 +36,11 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
       return;
     }
     setLoading(true);
-    // if (!cap) {
-    //   setFeed("Mohon validasi captcha");
-    //   setLoading(false);
-    //   return;
-    // }
+    if (!cap) {
+      setFeed("Mohon validasi captcha");
+      setLoading(false);
+      return;
+    }
     const result = await signIn("credentials", {
       username: e.username.toLowerCase(),
       password: e.password,
@@ -66,7 +66,7 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
     }
   };
   return (
-    <section className="login-wrap">
+    <section className="login-wrap bg-gray-200">
       <Spin spinning={loading}>
         <div className="login-form">
           <div className="flex justify-center">
