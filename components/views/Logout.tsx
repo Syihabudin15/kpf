@@ -3,14 +3,18 @@
 import { LogoutOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Logout() {
   const [modalLogout, setModalLogout] = useState(false);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
   const handleCLick = async () => {
     setLoading(true);
-    await signOut();
+    await signOut({redirect: false});
+    router.push("/");
     setLoading(false);
   };
   return (

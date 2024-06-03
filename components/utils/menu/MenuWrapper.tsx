@@ -8,7 +8,7 @@ export default function MenuWrapper({user}: {user: any}){
     const [collapse, setCollapse] = useState(false);
 
     return (
-        <div style={{ width: collapse ? 100 : 350 }} className="hidden md:block">
+        <div style={{ width: collapse ? 100 : 300 }} className="hidden md:block">
           <div className={`flex flex-col gap-2`}>
             <div
               className={`flex gap-4 text-xs items-center bg-${process.env.NEXT_PUBLIC_APP_BG_BIO}-500 text-white rounded p-2 ${collapse && "hidden"}`}

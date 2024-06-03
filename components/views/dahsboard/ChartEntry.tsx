@@ -46,6 +46,7 @@ export default function ChartBank() {
           series={data.series}
           type="bar"
           height={300}
+          key={"chartEntry"}
         />
       ) : (
         <div className="flex justify-center">

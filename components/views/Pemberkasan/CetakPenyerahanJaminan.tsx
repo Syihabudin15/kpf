@@ -330,7 +330,7 @@ export default function CetakPenyerahanJaminan() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 500 }}
+          scroll={{ x: 500, y: 'calc(65vh - 100px)' }}
           loading={loading}
           pagination={{
             pageSize: 20,

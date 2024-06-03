@@ -231,114 +231,114 @@ export default function MonitoringBank() {
         );
       },
     },
-    {
-      title: "INFORMASI VERIFIKASI",
-      dataIndex: `status_verifikasi`,
-      key: "verifikasi",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            background: "#0284c7",
-            color: "#f3f4f6",
-            textAlign: "center",
-          },
-        };
-      },
-      children: [
-        {
-          title: "STATUS",
-          dataIndex: "status_verifikasi",
-          key: "status_verifikasi",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs font-sans italic">
-                {record.status_verifikasi && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_verifikasi === "SETUJU"
-                        ? "green"
-                        : record.status_verifikasi === "DITOLAK"
-                        ? "red"
-                        : record.status_verifikasi === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_verifikasi}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          title: "KETERANGAN",
-          dataIndex: "keterangan_verifikasi",
-          key: "keterangan_verifikasi",
-          width: 300,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-justify",
-        },
-        {
-          title: "PEMERIKSA",
-          dataIndex: "nama_pemeriksa_verifikasi",
-          key: "nama_pemeriksa_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          width: 150,
-        },
-        {
-          title: "TANGGAL",
-          dataIndex: "tanggal_verifikasi",
-          key: "tanggal_verifikasi",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div>
-                {record.tanggal_verifikasi &&
-                  moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-      ],
-    },
+    // {
+    //   title: "INFORMASI VERIFIKASI",
+    //   dataIndex: `status_verifikasi`,
+    //   key: "verifikasi",
+    //   onHeaderCell: (text, record) => {
+    //     return {
+    //       ["style"]: {
+    //         background: "#0284c7",
+    //         color: "#f3f4f6",
+    //         textAlign: "center",
+    //       },
+    //     };
+    //   },
+    //   children: [
+    //     {
+    //       title: "STATUS",
+    //       dataIndex: "status_verifikasi",
+    //       key: "status_verifikasi",
+    //       width: 150,
+    //       onHeaderCell: (text, record) => {
+    //         return {
+    //           ["style"]: {
+    //             background: "#0284c7",
+    //             color: "#f3f4f6",
+    //             textAlign: "center",
+    //           },
+    //         };
+    //       },
+    //       render(value, record, index) {
+    //         return (
+    //           <div className="flex justify-center text-xs font-sans italic">
+    //             {record.status_verifikasi && (
+    //               <div
+    //                 className={`py-1 px-2 w-24 bg-${
+    //                   record.status_verifikasi === "SETUJU"
+    //                     ? "green"
+    //                     : record.status_verifikasi === "DITOLAK"
+    //                     ? "red"
+    //                     : record.status_verifikasi === "ANTRI"
+    //                     ? "orange"
+    //                     : "blue"
+    //                 }-500 text-gray-100 text-center`}
+    //               >
+    //                 {record.status_verifikasi}
+    //               </div>
+    //             )}
+    //           </div>
+    //         );
+    //       },
+    //     },
+    //     {
+    //       title: "KETERANGAN",
+    //       dataIndex: "keterangan_verifikasi",
+    //       key: "keterangan_verifikasi",
+    //       width: 300,
+    //       onHeaderCell: (text, record) => {
+    //         return {
+    //           ["style"]: {
+    //             background: "#0284c7",
+    //             color: "#f3f4f6",
+    //             textAlign: "center",
+    //           },
+    //         };
+    //       },
+    //       className: "text-justify",
+    //     },
+    //     {
+    //       title: "PEMERIKSA",
+    //       dataIndex: "nama_pemeriksa_verifikasi",
+    //       key: "nama_pemeriksa_verifikasi",
+    //       onHeaderCell: (text, record) => {
+    //         return {
+    //           ["style"]: {
+    //             background: "#0284c7",
+    //             color: "#f3f4f6",
+    //             textAlign: "center",
+    //           },
+    //         };
+    //       },
+    //       className: "text-center",
+    //       width: 150,
+    //     },
+    //     {
+    //       title: "TANGGAL",
+    //       dataIndex: "tanggal_verifikasi",
+    //       key: "tanggal_verifikasi",
+    //       width: 150,
+    //       onHeaderCell: (text, record) => {
+    //         return {
+    //           ["style"]: {
+    //             background: "#0284c7",
+    //             color: "#f3f4f6",
+    //             textAlign: "center",
+    //           },
+    //         };
+    //       },
+    //       className: "text-center",
+    //       render(value, record, index) {
+    //         return (
+    //           <div>
+    //             {record.tanggal_verifikasi &&
+    //               moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
+    //           </div>
+    //         );
+    //       },
+    //     },
+    //   ],
+    // },
     {
       title: "INFORMASI SLIK",
       onHeaderCell: (text, record) => {

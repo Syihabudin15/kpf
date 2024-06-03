@@ -54,6 +54,7 @@ export default function PengajuanPencairan() {
       title: "NO",
       dataIndex: "no",
       key: "no",
+      width: 10,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -144,6 +145,7 @@ export default function PengajuanPencairan() {
         {
           title: "CETAK SURAT",
           key: "cetak_surat",
+          width: 100,
           dataIndex: "cetak_surat",
           onHeaderCell: (text, record) => {
             return {
@@ -173,6 +175,7 @@ export default function PengajuanPencairan() {
         {
           title: "UPLOAD",
           key: "upload_surat",
+          width: 100,
           dataIndex: "upload_surat",
           onHeaderCell: (text, record) => {
             return {
@@ -188,6 +191,7 @@ export default function PengajuanPencairan() {
         {
           title: "VIEW",
           key: "view_surat",
+          width: 100,
           dataIndex: "view_surat",
           onHeaderCell: (text, record) => {
             return {
@@ -214,6 +218,7 @@ export default function PengajuanPencairan() {
       title: "NOMINATIF",
       key: "nominatif",
       dataIndex: "nominatif",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -320,7 +325,7 @@ export default function PengajuanPencairan() {
           dataSource={data}
           columns={columns}
           loading={loading}
-          scroll={{ x: 2500, y:320 }}
+          scroll={{ x: 2500, y: 'calc(65vh - 100px)' }}
           bordered
           size="small"
           pagination={{

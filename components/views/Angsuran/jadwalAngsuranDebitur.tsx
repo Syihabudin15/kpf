@@ -27,9 +27,9 @@ const CetakPdfAngsuranDebitur = dynamic(
   }
 );
 
-export default function JadwalAngsuranDebitur({ id }: { id: string }) {
-  const [currData, setCurrData] = useState<AngsuranDebitur>();
+export default function JadwalAngsuranDebitur({id}: {id: string}) {
   const [loading, setLoading] = useState(false);
+  const [data, setData] = useState<AngsuranDebitur>();
 
   const getData = async () => {
     setLoading(true);
@@ -39,18 +39,53 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       result.data.JadwalAngsuran.sort(
         (a: JadwalAngsuran, b: JadwalAngsuran) => a.angsuran_ke - b.angsuran_ke
       );
-      setCurrData(result.data);
+      setData(result.data);
     } catch (err) {
       console.log(err);
       setLoading(false);
     }
     setLoading(false);
   };
+
   useEffect(() => {
     (async () => {
       await getData();
     })();
   }, []);
+
+  const handleClick = async (id: string) => {
+    setLoading(true);
+    const res = await fetch(`/api/angsuran`, {
+      method: "PUT",
+      headers: { "Content-Type": "Application/json" },
+      body: JSON.stringify({ id: id }),
+    });
+    const { msg } = await res.json();
+    if (res.ok) {
+      message.success(msg);
+    } else {
+      message.error(msg);
+    }
+    setLoading(false);
+    await getData();
+  };
+  const handleDelete = async (id: string) => {
+    setLoading(true);
+    const res = await fetch(`/api/angsuran`, {
+      method: "DELETE",
+      headers: { "Content-Type": "Application/json" },
+      body: JSON.stringify({ id: id }),
+    });
+    const { msg } = await res.json();
+    if (res.ok) {
+      message.success(msg);
+    } else {
+      message.error(msg);
+    }
+    setLoading(false);
+    await getData();
+  };
+
   const columns: TableProps<JadwalAngsuran>["columns"] = [
     {
       title: "NO",
@@ -214,49 +249,18 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       },
     },
   ];
-  const handleClick = async (id: string) => {
-    setLoading(true);
-    const res = await fetch(`/api/angsuran`, {
-      method: "PUT",
-      headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify({ id: id }),
-    });
-    const { msg } = await res.json();
-    if (res.ok) {
-      message.success(msg);
-    } else {
-      message.error(msg);
-    }
-    setLoading(false);
-    await getData();
-  };
-  const handleDelete = async (id: string) => {
-    setLoading(true);
-    const res = await fetch(`/api/angsuran`, {
-      method: "DELETE",
-      headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify({ id: id }),
-    });
-    const { msg } = await res.json();
-    if (res.ok) {
-      message.success(msg);
-    } else {
-      message.error(msg);
-    }
-    setLoading(false);
-    await getData();
-  };
+  
 
   return (
     <Spin spinning={loading}>
       <div>
         <div className="my-1 px-2 flex gap-2 flex-wrap">
-          <CetakPdfAngsuranDebitur data={currData as AngsuranDebitur} />
-          <CetakExcelAngsuranDebitur data={currData as AngsuranDebitur} />
+          {/* {data  ? <CetakPdfAngsuranDebitur data={data} /> : <LoadingOutlined/>} */}
+          {/* {data ? <CetakExcelAngsuranDebitur data={data} /> : <LoadingOutlined/>} */}
         </div>
         <div className="p-2">
           <Table
-            dataSource={currData?.JadwalAngsuran || []}
+            dataSource={data?.JadwalAngsuran || []}
             columns={columns}
             size="small"
             loading={loading}

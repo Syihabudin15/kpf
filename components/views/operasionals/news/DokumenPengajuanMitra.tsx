@@ -103,6 +103,7 @@ export default function DokumenPengajuanMitra() {
       title: "NAMA PEMOHON",
       dataIndex: "nama",
       key: "nama",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -276,7 +277,7 @@ export default function DokumenPengajuanMitra() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -300,7 +301,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -331,7 +332,7 @@ export default function DokumenPengajuanMitra() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -357,7 +358,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -388,7 +389,7 @@ export default function DokumenPengajuanMitra() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -414,7 +415,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -445,7 +446,7 @@ export default function DokumenPengajuanMitra() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -504,7 +505,7 @@ export default function DokumenPengajuanMitra() {
         {
           title: "TANGGAL",
           key: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -536,7 +537,7 @@ export default function DokumenPengajuanMitra() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -562,7 +563,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -593,7 +594,7 @@ export default function DokumenPengajuanMitra() {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -619,7 +620,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -649,7 +650,7 @@ export default function DokumenPengajuanMitra() {
         {
           title: "VIEW",
           key: "view",
-          width: 120,
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -676,7 +677,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -707,7 +708,7 @@ export default function DokumenPengajuanMitra() {
           title: "View",
           key: "view",
           dataIndex: "view",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -733,7 +734,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -763,7 +764,7 @@ export default function DokumenPengajuanMitra() {
         {
           title: "VIEW",
           key: "view",
-          width: 120,
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -790,7 +791,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -820,7 +821,7 @@ export default function DokumenPengajuanMitra() {
         {
           title: "VIEW",
           key: "view",
-          width: 120,
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -847,7 +848,7 @@ export default function DokumenPengajuanMitra() {
           title: "TANGGAL",
           key: "tanggal",
           dataIndex: "tanggal",
-          width: 120,
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -917,7 +918,7 @@ export default function DokumenPengajuanMitra() {
         {
           title: "VIEW",
           key: "view",
-          width: 120,
+          width: 100,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -943,7 +944,7 @@ export default function DokumenPengajuanMitra() {
         {
           title: "TANGGAL",
           key: "tanggal",
-          width: 120,
+          width: 100,
           dataIndex: "tanggal",
           onHeaderCell: (text, record) => {
             return {
@@ -979,7 +980,7 @@ export default function DokumenPengajuanMitra() {
         columns={columns}
         bordered
         size="small"
-        scroll={{ x: 4700,y: 320 }}
+        scroll={{ x: 4700, y: 'calc(65vh - 100px)' }}
         dataSource={data}
         loading={loading}
         pagination={{

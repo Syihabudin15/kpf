@@ -78,7 +78,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "NO",
       dataIndex: "no",
       key: "no",
-      width: 50,
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -145,6 +145,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "NOPEN",
       dataIndex: "nopen",
       key: "nopen",
+      width: 50,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -362,7 +363,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1000, y:320 }}
+        scroll={{ x: 1000, y: 'calc(65vh - 100px)' }}
         loading={loading}
         rowSelection={{
           selectedRowKeys: selectedRow,

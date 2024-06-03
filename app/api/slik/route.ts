@@ -25,7 +25,7 @@ export const GET = async (req: NextRequest) => {
     result = <any>await prisma.dataPengajuan.findMany({
       where: {
         AND: [
-          { status_verifikasi: "ANTRI" },
+          { status_slik: "ANTRI" },
           { is_active: true },
           { DataPembiayaan: { user_id: user.id } },
           {
@@ -81,7 +81,7 @@ export const GET = async (req: NextRequest) => {
     result = <any>await prisma.dataPengajuan.findMany({
       where: {
         AND: [
-          { status_verifikasi: "ANTRI" },
+          { status_slik: "ANTRI" },
           { DataPembiayaan: { user_id: user.id } },
           { is_active: true },
           {
@@ -144,7 +144,7 @@ export const GET = async (req: NextRequest) => {
   const total = await prisma.dataPengajuan.count({
     where: {
       AND: [
-        { status_verifikasi: "ANTRI" },
+        { status_slik: "ANTRI" },
         { DataPembiayaan: { user_id: user.id } },
         { is_active: true },
         {
@@ -219,10 +219,22 @@ export const POST = async (req: NextRequest) => {
     const trans = await prisma.$transaction(async (tx) => {
       const berkas = await tx.berkasPengajuan.create({
         data: {
-          berkas_pengajuan: data.BerkasPengajuan && data.BerkasPengajuan.berkas_pengajuan ? data.BerkasPengajuan.berkas_pengajuan : null,
-          berkas_slik: data.BerkasPengajuan && data.BerkasPengajuan.berkas_slik ? data.BerkasPengajuan.berkas_slik : null,
-          video_wawancara: data.BerkasPengajuan && data.BerkasPengajuan.video_wawancara ? data.BerkasPengajuan.video_wawancara :  null,
-          video_asuransi: data.BerkasPengajuan && data.BerkasPengajuan.video_asuransi ? data.BerkasPengajuan.video_asuransi : null,
+          berkas_pengajuan:
+            data.BerkasPengajuan && data.BerkasPengajuan.berkas_pengajuan
+              ? data.BerkasPengajuan.berkas_pengajuan
+              : null,
+          berkas_slik:
+            data.BerkasPengajuan && data.BerkasPengajuan.berkas_slik
+              ? data.BerkasPengajuan.berkas_slik
+              : null,
+          video_wawancara:
+            data.BerkasPengajuan && data.BerkasPengajuan.video_wawancara
+              ? data.BerkasPengajuan.video_wawancara
+              : null,
+          video_asuransi:
+            data.BerkasPengajuan && data.BerkasPengajuan.video_asuransi
+              ? data.BerkasPengajuan.video_asuransi
+              : null,
         },
       });
       const biaya = await tx.dataPembiayaan.create({
@@ -437,9 +449,7 @@ export const POST = async (req: NextRequest) => {
                 tanggal_checker: new Date(),
                 status_maker: "SETUJU",
                 tanggal_maker: new Date(),
-                status_approval: "SETUJU",
-                keterangan_approval: "APPROVAL PASS",
-                tanggal_approval: new Date(),
+                status_approval: "ANTRI",
                 dataTaspenId: dataTaspenId,
                 bankId: data.bankId,
                 dataPengajuanKeluargaId: pengajuanKeluarga.id,
@@ -481,7 +491,7 @@ export const POST = async (req: NextRequest) => {
                 user_id: data.user_id,
                 data_pembiayaan_id: biaya.id,
                 berkasPengajuanId: berkas.id,
-                status_verifikasi: "ANTRI",
+                status_slik: "ANTRI",
                 dataTaspenId: dataTaspenId,
                 bankId: data.bankId,
                 dataPengajuanKeluargaId: pengajuanKeluarga.id,

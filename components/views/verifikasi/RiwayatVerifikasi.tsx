@@ -62,6 +62,7 @@ export default function RiwayatVerifikasi() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -83,6 +84,7 @@ export default function RiwayatVerifikasi() {
       title: "NO PENSIUN",
       dataIndex: "nopen",
       key: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -99,6 +101,7 @@ export default function RiwayatVerifikasi() {
       title: "NAMA PEMOHON",
       dataIndex: "name",
       key: "name",
+      width: 200,
       fixed: "left",
       onHeaderCell: (text, record) => {
         return {
@@ -116,6 +119,7 @@ export default function RiwayatVerifikasi() {
       title: "PLAFOND",
       dataIndex: "plafond",
       key: "plafond",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -137,6 +141,7 @@ export default function RiwayatVerifikasi() {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk",
       key: "produk",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -255,24 +260,11 @@ export default function RiwayatVerifikasi() {
     //     },
     //   ],
     // },
-    {
-      title: "INFORMASI VERIFIKASI",
-      dataIndex: `status_verifikasi`,
-      key: "verifikasi",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            background: "#0284c7",
-            color: "#f3f4f6",
-            textAlign: "center",
-          },
-        };
-      },
-      children: [
         {
           title: "STATUS",
           dataIndex: "status_verifikasi",
           key: "status_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -324,6 +316,7 @@ export default function RiwayatVerifikasi() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_verifikasi",
           key: "nama_pemeriksa_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -339,6 +332,7 @@ export default function RiwayatVerifikasi() {
           title: "TANGGAL",
           dataIndex: "tanggal_verifikasi",
           key: "tanggal_verifikasi",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -358,8 +352,6 @@ export default function RiwayatVerifikasi() {
             );
           },
         },
-      ],
-    },
     {
       title: "VIEW BERKAS",
       dataIndex: "id",
@@ -402,7 +394,7 @@ export default function RiwayatVerifikasi() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 2500, y: 320 }}
+          scroll={{ x: 2000, y: 320 }}
           size="small"
           loading={loading}
           pagination={{

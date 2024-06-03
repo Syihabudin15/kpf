@@ -290,7 +290,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     render(value, record, index) {
         return(
             <div className="flex justify-center">
-                <button className={`py-1 px-2 text-xs bg-${record.pembayaran_asuransi ? "red" : "green"}`}>
+                <button className={`py-1 px-2 bg-${record.pembayaran_asuransi ? "red" : "green"}-500 text-white rounded shadow`}>
                     {record.pembayaran_asuransi ? <MinusCircleFilled/> : <CheckCircleFilled/>}
                 </button>
             </div>

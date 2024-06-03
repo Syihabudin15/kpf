@@ -46,6 +46,7 @@ export default function ChartMarketing() {
           options={data.options}
           series={data.series}
           type="bar"
+          key={"chartMarketing"}
           height={300}
         />
       ) : (

@@ -63,6 +63,7 @@ export default function RiwayatKomite() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -84,6 +85,7 @@ export default function RiwayatKomite() {
       title: "MITRA BANK",
       dataIndex: "mitra_bank",
       key: "mitra_bank",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -105,6 +107,7 @@ export default function RiwayatKomite() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -120,6 +123,7 @@ export default function RiwayatKomite() {
       title: "NAMA PEMOHON",
       dataIndex: "name",
       key: "name",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -137,6 +141,7 @@ export default function RiwayatKomite() {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "data_pembiayaan_id",
       key: "data_pembiayaan_id",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -154,6 +159,7 @@ export default function RiwayatKomite() {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "data_pembiayaan_id",
       key: "data_pembiayaan_id",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -175,6 +181,7 @@ export default function RiwayatKomite() {
       title: "PLAFOND",
       dataIndex: "plafon",
       key: "plafon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -191,6 +198,7 @@ export default function RiwayatKomite() {
       title: "TENOR",
       dataIndex: "Tenor",
       key: "tenor",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -202,112 +210,6 @@ export default function RiwayatKomite() {
       render(value, record, index) {
         return <>{record.DataPembiayaan.tenor} Bulan</>;
       },
-    },
-    {
-      title: "INFORMASI VERIFIKASI",
-      dataIndex: `status_verifikasi`,
-      key: "verifikasi",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            background: "#0284c7",
-            color: "#f3f4f6",
-            textAlign: "center",
-          },
-        };
-      },
-      children: [
-        {
-          title: "STATUS",
-          dataIndex: "status_verifikasi",
-          key: "status_verifikasi",
-          className: "text-center",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs font-bold italic">
-                {record.status_verifikasi && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_verifikasi === "SETUJU"
-                        ? "green"
-                        : record.status_verifikasi === "DITOLAK"
-                        ? "red"
-                        : record.status_verifikasi === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_verifikasi}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          title: "KETERANGAN",
-          dataIndex: "keterangan_verifikasi",
-          key: "keterangan_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-justify",
-          width: 300,
-        },
-        {
-          title: "PEMERIKSA",
-          dataIndex: "nama_pemeriksa_verifikasi",
-          key: "nama_pemeriksa_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-        },
-        {
-          title: "TANGGAL",
-          dataIndex: "tanggal_verifikasi",
-          key: "tanggal_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div>
-                {record.tanggal_verifikasi &&
-                  moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-      ],
     },
     {
       title: "INFORMASI SLIK",
@@ -327,6 +229,7 @@ export default function RiwayatKomite() {
           title: "STATUS",
           dataIndex: "status_slik",
           key: "status_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -379,6 +282,7 @@ export default function RiwayatKomite() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_slik",
           key: "nama_pemeriksa_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -394,6 +298,7 @@ export default function RiwayatKomite() {
           title: "TANGGAL",
           dataIndex: "tanggal_slik",
           key: "tanggal_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -415,6 +320,116 @@ export default function RiwayatKomite() {
         },
       ],
     },
+    {
+      title: "INFORMASI VERIFIKASI",
+      dataIndex: `status_verifikasi`,
+      key: "verifikasi",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#0284c7",
+            color: "#f3f4f6",
+            textAlign: "center",
+          },
+        };
+      },
+      children: [
+        {
+          title: "STATUS",
+          dataIndex: "status_verifikasi",
+          key: "status_verifikasi",
+          className: "text-center",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#0284c7",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <div className="flex justify-center text-xs font-bold italic">
+                {record.status_verifikasi && (
+                  <div
+                    className={`py-1 px-2 w-24 bg-${
+                      record.status_verifikasi === "SETUJU"
+                        ? "green"
+                        : record.status_verifikasi === "DITOLAK"
+                        ? "red"
+                        : record.status_verifikasi === "ANTRI"
+                        ? "orange"
+                        : "blue"
+                    }-500 text-gray-100 text-center`}
+                  >
+                    {record.status_verifikasi}
+                  </div>
+                )}
+              </div>
+            );
+          },
+        },
+        {
+          title: "KETERANGAN",
+          dataIndex: "keterangan_verifikasi",
+          key: "keterangan_verifikasi",
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#0284c7",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-justify",
+          width: 300,
+        },
+        {
+          title: "PEMERIKSA",
+          dataIndex: "nama_pemeriksa_verifikasi",
+          key: "nama_pemeriksa_verifikasi",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#0284c7",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+        },
+        {
+          title: "TANGGAL",
+          dataIndex: "tanggal_verifikasi",
+          key: "tanggal_verifikasi",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#0284c7",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return (
+              <div>
+                {record.tanggal_verifikasi &&
+                  moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
+              </div>
+            );
+          },
+        },
+      ],
+    },
+    
 
     // {
     //   title: "Informasi Data Checker",
@@ -650,6 +665,7 @@ export default function RiwayatKomite() {
           title: "STATUS",
           dataIndex: "status_approval",
           key: "status_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -702,6 +718,7 @@ export default function RiwayatKomite() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_approval",
           key: "nama_pemeriksa_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -717,6 +734,7 @@ export default function RiwayatKomite() {
           title: "TANGGAL",
           dataIndex: "tanggal_approval",
           key: "tanggal_approval",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -781,7 +799,7 @@ export default function RiwayatKomite() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 5500, y:320 }}
+          scroll={{ x: 4000, y:320 }}
           size="small"
           loading={loading}
           pagination={{

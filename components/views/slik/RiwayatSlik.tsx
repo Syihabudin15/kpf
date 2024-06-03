@@ -62,6 +62,7 @@ export default function RiwayatSlik() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -83,6 +84,7 @@ export default function RiwayatSlik() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -98,6 +100,8 @@ export default function RiwayatSlik() {
       title: "NAMA PEMOHON",
       dataIndex: "name",
       key: "name",
+      width: 200,
+      fixed: "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -110,47 +114,10 @@ export default function RiwayatSlik() {
       },
     },
     {
-      title: "PRODUK PEMBIAYAAN",
-      dataIndex: "data_pembiayaan_id",
-      key: "data_pembiayaan_id",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      render(value, record, index) {
-        return (
-          <>{record.DataPembiayaan && record.DataPembiayaan.Produk.name}</>
-        );
-      },
-    },
-    {
-      title: "JENIS PEMBIAYAAN",
-      dataIndex: "data_pembiayaan_id",
-      key: "data_pembiayaan_id",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      render(value, record, index) {
-        return (
-          <>
-            {record.DataPembiayaan.jenis_pembiayaan_id
-              ? record.DataPembiayaan.JenisPembiayaan.name
-              : "Sisa Gaji"}
-          </>
-        );
-      },
-    },
-    {
       title: "PLAFOND",
       dataIndex: "plafon",
       key: "plafon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -167,6 +134,7 @@ export default function RiwayatSlik() {
       title: "TENOR",
       dataIndex: "Tenor",
       key: "tenor",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -179,129 +147,11 @@ export default function RiwayatSlik() {
         return <>{record.DataPembiayaan.tenor} Bulan</>;
       },
     },
-    {
-      title: "INFORMASI VERIFIKASI",
-      dataIndex: `status_verifikasi`,
-      key: "verifikasi",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            background: "#0284c7",
-            color: "#f3f4f6",
-            textAlign: "center",
-          },
-        };
-      },
-      children: [
-        {
-          title: "STATUS",
-          dataIndex: "status_verifikasi",
-          key: "status_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs font-bold italic">
-                {record.status_verifikasi && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_verifikasi === "SETUJU"
-                        ? "green"
-                        : record.status_verifikasi === "DITOLAK"
-                        ? "red"
-                        : record.status_verifikasi === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_verifikasi}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          title: "KETERANGAN",
-          dataIndex: "keterangan_verifikasi",
-          key: "keterangan_verifikasi",
-          width: 300,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-justify",
-        },
-        {
-          title: "PEMERIKSA",
-          dataIndex: "nama_pemeriksa_verifikasi",
-          key: "nama_pemeriksa_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-        },
-        {
-          title: "TANGGAL",
-          dataIndex: "tanggal_verifikasi",
-          key: "tanggal_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div>
-                {record.tanggal_verifikasi &&
-                  moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-      ],
-    },
-    {
-      title: "INFORMASI SLIK",
-      dataIndex: `status_slik`,
-      key: "slik",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            background: "#22c55e",
-            color: "#f3f4f6",
-            textAlign: "center",
-          },
-        };
-      },
-      children: [
         {
           title: "STATUS",
           dataIndex: "status_slik",
           key: "status_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -354,6 +204,7 @@ export default function RiwayatSlik() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_slik",
           key: "nama_pemeriksa_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -369,6 +220,7 @@ export default function RiwayatSlik() {
           title: "TANGGAL",
           dataIndex: "tanggal_slik",
           key: "tanggal_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -385,8 +237,6 @@ export default function RiwayatSlik() {
             );
           },
         },
-      ],
-    },
     {
       title: "VIEW BERKAS",
       dataIndex: "id",
@@ -431,7 +281,7 @@ export default function RiwayatSlik() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 3000, y: 320 }}
+          scroll={{ x: 1500, y: 'calc(65vh - 100px)' }}
           size="small"
           loading={loading}
           pagination={{

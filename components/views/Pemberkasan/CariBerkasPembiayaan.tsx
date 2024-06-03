@@ -466,7 +466,7 @@ export default function CariBerkasPembiayaan() {
           bordered
           loading={loading}
           size="small"
-          scroll={{ x: 3000, y:320 }}
+          scroll={{ x: 3000, y: 'calc(65vh - 100px)' }}
           pagination={{
             pageSize: 20,
             total,

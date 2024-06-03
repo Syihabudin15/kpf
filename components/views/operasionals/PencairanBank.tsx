@@ -392,7 +392,7 @@ export default function PencairanBank() {
           dataSource={data}
           columns={columns}
           loading={loading}
-          scroll={{ x: 2000, y:320 }}
+          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
           bordered
           size="small"
           pagination={{

@@ -245,7 +245,7 @@ export default function InputSlik() {
       },
     },
     {
-      title: "STATUS VERIFIKASI",
+      title: "STATUS SLIK",
       dataIndex: `status_verifikasi`,
       key: "status_verifikasi",
       width: 120,
@@ -260,19 +260,19 @@ export default function InputSlik() {
       render(value, record, index) {
         return (
           <div className="flex justify-center text-xs font-bold italic">
-            {record.status_verifikasi && (
+            {record.status_slik && (
               <div
                 className={`py-1 px-2 w-24 bg-${
-                  record.status_verifikasi === "SETUJU"
+                  record.status_slik === "SETUJU"
                     ? "green"
-                    : record.status_verifikasi === "DITOLAK"
+                    : record.status_slik === "DITOLAK"
                     ? "red"
-                    : record.status_verifikasi === "ANTRI"
+                    : record.status_slik === "ANTRI"
                     ? "orange"
                     : "blue"
                 }-500 text-gray-100 text-center`}
               >
-                {record.status_verifikasi}
+                {record.status_slik}
               </div>
             )}
           </div>
@@ -378,7 +378,7 @@ export default function InputSlik() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 2500, y:320 }}
+          scroll={{ x: 2500, y: 'calc(65vh - 100px)' }}
           size="small"
           loading={loading}
           pagination={{

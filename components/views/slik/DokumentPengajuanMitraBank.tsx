@@ -949,7 +949,7 @@ export default function DokumenPengajuanMitraBank() {
           size="small"
           dataSource={data}
           columns={columns}
-          scroll={{ x: 5500, y:320 }}
+          scroll={{ x: 5500, y: 'calc(65vh - 100px)' }}
           bordered
           loading={loading}
           pagination={{

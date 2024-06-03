@@ -132,6 +132,7 @@ model Bank {
   by_provisi       Int?    @default(0)
   margin_bank      Float?  @default(14)
   is_syariah       Boolean @default(false)
+  is_flash         Boolean @default(false)
 
   logo              String?
   up_direktur       String?

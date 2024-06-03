@@ -1,0 +1,6 @@
+SI => nama berkas SI
+Edit Pengajuan dan pembiayaan -> golongan - kelompok, required field, jenis margin dan sumber dana, pendidikan, berkas setelah di upload
+tombol submit edit dan input pengajuan
+chart -> still not update
+DaftarPengajuanPencairan -> upload, no
+pengajuanMitra -> no skep

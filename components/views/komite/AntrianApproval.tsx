@@ -62,6 +62,7 @@ export default function AntrianApproval() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -83,6 +84,7 @@ export default function AntrianApproval() {
       title: "MITRA BANK",
       dataIndex: "mitra_bank",
       key: "mitra_bank",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -104,6 +106,7 @@ export default function AntrianApproval() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -119,6 +122,7 @@ export default function AntrianApproval() {
       title: "NAMA PEMOHON",
       dataIndex: "name",
       key: "name",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -133,80 +137,17 @@ export default function AntrianApproval() {
       },
     },
     {
-      title: "PRODUK PEMBIAYAAN",
-      dataIndex: "data_pembiayaan_id",
-      key: "data_pembiayaan_id",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      render(value, record, index) {
-        return (
-          <>{record.DataPembiayaan && record.DataPembiayaan.Produk.name}</>
-        );
-      },
-    },
-    {
-      title: "JENIS PEMBIAYAAN",
-      dataIndex: "data_pembiayaan_id",
-      key: "data_pembiayaan_id",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      render(value, record, index) {
-        return (
-          <>
-            {record.DataPembiayaan.jenis_pembiayaan_id
-              ? record.DataPembiayaan.JenisPembiayaan.name
-              : "Sisa Gaji"}
-          </>
-        );
-      },
-    },
-    {
-      title: "PLAFOND",
-      dataIndex: "plafon",
-      key: "plafon",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      className: "text-center",
-      render(value, record, index) {
-        return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
-      },
-    },
-    {
-      title: "TENOR",
-      dataIndex: "Tenor",
-      key: "tenor",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      className: "text-center",
-      render(value, record, index) {
-        return <>{record.DataPembiayaan.tenor} Bulan</>;
-      },
-    },
-    {
       title: "STATUS APPROVAL",
       dataIndex: `status_approval`,
       key: "status_approval",
-      width: 120,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      width: 150,
       className: "text-center",
       render(value, record, index) {
         return (
@@ -230,129 +171,12 @@ export default function AntrianApproval() {
         );
       },
     },
-    {
-      title: "INFORMASI VERIFIKASI",
-      dataIndex: `status_verifikasi`,
-      key: "verifikasi",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            background: "#0284c7",
-            color: "#f3f4f6",
-            textAlign: "center",
-          },
-        };
-      },
-      children: [
-        {
-          title: "STATUS",
-          dataIndex: "status_verifikasi",
-          key: "status_verifikasi",
-          className: "text-center",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs font-bold italic">
-                {record.status_verifikasi && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_verifikasi === "SETUJU"
-                        ? "green"
-                        : record.status_verifikasi === "DITOLAK"
-                        ? "red"
-                        : record.status_verifikasi === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_verifikasi}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          title: "KETERANGAN",
-          dataIndex: "keterangan_verifikasi",
-          key: "keterangan_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          width: 300,
-          className: "text-justify",
-        },
-        {
-          title: "PEMERIKSA",
-          dataIndex: "nama_pemeriksa_verifikasi",
-          key: "nama_pemeriksa_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-        },
-        {
-          title: "TANGGAL",
-          dataIndex: "tanggal_verifikasi",
-          key: "tanggal_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div>
-                {moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-      ],
-    },
-    {
-      title: "INFORMASI SLIK",
-      dataIndex: `status_slik`,
-      key: "slik",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            background: "#22c55e",
-            color: "#f3f4f6",
-            textAlign: "center",
-          },
-        };
-      },
-      children: [
+    
         {
           title: "STATUS",
           dataIndex: "status_slik",
           key: "status_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -405,6 +229,7 @@ export default function AntrianApproval() {
           title: "PEMERIKSA",
           dataIndex: "nama_pemeriksa_slik",
           key: "nama_pemeriksa_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -420,6 +245,7 @@ export default function AntrianApproval() {
           title: "TANGGAL",
           dataIndex: "tanggal_slik",
           key: "tanggal_slik",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -433,6 +259,113 @@ export default function AntrianApproval() {
           render(value, record, index) {
             return (
               <div>{moment(record.tanggal_slik).format("DD-MM-YYYY")}</div>
+            );
+          },
+        },
+      
+    {
+      title: "INFORMASI VERIFIKASI",
+      dataIndex: `status_verifikasi`,
+      key: "verifikasi",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#0284c7",
+            color: "#f3f4f6",
+            textAlign: "center",
+          },
+        };
+      },
+      children: [
+        {
+          title: "STATUS",
+          dataIndex: "status_verifikasi",
+          key: "status_verifikasi",
+          className: "text-center",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#0284c7",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <div className="flex justify-center text-xs font-bold italic">
+                {record.status_verifikasi && (
+                  <div
+                    className={`py-1 px-2 w-24 bg-${
+                      record.status_verifikasi === "SETUJU"
+                        ? "green"
+                        : record.status_verifikasi === "DITOLAK"
+                        ? "red"
+                        : record.status_verifikasi === "ANTRI"
+                        ? "orange"
+                        : "blue"
+                    }-500 text-gray-100 text-center`}
+                  >
+                    {record.status_verifikasi}
+                  </div>
+                )}
+              </div>
+            );
+          },
+        },
+        {
+          title: "KETERANGAN",
+          dataIndex: "keterangan_verifikasi",
+          key: "keterangan_verifikasi",
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#0284c7",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          width: 300,
+          className: "text-justify",
+        },
+        {
+          title: "PEMERIKSA",
+          dataIndex: "nama_pemeriksa_verifikasi",
+          key: "nama_pemeriksa_verifikasi",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#0284c7",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+        },
+        {
+          title: "TANGGAL",
+          dataIndex: "tanggal_verifikasi",
+          key: "tanggal_verifikasi",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#0284c7",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return (
+              <div>
+                {moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
+              </div>
             );
           },
         },
@@ -695,7 +628,7 @@ export default function AntrianApproval() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 4000, y:320 }}
+          scroll={{ x: 3000, y:320 }}
           size="small"
           loading={loading}
           pagination={{

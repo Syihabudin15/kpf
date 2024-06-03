@@ -451,7 +451,111 @@ export default function MonitoringPusat() {
         );
       },
     },
-
+{
+      title: "INFORMASI SLIK",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: { background: "#22c55e", color: "#f3f4f6" },
+        };
+      },
+      dataIndex: `status_slik`,
+      key: "slik",
+      children: [
+        {
+          title: "STATUS",
+          dataIndex: "status_slik",
+          key: "status_slik",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#22c55e",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return (
+              <div className="flex justify-center text-xs font-bold italic">
+                {record.status_slik && (
+                  <div
+                    className={`py-1 px-2 w-24 bg-${
+                      record.status_slik === "SETUJU"
+                        ? "green"
+                        : record.status_slik === "DITOLAK"
+                        ? "red"
+                        : record.status_slik === "ANTRI"
+                        ? "orange"
+                        : "blue"
+                    }-500 text-gray-100 text-center`}
+                  >
+                    {record.status_slik}
+                  </div>
+                )}
+              </div>
+            );
+          },
+        },
+        {
+          title: "KETERANGAN",
+          dataIndex: "keterangan_slik",
+          key: "keterangan_slik",
+          width: 300,
+          className: "text-justify",
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#22c55e",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+        },
+        {
+          title: "PEMERIKSA",
+          dataIndex: "nama_pemeriksa_slik",
+          key: "nama_pemeriksa_slik",
+          className: "text-center",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#22c55e",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+        },
+        {
+          title: "TANGGAL",
+          dataIndex: "tanggal_slik",
+          key: "tanggal_slik",
+          className: "text-center",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                background: "#22c55e",
+                color: "#f3f4f6",
+                textAlign: "center",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <div>
+                {record.tanggal_slik &&
+                  moment(record.tanggal_slik).format("DD-MM-YYYY")}
+              </div>
+            );
+          },
+        },
+      ],
+    },
     {
       title: "INFORMASI VERIFIKASI",
       dataIndex: `status_verifikasi`,
@@ -560,111 +664,7 @@ export default function MonitoringPusat() {
         },
       ],
     },
-    {
-      title: "INFORMASI SLIK",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: { background: "#22c55e", color: "#f3f4f6" },
-        };
-      },
-      dataIndex: `status_slik`,
-      key: "slik",
-      children: [
-        {
-          title: "STATUS",
-          dataIndex: "status_slik",
-          key: "status_slik",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#22c55e",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs font-bold italic">
-                {record.status_slik && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_slik === "SETUJU"
-                        ? "green"
-                        : record.status_slik === "DITOLAK"
-                        ? "red"
-                        : record.status_slik === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_slik}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          title: "KETERANGAN",
-          dataIndex: "keterangan_slik",
-          key: "keterangan_slik",
-          width: 300,
-          className: "text-justify",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#22c55e",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-        },
-        {
-          title: "PEMERIKSA",
-          dataIndex: "nama_pemeriksa_slik",
-          key: "nama_pemeriksa_slik",
-          className: "text-center",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#22c55e",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-        },
-        {
-          title: "TANGGAL",
-          dataIndex: "tanggal_slik",
-          key: "tanggal_slik",
-          className: "text-center",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#22c55e",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div>
-                {record.tanggal_slik &&
-                  moment(record.tanggal_slik).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-      ],
-    },
+    
     // {
     //   title: "Informasi Data Checker",
     //   dataIndex: `status_checker`,
@@ -1019,7 +1019,7 @@ export default function MonitoringPusat() {
                 setModalHapus(true);
               }}
               className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
-              disabled={loading}
+              disabled={loading ? true : record.status_pencairan === "TRANSFER" ? true : false}
               style={{
                 opacity: record.status_pencairan === "TRANSFER" ? 0.5 : 1,
               }}

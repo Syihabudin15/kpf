@@ -951,15 +951,6 @@ export default function MonitoringEntryData() {
               refferalOpt={refferal || []}
               provinsi={provinsi || []}
             />
-            <button
-              onClick={() => {
-                setSelected(record);
-                setModalHapus(true);
-              }}
-              className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
-            >
-              <DeleteOutlined />
-            </button>
           </div>
         );
       },

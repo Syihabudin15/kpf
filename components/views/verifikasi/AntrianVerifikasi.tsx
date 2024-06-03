@@ -62,6 +62,7 @@ export default function AntrianVerifikasi() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -83,6 +84,7 @@ export default function AntrianVerifikasi() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_data",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -103,6 +105,7 @@ export default function AntrianVerifikasi() {
       title: "NAMA PEMOHON",
       dataIndex: "name",
       key: "name",
+      width: 200,
       fixed: "left",
       onHeaderCell: (text, record) => {
         return {
@@ -120,6 +123,7 @@ export default function AntrianVerifikasi() {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "data_pembiayaan_id",
       key: "data_pembiayaan_id",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -137,6 +141,7 @@ export default function AntrianVerifikasi() {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "data_pembiayaan_id",
       key: "data_pembiayaan_id",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -158,6 +163,7 @@ export default function AntrianVerifikasi() {
       title: "STATUS VERIFIKASI",
       dataIndex: `status_verifikasi`,
       key: "status_verifikasi",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -340,7 +346,7 @@ export default function AntrianVerifikasi() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1500, y:320 }}
+        scroll={{ x: 1200, y:320 }}
         size="small"
         loading={loading}
         pagination={{
