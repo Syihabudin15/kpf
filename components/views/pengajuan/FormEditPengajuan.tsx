@@ -551,6 +551,8 @@ export default function FormEditPengajuan({
                     aria-required
                     placeholder={"-- choose --"}
                     options={[
+                      { label: "SD", value: "SD" },
+                      { label: "SMP", value: "SMP" },
                       { label: "SMA", value: "SMA" },
                       { label: "D3", value: "D3" },
                       { label: "S1", value: "S1" },
@@ -901,6 +903,7 @@ export default function FormEditPengajuan({
               currData={currData}
               refferal={refferalOpt}
               setPembiayaan={setPembiayaan}
+              setJenisMargin={setJenisMargin}
             />
             {/* End Pembiayaan */}
 
@@ -985,35 +988,6 @@ export default function FormEditPengajuan({
               currData={currData.BerkasPengajuan}
             />
             {/* End Dokumen */}
-
-            <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
-              Sumber Dana & Jenis Margin
-            </div>
-            <div className="block md:flex gap-5 justify-between">
-              <Form.Item
-                label="Sumber Dana"
-                name={"bank_id"}
-                required
-                className="flex-1"
-              >
-                <Input defaultValue={currData.Bank.name} />
-              </Form.Item>
-              <Form.Item
-                label="Jenis Margin"
-                name={"jenis_margin"}
-                required
-                className="flex-1"
-              >
-                <Select
-                  defaultValue={currData.jenis_margin}
-                  onChange={(e) => setJenisMargin(e)}
-                  options={[
-                    { label: "FLAT", value: "FLAT" },
-                    { label: "ANUITAS", value: "ANUITAS" },
-                  ]}
-                />
-              </Form.Item>
-            </div>
           </div>
           <Form.Item className="block md:flex justify-end">
             <button

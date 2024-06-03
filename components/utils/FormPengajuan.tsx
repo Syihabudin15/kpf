@@ -809,7 +809,7 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Golongan" name={"golongan"}>
+              <Form.Item label="Kelompok Pensiun" name={"jenis_pensiun"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1082,7 +1082,7 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Pangkat / Golongan" name={"jenis_pensiun"}>
+              <Form.Item label="Pangkat / Golongan" name={"golongan"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1477,10 +1477,10 @@ export default function TabsForm({
         (data?.User.first_name || "") + " " + (data?.User.last_name || ""),
       fronting: data?.agent_fronting || "",
       sumber_dana: data?.Bank.name || "",
-      golongan: data?.DataTaspen.golongan || "",
-      nama_skep: data?.DataTaspen.nama_skep || "",
-      no_skep: data?.DataTaspen.no_skep || "",
-      kode_jiwa: data?.DataTaspen.kode_jiwa || "",
+      golongan: data.jenis_pensiun || "",
+      nama_skep: data.nama_skep || "",
+      no_skep: data.nomor_sk_pensiun || "",
+      kode_jiwa: data.kode_jiwa || "",
       rt: data?.DataPengajuanAlamat.rt || "",
       rw: data?.DataPengajuanAlamat.rw || "",
       kelurahan: data?.DataPengajuanAlamat.kelurahan || "",
@@ -1513,7 +1513,7 @@ export default function TabsForm({
       jenis_usaha: data?.jenis_usaha,
       status_kawin: data?.status_kawin,
       nama_pasangan: data?.DataPengajuanPasangan.nama_pasangan,
-      tempat_lahir_pasangan: data?.DataPengajuanPasangan.tempat_lahir_pasangan,
+      tempat_lahir_pasangan: data.DataPengajuanPasangan.tempat_lahir_pasangan,
       alamat_pasangan: data.DataPengajuanPasangan.alamat_pasangan,
       tanggal_lahir_pasangan:
         data?.DataPengajuanPasangan.tanggal_lahir_pasangan ? moment(data?.DataPengajuanPasangan.tanggal_lahir_pasangan).format("DD-MM-YYYY") : "",
@@ -1530,7 +1530,7 @@ export default function TabsForm({
       no_telepon: data?.no_telepon,
       tmt_pensiun: data?.tmt_pensiun ? moment(data?.tmt_pensiun).format("DD-MM-YYYY") : "",
       penerbit_sk: data?.penerbit_sk,
-      jenis_pensiun: data?.jenis_pensiun,
+      jenis_pensiun: data?.golongan,
       posisi: data?.User.posisi,
       unit_cabang: data?.User.UnitCabang.name,
       status_pkwt: data?.User.status_pkwt,

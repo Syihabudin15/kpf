@@ -166,7 +166,7 @@ export default function InputForm({
       nama_pasangan: statusKawinDisable ? null : e.nama_pasangan,
       tempat_lahir_pasangan: statusKawinDisable
         ? null
-        : e.tangal_lahir_pasangan,
+        : e.tempat_lahir_pasangan,
       tanggal_lahir_pasangan: statusKawinDisable
         ? null
         : moment(e.tanggal_lahir_pasangan).toISOString(),

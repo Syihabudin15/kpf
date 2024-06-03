@@ -255,7 +255,7 @@ export default function MasterUser() {
           },
         };
       },
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       dataIndex: "first_name",
       key: "firt_name",
       width: 200,
@@ -435,7 +435,8 @@ export default function MasterUser() {
         };
       },
       className: "text-center",
-      width: 100,
+      width: 100, 
+      fixed: window.innerWidth < 600 ? false : "right",
       render: (value, record, index) => (
         <div className="flex flex-wrap justify-center gap-2" key={index}>
           <button

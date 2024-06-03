@@ -37,10 +37,12 @@ export default function EditBiaya({
   currData,
   refferal,
   setPembiayaan,
+  setJenisMargin
 }: {
   currData: DataDataPengajuan;
   refferal: productOptions[];
   setPembiayaan: Function;
+  setJenisMargin: Function
 }) {
   const [data, setData] = useState<BankOptions[]>([]);
   const [dataBank, setDataBank] = useState<Produk[]>([]);
@@ -745,6 +747,41 @@ export default function EditBiaya({
               </div>
               <div className="flex gap-5">
                 <Form.Item
+                  label="Pembiayaan Sebelumnya"
+                  className="w-full md:w-50"
+                >
+                  <Input
+                    disabled={disable}
+                    data-hitung="simulasi-ulang"
+                    onChange={(e) => setpembiayaanSebelumnya(e.target.value)}
+                    defaultValue={
+                      currData.DataPembiayaan.pembiayaan_sebelumnya || ""
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Nama Bank"
+                  name={"nama_bank"}
+                  className="w-full md:w-50"
+                >
+                  <Input
+                    onChange={(e) => setNamaBank(e.target.value)}
+                    defaultValue={currData.DataPembiayaan.nama_bank || ""}
+                  />
+                </Form.Item>
+              </div>
+              <div className="block md:flex gap-5">
+                <Form.Item
+                  label="No Rekening"
+                  name={"no_rekening"}
+                  className="w-full md:w-50"
+                >
+                  <Input
+                    onChange={(e) => setNoBank(e.target.value)}
+                    defaultValue={currData.DataPembiayaan.no_rekening || ""}
+                  />
+                </Form.Item>
+                <Form.Item
                   label="Tempat Lahir"
                   name={"tempat_lahir"}
                   className="w-full md:w-50"
@@ -754,32 +791,6 @@ export default function EditBiaya({
                     onChange={(e) => setTempatLahir(e.target.value)}
                     required
                     defaultValue={currData.DataPembiayaan.tempat_lahir || ""}
-                  />
-                </Form.Item>
-              </div>
-              <div className="block md:flex gap-5">
-                <Form.Item
-                  label="Nama Bank"
-                  name={"nama_bank"}
-                  className="w-full md:w-50"
-                  required
-                >
-                  <Input
-                    onChange={(e) => setNamaBank(e.target.value)}
-                    required
-                    defaultValue={currData.DataPembiayaan.nama_bank || ""}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="No Rekening"
-                  name={"no_rekening"}
-                  className="w-full md:w-50"
-                  required
-                >
-                  <Input
-                    onChange={(e) => setNoBank(e.target.value)}
-                    required
-                    defaultValue={currData.DataPembiayaan.no_rekening || ""}
                   />
                 </Form.Item>
               </div>
@@ -899,18 +910,21 @@ export default function EditBiaya({
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Pembiayaan Sebelumnya"
-                  className="w-full md:w-50"
+                  label="Jenis Margin"
+                  name={"jenis_margin"}
+                  required
+                  rules={[{ required: true, message: "Mohon isi field ini!" }]}
+                  className="flex-1"
                 >
-                  <Input
-                    disabled={disable}
-                    data-hitung="simulasi-ulang"
-                    onChange={(e) => setpembiayaanSebelumnya(e.target.value)}
-                    defaultValue={
-                      currData.DataPembiayaan.pembiayaan_sebelumnya || ""
-                    }
+                  <Select
+                    showSearch
+                    onChange={(e) => setJenisMargin(e)}
+                    options={[
+                      { label: "FLAT", value: "FLAT" },
+                      { label: "ANUITAS", value: "ANUITAS" },
+                    ]}
                   />
-                </Form.Item>
+                </Form.Item>                
               </div>
               <div className="block md:flex items-end justify-between gap-5">
                 <Form.Item
