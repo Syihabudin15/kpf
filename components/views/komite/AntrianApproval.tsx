@@ -171,8 +171,21 @@ export default function AntrianApproval() {
         );
       },
     },
-    
-        {
+      {
+        title: "INFORMASI SLIK",
+      dataIndex: `status_slik`,
+      key: "slik",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#22c55e",
+            color: "#f3f4f6",
+            textAlign: "center",
+          },
+        };
+      },
+        children: [
+          {
           title: "STATUS",
           dataIndex: "status_slik",
           key: "status_slik",
@@ -189,7 +202,7 @@ export default function AntrianApproval() {
           className: "text-center",
           render(value, record, index) {
             return (
-              <div className="flex justify-center text-xs font-sans italic">
+              <div className="flex justify-center text-xs font-bold italic">
                 {record.status_slik && (
                   <div
                     className={`py-1 px-2 w-24 bg-${
@@ -262,7 +275,8 @@ export default function AntrianApproval() {
             );
           },
         },
-      
+        ]
+      },
     {
       title: "INFORMASI VERIFIKASI",
       dataIndex: `status_verifikasi`,
@@ -586,7 +600,7 @@ export default function AntrianApproval() {
       title: "PERIKSA",
       dataIndex: "id",
       key: "id",
-      fixed: "right",
+      fixed: window.innerWidth < 600 ? false : "right",
       width: 80,
       onHeaderCell: (text, record) => {
         return {

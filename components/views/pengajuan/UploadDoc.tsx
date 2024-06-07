@@ -53,6 +53,14 @@ export default function UploadDoc({
     fileName: "",
     progres: 0,
   });
+  const [berkasIDPB, setBerkasIDPB] = useState<FileProps>({
+    fileName: "",
+    progres: 0,
+  });
+  const [berkasFlagging, setBerkasFlagging] = useState<FileProps>({
+    fileName: "",
+    progres: 0,
+  });
   const [berkasWawancara, setBerkasWawancara] = useState<FileProps>({
     fileName: "",
     progres: 0,
@@ -72,6 +80,14 @@ export default function UploadDoc({
       setBerkasPengajuan({
         fileName: currData.berkas_pengajuan || "",
         progres: currData.berkas_pengajuan ? 100 : 0,
+      });
+      setBerkasIDPB({
+        fileName: currData.berkas_idpb || "",
+        progres: currData.berkas_idpb ? 100 : 0,
+      });
+      setBerkasFlagging({
+        fileName: currData.berkas_flagging || "",
+        progres: currData.berkas_flagging ? 100 : 0,
       });
       setBerkasAsuransi({
         fileName: currData.video_asuransi || "",
@@ -164,6 +180,90 @@ export default function UploadDoc({
     } catch (err) {
       onError((error: any) => {
         setBerkasPengajuan({ fileName: "", progres: 0 });
+      });
+      message.error("Gagal upload berkas pengajuan!. Coba lagi");
+    }
+  };
+  const uploadIDPB = async (options: any) => {
+    const { onSuccess, onError, file, onProgress } = options;
+
+    try {
+      setBerkasIDPB({ fileName: "", progres: 1 });
+      const base64 = await getBase64(file);
+      const res = await axios.post(
+        "/api/slik/berkas/idpb",
+        {
+          file: base64,
+          type: "image",
+          dir: "idpb",
+          ext: "pdf",
+        },
+        {
+          headers: { "Content-Type": "Application/json" },
+          onUploadProgress: (event: any) => {
+            const percent = Math.floor((event.loaded / event.total) * 100);
+            setBerkasIDPB({ fileName: "", progres: percent });
+            if (percent === 100) {
+              setBerkasIDPB({ fileName: "", progres: 100 });
+            }
+            onProgress({ percent: (event.loaded / event.total) * 100 });
+          },
+        }
+      );
+
+      onSuccess("done");
+      setBerkasIDPB((prev) => {
+        return {
+          ...prev,
+          fileName: res.data.url,
+          progres: 100,
+        };
+      });
+    } catch (err) {
+      onError((error: any) => {
+        setBerkasIDPB({ fileName: "", progres: 0 });
+      });
+      message.error("Gagal upload berkas pengajuan!. Coba lagi");
+    }
+  };
+  const uploadFlagging = async (options: any) => {
+    const { onSuccess, onError, file, onProgress } = options;
+
+    try {
+      setBerkasFlagging({ fileName: "", progres: 1 });
+      const base64 = await getBase64(file);
+      const res = await axios.post(
+        "/api/slik/berkas/flagging",
+        {
+          file: base64,
+          type: "image",
+          dir: "berkas_flagging",
+          ext: "pdf",
+        },
+        {
+          headers: { "Content-Type": "Application/json" },
+          onUploadProgress: (event: any) => {
+            const percent = Math.floor((event.loaded / event.total) * 100);
+            setBerkasFlagging({ fileName: "", progres: percent });
+            if (percent === 100) {
+              setBerkasFlagging({ fileName: "", progres: 100 });
+            }
+            onProgress({ percent: (event.loaded / event.total) * 100 });
+          },
+        }
+      );
+
+      onSuccess("done");
+      setBerkasFlagging((prev) => {
+        return {
+          ...prev,
+          fileName: res.data.url,
+          progres: 100,
+        };
+      });
+    } catch (err) {
+      onError((error: any) => {
+        setBerkasFlagging({ fileName: "", progres: 0 });
       });
       message.error("Gagal upload berkas pengajuan!. Coba lagi");
     }
@@ -276,7 +376,9 @@ export default function UploadDoc({
       berkasSlik.fileName ||
       berkasPengajuan.fileName ||
       berkasWawancara.fileName ||
-      berkasAsuransi.fileName
+      berkasAsuransi.fileName ||
+      berkasIDPB.fileName ||
+      berkasFlagging.fileName
     ) {
       setBerkas({
         berkas_slik: berkasSlik.fileName ? berkasSlik.fileName : "",
@@ -287,51 +389,56 @@ export default function UploadDoc({
           ? berkasWawancara.fileName
           : "",
         video_asuransi: berkasAsuransi.fileName ? berkasAsuransi.fileName : "",
+        berkas_idpb: berkasIDPB.fileName ? berkasIDPB.fileName : "",
+        berkas_flagging: berkasFlagging.fileName ? berkasFlagging.fileName : "",
       });
     }
-  }, [berkasAsuransi, berkasWawancara, berkasPengajuan, berkasSlik]);
+  }, [berkasAsuransi, berkasWawancara, berkasPengajuan, berkasSlik, berkasFlagging, berkasIDPB]);
   return (
     <div>
       {/* Slik */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p>Berkas Slik (PDF) :</p>
-          <Upload
-            accept="application/pdf"
-            beforeUpload={beforeUploadPDF}
-            showUploadList={false}
-            multiple={false}
-            customRequest={uploadSlik}
-            disabled={berkasSlik.fileName ? true : false}
-          >
-            {!berkasSlik.fileName ? (
-              <button
-                className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
-                type="button"
-              >
-                <CloudUploadOutlined /> Browse
-              </button>
-            ) : (
-              <div className="flex gap-2 flex-wrap">
-                <span style={{ width: 200, textWrap: "wrap" }}>
-                  {berkasSlik.fileName.toUpperCase()}
-                </span>
+          <p className={berkasSlik.fileName ? "flex-1" : ""}>Berkas Slik (PDF) :</p>
+          <div className={berkasSlik.fileName ? "flex-1" : ""}>
+            <Upload
+              accept="application/pdf"
+              beforeUpload={beforeUploadPDF}
+              showUploadList={false}
+              multiple={false}
+              customRequest={uploadSlik}
+              disabled={berkasSlik.fileName ? true : false}
+            >
+              {!berkasSlik.fileName ? (
                 <button
-                  className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                  className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
                   type="button"
-                  onClick={() =>
-                    handleDelete(
-                      "/api/slik/berkas/slik",
-                      setBerkasSlik,
-                      berkasSlik.fileName
-                    )
-                  }
                 >
-                  {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  <CloudUploadOutlined /> Browse
                 </button>
-              </div>
-            )}
-          </Upload>
+              ) : (
+                <div className="flex gap-2 flex-wrap">
+                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                    {berkasSlik.fileName.toUpperCase()}
+                  </span>
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                    type="button"
+                    style={{flex: .5}}
+                    onClick={() =>
+                      handleDelete(
+                        "/api/slik/berkas/slik",
+                        setBerkasSlik,
+                        berkasSlik.fileName
+                      )
+                    }
+                  >
+                    {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  </button>
+                </div>
+              )}
+            </Upload>
+          </div>
         </div>
         {berkasSlik.progres > 0 && <Progress percent={berkasSlik.progres} />}
       </div>
@@ -340,43 +447,46 @@ export default function UploadDoc({
       {/* Pengajuan */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p>Berkas Pengajuan (PDF) :</p>
-          <Upload
-            accept="application/pdf"
-            beforeUpload={beforeUploadPDF}
-            showUploadList={false}
-            multiple={false}
-            customRequest={uploadPengajuan}
-            disabled={berkasPengajuan.fileName ? true : false}
-          >
-            {!berkasPengajuan.fileName ? (
-              <button
-                className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
-                type="button"
-              >
-                <CloudUploadOutlined /> Browse
-              </button>
-            ) : (
-              <div className="flex gap-2 flex-wrap">
-                <span style={{ width: 200, textWrap: "wrap" }}>
-                  {berkasPengajuan.fileName.toUpperCase()}
-                </span>
+          <p className={berkasPengajuan.fileName ? "flex-1" : ""}>Berkas Pengajuan (PDF) :</p>
+          <div className={berkasPengajuan.fileName ? "flex-1" : ""}>
+            <Upload
+              accept="application/pdf"
+              beforeUpload={beforeUploadPDF}
+              showUploadList={false}
+              multiple={false}
+              customRequest={uploadPengajuan}
+              disabled={berkasPengajuan.fileName ? true : false}
+            >
+              {!berkasPengajuan.fileName ? (
                 <button
-                  className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                  className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
                   type="button"
-                  onClick={() =>
-                    handleDelete(
-                      "/api/slik/berkas/pengajuan",
-                      setBerkasPengajuan,
-                      berkasPengajuan.fileName
-                    )
-                  }
                 >
-                  {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  <CloudUploadOutlined /> Browse
                 </button>
-              </div>
-            )}
-          </Upload>
+              ) : (
+                <div className="flex gap-2 flex-wrap">
+                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                    {berkasPengajuan.fileName.toUpperCase()}
+                  </span>
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                    type="button"
+                    style={{flex: .5}}
+                    onClick={() =>
+                      handleDelete(
+                        "/api/slik/berkas/pengajuan",
+                        setBerkasPengajuan,
+                        berkasPengajuan.fileName
+                      )
+                    }
+                  >
+                    {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  </button>
+                </div>
+              )}
+            </Upload>
+          </div>
         </div>
         {berkasPengajuan.progres > 0 && (
           <Progress percent={berkasPengajuan.progres} />
@@ -384,46 +494,149 @@ export default function UploadDoc({
       </div>
       {/* End Pengajuan*/}
 
+      {/* IDPB */}
+      <div className="py-2">
+        <div className="flex flex-wrap justify-between">
+          <p className={berkasIDPB.fileName ? "flex-1" : ""}>Berkas IDPB (PDF) :</p>
+          <div className={berkasIDPB.fileName ? "flex-1" : ""}>
+            <Upload
+              accept="application/pdf"
+              beforeUpload={beforeUploadPDF}
+              showUploadList={false}
+              multiple={false}
+              customRequest={uploadIDPB}
+              disabled={berkasIDPB.fileName ? true : false}
+            >
+              {!berkasIDPB.fileName ? (
+                <button
+                  className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
+                  type="button"
+                >
+                  <CloudUploadOutlined /> Browse
+                </button>
+              ) : (
+                <div className="flex gap-2 flex-wrap justify-end">
+                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                    {berkasIDPB.fileName.toUpperCase()}
+                  </span>
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                    style={{flex: .5}}
+                    type="button"
+                    onClick={() =>
+                      handleDelete(
+                        "/api/slik/berkas/idpb",
+                        setBerkasIDPB,
+                        berkasIDPB.fileName
+                      )
+                    }
+                  >
+                    {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  </button>
+                </div>
+              )}
+              </Upload>
+          </div>
+        </div>
+        {berkasIDPB.progres > 0 && (
+          <Progress percent={berkasIDPB.progres} />
+        )}
+      </div>
+      {/* End IDPB */}
+
+      {/* FLAFFING */}
+      <div className="py-2">
+        <div className="flex flex-wrap justify-between">
+          <p className={berkasFlagging.fileName ? "flex-1" : ""}>Berkas Flagging (PDF) :</p>
+          <div className={berkasFlagging.fileName ? "flex-1" : ""}>
+            <Upload
+              accept="application/pdf"
+              beforeUpload={beforeUploadPDF}
+              showUploadList={false}
+              multiple={false}
+              customRequest={uploadFlagging}
+              disabled={berkasFlagging.fileName ? true : false}
+            >
+              {!berkasFlagging.fileName ? (
+                <button
+                  className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
+                  type="button"
+                >
+                  <CloudUploadOutlined /> Browse
+                </button>
+              ) : (
+                <div className="flex gap-2 flex-wrap justify-end">
+                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                    {berkasFlagging.fileName.toUpperCase()}
+                  </span>
+                  <button
+                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                    style={{flex: .5}}
+                    type="button"
+                    onClick={() =>
+                      handleDelete(
+                        "/api/slik/berkas/flagging",
+                        setBerkasFlagging,
+                        berkasFlagging.fileName
+                      )
+                    }
+                  >
+                    {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  </button>
+                </div>
+              )}
+              </Upload>
+          </div>
+        </div>
+        {berkasFlagging.progres > 0 && (
+          <Progress percent={berkasFlagging.progres} />
+        )}
+      </div>
+      {/* End Flagging */}
+
       {/* Wawancara */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p>Video Wawancara (MP4) :</p>
-          <Upload
-            accept="video/mp4"
-            beforeUpload={beforeUploadVideo}
-            showUploadList={false}
-            multiple={false}
-            customRequest={uploadWawancara}
-            disabled={berkasWawancara.fileName ? true : false}
-          >
-            {!berkasWawancara.fileName ? (
-              <button
-                className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
-                type="button"
-              >
-                <CloudUploadOutlined /> Browse
-              </button>
-            ) : (
-              <div className="flex gap-2 flex-wrap">
-                <span style={{ width: 200, textWrap: "wrap" }}>
-                  {berkasWawancara.fileName.toUpperCase()}
-                </span>
+          <p className={berkasWawancara.fileName ? "flex-1" : ""}>Video Wawancara (MP4) :</p>
+          <div className={berkasWawancara.fileName ? "flex-1" : ""}>
+            <Upload
+              accept="video/mp4"
+              beforeUpload={beforeUploadVideo}
+              showUploadList={false}
+              multiple={false}
+              customRequest={uploadWawancara}
+              disabled={berkasWawancara.fileName ? true : false}
+            >
+              {!berkasWawancara.fileName ? (
                 <button
-                  className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                  className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
                   type="button"
-                  onClick={() =>
-                    handleDelete(
-                      "/api/slik/berkas/wawancara",
-                      setBerkasWawancara,
-                      berkasWawancara.fileName
-                    )
-                  }
                 >
-                  {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  <CloudUploadOutlined /> Browse
                 </button>
-              </div>
-            )}
-          </Upload>
+              ) : (
+                <div className="flex gap-2 flex-wrap">
+                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                    {berkasWawancara.fileName.toUpperCase()}
+                  </span>
+                  <button
+                  style={{flex:.5,}}
+                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                    type="button"
+                    onClick={() =>
+                      handleDelete(
+                        "/api/slik/berkas/wawancara",
+                        setBerkasWawancara,
+                        berkasWawancara.fileName
+                      )
+                    }
+                  >
+                    {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  </button>
+                </div>
+              )}
+            </Upload>
+          </div>
         </div>
         {berkasWawancara.progres > 0 && (
           <Progress percent={berkasWawancara.progres} />
@@ -434,43 +647,46 @@ export default function UploadDoc({
       {/* Asuransi */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p>Video Asuransi (MP4) :</p>
-          <Upload
-            accept="video/mp4"
-            beforeUpload={beforeUploadVideo}
-            showUploadList={false}
-            multiple={false}
-            customRequest={uploadAsuransi}
-            disabled={berkasAsuransi.fileName ? true : false}
-          >
-            {!berkasAsuransi.fileName ? (
-              <button
-                className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
-                type="button"
-              >
-                <CloudUploadOutlined /> Browse
-              </button>
-            ) : (
-              <div className="flex gap-2 flex-wrap">
-                <span style={{ width: 200, textWrap: "wrap" }}>
-                  {berkasAsuransi.fileName.toUpperCase()}
-                </span>
+          <p className={berkasAsuransi.fileName ? "flex-1" : ""}>Video Asuransi (MP4) :</p>
+          <div className={berkasAsuransi.fileName ? "flex-1" : ""}>
+            <Upload
+              accept="video/mp4"
+              beforeUpload={beforeUploadVideo}
+              showUploadList={false}
+              multiple={false}
+              customRequest={uploadAsuransi}
+              disabled={berkasAsuransi.fileName ? true : false}
+            >
+              {!berkasAsuransi.fileName ? (
                 <button
-                  className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                  className="bg-green-500 hover:bg-green-500 text-white py-1 px-2 rounded shadow"
                   type="button"
-                  onClick={() =>
-                    handleDelete(
-                      "/api/slik/berkas/asuransi",
-                      setBerkasAsuransi,
-                      berkasAsuransi.fileName
-                    )
-                  }
                 >
-                  {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  <CloudUploadOutlined /> Browse
                 </button>
-              </div>
-            )}
-          </Upload>
+              ) : (
+                <div className="flex gap-2 flex-wrap">
+                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                    {berkasAsuransi.fileName.toUpperCase()}
+                  </span>
+                  <button
+                    style={{flex: .5}}
+                    className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+                    type="button"
+                    onClick={() =>
+                      handleDelete(
+                        "/api/slik/berkas/asuransi",
+                        setBerkasAsuransi,
+                        berkasAsuransi.fileName
+                      )
+                    }
+                  >
+                    {loading ? <LoadingOutlined /> : <DeleteOutlined />}
+                  </button>
+                </div>
+              )}
+            </Upload>
+          </div>
         </div>
         {berkasAsuransi.progres > 0 && (
           <Progress percent={berkasAsuransi.progres} />

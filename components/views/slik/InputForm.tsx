@@ -1219,10 +1219,10 @@ export default function InputForm({
               <button
                 className="bg-orange-500 hover:bg-orange-600 text-gray-100 rounded shadow px-10 py-1 mr-5"
                 type="submit"
-                // disabled={isDisable ? isDisable : loading}
-                // style={{ opacity: isDisable ? 0.5 : loading ? 0.5 : 1 }}
+                  style={{opacity : isDisable || loading ? .5 : 1}}
+                disabled={isDisable ? isDisable : loading}
               >
-                {loading ? <LoadingOutlined /> : isDisable ? <LoadingOutlined/> : "Submit"}
+                {loading ? <LoadingOutlined /> : "Submit"}
               </button>
             </Form.Item>
             </div>

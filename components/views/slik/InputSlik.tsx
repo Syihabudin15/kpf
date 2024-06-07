@@ -88,7 +88,11 @@ export default function InputSlik() {
       const upOpt: BankOpt[] = up.map((up) => {
         const cabang: Options[] = up.UnitCabang.map((c) => {
           cabangFull.push({ ...c, unit: up.kode_area });
-          c.User.forEach((u) => marketing.push(u));
+          c.User.forEach((u) => {
+            if(u.role === "MARKETING"){
+              marketing.push(u)
+            }
+          });
           return { label: c.name, value: c.id };
         });
         return { label: up.name, value: up.id, options: cabang };

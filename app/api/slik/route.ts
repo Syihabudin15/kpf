@@ -228,6 +228,14 @@ export const POST = async (req: NextRequest) => {
             data.BerkasPengajuan && data.BerkasPengajuan.berkas_slik
               ? data.BerkasPengajuan.berkas_slik
               : null,
+          berkas_idpb:
+            data.BerkasPengajuan && data.BerkasPengajuan.berkas_idpb
+              ? data.BerkasPengajuan.berkas_idpb
+              : null,
+          berkas_flagging:
+            data.BerkasPengajuan && data.BerkasPengajuan.berkas_flagging
+              ? data.BerkasPengajuan.berkas_flagging
+              : null,
           video_wawancara:
             data.BerkasPengajuan && data.BerkasPengajuan.video_wawancara
               ? data.BerkasPengajuan.video_wawancara
@@ -440,7 +448,7 @@ export const POST = async (req: NextRequest) => {
                 user_id: data.user_id,
                 data_pembiayaan_id: biaya.id,
                 berkasPengajuanId: berkas.id,
-                status_verifikasi: "SETUJU",
+                status_verifikasi: "ANTRI",
                 keterangan_verifikasi: "VERIFIKASI PASS",
                 tanggal_verifikasi: new Date(),
                 status_slik: "SETUJU",

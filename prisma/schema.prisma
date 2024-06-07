@@ -26,6 +26,7 @@ enum Role {
   BISNIS
   PEMBERKASAN
   KEUANGAN
+  MANAGEMENT
 }
 
 enum StatusPengajuan {
@@ -96,6 +97,12 @@ enum StatusKawin {
 enum JenisMargin {
   FLAT
   ANUITAS
+}
+
+enum StatusPelunasan {
+  TOPUP
+  MENINGGAL_DUNIA
+  LEPAS
 }
 
 model Produk {
@@ -330,6 +337,7 @@ model DataPengajuan {
   penyerahanBerkasId    String?
   PenyerahanJaminan     PenyerahanJaminan?   @relation(fields: [penyerahanJaminanId], references: [id])
   penyerahanJaminanId   String?
+  PelunasanDebitur      PelunasanDebitur[]
 }
 
 model DataPengajuanAlamat {
@@ -375,6 +383,8 @@ model BerkasPengajuan {
   id                     String          @id @default(uuid())
   berkas_slik            String?
   berkas_pengajuan       String?
+  berkas_idpb            String?
+  berkas_flagging        String?
   video_wawancara        String?
   video_asuransi         String?
   berkas_akad            String?
@@ -704,66 +714,6 @@ model Maintenance {
   currentTime    String
 }
 
-model HardTaspen {
-  AKHIR_FLAGGING       String?
-  ALAMATRUMAH          String?
-  ALAMAT_CABANG        String?
-  AWAL_FLAGGING        String?
-  BLTHRINCIAN          String?
-  CICILAN              String?
-  JANDADUDAYPDARI      String?
-  JENISHUTANG          String?
-  JMLKOTOR             String?
-  JMLPOTONGAN          String?
-  JMLTOTAL             String?
-  JNSDAPEM             String?
-  JNSPENS              String?
-  JUMLAH_HUTANG        String?
-  KANTOR_CABANG        String?
-  KDJIWA               String?
-  KELUARGA             String?
-  KPKN                 String?
-  KTRBAYDAPEM          String?
-  MITRA_FLAGGING       String?
-  NAMA_PENERIMA        String?
-  NIPNRP               String?
-  NODOSIR              String?
-  NOREK                String?
-  NOSKEP               String?
-  NOTAS                String  @id
-  NUDAPEM              String?
-  PANGKAT              String?
-  PEMBULATAN           String?
-  PENPOK               String?
-  POTALIMENTASI        String?
-  POTASKES             String?
-  POTASSOS             String?
-  POTGANTIRUGI         String?
-  POTKASDA             String?
-  POTKPKN              String?
-  POTPPH21             String?
-  POTSEWARUMAH         String?
-  SPN                  String?
-  STATUS_PESERTA       String?
-  STSDAPEM             String?
-  TANAK                String?
-  TBERAS               String?
-  TCACAT               String?
-  TDAHOR               String?
-  TGLLAHIR_JANDADUDAYP String?
-  TGLLAHIR_PENERIMA    String?
-  TGLSKEP              String?
-  TGL_SEKARANG         String?
-  TGL_SURAT            String?
-  TISTRI               String?
-  TKD                  String?
-  TMTPENS              String?
-  TMT_STOP             String?
-  TPMTP                String?
-  TPP                  String?
-  TPPH21               String?
-}
-
 model Cost {
   id         String    @id @default(uuid())
   name       String
@@ -782,4 +732,84 @@ model MemoInternal {
   id          String @id @default(uuid())
   title       String
   description String @db.Text
+}
+
+model PelunasanDebitur {
+  id                String          @id @default(uuid())
+  type              StatusPelunasan
+  by_admin          Int
+  sisa_pokok        Int
+  no_rekening       String
+  nama_bank         String
+  keterangan        String
+  tanggal_pelunasan DateTime
+  berkas_pelunasan  String
+
+  DataPengajuan   DataPengajuan @relation(fields: [dataPengajuanId], references: [id])
+  dataPengajuanId String
+}
+
+model flagging {
+  id                   String  @id @default(uuid())
+  status_peserta       String  @db.VarChar(10)
+  notas                String  @db.VarChar(20)
+  kantor_cabang        String  @db.VarChar(20)
+  alamat_cabang        String  @db.VarChar(60)
+  nipnrp               String  @db.VarChar(20)
+  nama_penerima        String  @db.VarChar(40)
+  jandadudaypdari      String  @db.VarChar(40)
+  alamatrumah          String  @db.VarChar(80)
+  penerbitskep         String? @db.VarChar(10)
+  noskep               String  @db.VarChar(40)
+  jnsdapem             String  @db.VarChar(10)
+  jnspens              String  @db.VarChar(40)
+  ktrbaydapem          String  @db.VarChar(60)
+  norek                String  @db.VarChar(20)
+  stsdapem             String  @db.VarChar(50)
+  tgllahir_penerima    String  @db.VarChar(10)
+  tgllahir_jandadudayp String  @db.VarChar(10)
+  nodosir              BigInt
+  tglskep              String? @db.VarChar(10)
+  tmtpens              String  @db.VarChar(10)
+  nudapem              String? @db.VarChar(10)
+  kdjiwa               Int     @db.SmallInt
+  pangkat              String  @db.VarChar(50)
+  tmt_stop             String  @db.VarChar(10)
+  kdknsdapem           String? @db.VarChar(10)
+  kdjnspens            String? @db.VarChar(10)
+  kdktrbyrdapem        String? @db.VarChar(10)
+  blthrincian          String  @db.VarChar(20)
+  penpok               String  @default("0") @db.VarChar(50)
+  tistri               String? @db.VarChar(50)
+  tanak                String? @db.VarChar(50)
+  tpp                  String? @db.VarChar(50)
+  tpmtp                String? @db.VarChar(50)
+  tkd                  String? @db.VarChar(50)
+  tdahor               String? @db.VarChar(50)
+  tberas               String? @db.VarChar(50)
+  tpph21               String? @db.VarChar(50)
+  tcacat               String? @db.VarChar(50)
+  pembulatan           String? @db.VarChar(50)
+  jmlkotor             String? @db.VarChar(50)
+  potpph21             String? @db.VarChar(50)
+  potaskes             String? @db.VarChar(50)
+  potassos             String? @db.VarChar(50)
+  potkasda             String? @db.VarChar(50)
+  potkpkn              String? @db.VarChar(50)
+  potalimentasi        String? @db.VarChar(50)
+  potsewarumah         String? @db.VarChar(50)
+  potgantirugi         String? @db.VarChar(50)
+  jmlpotongan          String? @db.VarChar(50)
+  jmltotal             String  @default("0") @db.VarChar(50)
+  kpkn                 String  @db.VarChar(10)
+  spn                  String? @db.VarChar(40)
+  tgl_surat            String  @db.VarChar(10)
+  tgl_sekarang         String  @db.VarChar(10)
+  keluarga             String  @db.Text
+  jenishutang          String  @db.VarChar(40)
+  jumlah_hutang        String? @db.VarChar(50)
+  cicilan              String? @db.VarChar(50)
+  awal_flagging        String? @db.VarChar(10)
+  akhir_flagging       String? @db.VarChar(10)
+  mitra_flagging       String? @db.VarChar(60)
 }

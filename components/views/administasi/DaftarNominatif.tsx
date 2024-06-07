@@ -121,7 +121,7 @@ export default function DaftarNominatif() {
             return (
               <Table.Summary.Row className="bg-green-500 text-white">
                 <Table.Summary.Cell index={1}></Table.Summary.Cell>
-                <Table.Summary.Cell index={2}>
+                <Table.Summary.Cell index={2} className="text-center">
                   Summary
                   {/* {pageData.length} (Area Pelayanan) */}
                   <></>
@@ -147,7 +147,7 @@ export default function DaftarNominatif() {
                 <Table.Summary.Cell index={9}>
                   <></>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={10}>
+                <Table.Summary.Cell index={10} className="text-center">
                   <>{formatNumber(plafon.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={11}>
@@ -162,40 +162,40 @@ export default function DaftarNominatif() {
                 <Table.Summary.Cell index={14}>
                   <></>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={15}>
+                <Table.Summary.Cell index={15} className="text-center">
                   <>{formatNumber(adminBank.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={16} className="text-center">
                   <>{formatNumber(adminKoperasi.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={17} className="text-center">
                   <>{formatNumber(adminCadangan.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={18} className="text-center">
                   <>{formatNumber(tatalaksana.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={19} className="text-center">
                   <>{formatNumber(asuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={20} className="text-center">
                   <>{formatNumber(dataInformasi.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={21} className="text-center">
                   <>{formatNumber(tabungan.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={22} className="text-center">
                   <>{formatNumber(materai.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={23} className="text-center">
                   <>{formatNumber(mutasi.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={24} className="text-center">
                   <>{formatNumber(blokir.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={25} className="text-center">
                   <>{formatNumber(takeover.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16}>
+                <Table.Summary.Cell index={26} className="text-center">
                   <>{formatNumber(pencairan.toFixed(0))}</>
                 </Table.Summary.Cell>
               </Table.Summary.Row>
@@ -229,6 +229,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "AREA PELAYANAN",
     dataIndex: "area_pelayanan",
     key: "area_pelayanan",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -244,6 +245,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "UNIT PELAYANAN",
     dataIndex: "unit_pelayanan",
+    width: 150,
     key: "unit_pelayanan",onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -260,6 +262,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "NOPEN",
     dataIndex: "nopen",
     key: "nopen",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -276,6 +279,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "NO SK PENSIUN",
     dataIndex: "no_sk_pensiun",
     key: "no_sk_pensiun",
+    width: 200,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -292,7 +296,8 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "NAMA PEMOHON",
     dataIndex: "nama_pemohon",
     key: "nama_pemohon",
-    fixed: window.innerWidth < 600 ? false : "left",
+    width: 200,
+    // fixed: window.innerWidth < 600 ? false : "left",
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -309,6 +314,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "MITRA BANK",
     dataIndex: "mitra_bank",
     key: "mitra_bank",
+    width: 200,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -325,6 +331,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "SUMBER DANA",
     dataIndex: "sumber_dana",
     key: "sumber_dana",
+    width: 200,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -341,6 +348,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "TENOR",
     dataIndex: "tenor",
     key: "tenor",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -357,6 +365,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "PLAFOND",
     dataIndex: "plafon",
     key: "plafon",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -373,6 +382,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "TANGGAL AKAD",
     dataIndex: "tanggal_akad",
     key: "tanggal_akad",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -393,6 +403,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "TANGGAL CAIR",
     dataIndex: "tanggal_cair",
     key: "tanggal_cair",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -413,6 +424,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "TANGGAL LUNAS",
     dataIndex: "tanggal_lunas",
     key: "tanggal_lunas",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -432,6 +444,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "MARGIN (%)",
     dataIndex: "margin",
     key: "margin",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -448,6 +461,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "ADMIN BANK",
     dataIndex: "admin bank",
     key: "admin bank",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -481,6 +495,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "ADMIN MITRA",
     dataIndex: "admin mitra",
     key: "admin mitra",
+    width: 150,
     render(value, record, index) {
       return (
         <>
@@ -498,6 +513,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "PENCADANGAN PUSAT",
     dataIndex: "pencadangan_pusat",
     key: "pencadangan_pusat",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -523,6 +539,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "TATALAKSANA",
     dataIndex: "tatalaksana",
     key: "tatalaksana",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -541,6 +558,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "PREMI ASURANSI",
     dataIndex: "premi_asuransi",
     key: "premi_asuransi",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -566,6 +584,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "DATA INFORMASI",
     dataIndex: "data_informasi",
     key: "data_informasi",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -591,6 +610,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "PEMBUKAAN TABUNGAN",
     dataIndex: "pembukaan_tabungan",
     key: "pembukaan_tabungan",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -609,6 +629,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "BIAYA MATERAI",
     dataIndex: "biaya_materai",
     key: "biaya_materai",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -624,6 +645,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "BIAYA MUTASI",
     dataIndex: "biaya_mutasi",
+    width: 150,
     key: "biaya_mutasi",
     onHeaderCell: (text, record) => {
       return {
@@ -641,6 +663,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "BLOKIR ANGSURAN",
     dataIndex: "blokir",
     key: "blokir",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -672,6 +695,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "NOMINAL TAKE OVER",
     dataIndex: "nominal take over",
     key: "nominal take over",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -696,6 +720,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "PENCAIRAN",
     dataIndex: "pencairan",
     key: "pencairan",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {

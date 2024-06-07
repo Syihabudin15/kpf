@@ -69,7 +69,7 @@ export default function NotifVer2({ role }: { role: Role }) {
             link="/pengajuan-komite/approval"
             count={notifCtx.approval}
           />
-          <BadgeNotif name="SI" link="/slik/pencairan" count={notifCtx.si} />
+          {/* <BadgeNotif name="SI" link="/slik/pencairan" count={notifCtx.si} /> */}
         </div>
       );
     } else if (role === Role.MASTER) {

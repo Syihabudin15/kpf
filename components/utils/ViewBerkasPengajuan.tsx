@@ -297,6 +297,86 @@ export default function BerkasTabsPengajuan({
       ),
     },
     {
+      key: "idpb",
+      label: "Berkas IDPB",
+      children: (
+        <div style={{ height: "70vh" }}>
+          {data.BerkasPengajuan.berkas_idpb ? (
+            <object
+              data={data.BerkasPengajuan.berkas_idpb}
+              className="w-full h-full"
+              type="application/pdf"
+              width="100%"
+              height="100%"
+            >
+              <div className="h-full w-full flex justify-center items-center flex-col gap-5">
+                <div className="text-center text-red-500 font-bold text-lg">
+                  Browser yang anda gunakan tidak mendukung untuk pembukaan file
+                  yang dimaksud atau file tidak ditemukan
+                </div>
+                <div>
+                  Mobile device belum mendukung pembukaan file dalam bentuk PDF
+                </div>
+                <div>
+                  <a
+                    href={data.BerkasPengajuan.berkas_idpb}
+                    download={data.BerkasPengajuan.berkas_idpb}
+                    className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded shadow text-xs"
+                  >
+                    DOWNLOAD
+                  </a>
+                </div>
+              </div>
+            </object>
+          ) : (
+            <div className="text-center text-red-500">
+              <p>Berkas belum di upload!</p>
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
+      key: "flagginf",
+      label: "Berkas Flagging",
+      children: (
+        <div style={{ height: "70vh" }}>
+          {data.BerkasPengajuan.berkas_flagging ? (
+            <object
+              data={data.BerkasPengajuan.berkas_flagging}
+              className="w-full h-full"
+              type="application/pdf"
+              width="100%"
+              height="100%"
+            >
+              <div className="h-full w-full flex justify-center items-center flex-col gap-5">
+                <div className="text-center text-red-500 font-bold text-lg">
+                  Browser yang anda gunakan tidak mendukung untuk pembukaan file
+                  yang dimaksud atau file tidak ditemukan
+                </div>
+                <div>
+                  Mobile device belum mendukung pembukaan file dalam bentuk PDF
+                </div>
+                <div>
+                  <a
+                    href={data.BerkasPengajuan.berkas_flagging}
+                    download={data.BerkasPengajuan.berkas_flagging}
+                    className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded shadow text-xs"
+                  >
+                    DOWNLOAD
+                  </a>
+                </div>
+              </div>
+            </object>
+          ) : (
+            <div className="text-center text-red-500">
+              <p>Berkas belum di upload!</p>
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
       key: "wawancara",
       label: "Video Wawancara",
       children: (

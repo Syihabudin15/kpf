@@ -30,7 +30,15 @@ export default function MenuWrapper({user}: {user: any}){
                   {user?.last_name.toUpperCase()}
                 </div>
                 <div style={{ marginTop: 5 }}>
-                  <span>
+                  {user?.role === "BANK" || user?.role === "APPROVAL" ? (
+                    <span>
+                    {user?.Bank.kode} |{" "}
+                    <span className="text-xs">
+                      {user?.posisi}
+                    </span>
+                  </span>
+                  ): (
+                    <span>
                     {user?.posisi || user?.role} |{" "}
                     <span className="text-xs">
                       {user?.role === "ENTRY_DATA"
@@ -40,6 +48,7 @@ export default function MenuWrapper({user}: {user: any}){
                         : "PUSAT"}
                     </span>
                   </span>
+                  )}
                 </div>
               </div>
             </div>

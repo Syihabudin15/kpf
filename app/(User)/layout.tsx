@@ -21,7 +21,7 @@ export default async function UserLayout({
   }
   const user = await prisma.user.findFirst({
     where: { email: session.user.email },
-    include: { UnitCabang: { include: { UnitPelayanan: true } } },
+    include: { Bank: true, UnitCabang: { include: { UnitPelayanan: true } } },
   });
   return (
     <section

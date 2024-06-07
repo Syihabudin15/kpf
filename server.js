@@ -41,6 +41,8 @@ app.prepare().then(() => {
     express.static(__dirname + "/storage/bukti_transfer")
   );
   server.use("/epotpen", express.static(__dirname + "/storage/epotpen"));
+  server.use("/idpb", express.static(__dirname + "/storage/idpb"));
+  server.use("/berkas_flagging", express.static(__dirname + "/storage/berkas_flagging"));
 
   server.all("*", (req, res) => {
     return handle(req, res);

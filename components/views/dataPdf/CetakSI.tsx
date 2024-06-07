@@ -201,10 +201,7 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
               }}
             >
               <Text>
-                {data.DataPengajuan[0].user_id &&
-                  data.DataPengajuan[0].User.unit_cabang_id &&
-                  data.DataPengajuan[0].User.UnitCabang.name}
-                , {moment(data.tanggal_cetak).format("DD-MM-YYYY")}
+                BANDUNG, {moment(data.tanggal_cetak).format("DD-MM-YYYY")}
               </Text>
               <Text>A.N. PENGURUS</Text>
             </View>

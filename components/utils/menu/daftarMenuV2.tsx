@@ -46,19 +46,19 @@ export const menusV2: Menus[] = [
   {
     label: "Simulasi",
     url: "simulasi",
-    role: "ALL",
+    role: ["MASTER", "ENTRY_DATA", "MARKETING"],
     icon: <CalculatorOutlined />,
     child: [
       {
         label: "Hitung Simulasi",
         url: "/simulasi",
-        role: "ALL",
+        role: ["MASTER", "ENTRY_DATA", "MARKETING"],
         icon: <ExperimentOutlined />,
       },
       {
         label: "Data Simulasi",
         url: "/data-simulasi",
-        role: "ALL",
+        role: ["MASTER", "ENTRY_DATA", "MARKETING"],
         icon: <DiffOutlined />,
       },
     ],
@@ -77,7 +77,6 @@ export const menusV2: Menus[] = [
       },
     ],
   },
-
   // MASTER
   {
     label: "Monitoring Pembiayaan",
@@ -184,12 +183,12 @@ export const menusV2: Menus[] = [
         role: ["VERIFIKASI", "MASTER"],
         icon: <BookOutlined />,
       },
-      {
-        label: "Dokumen Pengajuan",
-        url: "/verifikasi/pengajuan-mitra",
-        role: ["VERIFIKASI", "MASTER"],
-        icon: <FolderOpenOutlined />,
-      },
+      // {
+      //   label: "Dokumen Pengajuan",
+      //   url: "/verifikasi/pengajuan-mitra",
+      //   role: ["VERIFIKASI", "MASTER"],
+      //   icon: <FolderOpenOutlined />,
+      // },
     ],
   },
   {
@@ -334,6 +333,110 @@ export const menusV2: Menus[] = [
       },
     ],
   },
+  // ADMP
+  // {
+  //   label: "ADMP",
+  //   url: "/admp",
+  //   role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
+  //   icon: <DiffOutlined />,
+  //   child: [
+  //     {
+  //       label: "ADMP SK",
+  //       url: "/admp/sk",
+  //       role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
+  //       icon: <DiffOutlined />,
+  //     },
+  //     {
+  //       label: "ADMP Express",
+  //       url: "/admp/express",
+  //       role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
+  //       icon: <DiffOutlined />,
+  //     },
+  //   ],
+  // },
+  {
+    label: "Laporan Administrasi",
+    url: "/laporan-administrasi",
+    role: ["MASTER", "BISNIS", "OPERASIONAL", "VERIFIKASI", "KEUANGAN", "BANK"],
+    icon: <DiffOutlined />,
+    child: [
+      {
+        label: "Daftar Nominatif",
+        url: "/laporan-administrasi/daftar-nominatif",
+        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL", "VERIFIKASI"],
+        icon: <DiffOutlined />,
+      },
+      {
+        label: "Daftar Outstanding Aktif",
+        url: "/laporan-administrasi/outstanding-aktif",
+        role: [
+          "BANK",
+          "MASTER",
+          "BISNIS",
+          "KEUANGAN",
+          "OPERASIONAL",
+          "VERIFIKASI",
+        ],
+        icon: <DiffOutlined />,
+      },
+      {
+        label: "Laporan Bulanan",
+        url: "/laporan-administrasi/laporan-bulanan",
+        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
+        icon: <DiffOutlined />,
+      },
+      {
+        label: "Fixed Cost",
+        url: "/laporan-administrasi/fixed-cost",
+        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
+        icon: <DiffOutlined />,
+      },
+      {
+        label: "Alternatif Cost",
+        url: "/laporan-administrasi/alternatif-cost",
+        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
+        icon: <DiffOutlined />,
+      },
+      {
+        label: "Pembayaran Asuransi",
+        url: "/laporan-administrasi/pembayaran-asuransi",
+        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
+        icon: <DiffOutlined />,
+      },
+    ],
+  },
+  {
+    label: "Data Karyawan",
+    url: "/data-karyawan",
+    role: ["MASTER", "BISNIS", "OPERASIONAL", "KEUANGAN"],
+    icon: <DiffOutlined />,
+  },
+  {
+    label: "Ganti Password",
+    url: "/setting/ganti-password",
+    role: "ALL",
+    icon: <SettingOutlined />,
+  },
+  {
+    label: "History",
+    url: "/deleted",
+    role: ["MASTER", "BISNIS"],
+    icon: <HistoryOutlined />,
+    child: [
+      {
+        label: "Pengajuan Dihapus",
+        url: "/deleted/pengajuan",
+        role: ["MASTER", "BISNIS"],
+        icon: <DiffOutlined />,
+      },
+    ],
+  },
+  {
+    label: "Management",
+    url: "/management",
+    role: ["MASTER"],
+    icon: <DiffOutlined />,
+  },
   {
     label: "Master Data",
     url: "/master",
@@ -383,121 +486,5 @@ export const menusV2: Menus[] = [
         icon: <ConsoleSqlOutlined />,
       },
     ],
-  },
-  // ADMP
-  {
-    label: "ADMP",
-    url: "/admp",
-    role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
-    icon: <DiffOutlined />,
-    child: [
-      {
-        label: "ADMP SK",
-        url: "/admp/sk",
-        role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "ADMP Express",
-        url: "/admp/express",
-        role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
-        icon: <DiffOutlined />,
-      },
-    ],
-  },
-  {
-    label: "Data Karyawan",
-    url: "/data-karyawan",
-    role: ["MASTER", "BISNIS", "PEMBERKASAN", "OPERASIONAL", "KEUANGAN"],
-    icon: <DiffOutlined />,
-  },
-  {
-    label: "Laporan Administrasi",
-    url: "/laporan-administrasi",
-    role: [
-      "MASTER",
-      "BISNIS",
-      "PEMBERKASAN",
-      "OPERASIONAL",
-      "VERIFIKASI",
-      "KEUANGAN",
-      "BANK",
-      "APPROVAL",
-    ],
-    icon: <DiffOutlined />,
-    child: [
-      {
-        label: "Daftar Nominatif",
-        url: "/laporan-administrasi/daftar-nominatif",
-        role: [
-          "BANK",
-          "MASTER",
-          "BISNIS",
-          "KEUANGAN",
-          "OPERASIONAL",
-          "VERIFIKASI",
-          "PEMBERKASAN",
-        ],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "Daftar Outstanding Aktif",
-        url: "/laporan-administrasi/outstanding-aktif",
-        role: [
-          "BANK",
-          "MASTER",
-          "BISNIS",
-          "KEUANGAN",
-          "OPERASIONAL",
-          "VERIFIKASI",
-          "PEMBERKASAN",
-        ],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "Laporan Bulanan",
-        url: "/laporan-administrasi/laporan-bulanan",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "Fixed Cost",
-        url: "/laporan-administrasi/fixed-cost",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "Alternatif Cost",
-        url: "/laporan-administrasi/alternatif-cost",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "Pembayaran Asuransi",
-        url: "/laporan-administrasi/pembayaran-asuransi",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
-        icon: <DiffOutlined />,
-      },
-    ],
-  },
-  {
-    label: "History",
-    url: "/deleted",
-    role: ["MASTER", "BISNIS"],
-    icon: <HistoryOutlined />,
-    child: [
-      {
-        label: "Pengajuan Dihapus",
-        url: "/deleted/pengajuan",
-        role: ["MASTER", "BISNIS"],
-        icon: <DiffOutlined />,
-      },
-    ],
-  },
-  {
-    label: "Ganti Password",
-    url: "/setting/ganti-password",
-    role: "ALL",
-    icon: <SettingOutlined />,
   },
 ];

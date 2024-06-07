@@ -787,7 +787,7 @@ export default function MonitoringBank() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 5200, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 4000, y: 'calc(65vh - 100px)' }}
           size="small"
           loading={loading}
           pagination={{

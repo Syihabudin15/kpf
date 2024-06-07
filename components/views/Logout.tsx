@@ -13,8 +13,10 @@ export default function Logout() {
 
   const handleCLick = async () => {
     setLoading(true);
-    await signOut({redirect: false});
-    router.push("/");
+    await signOut();
+    setTimeout(() => {
+      router.push("/");
+    }, 1000);
     setLoading(false);
   };
   return (

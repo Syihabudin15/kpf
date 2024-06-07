@@ -210,7 +210,7 @@ export default function PencairanBank() {
       },
     },
     {
-      title: "BUKRI TRANSFER",
+      title: "BUKTI TRANSFER",
       dataIndex: "surat",
       key: "surat",
       onHeaderCell: (text, record) => {
