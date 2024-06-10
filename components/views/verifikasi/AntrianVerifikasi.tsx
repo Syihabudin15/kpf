@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -21,6 +21,8 @@ export default function AntrianVerifikasi() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -316,15 +318,17 @@ export default function AntrianVerifikasi() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            data={record}
-            getData={getData}
-            role={"VERIFIKASI"}
-            allowForm={true}
-            isPeriksa={true}
-            pathname="verifikasi"
-            nextpath="approval"
-          />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileOutlined />
+            </button>
+          </div>
         );
       },
     },
@@ -346,7 +350,7 @@ export default function AntrianVerifikasi() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1200, y: 'calc(65vh - 100px)' }}
+        scroll={{ x: 1200, y: "calc(65vh - 100px)" }}
         size="small"
         loading={loading}
         pagination={{
@@ -357,6 +361,19 @@ export default function AntrianVerifikasi() {
           },
         }}
       />
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          getData={getData}
+          role={"VERIFIKASI"}
+          allowForm={true}
+          isPeriksa={true}
+          pathname="verifikasi"
+          nextpath="approval"
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </section>
   );
 }

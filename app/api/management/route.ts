@@ -2,6 +2,7 @@ import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { daysInMonth } from "@/components/utils/inputUtils";
+import moment from "moment";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -26,13 +27,8 @@ export const GET = async (req: NextRequest) => {
       where: {
         status_pencairan: "TRANSFER",
         tanggal_pencairan: {
-          gte: new Date(`${month}-01`),
-          lte: new Date(
-            `${month}-${daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            )}`
-          ),
+          gte: moment(`${month}-01`).toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
         },
       },
       include: {
@@ -83,13 +79,8 @@ export const GET = async (req: NextRequest) => {
       where: {
         status_pencairan: "TRANSFER",
         tanggal_pencairan: {
-          gte: new Date(`${month}-01`),
-          lte: new Date(
-            `${month}-${daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            )}`
-          ),
+          gte: moment(`${month}-01`).toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
         },
       },
     });
@@ -123,13 +114,8 @@ const handleType = async (
           },
         },
         tanggal_pencairan: {
-          gte: new Date(`${month}-01`),
-          lte: new Date(
-            `${month}-${daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            )}`
-          ),
+          gte: moment(`${month}-01`).toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
         },
       },
       include: {
@@ -185,13 +171,8 @@ const handleType = async (
           },
         },
         tanggal_pencairan: {
-          gte: new Date(`${month}-01`),
-          lte: new Date(
-            `${month}-${daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            )}`
-          ),
+          gte: moment(`${month}-01`).toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
         },
       },
     });
@@ -205,13 +186,8 @@ const handleType = async (
           },
         },
         tanggal_pencairan: {
-          gte: new Date(`${month}-01`),
-          lte: new Date(
-            `${month}-${daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            )}`
-          ),
+          gte: moment(`${month}-01`).toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
         },
       },
       include: {
@@ -267,13 +243,8 @@ const handleType = async (
           },
         },
         tanggal_pencairan: {
-          gte: new Date(`${month}-01`),
-          lte: new Date(
-            `${month}-${daysInMonth(
-              parseInt(month.split("-")[1]),
-              parseInt(month.split("-")[0])
-            )}`
-          ),
+          gte: moment(`${month}-01`).toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
         },
       },
     });

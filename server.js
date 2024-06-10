@@ -42,7 +42,14 @@ app.prepare().then(() => {
   );
   server.use("/epotpen", express.static(__dirname + "/storage/epotpen"));
   server.use("/idpb", express.static(__dirname + "/storage/idpb"));
-  server.use("/berkas_flagging", express.static(__dirname + "/storage/berkas_flagging"));
+  server.use(
+    "/berkas_flagging",
+    express.static(__dirname + "/storage/berkas_flagging")
+  );
+  server.use(
+    "/berkas_pelunasan",
+    express.static(__dirname + "/storage/berkas_pelunasan")
+  );
 
   server.all("*", (req, res) => {
     return handle(req, res);

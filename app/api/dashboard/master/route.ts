@@ -53,18 +53,18 @@ export const GET = async (req: NextRequest) => {
     let bankName = banks[i].name;
     let series: number[] = [];
     for (let j = 0; j < date.getMonth() + 1; j++) {
-      months.push(moment([date.getFullYear(), j, 1]).format("MMM"));
+      months.push(moment(`${date.getFullYear()}-${j + 1}-01`).format("MMM"));
       const find = await prisma.dataPengajuan.findMany({
         where: {
           status_pencairan: "TRANSFER",
           bankId: banks[i].id,
           tanggal_pencairan: {
-            gte: moment([date.getFullYear(), j, 1]).toISOString(),
-            lte: moment([
-              date.getFullYear(),
-              j,
-              daysInMonth(j + 1, date.getFullYear()),
-            ]).toISOString(),
+            gte: moment(`${date.getFullYear()}-${j + 1}-01`).toISOString(true),
+            lte: moment(
+              `${date.getFullYear()}-${j + 1}-${moment(
+                `${date.getFullYear()}-${j + 1}`
+              ).daysInMonth()}`
+            ).toISOString(true),
           },
         },
         include: {
@@ -218,8 +218,8 @@ export const GET = async (req: NextRequest) => {
         status_pencairan: "TRANSFER",
         bankId: banks[i].id,
         tanggal_pencairan: {
-          gte: moment().toISOString(),
-          equals: moment().toISOString(),
+          gte: moment().toISOString(true),
+          equals: moment().toISOString(true),
         },
         DataPembiayaan: { Produk: { name: { not: "Flash Sisa Gaji" } } },
       },
@@ -232,8 +232,8 @@ export const GET = async (req: NextRequest) => {
         status_pencairan: "TRANSFER",
         bankId: banks[i].id,
         tanggal_pencairan: {
-          gte: moment().toISOString(),
-          equals: moment().toISOString(),
+          gte: moment().toISOString(true),
+          equals: moment().toISOString(true),
         },
         DataPembiayaan: { Produk: { name: "Flash Sisa Gaji" } },
       },

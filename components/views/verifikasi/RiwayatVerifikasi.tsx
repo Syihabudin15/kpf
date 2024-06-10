@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -22,6 +22,8 @@ export default function RiwayatVerifikasi() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -260,98 +262,98 @@ export default function RiwayatVerifikasi() {
     //     },
     //   ],
     // },
-        {
-          title: "STATUS",
-          dataIndex: "status_verifikasi",
-          key: "status_verifikasi",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
+    {
+      title: "STATUS",
+      dataIndex: "status_verifikasi",
+      key: "status_verifikasi",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#0284c7",
+            color: "#f3f4f6",
+            textAlign: "center",
           },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center font-sans italic text-xs">
-                {record.status_verifikasi && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_verifikasi === "SETUJU"
-                        ? "green"
-                        : record.status_verifikasi === "DITOLAK"
-                        ? "red"
-                        : record.status_verifikasi === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_verifikasi}
-                  </div>
-                )}
+        };
+      },
+      render(value, record, index) {
+        return (
+          <div className="flex justify-center font-sans italic text-xs">
+            {record.status_verifikasi && (
+              <div
+                className={`py-1 px-2 w-24 bg-${
+                  record.status_verifikasi === "SETUJU"
+                    ? "green"
+                    : record.status_verifikasi === "DITOLAK"
+                    ? "red"
+                    : record.status_verifikasi === "ANTRI"
+                    ? "orange"
+                    : "blue"
+                }-500 text-gray-100 text-center`}
+              >
+                {record.status_verifikasi}
               </div>
-            );
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      title: "KKETERANGAN",
+      dataIndex: "keterangan_verifikasi",
+      key: "keterangan_verifikasi",
+      width: 300,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#0284c7",
+            color: "#f3f4f6",
+            textAlign: "center",
           },
-        },
-        {
-          title: "KKETERANGAN",
-          dataIndex: "keterangan_verifikasi",
-          key: "keterangan_verifikasi",
-          width: 300,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
+        };
+      },
+      className: "text-justify",
+    },
+    {
+      title: "PEMERIKSA",
+      dataIndex: "nama_pemeriksa_verifikasi",
+      key: "nama_pemeriksa_verifikasi",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#0284c7",
+            color: "#f3f4f6",
+            textAlign: "center",
           },
-          className: "text-justify",
-        },
-        {
-          title: "PEMERIKSA",
-          dataIndex: "nama_pemeriksa_verifikasi",
-          key: "nama_pemeriksa_verifikasi",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
+        };
+      },
+      className: "text-center",
+    },
+    {
+      title: "TANGGAL",
+      dataIndex: "tanggal_verifikasi",
+      key: "tanggal_verifikasi",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#0284c7",
+            color: "#f3f4f6",
+            textAlign: "center",
           },
-          className: "text-center",
-        },
-        {
-          title: "TANGGAL",
-          dataIndex: "tanggal_verifikasi",
-          key: "tanggal_verifikasi",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#0284c7",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div>
-                {record.tanggal_verifikasi &&
-                  moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <div>
+            {record.tanggal_verifikasi &&
+              moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
+          </div>
+        );
+      },
+    },
     {
       title: "VIEW BERKAS",
       dataIndex: "id",
@@ -367,11 +369,17 @@ export default function RiwayatVerifikasi() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            data={record}
-            role={"VERIFIKASI"}
-            allowForm={false}
-          />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileOutlined />
+            </button>
+          </div>
         );
       },
     },
@@ -394,7 +402,7 @@ export default function RiwayatVerifikasi() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 2000, y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -406,6 +414,15 @@ export default function RiwayatVerifikasi() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role={"VERIFIKASI"}
+          allowForm={false}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </section>
   );
 }

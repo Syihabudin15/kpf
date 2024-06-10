@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -22,6 +22,8 @@ export default function AntrianSlik() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [open, setOpen] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -229,15 +231,17 @@ export default function AntrianSlik() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            data={record}
-            role={"BANK"}
-            allowForm={true}
-            isPeriksa={true}
-            pathname="slik"
-            nextpath="verifikasi"
-            getData={getData}
-          />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileOutlined />
+            </button>
+          </div>
         );
       },
     },
@@ -260,7 +264,7 @@ export default function AntrianSlik() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 2000, y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -272,6 +276,19 @@ export default function AntrianSlik() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role={"BANK"}
+          allowForm={true}
+          isPeriksa={true}
+          pathname="slik"
+          nextpath="verifikasi"
+          getData={getData}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </section>
   );
 }

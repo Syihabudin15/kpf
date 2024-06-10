@@ -403,6 +403,12 @@ export const menusV2: Menus[] = [
         role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
         icon: <DiffOutlined />,
       },
+      {
+        label: "Pelunasan Debitur",
+        url: "/laporan-administrasi/pelunasan",
+        role: ["MASTER", "REPAYMENT"],
+        icon: <DiffOutlined />,
+      },
     ],
   },
   {

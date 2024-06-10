@@ -21,6 +21,7 @@ import {
   PenyerahanJaminan,
   JadwalAngsuran,
   Cost,
+  PelunasanDebitur,
 } from "@prisma/client";
 
 export interface DataDataTaspen extends DataTaspen {
@@ -154,6 +155,10 @@ export interface AngsuranDebitur extends DataPengajuan {
 
 export interface DashboardAntri extends Bank {
   DataPengajuan: DataTypePengajuan;
+}
+
+export interface DataPelunasan extends PelunasanDebitur {
+  DataPengajuan: DataDataPengajuan;
 }
 
 export type UploadType = "image" | "video" | "raw" | "auto" | undefined;

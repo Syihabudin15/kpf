@@ -8,7 +8,7 @@ import {
   UP,
 } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { DatePicker, Input, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
@@ -41,6 +41,8 @@ export default function InputSlik() {
   const [refferal, setRefferal] = useState<Options[]>();
   const [dataTaspen, setDataTaspen] = useState<DataDataTaspen[]>();
   const [provinsi, setProvinsi] = useState<Options[]>();
+  const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [open, setOpen] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -89,8 +91,8 @@ export default function InputSlik() {
         const cabang: Options[] = up.UnitCabang.map((c) => {
           cabangFull.push({ ...c, unit: up.kode_area });
           c.User.forEach((u) => {
-            if(u.role === "MARKETING"){
-              marketing.push(u)
+            if (u.role === "MARKETING") {
+              marketing.push(u);
             }
           });
           return { label: c.name, value: c.id };
@@ -345,11 +347,17 @@ export default function InputSlik() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            data={record}
-            role="ENTRY_DATA"
-            allowForm={true}
-          />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 border rounded shadow"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileFilled />
+            </button>
+          </div>
         );
       },
     },
@@ -382,7 +390,7 @@ export default function InputSlik() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 2500, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 2500, y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -393,6 +401,15 @@ export default function InputSlik() {
             },
           }}
         />
+        {selected && (
+          <ViewBerkasPengajuan
+            role="ENTRY_DATA"
+            allowForm={true}
+            open={open}
+            setOpen={setOpen}
+            data={selected as DataDataPengajuan}
+          />
+        )}
       </div>
     </section>
   );

@@ -1,3 +1,4 @@
+"use client";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
@@ -67,42 +68,33 @@ export default function CetakManagement({
               : "Sisa Gaji",
             "MITRA KOPERASI": d.Bank.name,
             TENOR: d.DataPembiayaan.tenor,
-            PLAFON: formatNumber(d.DataPembiayaan.plafond.toFixed(0)),
-            "ANGSURAN KOPERASI": formatNumber(
-              ceiling(
-                parseInt(angsuranKoperasi),
-                d.DataPembiayaan.pembulatan
-              ).toFixed(0)
+            PLAFON: d.DataPembiayaan.plafond,
+            "ANGSURAN BANK": ceiling(
+              parseInt(angsuranBank),
+              d.DataPembiayaan.pembulatan
             ),
-            "ANGSURAN BANK": formatNumber(
-              ceiling(
-                parseInt(angsuranBank),
-                d.DataPembiayaan.pembulatan
-              ).toFixed(0)
+            "ANGSURAN KOPERASI": ceiling(
+              parseInt(angsuranKoperasi),
+              d.DataPembiayaan.pembulatan
             ),
-            "SELISIH ANGURAN": formatNumber(
-              (parseInt(angsuranKoperasi) - parseInt(angsuranBank)).toFixed(0)
-            ),
-            "ADMIN KOPERASI": formatNumber(adminKoperasi.toFixed(0)),
-            "ADMIN BANK": formatNumber(adminBank.toFixed(0)),
-            "ADMIN AREA": formatNumber(adminLainnya.toFixed(0)),
-            "BUKA REKENING": formatNumber(
-              d.DataPembiayaan.by_buka_rekening.toFixed(0)
-            ),
-            FLAGGING: formatNumber(d.DataPembiayaan.by_flagging.toFixed(0)),
-            EPOTPEN: formatNumber(d.DataPembiayaan.by_epotpen.toFixed(0)),
-            MATERAI: formatNumber(d.DataPembiayaan.by_materai.toFixed(0)),
-            MUTASI: formatNumber(d.DataPembiayaan.by_mutasi.toFixed(0)),
-            TLK_EH: formatNumber(tlk_eh.toFixed(0)),
-            TLK_IB: formatNumber(tlk_ib.toFixed(0)),
-            "ASURANSI KOPERASI": formatNumber(asuransiKoperasi.toFixed(0)),
-            "ASURANSI MITRA": formatNumber(asuransiMitra.toFixed(0)),
-            "SELISIH ASURANSI": formatNumber(
-              (asuransiKoperasi - asuransiMitra).toFixed(0)
-            ),
+            "SELISIH ANGSURAN":
+              parseInt(angsuranKoperasi) - parseInt(angsuranBank),
+            "ADMIN BANK": adminBank,
+            "ADMIN KOPERASI": adminKoperasi,
+            "ADMIN AREA": adminLainnya,
+            "BUKA REKENING": d.DataPembiayaan.by_buka_rekening,
+            FLAGGING: d.DataPembiayaan.by_flagging,
+            EPOTPEN: d.DataPembiayaan.by_epotpen,
+            MATERAI: d.DataPembiayaan.by_materai,
+            MUTASI: d.DataPembiayaan.by_mutasi,
+            TLK_EH: tlk_eh,
+            TLK_IB: tlk_ib,
+            "ASURANSI MITRA": asuransiMitra,
+            "ASURANSI KOPERASI": asuransiKoperasi,
+            "SELISIH ASURANSI": asuransiKoperasi - asuransiMitra,
           });
         } else {
-          if (type === "EXPRESS") {
+          if (d.DataPembiayaan.Produk.name === "Flash Sisa Gaji") {
             sheet2.push({
               NO: ind + 1,
               NOPEN: d.DataPembiayaan.nopen,
@@ -120,39 +112,30 @@ export default function CetakManagement({
                 : "Sisa Gaji",
               "MITRA KOPERASI": d.Bank.name,
               TENOR: d.DataPembiayaan.tenor,
-              PLAFON: formatNumber(d.DataPembiayaan.plafond.toFixed(0)),
-              "ANGSURAN KOPERASI": formatNumber(
-                ceiling(
-                  parseInt(angsuranKoperasi),
-                  d.DataPembiayaan.pembulatan
-                ).toFixed(0)
+              PLAFON: d.DataPembiayaan.plafond,
+              "ANGSURAN BANK": ceiling(
+                parseInt(angsuranBank),
+                d.DataPembiayaan.pembulatan
               ),
-              "ANGSURAN BANK": formatNumber(
-                ceiling(
-                  parseInt(angsuranBank),
-                  d.DataPembiayaan.pembulatan
-                ).toFixed(0)
+              "ANGSURAN KOPERASI": ceiling(
+                parseInt(angsuranKoperasi),
+                d.DataPembiayaan.pembulatan
               ),
-              "SELISIH ANGURAN": formatNumber(
-                (parseInt(angsuranKoperasi) - parseInt(angsuranBank)).toFixed(0)
-              ),
-              "ADMIN KOPERASI": formatNumber(adminKoperasi.toFixed(0)),
-              "ADMIN BANK": formatNumber(adminBank.toFixed(0)),
-              "ADMIN AREA": formatNumber(adminLainnya.toFixed(0)),
-              "BUKA REKENING": formatNumber(
-                d.DataPembiayaan.by_buka_rekening.toFixed(0)
-              ),
-              FLAGGING: formatNumber(d.DataPembiayaan.by_flagging.toFixed(0)),
-              EPOTPEN: formatNumber(d.DataPembiayaan.by_epotpen.toFixed(0)),
-              MATERAI: formatNumber(d.DataPembiayaan.by_materai.toFixed(0)),
-              MUTASI: formatNumber(d.DataPembiayaan.by_mutasi.toFixed(0)),
-              TLK_EH: formatNumber(tlk_eh.toFixed(0)),
-              TLK_IB: formatNumber(tlk_ib.toFixed(0)),
-              "ASURANSI KOPERASI": formatNumber(asuransiKoperasi.toFixed(0)),
-              "ASURANSI MITRA": formatNumber(asuransiMitra.toFixed(0)),
-              "SELISIH ASURANSI": formatNumber(
-                (asuransiKoperasi - asuransiMitra).toFixed(0)
-              ),
+              "SELISIH ANGSURAN":
+                parseInt(angsuranKoperasi) - parseInt(angsuranBank),
+              "ADMIN BANK": adminBank,
+              "ADMIN KOPERASI": adminKoperasi,
+              "ADMIN AREA": adminLainnya,
+              "BUKA REKENING": d.DataPembiayaan.by_buka_rekening,
+              FLAGGING: d.DataPembiayaan.by_flagging,
+              EPOTPEN: d.DataPembiayaan.by_epotpen,
+              MATERAI: d.DataPembiayaan.by_materai,
+              MUTASI: d.DataPembiayaan.by_mutasi,
+              TLK_EH: tlk_eh,
+              TLK_IB: tlk_ib,
+              "ASURANSI MITRA": asuransiMitra,
+              "ASURANSI KOPERASI": asuransiKoperasi,
+              "SELISIH ASURANSI": asuransiKoperasi - asuransiMitra,
             });
           } else {
             sheet1.push({
@@ -172,39 +155,30 @@ export default function CetakManagement({
                 : "Sisa Gaji",
               "MITRA KOPERASI": d.Bank.name,
               TENOR: d.DataPembiayaan.tenor,
-              PLAFON: formatNumber(d.DataPembiayaan.plafond.toFixed(0)),
-              "ANGSURAN KOPERASI": formatNumber(
-                ceiling(
-                  parseInt(angsuranKoperasi),
-                  d.DataPembiayaan.pembulatan
-                ).toFixed(0)
+              PLAFON: d.DataPembiayaan.plafond,
+              "ANGSURAN BANK": ceiling(
+                parseInt(angsuranBank),
+                d.DataPembiayaan.pembulatan
               ),
-              "ANGSURAN BANK": formatNumber(
-                ceiling(
-                  parseInt(angsuranBank),
-                  d.DataPembiayaan.pembulatan
-                ).toFixed(0)
+              "ANGSURAN KOPERASI": ceiling(
+                parseInt(angsuranKoperasi),
+                d.DataPembiayaan.pembulatan
               ),
-              "SELISIH ANGURAN": formatNumber(
-                (parseInt(angsuranKoperasi) - parseInt(angsuranBank)).toFixed(0)
-              ),
-              "ADMIN KOPERASI": formatNumber(adminKoperasi.toFixed(0)),
-              "ADMIN BANK": formatNumber(adminBank.toFixed(0)),
-              "ADMIN AREA": formatNumber(adminLainnya.toFixed(0)),
-              "BUKA REKENING": formatNumber(
-                d.DataPembiayaan.by_buka_rekening.toFixed(0)
-              ),
-              FLAGGING: formatNumber(d.DataPembiayaan.by_flagging.toFixed(0)),
-              EPOTPEN: formatNumber(d.DataPembiayaan.by_epotpen.toFixed(0)),
-              MATERAI: formatNumber(d.DataPembiayaan.by_materai.toFixed(0)),
-              MUTASI: formatNumber(d.DataPembiayaan.by_mutasi.toFixed(0)),
-              TLK_EH: formatNumber(tlk_eh.toFixed(0)),
-              TLK_IB: formatNumber(tlk_ib.toFixed(0)),
-              "ASURANSI KOPERASI": formatNumber(asuransiKoperasi.toFixed(0)),
-              "ASURANSI MITRA": formatNumber(asuransiMitra.toFixed(0)),
-              "SELISIH ASURANSI": formatNumber(
-                (asuransiKoperasi - asuransiMitra).toFixed(0)
-              ),
+              "SELISIH ANGSURAN":
+                parseInt(angsuranKoperasi) - parseInt(angsuranBank),
+              "ADMIN BANK": adminBank,
+              "ADMIN KOPERASI": adminKoperasi,
+              "ADMIN AREA": adminLainnya,
+              "BUKA REKENING": d.DataPembiayaan.by_buka_rekening,
+              FLAGGING: d.DataPembiayaan.by_flagging,
+              EPOTPEN: d.DataPembiayaan.by_epotpen,
+              MATERAI: d.DataPembiayaan.by_materai,
+              MUTASI: d.DataPembiayaan.by_mutasi,
+              TLK_EH: tlk_eh,
+              TLK_IB: tlk_ib,
+              "ASURANSI MITRA": asuransiMitra,
+              "ASURANSI KOPERASI": asuransiKoperasi,
+              "SELISIH ASURANSI": asuransiKoperasi - asuransiMitra,
             });
           }
         }

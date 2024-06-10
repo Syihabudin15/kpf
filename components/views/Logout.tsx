@@ -21,7 +21,7 @@ export default function Logout() {
   };
   return (
     <>
-      <div className="flex justify-center">
+      <div className="flex justify-center text-xs">
         <Button
           onClick={() => setModalLogout(true)}
           icon={<LogoutOutlined />}

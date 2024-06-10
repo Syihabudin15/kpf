@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -22,6 +22,8 @@ export default function RiwayatSlik() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [open, setOpen] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -147,96 +149,94 @@ export default function RiwayatSlik() {
         return <>{record.DataPembiayaan.tenor} Bulan</>;
       },
     },
-        {
-          title: "STATUS",
-          dataIndex: "status_slik",
-          key: "status_slik",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#22c55e",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
+    {
+      title: "STATUS",
+      dataIndex: "status_slik",
+      key: "status_slik",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#22c55e",
+            color: "#f3f4f6",
+            textAlign: "center",
           },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs font-bold italic">
-                {record.status_slik && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_slik === "SETUJU"
-                        ? "green"
-                        : record.status_slik === "DITOLAK"
-                        ? "red"
-                        : record.status_slik === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_slik}
-                  </div>
-                )}
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <div className="flex justify-center text-xs font-bold italic">
+            {record.status_slik && (
+              <div
+                className={`py-1 px-2 w-24 bg-${
+                  record.status_slik === "SETUJU"
+                    ? "green"
+                    : record.status_slik === "DITOLAK"
+                    ? "red"
+                    : record.status_slik === "ANTRI"
+                    ? "orange"
+                    : "blue"
+                }-500 text-gray-100 text-center`}
+              >
+                {record.status_slik}
               </div>
-            );
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      title: "KETERANGAN",
+      dataIndex: "keterangan_slik",
+      key: "keterangan_slik",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#22c55e",
+            color: "#f3f4f6",
+            textAlign: "center",
           },
-        },
-        {
-          title: "KETERANGAN",
-          dataIndex: "keterangan_slik",
-          key: "keterangan_slik",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#22c55e",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
+        };
+      },
+      className: "text-justify",
+      width: 300,
+    },
+    {
+      title: "PEMERIKSA",
+      dataIndex: "nama_pemeriksa_slik",
+      key: "nama_pemeriksa_slik",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#22c55e",
+            color: "#f3f4f6",
+            textAlign: "center",
           },
-          className: "text-justify",
-          width: 300,
-        },
-        {
-          title: "PEMERIKSA",
-          dataIndex: "nama_pemeriksa_slik",
-          key: "nama_pemeriksa_slik",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#22c55e",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
+        };
+      },
+      className: "text-center",
+    },
+    {
+      title: "TANGGAL",
+      dataIndex: "tanggal_slik",
+      key: "tanggal_slik",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#22c55e",
+            color: "#f3f4f6",
+            textAlign: "center",
           },
-          className: "text-center",
-        },
-        {
-          title: "TANGGAL",
-          dataIndex: "tanggal_slik",
-          key: "tanggal_slik",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                background: "#22c55e",
-                color: "#f3f4f6",
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div>{moment(record.tanggal_slik).format("DD-MM-YYYY")}</div>
-            );
-          },
-        },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <div>{moment(record.tanggal_slik).format("DD-MM-YYYY")}</div>;
+      },
+    },
     {
       title: "VIEW BERKAS",
       dataIndex: "id",
@@ -254,11 +254,17 @@ export default function RiwayatSlik() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            data={record}
-            role={"CHECKER"}
-            allowForm={false}
-          />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileOutlined />
+            </button>
+          </div>
         );
       },
     },
@@ -281,7 +287,7 @@ export default function RiwayatSlik() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 1500, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 1500, y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -293,6 +299,15 @@ export default function RiwayatSlik() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role={"CHECKER"}
+          allowForm={false}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </section>
   );
 }

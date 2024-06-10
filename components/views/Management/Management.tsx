@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
+import moment from "moment";
 
 const CetakManagement = dynamic(
   () => import("@/components/views/Management/CetakManagement"),
@@ -97,7 +98,7 @@ export default function Management() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{record.DataPembiayaan.nopen}</>;
+        return <>{record.DataPembiayaan.name}</>;
       },
     },
     {
@@ -164,9 +165,9 @@ export default function Management() {
       },
       children: [
         {
-          title: "ANGSURAN KOPERASI",
-          key: "angsuran_koperasi",
-          dataIndex: "angsuran_koperasi",
+          title: "ANGSURAN BANK",
+          key: "angsuran_bank",
+          dataIndex: "angsuran_bank",
           width: 150,
           onHeaderCell: (text, record) => {
             return {
@@ -178,7 +179,7 @@ export default function Management() {
           className: "text-center",
           render(value, record, index) {
             const angsuran = getAngsuranPerBulan(
-              record.DataPembiayaan.mg_bunga,
+              record.DataPembiayaan.margin_bank,
               record.DataPembiayaan.tenor,
               record.DataPembiayaan.plafond
             );
@@ -195,9 +196,9 @@ export default function Management() {
           },
         },
         {
-          title: "ANGSURAN BANK",
-          key: "angsuran_bank",
-          dataIndex: "angsuran_bank",
+          title: "ANGSURAN KOPERASI",
+          key: "angsuran_koperasi",
+          dataIndex: "angsuran_koperasi",
           width: 150,
           onHeaderCell: (text, record) => {
             return {
@@ -209,7 +210,7 @@ export default function Management() {
           className: "text-center",
           render(value, record, index) {
             const angsuran = getAngsuranPerBulan(
-              record.DataPembiayaan.margin_bank,
+              record.DataPembiayaan.mg_bunga,
               record.DataPembiayaan.tenor,
               record.DataPembiayaan.plafond
             );
@@ -281,9 +282,9 @@ export default function Management() {
       },
       children: [
         {
-          title: "ADMIN KOPERASI",
-          key: "admin_koperasi",
-          dataIndex: "admin_koperasi",
+          title: "ADMIN BANK",
+          key: "admin_bank",
+          dataIndex: "admin_bank",
           width: 150,
           onHeaderCell: (text, record) => {
             return {
@@ -304,9 +305,9 @@ export default function Management() {
           },
         },
         {
-          title: "ADMIN BANK",
-          key: "admin_bank",
-          dataIndex: "admin_bank",
+          title: "ADMIN KOPERASI",
+          key: "admin_koperasi",
+          dataIndex: "admin_koperasi",
           width: 150,
           onHeaderCell: (text, record) => {
             return {
@@ -513,6 +514,23 @@ export default function Management() {
       },
       children: [
         {
+          title: "ASURANSI MITRA",
+          key: "asuransi_mitra",
+          dataIndex: "asuransi_mitra",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return <>{formatNumber((0).toFixed(0))}</>;
+          },
+        },
+        {
           title: "ASURANSI KOPERASI",
           key: "asuransi_koperasi",
           dataIndex: "asuransi_koperasi",
@@ -536,23 +554,6 @@ export default function Management() {
                 )}
               </>
             );
-          },
-        },
-        {
-          title: "ASURANSI MITRA",
-          key: "asuransi_mitra",
-          dataIndex: "asuransi_mitra",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return <>{formatNumber((0).toFixed(0))}</>;
           },
         },
         {
@@ -591,7 +592,7 @@ export default function Management() {
             { label: "REGULER", value: "REGULER" },
             { label: "EXPRESS", value: "EXPRESS" },
           ]}
-          onChange={(e) => setType(e)}
+          onChange={(e: any) => setType(e)}
           allowClear
           placeholder="Select Group"
         />
@@ -610,7 +611,6 @@ export default function Management() {
           pagination={{
             total: total,
             pageSize: pageSize,
-            hideOnSinglePage: true,
             onChange(page, pageSize) {
               setPage(page);
               setPageSize(pageSize);

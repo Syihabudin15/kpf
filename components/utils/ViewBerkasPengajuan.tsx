@@ -5,8 +5,8 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
-import { FileFilled, FormOutlined, LoadingOutlined } from "@ant-design/icons";
+import React from "react";
+import { LoadingOutlined } from "@ant-design/icons";
 import { DataDataPengajuan } from "./Interfaces";
 import Mauk from "../views/dataPdf/Mauk";
 
@@ -30,6 +30,8 @@ export default function BerkasTabsPengajuan({
   pathname,
   getData,
   nextpath,
+  open,
+  setOpen,
 }: {
   data: DataDataPengajuan;
   role: Role;
@@ -38,8 +40,10 @@ export default function BerkasTabsPengajuan({
   pathname?: string;
   getData?: Function;
   nextpath?: string;
+  open: boolean;
+  setOpen: Function;
 }) {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const bankItems: TabsProps["items"] = [
     {
@@ -522,7 +526,7 @@ export default function BerkasTabsPengajuan({
   ];
   return (
     <div>
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <button
           className={`border rounded shadow py-1 px-2 ${
             isPeriksa && "bg-green-500 hover:bg-green-600 text-white"
@@ -531,19 +535,22 @@ export default function BerkasTabsPengajuan({
         >
           {isPeriksa ? <FormOutlined /> : <FileFilled />}
         </button>
-      </div>
+      </div> */}
       <Modal
         open={open}
         onCancel={() => setOpen(false)}
-        title="Berkas Pengajuan"
+        title="BERKAS PENGAJUAN"
         width={"95vw"}
         style={{ top: 20 }}
         footer={[]}
       >
-        <div className="block sm:flex gap-5" style={{ minHeight: "80vh" }}>
+        <div
+          className="flex flex-wrap md:flex-nowrap gap-5"
+          style={{ minHeight: "80vh" }}
+        >
           <div
-            style={{ flex: 0.8 }}
             className={`${allowForm ? "block" : "hidden"}`}
+            style={{ width: 500 }}
           >
             <FormPengajuan
               data={data}
@@ -554,8 +561,9 @@ export default function BerkasTabsPengajuan({
               nextpath={nextpath}
             />
           </div>
-          <div style={{ flex: 1 }}>
+          <div style={{ width: window.innerWidth > 600 ? "55vw" : 500 }}>
             <Tabs
+              size="small"
               items={
                 role === Role.BANK ||
                 role === Role.CHECKER ||

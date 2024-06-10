@@ -2,7 +2,7 @@
 
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
 import { DatePicker, Input, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
@@ -27,6 +27,8 @@ export default function DokumenPengajuanMitraBank() {
   const [total, setTotal] = useState<number>(0);
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [open, setOpen] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -240,11 +242,17 @@ export default function DokumenPengajuanMitraBank() {
           },
           render(value, record, index) {
             return (
-              <ViewBerkasPengajuan
-                data={record}
-                role="OPERASIONAL"
-                allowForm={false}
-              />
+              <div className="flex justify-center">
+                <button
+                  className="py-1 px-2 rounded shadow"
+                  onClick={() => {
+                    setSelected(record);
+                    setOpen(true);
+                  }}
+                >
+                  <FileOutlined />
+                </button>
+              </div>
             );
           },
         },
@@ -949,7 +957,7 @@ export default function DokumenPengajuanMitraBank() {
           size="small"
           dataSource={data}
           columns={columns}
-          scroll={{ x: 5500, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 5500, y: "calc(65vh - 100px)" }}
           bordered
           loading={loading}
           pagination={{
@@ -961,6 +969,15 @@ export default function DokumenPengajuanMitraBank() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role="OPERASIONAL"
+          allowForm={false}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </div>
   );
 }
