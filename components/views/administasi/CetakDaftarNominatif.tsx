@@ -1,0 +1,169 @@
+import { LoadingOutlined, PrinterOutlined } from "@ant-design/icons";
+import * as XLSX from "xlsx";
+import { useState } from "react";
+import { message } from "antd";
+import moment from "moment";
+import { DataDataPengajuan } from "@/components/utils/Interfaces";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
+import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
+
+export default function CetakDaftarNominatif({
+  data,
+}: {
+  data: DataDataPengajuan[];
+}) {
+  const [loading, setLoading] = useState(false);
+
+  const handleExcelExport = () => {
+    setLoading(true);
+    try {
+      let totalPlafond = 0;
+      let totalAdmin = 0;
+      let totalAdminBank = 0;
+      let totalCadangan = 0;
+      let totalAsuransi = 0;
+      let totalInformasi = 0;
+      let totalTatalaksana = 0;
+      let totalTabungan = 0;
+      let totalMaterai = 0;
+      let totalMutasi = 0;
+      let totalBlokir = 0;
+      let totalTakeOver = 0;
+      let totalPencairan = 0;
+
+      const newData: any[] = data.map((d: DataDataPengajuan, ind: number) => {
+        const plafond = d.DataPembiayaan.plafond;
+        const admin = plafond * (d.DataPembiayaan.by_admin / 100);
+        const adminBank = plafond * (d.DataPembiayaan.by_admin_bank / 100);
+        const cadangan = plafond * (d.DataPembiayaan.by_lainnya / 100);
+        const asuransi = plafond * (d.DataPembiayaan.by_asuransi / 100);
+        const informasi =
+          d.DataPembiayaan.by_flagging + d.DataPembiayaan.by_epotpen;
+        const tatalaksana = d.DataPembiayaan.by_tatalaksana;
+        const tabungan = d.DataPembiayaan.by_buka_rekening;
+        const materai = d.DataPembiayaan.by_materai;
+        const mutasi = d.DataPembiayaan.by_mutasi;
+        const angsuran = ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              d.DataPembiayaan.mg_bunga,
+              d.DataPembiayaan.tenor,
+              d.DataPembiayaan.plafond
+            )
+          ),
+          d.DataPembiayaan.pembulatan
+        );
+        const blokir = d.DataPembiayaan.blokir * angsuran;
+        const takeOver = d.DataPembiayaan.pelunasan + d.DataPembiayaan.bpp;
+        const pencairan =
+          plafond -
+          (admin +
+            adminBank +
+            cadangan +
+            tatalaksana +
+            asuransi +
+            informasi +
+            tabungan +
+            materai +
+            mutasi +
+            blokir +
+            takeOver);
+
+        totalPlafond += plafond;
+        totalAdmin += admin;
+        totalAdminBank += adminBank;
+        totalCadangan += cadangan;
+        totalAsuransi += asuransi;
+        totalInformasi += informasi;
+        totalTatalaksana += tatalaksana;
+        totalTabungan += tabungan;
+        totalMaterai += materai;
+        totalMutasi += mutasi;
+        totalBlokir += blokir;
+        totalTakeOver += takeOver;
+        totalPencairan += pencairan;
+
+        return {
+          NO: ind + 1,
+          "AREA PELAYANAN": d.User.UnitCabang.UnitPelayanan.name,
+          "UNIT PELAYANAN": d.User.UnitCabang.name,
+          NOPEN: d.DataPembiayaan.nopen,
+          "NO SK PENSIUN": d.nomor_sk_pensiun,
+          "NAMA PEMOHON": d.nama,
+          "MITRA BANK": d.DataPembiayaan.Refferal.name,
+          "SUMBER DANA": d.Bank.name,
+          TENOR: d.DataPembiayaan.tenor,
+          PLAFOND: d.DataPembiayaan.plafond,
+          "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD-MM-YYYY"),
+          "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format("DD-MM-YYYY"),
+          "TANGGAL LUNAS": moment(d.tanggal_cetak_akad)
+            .add(d.DataPembiayaan.tenor, "M")
+            .format("DD-MM-YYYY"),
+          "MARGIN BUNGA": d.DataPembiayaan.mg_bunga,
+          "ADMIN BANK": adminBank,
+          "ADMIN MITRA": admin,
+          "PENCADANGAN PUSAT": cadangan,
+          TATALAKSANA: tatalaksana,
+          "PREMI ASURANSI": asuransi,
+          "DATA INFORMASI": informasi,
+          "PEMBUKAAN TABUNGAN": tabungan,
+          "BIAYA MATERAI": materai,
+          "BIAYA MUTASI": mutasi,
+          "BLOKIR ANGSURAN": blokir,
+          "NOMINAL TAKE OVER": takeOver,
+          PENCAIRAN: pencairan,
+        };
+      });
+      newData.push({
+        NO: "TOTAL",
+        "AREA PELAYANAN": "-",
+        "UNIT PELAYANAN": "-",
+        NOPEN: "-",
+        "NO SK PENSIUN": "-",
+        "NAMA PEMOHON": "-",
+        "MITRA BANK": "-",
+        "SUMBER DANA": "-",
+        TENOR: "-",
+        PLAFOND: "-",
+        "TANGGAL AKAD": "-",
+        "TANGGAL PENCAIRAN": "-",
+        "TANGGAL LUNAS": "-",
+        "MARGIN BUNGA": "-",
+        "ADMIN BANK": totalAdminBank,
+        "ADMIN MITRA": totalAdmin,
+        "PENCADANGAN PUSAT": totalCadangan,
+        TATALAKSANA: totalTatalaksana,
+        "PREMI ASURANSI": totalAsuransi,
+        "DATA INFORMASI": totalInformasi,
+        "PEMBUKAAN TABUNGAN": totalTabungan,
+        "BIAYA MATERAI": totalMaterai,
+        "BIAYA MUTASI": totalMutasi,
+        "BLOKIR ANGSURAN": totalBlokir,
+        "NOMINAL TAKE OVER": totalTakeOver,
+        PENCAIRAN: totalPencairan,
+      });
+      const wb = XLSX.utils.book_new();
+      const ws = XLSX.utils.json_to_sheet(newData);
+      XLSX.utils.book_append_sheet(
+        wb,
+        ws,
+        "NOMINATIF " + new Date().getFullYear()
+      );
+      XLSX.writeFile(wb, `NOMINATIF ${new Date().getFullYear()}.xlsx`);
+    } catch (err) {
+      message.error("Cetak data gagal. Coba lagi nanti!");
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="flex justify-center">
+      <button
+        className="py-1 px-2 rounded shadow hover:opacity-50 border text-xs bg-blue-500 hover:bg-blue-600 text-white"
+        onClick={() => handleExcelExport()}
+      >
+        Cetak {loading ? <LoadingOutlined /> : <PrinterOutlined />}
+      </button>
+    </div>
+  );
+}

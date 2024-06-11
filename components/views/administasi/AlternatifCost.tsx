@@ -102,7 +102,8 @@ export default function AlternatifCost() {
     {
       title: "PEMBUAT",
       key: "user",
-      dataIndex: "user",onHeaderCell: (text, record) => {
+      dataIndex: "user",
+      onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
@@ -155,8 +156,8 @@ export default function AlternatifCost() {
           dataSource={data}
           columns={columns}
           size="small"
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           bordered
-          scroll={{ x: 1000, y:320 }}
           loading={loading}
           pagination={{
             pageSize: 20,

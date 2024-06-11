@@ -34,7 +34,9 @@ export default function DashboardEntry() {
 
   const getData = async () => {
     setLoading(true);
-    const res = await fetch("/api/dashboard/entry_data", { next: { revalidate: 60 }});
+    const res = await fetch("/api/dashboard/entry_data", {
+      next: { revalidate: 60 },
+    });
     const { pengajuanHariIni, dataTable, namaArea } = await res.json();
     setDataHari(pengajuanHariIni);
     setNamaArea(namaArea);
@@ -133,8 +135,8 @@ export default function DashboardEntry() {
               bordered
               loading={loading}
               size="small"
-              pagination={{ pageSize: 10 }}
-              scroll={{ x: 1000 }}
+              pagination={false}
+              scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
               expandable={{
                 expandedRowRender: (record) => {
                   return (

@@ -25,7 +25,9 @@ export default function DashboardMarketing() {
 
   const getData = async () => {
     setLoading(true);
-    const res = await fetch("/api/dashboard/marketing",{ next: { revalidate: 60 }});
+    const res = await fetch("/api/dashboard/marketing", {
+      next: { revalidate: 60 },
+    });
     const { dataHariIni, dataTable } = await res.json();
     setDataHari(dataHariIni);
     setDataTable(dataTable);
@@ -117,8 +119,8 @@ export default function DashboardMarketing() {
               dataSource={dataTable}
               size="small"
               bordered
-              scroll={{ x: 2000 }}
-              pagination={{ pageSize: 20 }}
+              scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+              pagination={false}
             />
           </div>
         </div>

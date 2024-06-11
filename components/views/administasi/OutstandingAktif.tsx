@@ -321,9 +321,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           (e) => e.tanggal_pelunasan === null
         );
         return (
-          <div>
-            {angsuran && formatNumber(angsuran[0].sisa.toFixed(0))}
-          </div>
+          <div>{angsuran && formatNumber(angsuran[0].sisa.toFixed(0))}</div>
         );
       },
     },
@@ -348,7 +346,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           bordered
           size="small"
           loading={loading}
-          scroll={{ x: 3000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           pagination={{
             pageSize: 20,
             total: total,

@@ -180,7 +180,7 @@ export default function DataSimulasi() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 500, y:320 }}
+        scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
         size="small"
         pagination={{
           pageSize: 20,

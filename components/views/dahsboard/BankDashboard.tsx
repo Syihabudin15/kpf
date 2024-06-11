@@ -19,17 +19,18 @@ import dynamic from "next/dynamic";
 import { LineProps } from "@/app/api/dashboard/master/route";
 import ReactApexChart from "react-apexcharts";
 
-
 export default function BankDashboard() {
   const [loading, setLoading] = useState(false);
   const [dataTable, setDataTable] = useState<any[]>();
-  const [line, setLine] = useState<LineProps>()
-  const [pie, setPie] = useState<LineProps>()
+  const [line, setLine] = useState<LineProps>();
+  const [pie, setPie] = useState<LineProps>();
 
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const resTable = await fetch("/api/dashboard/bank", { next: { revalidate: 60 }});
+      const resTable = await fetch("/api/dashboard/bank", {
+        next: { revalidate: 60 },
+      });
       const { dataTable, line, months, pie } = await resTable.json();
       setDataTable(dataTable);
       setLine({
@@ -39,8 +40,8 @@ export default function BankDashboard() {
             height: 350,
             type: "area",
             toolbar: {
-              show: false
-            }
+              show: false,
+            },
           },
           stroke: {
             curve: "smooth",
@@ -103,32 +104,32 @@ export default function BankDashboard() {
   return (
     <div className="p-0">
       <Spin spinning={loading}>
-      <div className="px-0">
-        <div className="flex flex-col sm:flex-row justify-between gap-5">
-          <div className="bg-white p-1 rounded shadow" style={{ flex: 1.2 }}>
-            {line ? (
-              <ReactApexChart
-                options={line.options}
-                series={line.series}
-                type="area"
-                height={350}
-              />
-            ) : (
-              <LoadingOutlined />
-            )}
+        <div className="px-0">
+          <div className="flex flex-col sm:flex-row justify-between gap-5">
+            <div className="bg-white p-1 rounded shadow" style={{ flex: 1.2 }}>
+              {line ? (
+                <ReactApexChart
+                  options={line.options}
+                  series={line.series}
+                  type="area"
+                  height={350}
+                />
+              ) : (
+                <LoadingOutlined />
+              )}
+            </div>
+            <div className="bg-white p-1 rounded shadow" style={{ flex: 0.8 }}>
+              {pie ? (
+                <ReactApexChart
+                  options={pie.options}
+                  series={pie.series}
+                  type="donut"
+                />
+              ) : (
+                <LoadingOutlined />
+              )}
+            </div>
           </div>
-          <div className="bg-white p-1 rounded shadow" style={{ flex: 0.8 }}>
-            {pie ? (
-              <ReactApexChart
-                options={pie.options}
-                series={pie.series}
-                type="donut"
-              />
-            ) : (
-              <LoadingOutlined />
-            )}
-          </div>
-        </div>
         </div>
         {/* Table */}
         <div className="mt-2">
@@ -143,7 +144,7 @@ export default function BankDashboard() {
               })}
               bordered
               size="middle"
-              scroll={{ x: 800 }}
+              scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
               loading={loading}
               pagination={false}
               expandable={{
@@ -304,7 +305,7 @@ const columnsExpand: TableProps<PengajuanBank>["columns"] = [
         },
       };
     },
-    fixed: 'right',
+    fixed: "right",
     className: "text-center",
     dataIndex: "plafond",
     render(value, record, index) {

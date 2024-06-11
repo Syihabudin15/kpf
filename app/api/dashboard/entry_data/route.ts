@@ -143,13 +143,14 @@ export const PUT = async (req: NextRequest) => {
           AND: [
             {
               created_at: {
-                gte: new Date(`${new Date().getFullYear()}-${i + 1}-1`),
-                lte: new Date(
-                  `${new Date().getFullYear()}-${i + 1}-${daysInMonth(
-                    i,
-                    new Date().getFullYear()
-                  )}`
-                ),
+                gte: moment(
+                  `${new Date().getFullYear()}-${i + 1}-01`
+                ).toISOString(true),
+                lte: moment(
+                  `${new Date().getFullYear()}-${i + 1}-${moment(
+                    `${new Date().getFullYear()}-${i + 1}`
+                  ).daysInMonth()}`
+                ).toISOString(true),
               },
             },
             { user_id: user.id },

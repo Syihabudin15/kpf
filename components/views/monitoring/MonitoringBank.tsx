@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -7,7 +7,6 @@ import dynamic from "next/dynamic";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import CetakDataPengajuan from "@/components/utils/CetakDataPengajuan";
-
 
 const ViewBerkasPengajuan = dynamic(
   () => import("@/components/utils/ViewBerkasPengajuan"),
@@ -24,6 +23,8 @@ export default function MonitoringBank() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [total, setTotal] = useState<number>();
   const [page, setPage] = useState<number>(1);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -228,7 +229,17 @@ export default function MonitoringBank() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan data={record} role="MASTER" allowForm={true} />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow border"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileFilled />
+            </button>
+          </div>
         );
       },
     },
@@ -787,7 +798,7 @@ export default function MonitoringBank() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 4000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -799,6 +810,15 @@ export default function MonitoringBank() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role="MASTER"
+          allowForm={true}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </div>
   );
 }

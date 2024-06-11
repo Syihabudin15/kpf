@@ -375,7 +375,7 @@ export default function FlashBulanan() {
               setPage(page);
             },
           }}
-          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
         />
       </div>
     </div>

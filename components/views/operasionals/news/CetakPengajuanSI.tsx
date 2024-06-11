@@ -1,7 +1,15 @@
 "use client";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Role } from "@prisma/client";
-import { DatePicker, Form, Input, Modal, Table, TableProps, message } from "antd";
+import {
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Table,
+  TableProps,
+  message,
+} from "antd";
 import { useContext, useEffect, useState } from "react";
 import { formatNumber } from "@/components/utils/inputUtils";
 import moment from "moment";
@@ -10,7 +18,6 @@ import {
   BankWithDataPengajuan,
   DataDataPengajuan,
 } from "@/components/utils/Interfaces";
-
 
 export default function CetakPengajuanSI({ role }: { role: Role }) {
   const [data, setData] = useState<BankWithDataPengajuan[]>();
@@ -363,7 +370,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1000, y: 'calc(65vh - 100px)' }}
+        scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
         loading={loading}
         rowSelection={{
           selectedRowKeys: selectedRow,
@@ -410,11 +417,21 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
                 // type="date"
                 required
                 format="DD/MM/YYYY"
-                onChange={(date:any, dateString:any) => {
-                  let split = dateString ? dateString.split("/") : moment().format("MM/DD/YYYY").split("/");
-                  let result = moment([split[2], split[1]-1, split[0]]).format("YYYY-MM-DD");
+                onChange={(date: any, dateString: any) => {
+                  let split = dateString
+                    ? dateString.split("/")
+                    : moment().format("MM/DD/YYYY").split("/");
+                  let result = moment([
+                    split[2],
+                    split[1] - 1,
+                    split[0],
+                  ]).format("YYYY-MM-DD");
                   setTanggalSI(result);
-                  setNomorSurat(`/SI/KPF-${selectedDatas && selectedDatas[0].kode}/${moment(result).format("DDMMYYYY")}`)
+                  setNomorSurat(
+                    `/SI/KPF-${selectedDatas && selectedDatas[0].kode}/${moment(
+                      result
+                    ).format("DDMMYYYY")}`
+                  );
                 }}
               />
             </Form.Item>

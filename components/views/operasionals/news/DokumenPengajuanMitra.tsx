@@ -1,12 +1,15 @@
 "use client";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { LoadingOutlined } from "@ant-design/icons";
+import {
+  CloudUploadOutlined,
+  FileFilled,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { Input, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-
 
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
@@ -27,13 +30,16 @@ const ViewBerkasPengajuan = dynamic(
   }
 );
 
-
 export default function DokumenPengajuanMitra() {
   const [name, setName] = useState<string>();
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [openUpload, setOpenUpload] = useState(false);
+  const [selectedUpload, setSelectedUpload] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -41,9 +47,11 @@ export default function DokumenPengajuanMitra() {
       `/api/ops/pengajuan-mitra?page=${page}${name ? "&name=" + name : ""}`
     );
     const { data, total } = await res.json();
-    setData(data.map((d:any, ind: number) => {
-      return{...d, key: ind}
-    }));
+    setData(
+      data.map((d: any, ind: number) => {
+        return { ...d, key: ind };
+      })
+    );
     setTotal(total);
     setLoading(false);
   };
@@ -68,7 +76,7 @@ export default function DokumenPengajuanMitra() {
       width: 50,
       className: "text-center",
       render(value, record, index) {
-        return <>{index + 1}</>;
+        return <>{(page - 1) * 20 + (index + 1)}</>;
       },
     },
     {
@@ -224,7 +232,19 @@ export default function DokumenPengajuanMitra() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <UploadBerkasOps data={record} getData={getData} />;
+        return (
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 border rounded shadow bg-green-500 hover:bg-green-600 text-white"
+              onClick={() => {
+                setSelectedUpload(record);
+                setOpenUpload(true);
+              }}
+            >
+              <CloudUploadOutlined />
+            </button>
+          </div>
+        );
       },
     },
     {
@@ -246,11 +266,17 @@ export default function DokumenPengajuanMitra() {
           width: 100,
           render(value, record, index) {
             return (
-              <ViewBerkasPengajuan
-                data={record}
-                role="OPERASIONAL"
-                allowForm={false}
-              />
+              <div className="flex justify-center">
+                <button
+                  className="py-1 px-2 rounded shadow"
+                  onClick={() => {
+                    setSelected(record);
+                    setOpen(true);
+                  }}
+                >
+                  <FileFilled />
+                </button>
+              </div>
             );
           },
         },
@@ -991,7 +1017,7 @@ export default function DokumenPengajuanMitra() {
         columns={columns}
         bordered
         size="small"
-        scroll={{ x: 4000, y: 'calc(65vh - 100px)' }}
+        scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
         dataSource={data}
         loading={loading}
         pagination={{
@@ -1002,6 +1028,24 @@ export default function DokumenPengajuanMitra() {
           },
         }}
       />
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role="OPERASIONAL"
+          allowForm={false}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
+      {selectedUpload && (
+        <UploadBerkasOps
+          data={selectedUpload}
+          getData={getData}
+          open={openUpload}
+          setOpen={setOpenUpload}
+          setSelected={setSelectedUpload}
+        />
+      )}
     </div>
   );
 }

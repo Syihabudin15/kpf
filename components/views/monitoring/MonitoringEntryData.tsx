@@ -1,5 +1,5 @@
 "use client";
-import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
+import { DeleteOutlined, FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { Input, Modal, Table, TableProps, DatePicker, message } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -59,6 +59,8 @@ export default function MonitoringEntryData() {
   const [refferal, setRefferal] = useState<Options[]>();
   const [dataTaspen, setDataTaspen] = useState<DataDataTaspen[]>();
   const [provinsi, setProvinsi] = useState<Options[]>();
+  const [open, setOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState<DataDataPengajuan>();
 
   useEffect(() => {
     (async () => {
@@ -383,7 +385,17 @@ export default function MonitoringEntryData() {
       width: 100,
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan data={record} role="MASTER" allowForm={true} />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow border"
+              onClick={() => {
+                setSelectedData(record);
+                setOpen(true);
+              }}
+            >
+              <FileFilled />
+            </button>
+          </div>
         );
       },
     },
@@ -976,7 +988,7 @@ export default function MonitoringEntryData() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 5200, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -1005,6 +1017,15 @@ export default function MonitoringEntryData() {
           </button>
         </div>
       </Modal>
+      {selectedData && (
+        <ViewBerkasPengajuan
+          data={selectedData}
+          role="MASTER"
+          allowForm={true}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </div>
   );
 }

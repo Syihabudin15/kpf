@@ -290,7 +290,7 @@ export default function UploadJaminan() {
           loading={loading}
           bordered
           size="small"
-          scroll={{ x: 2500, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           pagination={{
             pageSize: 20,
             total,

@@ -1,15 +1,12 @@
 "use client";
-import {
-  LineProps,
-  DashboardMaster,
-} from "@/app/api/dashboard/master/route";
+import { LineProps, DashboardMaster } from "@/app/api/dashboard/master/route";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { DislikeFilled,  LikeFilled, LoadingOutlined } from "@ant-design/icons";
+import { DislikeFilled, LikeFilled, LoadingOutlined } from "@ant-design/icons";
 import { Spin, Table, TableProps, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export default function MasterDashboard() {
   const [line, setLine] = useState<LineProps>();
@@ -23,84 +20,93 @@ export default function MasterDashboard() {
 
   const getData = async () => {
     setLoading(true);
-      const res = await fetch("/api/dashboard/master");
-      const { line, months, pie, dataTable, dataArea, marketingTerbaik,dataflash, cabang } = await res.json();
-      setData(dataTable);
-      setDataFlash(dataflash);
-      setDataCabang(cabang);
-      setLine({
-        series: line,
-        options: {
-          chart: {
-            height: 350,
-            type: "area",
-            toolbar: {
-              show: false
-            }
+    const res = await fetch("/api/dashboard/master");
+    const {
+      line,
+      months,
+      pie,
+      dataTable,
+      dataArea,
+      marketingTerbaik,
+      dataflash,
+      cabang,
+    } = await res.json();
+    setData(dataTable);
+    setDataFlash(dataflash);
+    setDataCabang(cabang);
+    setLine({
+      series: line,
+      options: {
+        chart: {
+          height: 350,
+          type: "area",
+          toolbar: {
+            show: false,
           },
-          stroke: {
-            curve: "smooth",
-          },
-          xaxis: {
-            categories: months,
-          },
-          yaxis: {
-            labels: {
-              show: true,
-              formatter: function (val: number) {
-                return formatNumber(val.toFixed(0));
-              },
-            },
-          },
-          dataLabels: {
-            enabled: true,
+        },
+        stroke: {
+          curve: "smooth",
+        },
+        xaxis: {
+          categories: months,
+        },
+        yaxis: {
+          labels: {
+            show: true,
             formatter: function (val: number) {
               return formatNumber(val.toFixed(0));
             },
-            style: {
-              fontSize: "10px",
-            },
           },
         },
-      });
-      const { label, data } = pie;
-      setPie({
-        series: data,
-        options: {
-          chart: {
-            width: 200,
-            type: "donut",
+        dataLabels: {
+          enabled: true,
+          formatter: function (val: number) {
+            return formatNumber(val.toFixed(0));
           },
-          dataLabels: {
-            enabled: false,
+          style: {
+            fontSize: "10px",
           },
-          labels: label,
-          legend: {
-            show: true,
-            position: "bottom",
-            horizontalAlign: "center",
-          },
-          responsive: [
-            {
-              breakpoint: 480,
-              options: {
-                chart: {
-                  width: 200,
-                },
+        },
+      },
+    });
+    const { label, data } = pie;
+    setPie({
+      series: data,
+      options: {
+        chart: {
+          width: 200,
+          type: "donut",
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        labels: label,
+        legend: {
+          show: true,
+          position: "bottom",
+          horizontalAlign: "center",
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200,
               },
             },
-          ],
-        },
-      });
-      setDataArea(dataArea);
-      setDataMarketing(marketingTerbaik);
-      setLoading(false);
-  }
+          },
+        ],
+      },
+    });
+    setDataArea(dataArea);
+    setDataMarketing(marketingTerbaik);
+    setLoading(false);
+  };
 
   useEffect(() => {
     (async () => {
       await getData();
-      setInterval(async() => {
+      setInterval(async () => {
         await getData();
       }, 300000);
     })();
@@ -137,7 +143,11 @@ export default function MasterDashboard() {
           </div>
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-          <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS BANK (REGULER)</div>
+          <div
+            className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}
+          >
+            DATA BISNIS BANK (REGULER)
+          </div>
           <Table
             bordered
             size="small"
@@ -145,12 +155,16 @@ export default function MasterDashboard() {
             columns={columnsDashboard}
             dataSource={data}
             loading={loading}
-            scroll={{ x: 1000,y:500 }}
+            scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
             key={"reguller"}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-          <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS BANK (FLASH)</div>
+          <div
+            className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}
+          >
+            DATA BISNIS BANK (FLASH)
+          </div>
           <Table
             bordered
             size="small"
@@ -158,12 +172,16 @@ export default function MasterDashboard() {
             columns={columnsDashboard}
             dataSource={dataflash}
             loading={loading}
-            scroll={{ x: 1000, y: 500 }}
+            scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
             key={"flash"}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS AREA</div>
+          <div
+            className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}
+          >
+            DATA BISNIS AREA
+          </div>
           <Table
             bordered
             size="small"
@@ -171,12 +189,16 @@ export default function MasterDashboard() {
             columns={columnsArea}
             dataSource={dataArea}
             loading={loading}
-            scroll={{ x: 1000,y:500 }}
+            scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
             key={"area"}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS CABANG</div>
+          <div
+            className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}
+          >
+            DATA BISNIS CABANG
+          </div>
           <Table
             bordered
             size="small"
@@ -184,12 +206,16 @@ export default function MasterDashboard() {
             columns={columnsCabang}
             dataSource={dataCabang}
             loading={loading}
-            scroll={{ x: 1000, y: 500 }}
+            scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
             key={"cabang"}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
-           <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}>DATA BISNIS MARKETING</div>
+          <div
+            className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center`}
+          >
+            DATA BISNIS MARKETING
+          </div>
           <Table
             bordered
             size="small"
@@ -197,7 +223,7 @@ export default function MasterDashboard() {
             columns={columnsMarketing}
             dataSource={dataMarketing}
             loading={loading}
-            scroll={{ x: 1000, y: 500 }}
+            scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
             key={"marketing"}
           />
         </div>
@@ -206,21 +232,21 @@ export default function MasterDashboard() {
   );
 }
 
-const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
+const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
   {
     title: "ANTRIAN PENGAJUAN BANK",
     key: "sumdan",
-      dataIndex: "antrian",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-            backgroundColor: "#ea580c",
-            color: "white"
-          },
-        };
-      },
-      className: "text-center",
+    dataIndex: "antrian",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+          backgroundColor: "#ea580c",
+          color: "white",
+        },
+      };
+    },
+    className: "text-center",
     children: [
       {
         title: "SUMBER DANA",
@@ -231,13 +257,13 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
             ["style"]: {
               textAlign: "center",
               backgroundColor: "#22c55e",
-            color: "white"
+              color: "white",
             },
           };
         },
         className: "text-center",
         render(value, record, index) {
-          return<>{record.nama}</>
+          return <>{record.nama}</>;
         },
       },
       {
@@ -249,7 +275,7 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
             ["style"]: {
               textAlign: "center",
               backgroundColor: "#ea580c",
-            color: "white"
+              color: "white",
             },
           };
         },
@@ -264,13 +290,13 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
             ["style"]: {
               textAlign: "center",
               backgroundColor: "#ea580c",
-            color: "white"
+              color: "white",
             },
           };
         },
         className: "text-center",
       },
-    ]
+    ],
   },
   {
     title: "PENGAJUAN DROPPING",
@@ -281,7 +307,7 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
         ["style"]: {
           textAlign: "center",
           backgroundColor: "#ea580c",
-            color: "white"
+          color: "white",
         },
       };
     },
@@ -296,13 +322,13 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
             ["style"]: {
               textAlign: "center",
               backgroundColor: "#991b1b",
-            color: "white"
+              color: "white",
             },
           };
         },
         className: "text-center",
         render(value, record, index) {
-          return(<>{formatNumber(record.pengajuan_dropping[0].toFixed(0))}</>)
+          return <>{formatNumber(record.pengajuan_dropping[0].toFixed(0))}</>;
         },
       },
       {
@@ -314,16 +340,16 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
             ["style"]: {
               textAlign: "center",
               backgroundColor: "#991b1b",
-            color: "white"
+              color: "white",
             },
           };
         },
         className: "text-center",
         render(value, record, index) {
-          return(<>{formatNumber(record.pengajuan_dropping[1].toFixed(0))}</>)
+          return <>{formatNumber(record.pengajuan_dropping[1].toFixed(0))}</>;
         },
-      }
-    ]
+      },
+    ],
   },
   {
     title: moment().format("DD-MM-YYYY"),
@@ -334,15 +360,13 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
         ["style"]: {
           textAlign: "center",
           backgroundColor: "#fbbf24",
-          color: "white"
+          color: "white",
         },
       };
     },
     className: "text-center",
     render(value, record, index) {
-      return(
-        <>{formatNumber(record.dropping_hari_ini.toFixed(0))}</>
-      )
+      return <>{formatNumber(record.dropping_hari_ini.toFixed(0))}</>;
     },
   },
   {
@@ -354,7 +378,7 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
         ["style"]: {
           textAlign: "center",
           backgroundColor: "#ea580c",
-          color: "white"
+          color: "white",
         },
       };
     },
@@ -369,13 +393,13 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
             ["style"]: {
               textAlign: "center",
               backgroundColor: "#9a3412",
-              color: "white"
+              color: "white",
             },
           };
         },
         className: "text-center",
         render(value, record, index) {
-          return(<>{formatNumber(record.total[0].toFixed(0))}</>)
+          return <>{formatNumber(record.total[0].toFixed(0))}</>;
         },
       },
       {
@@ -387,36 +411,36 @@ const columnsDashboard: TableProps<DashboardMaster>['columns'] = [
             ["style"]: {
               textAlign: "center",
               backgroundColor: "#9a3412",
-              color: "white"
+              color: "white",
             },
           };
         },
         className: "text-center",
         render(value, record, index) {
-          return(<>{formatNumber(record.total[1].toFixed(0))}</>)
+          return <>{formatNumber(record.total[1].toFixed(0))}</>;
         },
-      }
-    ]
+      },
+    ],
   },
-]
+];
 
-const columnsArea: TableProps<any>['columns'] = [
+const columnsArea: TableProps<any>["columns"] = [
   {
     title: "NAMA AREA",
     dataIndex: "nama",
     key: "nama",
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-              backgroundColor: "#22c55e",
-              color: "white"
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
+          backgroundColor: "#22c55e",
+          color: "white",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<>{record.nama}</>)
+      return <>{record.nama}</>;
     },
   },
   {
@@ -424,15 +448,15 @@ const columnsArea: TableProps<any>['columns'] = [
     dataIndex: "kode_area",
     key: "kode_area",
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<>{record.kode_area}</>)
+      return <>{record.kode_area}</>;
     },
   },
   {
@@ -441,15 +465,15 @@ const columnsArea: TableProps<any>['columns'] = [
     key: "total_up",
     width: 150,
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<>{record.total_up}</>)
+      return <>{record.total_up}</>;
     },
   },
   {
@@ -458,15 +482,15 @@ const columnsArea: TableProps<any>['columns'] = [
     key: "total_marketing",
     width: 150,
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<>{record.total_marketing}</>)
+      return <>{record.total_marketing}</>;
     },
   },
   {
@@ -474,20 +498,26 @@ const columnsArea: TableProps<any>['columns'] = [
     dataIndex: "total_antrian",
     key: "total_antrian",
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-              backgroundColor: "#fbbf24",
-              color: "white"
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
+          backgroundColor: "#fbbf24",
+          color: "white",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<div className="flex">
-        <span  style={{borderRight: "1px solid #aaa", flex: .5}}>{record.jumlah_antrian}</span>
-        <span style={{flex: 1.5}}>{formatNumber(record.total_antrian.toFixed(0))}</span>
-      </div>)
+      return (
+        <div className="flex">
+          <span style={{ borderRight: "1px solid #aaa", flex: 0.5 }}>
+            {record.jumlah_antrian}
+          </span>
+          <span style={{ flex: 1.5 }}>
+            {formatNumber(record.total_antrian.toFixed(0))}
+          </span>
+        </div>
+      );
     },
   },
   {
@@ -495,65 +525,82 @@ const columnsArea: TableProps<any>['columns'] = [
     dataIndex: "total_pencairan",
     key: "total_pencairan",
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-              backgroundColor: "#22c55e",
-              color: "white"
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
+          backgroundColor: "#22c55e",
+          color: "white",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<div className="flex">
-        <span  style={{borderRight: "1px solid #aaa", flex: .5}}>{record.jumlah_pencairan}</span>
-        <span style={{flex: 1.5}}>{formatNumber(record.total_pencairan.toFixed(0))}</span>
-      </div>)
+      return (
+        <div className="flex">
+          <span style={{ borderRight: "1px solid #aaa", flex: 0.5 }}>
+            {record.jumlah_pencairan}
+          </span>
+          <span style={{ flex: 1.5 }}>
+            {formatNumber(record.total_pencairan.toFixed(0))}
+          </span>
+        </div>
+      );
     },
   },
   {
-    title: <div className="flex justify-center gap-2 text-center">
-      <Tooltip title="MENCAPAI TARGET"><LikeFilled style={{color: "green"}} /></Tooltip>
-      <Tooltip title="TIDAK MENCAPAI TARGET"><DislikeFilled style={{color: "red"}}/></Tooltip>
-    </div>,
+    title: (
+      <div className="flex justify-center gap-2 text-center">
+        <Tooltip title="MENCAPAI TARGET">
+          <LikeFilled style={{ color: "green" }} />
+        </Tooltip>
+        <Tooltip title="TIDAK MENCAPAI TARGET">
+          <DislikeFilled style={{ color: "red" }} />
+        </Tooltip>
+      </div>
+    ),
     dataIndex: "like",
     key: "like",
     width: 150,
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
       return (
         <div>
-          {record.total_pencairan >= 100000000 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index+1}</span>
+          {record.total_pencairan >= 100000000 ? (
+            <LikeFilled style={{ color: "green" }} />
+          ) : (
+            <DislikeFilled style={{ color: "red" }} />
+          )}{" "}
+          <span className="ps-2">{index + 1}</span>
         </div>
-      )
+      );
     },
   },
-]
+];
 
-const columnsCabang: TableProps<any>['columns'] = [
+const columnsCabang: TableProps<any>["columns"] = [
   {
     title: "NAMA CABANG",
     dataIndex: "nama",
     key: "nama",
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-              backgroundColor: "#22c55e",
-              color: "white"
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
+          backgroundColor: "#22c55e",
+          color: "white",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<>{record.nama}</>)
+      return <>{record.nama}</>;
     },
   },
   {
@@ -561,15 +608,15 @@ const columnsCabang: TableProps<any>['columns'] = [
     dataIndex: "nama",
     key: "nama",
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<>{record.area}</>)
+      return <>{record.area}</>;
     },
   },
   {
@@ -578,15 +625,15 @@ const columnsCabang: TableProps<any>['columns'] = [
     key: "total_up",
     width: 150,
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<>{record.total_marketing}</>)
+      return <>{record.total_marketing}</>;
     },
   },
   {
@@ -595,20 +642,26 @@ const columnsCabang: TableProps<any>['columns'] = [
     key: "total_antrian",
     width: 150,
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-              backgroundColor: "#facc15",
-              color: "white"
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
+          backgroundColor: "#facc15",
+          color: "white",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<div className="flex">
-        <span  style={{borderRight: "1px solid #aaa", flex: .5}}>{record.jumlah_antrian}</span>
-        <span style={{flex: 1.5}}>{formatNumber(record.total_antrian.toFixed(0))}</span>
-      </div>)
+      return (
+        <div className="flex">
+          <span style={{ borderRight: "1px solid #aaa", flex: 0.5 }}>
+            {record.jumlah_antrian}
+          </span>
+          <span style={{ flex: 1.5 }}>
+            {formatNumber(record.total_antrian.toFixed(0))}
+          </span>
+        </div>
+      );
     },
   },
   {
@@ -616,74 +669,89 @@ const columnsCabang: TableProps<any>['columns'] = [
     dataIndex: "total_pencairan",
     key: "total_pencairan",
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-              backgroundColor: "#22c55e",
-              color: "white"
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
+          backgroundColor: "#22c55e",
+          color: "white",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
-      return (<div className="flex">
-        <span  style={{borderRight: "1px solid #aaa", flex: .5}}>{record.jumlah_pencairan}</span>
-        <span style={{flex: 1.5}}>{formatNumber(record.total_pencairan.toFixed(0))}</span>
-      </div>)
+      return (
+        <div className="flex">
+          <span style={{ borderRight: "1px solid #aaa", flex: 0.5 }}>
+            {record.jumlah_pencairan}
+          </span>
+          <span style={{ flex: 1.5 }}>
+            {formatNumber(record.total_pencairan.toFixed(0))}
+          </span>
+        </div>
+      );
     },
   },
   {
-    title: <div className="flex justify-center gap-2 text-center">
-      <Tooltip title="MENCAPAI TARGET"><LikeFilled style={{color: "green"}} /></Tooltip>
-      <Tooltip title="TIDAK MENCAPAI TARGET"><DislikeFilled style={{color: "red"}}/></Tooltip>
-    </div>,
+    title: (
+      <div className="flex justify-center gap-2 text-center">
+        <Tooltip title="MENCAPAI TARGET">
+          <LikeFilled style={{ color: "green" }} />
+        </Tooltip>
+        <Tooltip title="TIDAK MENCAPAI TARGET">
+          <DislikeFilled style={{ color: "red" }} />
+        </Tooltip>
+      </div>
+    ),
     dataIndex: "like",
     key: "like",
     width: 150,
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
       return (
         <div>
-          {record.total_pencairan >= 100000000 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index +1}</span>
+          {record.total_pencairan >= 100000000 ? (
+            <LikeFilled style={{ color: "green" }} />
+          ) : (
+            <DislikeFilled style={{ color: "red" }} />
+          )}{" "}
+          <span className="ps-2">{index + 1}</span>
         </div>
-      )
+      );
     },
   },
-]
-
-
+];
 
 const columnsMarketing: TableProps<any>["columns"] = [
   {
     title: "NAMA MARKETING",
     dataIndex: "nama",
     key: "nama",
-     onHeaderCell: (text, record) => {
+    onHeaderCell: (text, record) => {
       return {
         ["style"]: {
           textAlign: "center",
           backgroundColor: "#22c55e",
-              color: "white"
+          color: "white",
         },
       };
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.nama}</>
+      return <>{record.nama}</>;
     },
   },
   {
     title: "JABATAN",
     dataIndex: "jabatan",
     key: "jabatan",
-     onHeaderCell: (text, record) => {
+    onHeaderCell: (text, record) => {
       return {
         ["style"]: {
           textAlign: "center",
@@ -692,14 +760,14 @@ const columnsMarketing: TableProps<any>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.jabatan}</>
+      return <>{record.jabatan}</>;
     },
   },
   {
     title: "UNIT PELAYANAN",
     dataIndex: "unit",
     key: "unit",
-     onHeaderCell: (text, record) => {
+    onHeaderCell: (text, record) => {
       return {
         ["style"]: {
           textAlign: "center",
@@ -708,14 +776,14 @@ const columnsMarketing: TableProps<any>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.unit_pelayanan}</>
+      return <>{record.unit_pelayanan}</>;
     },
   },
   {
     title: "AREA PELAYANAN",
     dataIndex: "area",
     key: "area",
-     onHeaderCell: (text, record) => {
+    onHeaderCell: (text, record) => {
       return {
         ["style"]: {
           textAlign: "center",
@@ -724,73 +792,81 @@ const columnsMarketing: TableProps<any>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.area_pelayanan}</>
+      return <>{record.area_pelayanan}</>;
     },
   },
   {
     title: "TOTAL NASABAH",
     dataIndex: "nasabah",
     key: "nasabah",
-     onHeaderCell: (text, record) => {
+    onHeaderCell: (text, record) => {
       return {
         ["style"]: {
           textAlign: "center",
           backgroundColor: "#facc15",
-              color: "white"
+          color: "white",
         },
       };
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.total_nasabah}</>
+      return <>{record.total_nasabah}</>;
     },
   },
   {
     title: "TOTAL PLAFOND",
     dataIndex: "plafond",
     key: "plafond",
-     onHeaderCell: (text, record) => {
+    onHeaderCell: (text, record) => {
       return {
         ["style"]: {
           textAlign: "center",
-           backgroundColor: "#22c55e",
-              color: "white"
+          backgroundColor: "#22c55e",
+          color: "white",
         },
       };
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{formatNumber(record.total_plafond.toFixed(0))}</>
+      return <>{formatNumber(record.total_plafond.toFixed(0))}</>;
     },
   },
   {
-    title: <div className="flex justify-center gap-2 text-center">
-      <Tooltip title="MENCAPAI TARGET"><LikeFilled style={{color: "green"}} /></Tooltip>
-      <Tooltip title="TIDAK MENCAPAI TARGET"><DislikeFilled style={{color: "red"}}/></Tooltip>
-    </div>,
+    title: (
+      <div className="flex justify-center gap-2 text-center">
+        <Tooltip title="MENCAPAI TARGET">
+          <LikeFilled style={{ color: "green" }} />
+        </Tooltip>
+        <Tooltip title="TIDAK MENCAPAI TARGET">
+          <DislikeFilled style={{ color: "red" }} />
+        </Tooltip>
+      </div>
+    ),
     dataIndex: "like",
     key: "like",
     width: 150,
     onHeaderCell: (text, record) => {
-          return {
-            ["style"]: {
-              textAlign: "center",
-            },
-          };
+      return {
+        ["style"]: {
+          textAlign: "center",
         },
-        className: "text-center",
+      };
+    },
+    className: "text-center",
     render(value, record, index) {
       return (
         <div>
-          {record.total_plafond > 100000000 ? <LikeFilled style={{color: "green"}} /> : <DislikeFilled style={{color: "red"}}/>} <span className="ps-2">{index+1}</span>
+          {record.total_plafond > 100000000 ? (
+            <LikeFilled style={{ color: "green" }} />
+          ) : (
+            <DislikeFilled style={{ color: "red" }} />
+          )}{" "}
+          <span className="ps-2">{index + 1}</span>
         </div>
-      )
+      );
     },
   },
-]
-
-
-
+];
 
 // const columns: TableProps<DataMasterDashboard>["columns"] = [
 //   {

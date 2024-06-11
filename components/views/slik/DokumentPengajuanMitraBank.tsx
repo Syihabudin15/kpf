@@ -2,7 +2,7 @@
 
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
+import { FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { DatePicker, Input, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
@@ -250,7 +250,7 @@ export default function DokumenPengajuanMitraBank() {
                     setOpen(true);
                   }}
                 >
-                  <FileOutlined />
+                  <FileFilled />
                 </button>
               </div>
             );

@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -23,6 +23,8 @@ export default function MonitoringMarketing() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [total, setTotal] = useState<number>();
   const [page, setPage] = useState<number>(1);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [open, setOpen] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -206,7 +208,17 @@ export default function MonitoringMarketing() {
       className: "text-center",
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan data={record} role="MASTER" allowForm={false} />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow border"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileFilled />
+            </button>
+          </div>
         );
       },
     },
@@ -800,7 +812,7 @@ export default function MonitoringMarketing() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 5200, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -812,6 +824,15 @@ export default function MonitoringMarketing() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role="MASTER"
+          allowForm={false}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </div>
   );
 }

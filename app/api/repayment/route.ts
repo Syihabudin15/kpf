@@ -23,8 +23,10 @@ export const GET = async (req: NextRequest) => {
           is_active: true,
         },
         tanggal_pelunasan: {
-          gte: moment(`${month}-01`).toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+          gte: moment(`${month}-01`).toISOString(true),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(
+            true
+          ),
         },
       },
       include: {
@@ -71,8 +73,10 @@ export const GET = async (req: NextRequest) => {
           is_active: true,
         },
         tanggal_pelunasan: {
-          gte: moment(`${month}-01`).toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+          gte: moment(`${month}-01`).toISOString(true),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(
+            true
+          ),
         },
       },
       include: {
@@ -120,8 +124,10 @@ export const GET = async (req: NextRequest) => {
         status_lunas: true,
       },
       tanggal_pelunasan: {
-        gte: moment(`${month}-01`).toISOString(),
-        lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+        gte: moment(`${month}-01`).toISOString(true),
+        lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(
+          true
+        ),
       },
     },
   });

@@ -8,11 +8,13 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 
 export default function LaporanBulananMaster() {
-  const [month, setMonth] = useState<string>(`${new Date().getFullYear()}-${new Date().getMonth()+1}`);
+  const [month, setMonth] = useState<string>(
+    `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
+  );
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
-    const [total, setTotal] = useState(0);
-    const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
 
   const getData = async () => {
     setLoading(true);
@@ -43,11 +45,22 @@ export default function LaporanBulananMaster() {
           }`}
         />
       </div>
-    <div className="px-2">
-        <Table columns={columnsPengajuan} dataSource={data} size="small" bordered pagination={{pageSize: 20, onChange(page, pageSize) {
-          setPage(page)
-        }, total: total}} scroll={{x:1500, y: 'calc(65vh - 100px)'}} />
-    </div>
+      <div className="px-2">
+        <Table
+          columns={columnsPengajuan}
+          dataSource={data}
+          size="small"
+          bordered
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+          pagination={{
+            pageSize: 20,
+            onChange(page, pageSize) {
+              setPage(page);
+            },
+            total: total,
+          }}
+        />
+      </div>
     </Spin>
   );
 }
@@ -66,7 +79,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{index+1}</>
+      return <>{index + 1}</>;
     },
   },
   {
@@ -83,7 +96,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.User.UnitCabang.UnitPelayanan.name}</>
+      return <>{record.User.UnitCabang.UnitPelayanan.name}</>;
     },
   },
   {
@@ -100,7 +113,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.User.UnitCabang.name}</>
+      return <>{record.User.UnitCabang.name}</>;
     },
   },
   {
@@ -118,7 +131,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.DataPembiayaan.name}</>
+      return <>{record.DataPembiayaan.name}</>;
     },
   },
   {
@@ -134,7 +147,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{moment(record.tanggal_pencairan).format("DD-MM-YYYY")}</>
+      return <>{moment(record.tanggal_pencairan).format("DD-MM-YYYY")}</>;
     },
   },
   {
@@ -150,7 +163,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{record.DataPembiayaan.Produk.name}</>
+      return <>{record.DataPembiayaan.Produk.name}</>;
     },
   },
   {
@@ -166,7 +179,13 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{record.DataPembiayaan.jenis_pembiayaan_id ? record.DataPembiayaan.JenisPembiayaan.name : "Sisa Gaji"}</>
+      return (
+        <>
+          {record.DataPembiayaan.jenis_pembiayaan_id
+            ? record.DataPembiayaan.JenisPembiayaan.name
+            : "Sisa Gaji"}
+        </>
+      );
     },
   },
   {
@@ -182,7 +201,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{record.Bank.name}</>
+      return <>{record.Bank.name}</>;
     },
   },
   {
@@ -199,7 +218,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.DataPembiayaan.tenor}</>
+      return <>{record.DataPembiayaan.tenor}</>;
     },
   },
   {
@@ -216,7 +235,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>
+      return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
     },
   },
   {
@@ -233,7 +252,16 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{formatNumber((record.DataPembiayaan.plafond* (record.DataPembiayaan.by_asuransi/100)).toFixed(0))}</>
+      return (
+        <>
+          {formatNumber(
+            (
+              record.DataPembiayaan.plafond *
+              (record.DataPembiayaan.by_asuransi / 100)
+            ).toFixed(0)
+          )}
+        </>
+      );
     },
   },
   {
@@ -250,13 +278,17 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return(
+      return (
         <div className="flex justify-center">
-            <div className={`w-32 py-1 px-2 text-xs font-bold italic text-white bg-${record.pembayaran_asuransi ? "green" : "red"}-500`}>
-                {record.pembayaran_asuransi ? "DIBAYAR" : "BELUM DIBAYAR" }
-            </div>
+          <div
+            className={`w-32 py-1 px-2 text-xs font-bold italic text-white bg-${
+              record.pembayaran_asuransi ? "green" : "red"
+            }-500`}
+          >
+            {record.pembayaran_asuransi ? "DIBAYAR" : "BELUM DIBAYAR"}
+          </div>
         </div>
-      )
+      );
     },
   },
   {
@@ -273,7 +305,12 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.tanggal_pembayaran_asuransi && moment(record.tanggal_pembayaran_asuransi).format("DD-MM-YYYY")}</>
+      return (
+        <>
+          {record.tanggal_pembayaran_asuransi &&
+            moment(record.tanggal_pembayaran_asuransi).format("DD-MM-YYYY")}
+        </>
+      );
     },
   },
   {
@@ -291,13 +328,21 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     className: "text-center",
     fixed: window.innerWidth < 600 ? false : "right",
     render(value, record, index) {
-        return(
-            <div className="flex justify-center">
-                <button className={`py-1 px-2 bg-${record.pembayaran_asuransi ? "red" : "green"}-500 text-white rounded shadow`}>
-                    {record.pembayaran_asuransi ? <MinusCircleFilled/> : <CheckCircleFilled/>}
-                </button>
-            </div>
-        )
+      return (
+        <div className="flex justify-center">
+          <button
+            className={`py-1 px-2 bg-${
+              record.pembayaran_asuransi ? "red" : "green"
+            }-500 text-white rounded shadow`}
+          >
+            {record.pembayaran_asuransi ? (
+              <MinusCircleFilled />
+            ) : (
+              <CheckCircleFilled />
+            )}
+          </button>
+        </div>
+      );
     },
   },
-]
+];

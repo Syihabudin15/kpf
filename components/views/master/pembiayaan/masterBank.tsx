@@ -16,9 +16,7 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import {
-  formatNumber,
-} from "@/components/utils/inputUtils";
+import { formatNumber } from "@/components/utils/inputUtils";
 import { Bank } from "@prisma/client";
 
 interface DataType extends Bank {
@@ -175,6 +173,7 @@ export default function MasterBank() {
       dataIndex: "name",
       className: "font-semibold",
       width: 250,
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -183,33 +182,49 @@ export default function MasterBank() {
         };
       },
     },
-    { title: "ADMIN KOPERASI (%)", dataIndex: "by_admin", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center", },
-    { title: "ADMIN BANK (%)", dataIndex: "by_admin_bank", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center", },
-    { title: "PENCADANGAN (%)", dataIndex: "by_lainnya", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center", },
     {
-      title: "TATALAKSANA (Rp)",
+      title: "ADMIN KOPERASI(%)",
+      dataIndex: "by_admin",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+    },
+    {
+      title: "ADMIN BANK(%)",
+      dataIndex: "by_admin_bank",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+    },
+    {
+      title: "PENCADANGAN(%)",
+      dataIndex: "by_lainnya",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+    },
+    {
+      title: "TATALAKSANA(Rp)",
       dataIndex: "by_tatalaksana",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -223,8 +238,9 @@ export default function MasterBank() {
       },
     },
     {
-      title: "MATERAI (Rp)",
+      title: "MATERAI(Rp)",
       dataIndex: "by_materai",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -238,8 +254,9 @@ export default function MasterBank() {
       },
     },
     {
-      title: "BUKA REKENING (Rp)",
+      title: "BUKA REKENING(Rp)",
       dataIndex: "by_buka_rekening",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -255,6 +272,7 @@ export default function MasterBank() {
     {
       title: "FLAGGING",
       dataIndex: "by_flagging",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -270,6 +288,7 @@ export default function MasterBank() {
     {
       title: "EPOTPEN",
       dataIndex: "by_epotpen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -285,6 +304,7 @@ export default function MasterBank() {
     {
       title: "PROVISI",
       dataIndex: "by_provisi",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -297,22 +317,32 @@ export default function MasterBank() {
         return <>{formatNumber((record.by_provisi || 0).toString())}</>;
       },
     },
-    { title: "SISA GAJI (%)", dataIndex: "by_angsuran", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "SISA GAJI(%)",
+      dataIndex: "by_angsuran",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
-    { title: "Margin Bank (%)", dataIndex: "margin_bank", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "Margin Bank(%)",
+      dataIndex: "margin_bank",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
     {
       title: "SYARIAH",
       dataIndex: "is_syariah",
@@ -332,6 +362,7 @@ export default function MasterBank() {
     {
       title: "AKSI",
       dataIndex: "id",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -339,10 +370,9 @@ export default function MasterBank() {
           },
         };
       },
-      fixed: "right",
-      width: 100,
+      fixed: window.innerWidth < 600 ? false : "right",
       render: (value, record, index) => (
-        <div className="flex flex-wrap gap-2" key={value}>
+        <div className="flex flex-wrap gap-2 justify-center" key={value}>
           <button
             type="button"
             onClick={() => handleAction(record, "edit")}
@@ -384,8 +414,8 @@ export default function MasterBank() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 2200, y: 320 }}
-        size="middle"
+        scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
+        size="small"
         pagination={{
           pageSize: 20,
           total: total,

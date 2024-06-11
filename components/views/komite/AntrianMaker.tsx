@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -22,6 +22,8 @@ export default function AntrianMaker() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -494,15 +496,17 @@ export default function AntrianMaker() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            data={record}
-            role={"MAKER"}
-            allowForm={true}
-            isPeriksa={true}
-            getData={getData}
-            pathname="maker"
-            nextpath="approval"
-          />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow border"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileFilled />
+            </button>
+          </div>
         );
       },
     },
@@ -515,7 +519,7 @@ export default function AntrianMaker() {
           onChange={(date, dateString) => setYear(dateString as string)}
         />
         <Input.Search
-          style={{ width: 200 }}
+          style={{ width: 170 }}
           onChange={(e) => setNameOrNopen(e.target.value)}
         />
       </div>
@@ -525,7 +529,7 @@ export default function AntrianMaker() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 4000 }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -537,6 +541,19 @@ export default function AntrianMaker() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role={"MAKER"}
+          allowForm={true}
+          isPeriksa={true}
+          getData={getData}
+          pathname="maker"
+          nextpath="approval"
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </section>
   );
 }

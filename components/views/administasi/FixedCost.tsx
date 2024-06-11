@@ -41,7 +41,8 @@ export default function FixedCost() {
       title: "NO",
       key: "no",
       dataIndex: "no",
-      className: "text-center",onHeaderCell: (text, record) => {
+      className: "text-center",
+      onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
@@ -158,8 +159,8 @@ export default function FixedCost() {
           dataSource={data}
           columns={columns}
           size="small"
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           bordered
-          scroll={{ x: 1000, y:320 }}
           loading={loading}
           pagination={{
             pageSize: 20,

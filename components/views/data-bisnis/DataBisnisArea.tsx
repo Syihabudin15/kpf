@@ -38,12 +38,16 @@ export default function DataBisnisArea() {
     const { dataOK, dataPending } = await res.json();
     const filter = options?.filter((e) => e.value === area);
     setAreaName(filter ? filter[0].label : "");
-    setDataOk(dataOK.map((d:any, ind:any) => {
-      return {...d, key:ind}
-    }));
-    setDataPending(dataPending.map((d:any, ind:any) => {
-      return {...d, key: ind}
-    }));
+    setDataOk(
+      dataOK.map((d: any, ind: any) => {
+        return { ...d, key: ind };
+      })
+    );
+    setDataPending(
+      dataPending.map((d: any, ind: any) => {
+        return { ...d, key: ind };
+      })
+    );
   };
   useEffect(() => {
     (async () => {
@@ -87,8 +91,8 @@ export default function DataBisnisArea() {
           loading={loading}
           bordered
           dataSource={dataOk}
-          // scroll={{ x: 1000 }}
           pagination={false}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           expandable={{
             expandedRowRender: (record) => {
@@ -100,7 +104,6 @@ export default function DataBisnisArea() {
                   })}
                   bordered
                   size="small"
-                  // scroll={{ x: 1000 }}
                   pagination={false}
                   expandable={{
                     expandedRowRender: (record) => {
@@ -134,7 +137,8 @@ export default function DataBisnisArea() {
           bordered
           dataSource={dataPending}
           size="small"
-          // scroll={{ x: 1000 }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+          pagination={false}
           expandable={{
             expandedRowRender: (record) => {
               return (
@@ -145,7 +149,6 @@ export default function DataBisnisArea() {
                   })}
                   bordered
                   size="small"
-                  // scroll={{ x: 1000 }}
                   pagination={false}
                   expandable={{
                     expandedRowRender: (record) => {
@@ -216,7 +219,7 @@ const columns: TableProps<DataTableEntryData>["columns"] = [
     title: "TOTAL PLAFOND",
     key: "total_plafon",
     dataIndex: "total_plafon",
-    fixed: "right",
+    fixed: window.innerWidth < 600 ? false : "right",
     width: 150,
     className: "text-center",
     onHeaderCell: (text, record) => {
@@ -233,7 +236,7 @@ const columns: TableProps<DataTableEntryData>["columns"] = [
           plafond += pengajuan.DataPembiayaan.plafond;
         });
       });
-      return <>Rp. {formatNumber(plafond.toFixed(0))}</>;
+      return <>{formatNumber(plafond.toFixed(0))}</>;
     },
   },
 ];
@@ -275,7 +278,7 @@ const columnsExpandUser: TableProps<DataUser>["columns"] = [
   {
     title: "TOTAL PLAFOND",
     key: "total_plafond",
-    fixed: "right",
+    fixed: window.innerWidth < 600 ? false : "right",
     width: 200,
     onHeaderCell: (text, record) => {
       return {
@@ -291,7 +294,7 @@ const columnsExpandUser: TableProps<DataUser>["columns"] = [
       record.DataPengajuan.forEach((pengajuan) => {
         plafond += pengajuan.DataPembiayaan.plafond;
       });
-      return <>Rp. {formatNumber(plafond.toFixed(0))}</>;
+      return <>{formatNumber(plafond.toFixed(0))}</>;
     },
   },
 ];
@@ -366,7 +369,7 @@ const columnsExpandPengajuan: TableProps<DataTypePengajuan>["columns"] = [
   {
     title: "PLAFOND",
     key: "plafond",
-    fixed: "right",
+    fixed: window.innerWidth < 600 ? false : "right",
     width: 200,
     onHeaderCell: (text, record) => {
       return {
@@ -378,7 +381,7 @@ const columnsExpandPengajuan: TableProps<DataTypePengajuan>["columns"] = [
     className: "text-center",
     dataIndex: "plafond",
     render(value, record, index) {
-      return <>Rp. {formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
+      return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
     },
   },
 ];

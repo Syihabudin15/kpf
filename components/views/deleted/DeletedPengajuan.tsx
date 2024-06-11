@@ -7,14 +7,6 @@ import dynamic from "next/dynamic";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
 
-const ViewBerkasPengajuan = dynamic(
-  () => import("@/components/utils/ViewBerkasPengajuan"),
-  {
-    ssr: false,
-    loading: () => <LoadingOutlined />,
-  }
-);
-
 export default function DeletedPengajuan() {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
@@ -236,7 +228,7 @@ export default function DeletedPengajuan() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1800, y: 'calc(65vh - 100px)' }}
+        scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
         size="small"
         loading={loading}
         pagination={{

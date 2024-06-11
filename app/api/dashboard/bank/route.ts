@@ -74,12 +74,12 @@ export const GET = async (req: NextRequest) => {
         status_pencairan: "TRANSFER",
         bankId: user.bank_id,
         tanggal_pencairan: {
-          gte: moment([date.getFullYear(), j, 1]).toISOString(),
-          lte: moment([
-            date.getFullYear(),
-            j,
-            daysInMonth(j + 1, date.getFullYear()),
-          ]).toISOString(),
+          gte: moment(`${date.getFullYear()}-${j + 1}-01`).toISOString(true),
+          lte: moment(
+            `${date.getFullYear()}-${j + 1}-${moment(
+              `${date.getFullYear()}-${j + 1}`
+            ).daysInMonth()}`
+          ).toISOString(true),
         },
       },
       include: {

@@ -49,7 +49,7 @@ export const POST = async (req: NextRequest) => {
         });
       } else {
         tanggal_lunas =
-          data.data[i].angsuran_ke <= data.data[i].blokir ? new Date() : null;
+          data.data[i].angsuran_ke <= data.blokir ? new Date() : null;
       }
 
       mapping.push({

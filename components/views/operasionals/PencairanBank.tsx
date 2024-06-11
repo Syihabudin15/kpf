@@ -103,7 +103,7 @@ export default function PencairanBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{index + 1}</>;
+        return <>{(page - 1) * 20 + (index + 1)}</>;
       },
     },
     {
@@ -392,7 +392,7 @@ export default function PencairanBank() {
           dataSource={data}
           columns={columns}
           loading={loading}
-          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           bordered
           size="small"
           pagination={{

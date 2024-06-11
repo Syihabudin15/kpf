@@ -2,7 +2,7 @@ import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { GetProp, Progress, Upload, UploadProps, message } from "antd";
 import axios from "axios";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const DeleteFile = dynamic(
   () => import("@/components/views/operasionals/news/DeleteFile"),

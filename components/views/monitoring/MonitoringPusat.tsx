@@ -2,6 +2,7 @@
 import {
   DeleteOutlined,
   EyeOutlined,
+  FileFilled,
   LoadingOutlined,
 } from "@ant-design/icons";
 import { Input, Modal, Table, TableProps, DatePicker, message } from "antd";
@@ -14,7 +15,6 @@ import {
   BankOpt,
   Cabang,
   DataDataPengajuan,
-  DataDataTaspen,
   Options,
   UP,
 } from "@/components/utils/Interfaces";
@@ -63,6 +63,8 @@ export default function MonitoringPusat() {
   const [marketing, setMarketing] = useState<User[]>();
   const [refferal, setRefferal] = useState<Options[]>();
   const [provinsi, setProvinsi] = useState<Options[]>();
+  const [open, setOpen] = useState(false);
+  const [selectedData, setSelectedData] = useState<DataDataPengajuan>();
 
   useEffect(() => {
     (async () => {
@@ -421,7 +423,17 @@ export default function MonitoringPusat() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan data={record} role="MASTER" allowForm={true} />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow border"
+              onClick={() => {
+                setSelectedData(record);
+                setOpen(true);
+              }}
+            >
+              <FileFilled />
+            </button>
+          </div>
         );
       },
     },
@@ -451,7 +463,7 @@ export default function MonitoringPusat() {
         );
       },
     },
-{
+    {
       title: "INFORMASI SLIK",
       onHeaderCell: (text, record) => {
         return {
@@ -664,7 +676,7 @@ export default function MonitoringPusat() {
         },
       ],
     },
-    
+
     // {
     //   title: "Informasi Data Checker",
     //   dataIndex: `status_checker`,
@@ -1019,7 +1031,13 @@ export default function MonitoringPusat() {
                 setModalHapus(true);
               }}
               className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
-              disabled={loading ? true : record.status_pencairan === "TRANSFER" ? true : false}
+              disabled={
+                loading
+                  ? true
+                  : record.status_pencairan === "TRANSFER"
+                  ? true
+                  : false
+              }
               style={{
                 opacity: record.status_pencairan === "TRANSFER" ? 0.5 : 1,
               }}
@@ -1051,7 +1069,7 @@ export default function MonitoringPusat() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: "max-content", y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -1083,6 +1101,15 @@ export default function MonitoringPusat() {
           </button>
         </div>
       </Modal>
+      {selectedData && (
+        <ViewBerkasPengajuan
+          data={selectedData}
+          role="MASTER"
+          allowForm={true}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </div>
   );
 }

@@ -1,10 +1,9 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FormOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { formatNumber } from "@/components/utils/inputUtils";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 
 const ViewBerkasPengajuan = dynamic(
@@ -22,6 +21,8 @@ export default function AntrianApproval() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -171,8 +172,8 @@ export default function AntrianApproval() {
         );
       },
     },
-      {
-        title: "INFORMASI SLIK",
+    {
+      title: "INFORMASI SLIK",
       dataIndex: `status_slik`,
       key: "slik",
       onHeaderCell: (text, record) => {
@@ -184,8 +185,8 @@ export default function AntrianApproval() {
           },
         };
       },
-        children: [
-          {
+      children: [
+        {
           title: "STATUS",
           dataIndex: "status_slik",
           key: "status_slik",
@@ -275,8 +276,8 @@ export default function AntrianApproval() {
             );
           },
         },
-        ]
-      },
+      ],
+    },
     {
       title: "INFORMASI VERIFIKASI",
       dataIndex: `status_verifikasi`,
@@ -611,15 +612,17 @@ export default function AntrianApproval() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            data={record}
-            role={"MAKER"}
-            allowForm={true}
-            isPeriksa={true}
-            getData={getData}
-            pathname="approval"
-            nextpath="transfer"
-          />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow text-white bg-green-500 hover:bg-green-600"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FormOutlined />
+            </button>
+          </div>
         );
       },
     },
@@ -642,7 +645,7 @@ export default function AntrianApproval() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 3000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -654,6 +657,19 @@ export default function AntrianApproval() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role={"MAKER"}
+          allowForm={true}
+          isPeriksa={true}
+          getData={getData}
+          pathname="approval"
+          nextpath="transfer"
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </section>
   );
 }

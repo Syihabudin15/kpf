@@ -52,7 +52,7 @@ export default function DataMarketing() {
           dataSource={data}
           bordered
           size="small"
-          scroll={{ x: 2500, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           pagination={{
             pageSize: 20,
             onChange(page, pageSize) {

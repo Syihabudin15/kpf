@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { daysInMonth } from "@/components/utils/inputUtils";
+import moment from "moment";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -17,15 +18,10 @@ export const GET = async (req: NextRequest) => {
           { status_pencairan: "TRANSFER" },
           {
             tanggal_pencairan: {
-              gte: new Date(month + "-01"),
-              lte: new Date(
-                month +
-                  "-" +
-                  `${daysInMonth(
-                    parseInt(month.split("-")[1]),
-                    parseInt(month.split("-")[0])
-                  )}`
-              ),
+              gte: moment(`${month}-01`).toISOString(true),
+              lte: moment(
+                `${month}-${moment(month).daysInMonth()}`
+              ).toISOString(true),
             },
           },
         ],
@@ -83,14 +79,9 @@ export const GET = async (req: NextRequest) => {
         { is_fixed: true },
         {
           created_at: {
-            gte: new Date(month + "-01"),
-            lte: new Date(
-              month +
-                "-" +
-                `${daysInMonth(
-                  parseInt(month.split("-")[1]),
-                  parseInt(month.split("-")[0])
-                )}`
+            gte: moment(`${month}-01`).toISOString(true),
+            lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(
+              true
             ),
           },
         },

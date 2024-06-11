@@ -52,7 +52,7 @@ export default function OutstandingAktif() {
           bordered
           size="small"
           loading={loading}
-          scroll={{ x: 3000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           pagination={{
             pageSize: 20,
             total: total,
@@ -190,7 +190,8 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     },
   },
   {
-    title: "TANGGAL LUNAS",onHeaderCell: (text, record) => {
+    title: "TANGGAL LUNAS",
+    onHeaderCell: (text, record) => {
       return {
         ["style"]: {
           textAlign: "center",

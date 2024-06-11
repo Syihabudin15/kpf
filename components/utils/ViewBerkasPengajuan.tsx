@@ -561,7 +561,16 @@ export default function BerkasTabsPengajuan({
               nextpath={nextpath}
             />
           </div>
-          <div style={{ width: window.innerWidth > 600 ? "55vw" : 500 }}>
+          <div
+            style={{
+              width:
+                window.innerWidth > 600
+                  ? allowForm
+                    ? "55vw"
+                    : "100%"
+                  : "100%",
+            }}
+          >
             <Tabs
               size="small"
               items={

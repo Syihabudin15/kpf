@@ -362,7 +362,7 @@ export default function UploadSuratBerkas() {
           loading={loading}
           bordered
           size="small"
-          scroll={{ x: 1700, y:320 }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           pagination={{
             pageSize: 20,
             total,

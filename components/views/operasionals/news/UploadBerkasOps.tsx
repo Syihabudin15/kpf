@@ -1,7 +1,7 @@
 "use client";
 import { notifContext } from "@/components/NotifContext";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
-import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { Input, Modal, message } from "antd";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
@@ -43,11 +43,16 @@ interface URLS {
 export default function UploadBerksOps({
   data,
   getData,
+  open,
+  setOpen,
+  setSelected,
 }: {
   data: DataDataPengajuan;
   getData: Function;
+  open: boolean;
+  setOpen: Function;
+  setSelected: Function;
 }) {
-  const [open, setOpen] = useState(false);
   const [urls, setUrls] = useState<URLS>();
   const [loading, setLoading] = useState(false);
   const notif = useContext(notifContext);
@@ -111,6 +116,7 @@ export default function UploadBerksOps({
       setLoading(false);
       await getData();
       await notif.getNotifFunction();
+      setSelected(undefined);
     } else {
       message.error("Upload Failed!");
       setLoading(false);
@@ -119,19 +125,16 @@ export default function UploadBerksOps({
 
   return (
     <div key={data.id}>
-      <div className="flex justify-center">
-        <button
-          className="py-1 px-2 border rounded shadow bg-green-500 hover:bg-green-600 text-white"
-          onClick={() => setOpen(true)}
-        >
-          <CloudUploadOutlined />
-        </button>
-      </div>
       <Modal
         open={open}
-        onCancel={() => setOpen(false)}
+        onCancel={() => {
+          setSelected(undefined);
+          setOpen(false);
+        }}
         footer={[]}
-        title="UPLOAD DOKUMEN PENGAJUAN"
+        title={`UPLOAD DOKUMEN PENGAJUAN ${
+          data.nama && data.nama.toUpperCase()
+        }`}
         style={{ top: 20 }}
         width={"50vw"}
       >

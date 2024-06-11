@@ -7,34 +7,35 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 
 export default function LaporanBulananMaster() {
-  const [month, setMonth] = useState<string>(`${new Date().getFullYear()}-${new Date().getMonth()+1}`);
+  const [month, setMonth] = useState<string>(
+    `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
+  );
   const [dataTable, setDataTable] = useState<DataDataPengajuan[]>();
   const [dataCost, setDataCost] = useState<DataCost[]>();
   const [loading, setLoading] = useState(false);
   const [totalPemasukan, setPemasukan] = useState(0);
   const [totalPengeluaran, setPengeluaran] = useState(0);
 
-
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
       `/api/administrasi/bulanan${month ? "?month=" + month : ""}`
     );
-    const { dataTable,  dataCost } = await res.json();
+    const { dataTable, dataCost } = await res.json();
     setDataTable(dataTable);
     setDataCost(dataCost);
     let pemasukan = 0;
     let pengeluaran = 0;
-    dataTable.forEach((masuk:DataDataPengajuan) => {
+    dataTable.forEach((masuk: DataDataPengajuan) => {
       pemasukan += masuk.DataPembiayaan.plafond;
     });
-    dataCost.forEach((keluar:DataCost) => {
+    dataCost.forEach((keluar: DataCost) => {
       pengeluaran += keluar.nominal;
     });
     setPemasukan(pemasukan);
     setPengeluaran(pengeluaran);
     setLoading(false);
-  }; 
+  };
 
   useEffect(() => {
     (async () => {
@@ -69,7 +70,14 @@ export default function LaporanBulananMaster() {
             </p>
           </div>
           <div>
-            <Table columns={columnsPengajuan} dataSource={dataTable} size="small" bordered pagination={false} scroll={{x:1500, y: 'calc(50vh - 100px)'}} />
+            <Table
+              columns={columnsPengajuan}
+              dataSource={dataTable}
+              size="small"
+              bordered
+              pagination={false}
+              scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
+            />
           </div>
         </div>
         <div className="mt-5">
@@ -92,34 +100,36 @@ export default function LaporanBulananMaster() {
               size="small"
               bordered
               pagination={false}
-              scroll={{x: 1000, y: 'calc(50vh - 100px)'}}
+              scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
             />
           </div>
         </div>
       </div>
       <div className="mt-5 text-xs font-bold italic">
         <div className="flex gap-2">
-          <span style={{width: 150}}>PEMASUKAN</span>
-          <span style={{width: 30}}>:</span>
+          <span style={{ width: 150 }}>PEMASUKAN</span>
+          <span style={{ width: 30 }}>:</span>
           <div className="flex gap-2">
-            <span style={{width: 20}}>Rp.</span>
+            <span style={{ width: 20 }}>Rp.</span>
             <span>{formatNumber(totalPemasukan.toFixed(0))}</span>
           </div>
         </div>
         <div className="flex gap-2 border-b border-black">
-          <span style={{width: 150}}>PENGELUARAN</span>
-          <span style={{width: 30}}>:</span>
+          <span style={{ width: 150 }}>PENGELUARAN</span>
+          <span style={{ width: 30 }}>:</span>
           <div className="flex gap-2">
-            <span style={{width: 20}}>Rp.</span>
+            <span style={{ width: 20 }}>Rp.</span>
             <span>{formatNumber(totalPengeluaran.toFixed(0))}</span>
           </div>
         </div>
         <div className="mt-2 flex gap-2">
-          <span style={{width: 150}}>TOTAL</span>
-          <span style={{width: 30}}>:</span>
+          <span style={{ width: 150 }}>TOTAL</span>
+          <span style={{ width: 30 }}>:</span>
           <div className="flex gap-2">
-            <span style={{width: 20}}>Rp.</span>
-            <span>{formatNumber((totalPemasukan - totalPengeluaran).toFixed(0))}</span>
+            <span style={{ width: 20 }}>Rp.</span>
+            <span>
+              {formatNumber((totalPemasukan - totalPengeluaran).toFixed(0))}
+            </span>
           </div>
         </div>
       </div>
@@ -228,7 +238,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{index+1}</>
+      return <>{index + 1}</>;
     },
   },
   {
@@ -245,7 +255,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.User.UnitCabang.UnitPelayanan.name}</>
+      return <>{record.User.UnitCabang.UnitPelayanan.name}</>;
     },
   },
   {
@@ -262,7 +272,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.User.UnitCabang.name}</>
+      return <>{record.User.UnitCabang.name}</>;
     },
   },
   {
@@ -280,7 +290,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.DataPembiayaan.name}</>
+      return <>{record.DataPembiayaan.name}</>;
     },
   },
   {
@@ -296,7 +306,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{moment(record.tanggal_pencairan).format("DD-MM-YYYY")}</>
+      return <>{moment(record.tanggal_pencairan).format("DD-MM-YYYY")}</>;
     },
   },
   {
@@ -312,7 +322,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{record.DataPembiayaan.Produk.name}</>
+      return <>{record.DataPembiayaan.Produk.name}</>;
     },
   },
   {
@@ -328,7 +338,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{record.DataPembiayaan.JenisPembiayaan.name}</>
+      return <>{record.DataPembiayaan.JenisPembiayaan.name}</>;
     },
   },
   {
@@ -344,7 +354,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return<>{record.Bank.name}</>
+      return <>{record.Bank.name}</>;
     },
   },
   {
@@ -361,7 +371,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{record.DataPembiayaan.tenor}</>
+      return <>{record.DataPembiayaan.tenor}</>;
     },
   },
   {
@@ -378,7 +388,7 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     render(value, record, index) {
-      return<>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>
+      return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
     },
   },
-]
+];

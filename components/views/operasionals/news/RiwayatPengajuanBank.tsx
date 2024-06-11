@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { Role } from "@prisma/client";
 import { Input, Table, TableProps } from "antd";
 import { useEffect, useState } from "react";
@@ -27,6 +27,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState(0);
   const [name, setName] = useState<string>();
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -90,7 +92,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       dataIndex: "nama",
       key: "nama",
       fixed: window.innerWidth < 600 ? false : "left",
-       width: 200,
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -275,11 +277,17 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            role="OPERASIONAL"
-            data={record}
-            allowForm={false}
-          />
+          <div className="flex justify-center">
+            <button
+              className="border rounded shadow py-1 px-2"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileFilled />
+            </button>
+          </div>
         );
       },
     },
@@ -365,7 +373,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           dataIndex: "view",
-          key: "view", width: 150,
+          key: "view",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -388,7 +397,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas", width: 150,
+          key: "tanggal_berkas",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -419,7 +429,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           dataIndex: "view",
-          key: "view", width: 150,
+          key: "view",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -442,7 +453,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas", width: 150,
+          key: "tanggal_berkas",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -472,7 +484,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       children: [
         {
           title: "VIEW",
-          dataIndex: "view", width: 150,
+          dataIndex: "view",
+          width: 150,
           key: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -496,7 +509,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas", width: 150,
+          key: "tanggal_berkas",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -527,7 +541,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           dataIndex: "view",
-          key: "view", width: 150,
+          key: "view",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -550,7 +565,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas", width: 150,
+          key: "tanggal_berkas",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -580,7 +596,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       children: [
         {
           title: "VIEW",
-          dataIndex: "view",width: 150,
+          dataIndex: "view",
+          width: 150,
           key: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -604,7 +621,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas", width: 150,
+          key: "tanggal_berkas",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -634,7 +652,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       children: [
         {
           title: "VIEW",
-          dataIndex: "view", width: 150,
+          dataIndex: "view",
+          width: 150,
           key: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -658,7 +677,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           dataIndex: "tanggal_berkas",
-          key: "tanggal_berkas", width: 150,
+          key: "tanggal_berkas",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -688,7 +708,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
       children: [
         {
           title: "VIEW",
-          key: "view", width: 150,
+          key: "view",
+          width: 150,
           dataIndex: "view",
           onHeaderCell: (text, record) => {
             return {
@@ -714,7 +735,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           key: "tanggal",
-          dataIndex: "tanggal", width: 150,
+          dataIndex: "tanggal",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -744,7 +766,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           key: "view",
-          dataIndex: "view", width: 150,
+          dataIndex: "view",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -769,7 +792,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           key: "tanggal",
-          dataIndex: "tanggal", width: 150,
+          dataIndex: "tanggal",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -839,7 +863,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "VIEW",
           key: "view",
-          dataIndex: "view", width: 150,
+          dataIndex: "view",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -864,7 +889,8 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         {
           title: "TANGGAL",
           key: "tanggal",
-          dataIndex: "tanggal", width: 150,
+          dataIndex: "tanggal",
+          width: 150,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -901,7 +927,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         dataSource={data}
         size="small"
         bordered
-        scroll={{ x: 4000, y: 'calc(65vh - 100px)' }}
+        scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
         loading={loading}
         pagination={{
           pageSize: 20,
@@ -911,6 +937,15 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
           },
         }}
       />
+      {selected && (
+        <ViewBerkasPengajuan
+          role="OPERASIONAL"
+          data={selected}
+          allowForm={false}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </section>
   );
 }

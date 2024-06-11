@@ -1,5 +1,5 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -22,6 +22,8 @@ export default function RiwayatKomite() {
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -429,7 +431,6 @@ export default function RiwayatKomite() {
         },
       ],
     },
-    
 
     // {
     //   title: "Informasi Data Checker",
@@ -771,11 +772,17 @@ export default function RiwayatKomite() {
       },
       render(value, record, index) {
         return (
-          <ViewBerkasPengajuan
-            data={record}
-            role={"APPROVAL"}
-            allowForm={true}
-          />
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 border rounded shadow"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+            >
+              <FileFilled />
+            </button>
+          </div>
         );
       },
     },
@@ -799,7 +806,7 @@ export default function RiwayatKomite() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 4000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{
@@ -811,6 +818,15 @@ export default function RiwayatKomite() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role={"APPROVAL"}
+          allowForm={true}
+          setOpen={setOpen}
+          open={open}
+        />
+      )}
     </section>
   );
 }

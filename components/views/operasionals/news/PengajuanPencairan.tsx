@@ -87,7 +87,11 @@ export default function PengajuanPencairan() {
                 !record.berkas_si ? "red" : !record.status ? "blue" : "green"
               }-500 text-center w-24`}
             >
-              {!record.berkas_si ? "ANTRI" : !record.status ? "PROSES" : "SELESAI"}
+              {!record.berkas_si
+                ? "ANTRI"
+                : !record.status
+                ? "PROSES"
+                : "SELESAI"}
             </div>
           </div>
         );
@@ -333,7 +337,7 @@ export default function PengajuanPencairan() {
           dataSource={data}
           columns={columns}
           loading={loading}
-          scroll={{ x: 2000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           bordered
           size="small"
           pagination={{

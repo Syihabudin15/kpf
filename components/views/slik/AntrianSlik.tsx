@@ -1,5 +1,5 @@
 "use client";
-import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
+import { FormOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -219,9 +219,8 @@ export default function AntrianSlik() {
       title: "PERIKSA",
       dataIndex: "id",
       key: "id",
-      fixed: "right",
+      fixed: window.innerWidth < 600 ? false : "right",
       width: 100,
-
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -233,13 +232,13 @@ export default function AntrianSlik() {
         return (
           <div className="flex justify-center">
             <button
-              className="py-1 px-2 rounded shadow"
+              className="py-1 px-2 rounded shadow bg-green-500 hover:bg-green-600 text-white"
               onClick={() => {
                 setSelected(record);
                 setOpen(true);
               }}
             >
-              <FileOutlined />
+              <FormOutlined />
             </button>
           </div>
         );
@@ -264,7 +263,7 @@ export default function AntrianSlik() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 2000, y: "calc(65vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{

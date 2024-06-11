@@ -33,6 +33,7 @@ const columnsUser: TableProps<User>["columns"] = [
   {
     key: "name",
     title: "NAMA",
+    fixed: window.innerWidth < 600 ? false : "left",
     dataIndex: "id",
     render(value, record, index) {
       return (
@@ -241,7 +242,8 @@ export default function UnitPelayananView() {
   const getDataAktif = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/master/unit/pelayanan?page=${page}${selectenArea ? "&area=" + selectenArea : ""
+      `/api/master/unit/pelayanan?page=${page}${
+        selectenArea ? "&area=" + selectenArea : ""
       }`
     );
     const { result, total } = await res.json();
@@ -313,14 +315,19 @@ export default function UnitPelayananView() {
     });
   }, [selectedUP, selectedCabang]);
   const columns: TableProps<DataType>["columns"] = [
-    { title: "Nama Area", dataIndex: "name", key: "name" },
+    {
+      title: "Nama Area",
+      dataIndex: "name",
+      key: "name",
+      fixed: window.innerWidth < 600 ? false : "left",
+    },
     { title: "Kode Area", dataIndex: "kode_area", key: "kode" },
     {
       title: "Aksi",
       dataIndex: "id",
       key: "id",
       render: (value, record, index) => (
-        <div className="flex flex-wrap gap-2" key={value}>
+        <div className="flex flex-wrap gap-2 justify-center" key={value}>
           <button
             type="button"
             onClick={() => handleActionUP(record, "edit")}
@@ -341,13 +348,18 @@ export default function UnitPelayananView() {
     },
   ];
   const columnsExpanded: TableProps<DataTypeCabang>["columns"] = [
-    { title: "AREA", dataIndex: "name", key: "name" },
+    {
+      title: "AREA",
+      dataIndex: "name",
+      key: "name",
+      fixed: window.innerWidth < 600 ? false : "left",
+    },
     {
       title: "AKSI",
       dataIndex: "id",
       key: "id",
       render: (value, record, index) => (
-        <div className="flex flex-wrap gap-2" key={value}>
+        <div className="flex flex-wrap gap-2 justify-center" key={value}>
           <button
             type="button"
             onClick={() => handleActionCabang(record, "edit")}
@@ -368,13 +380,18 @@ export default function UnitPelayananView() {
     },
   ];
   const columnsInactive: TableProps<DataType>["columns"] = [
-    { title: "AREA", dataIndex: "name", key: "name" },
+    {
+      title: "AREA",
+      dataIndex: "name",
+      key: "name",
+      fixed: window.innerWidth < 600 ? false : "left",
+    },
     {
       title: "AKSI",
       dataIndex: "id",
       key: "id",
       render: (value, record, index) => (
-        <div className="flex flex-wrap gap-2" key={value}>
+        <div className="flex flex-wrap gap-2 justify-center" key={value}>
           <button
             type="button"
             onClick={() => handleActionUP(record, "hapus")}
@@ -387,7 +404,12 @@ export default function UnitPelayananView() {
     },
   ];
   const columnsExpandedInactive: TableProps<DataTypeCabang>["columns"] = [
-    { title: "AREA", dataIndex: "name", key: "name" },
+    {
+      title: "AREA",
+      dataIndex: "name",
+      key: "name",
+      fixed: window.innerWidth < 600 ? false : "left",
+    },
     { title: "AKSI", dataIndex: "id", key: "id" },
   ];
   return (
@@ -422,7 +444,7 @@ export default function UnitPelayananView() {
         bordered
         columns={columns}
         dataSource={data}
-        scroll={{ x: 400, y: 320 }}
+        scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
         pagination={{
           total: total,
           pageSize: 20,
@@ -457,7 +479,9 @@ export default function UnitPelayananView() {
       />
 
       <div className="my-20">
-        <div className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 p-3 text-gray-100 rounded`}>
+        <div
+          className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 p-3 text-gray-100 rounded`}
+        >
           <h1 className="font-bold text-sm">
             Data Unit Pelayanan dan cabang (NONAKTIF)
           </h1>
@@ -470,7 +494,7 @@ export default function UnitPelayananView() {
           bordered
           columns={columnsInactive}
           dataSource={dataInactive}
-          scroll={{ x: 400, y: 320 }}
+          scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
           loading={loading}
           expandable={{
             expandedRowRender: (record) => {

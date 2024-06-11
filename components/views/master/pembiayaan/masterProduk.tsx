@@ -172,64 +172,102 @@ export default function MasterProduk() {
     });
   }, [selected]);
   const columns: TableProps<DataType>["columns"] = [
-    { title: "NAMA", dataIndex: "name", className: "font-semibold", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    } },
-    { title: "ASURANSI (%)", dataIndex: "by_asuransi", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "NAMA",
+      dataIndex: "name",
+      className: "font-semibold",
+      width: 200,
+      fixed: window.innerWidth < 600 ? false : "left",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
     },
-    className: "text-center", },
-    { title: "BUNGA (%)", dataIndex: "mg_bunga", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "ASURANSI (%)",
+      dataIndex: "by_asuransi",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
-    { title: "MIN USIA", dataIndex: "min_age", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "BUNGA (%)",
+      dataIndex: "mg_bunga",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
-    { title: "MAKS USIA", dataIndex: "max_age",onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "MIN USIA",
+      dataIndex: "min_age",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
-    { title: "MAKS USIA LUNAS", dataIndex: "max_usia_lunas",onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "MAKS USIA",
+      dataIndex: "max_age",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
-    { title: "MAKS TENOR", dataIndex: "max_tenor",onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "MAKS USIA LUNAS",
+      dataIndex: "max_usia_lunas",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
+    {
+      title: "MAKS TENOR",
+      dataIndex: "max_tenor",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+    },
     {
       title: "MAKS PLAFOND",
       dataIndex: "max_plafon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -245,6 +283,7 @@ export default function MasterProduk() {
     {
       title: "BANK",
       dataIndex: "bank_id",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -267,8 +306,10 @@ export default function MasterProduk() {
           },
         };
       },
+      fixed: window.innerWidth < 600 ? false : "right",
+      width: 100,
       render: (value, record, index) => (
-        <div className="flex flex-wrap gap-2" key={value}>
+        <div className="flex flex-wrap gap-2 justify-center" key={value}>
           <button
             type="button"
             onClick={() => handleAction(record, "edit")}
@@ -317,8 +358,8 @@ export default function MasterProduk() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1200, y: 320 }}
-        size="middle"
+        scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
+        size="small"
         pagination={{
           pageSize: 20,
           total: total,

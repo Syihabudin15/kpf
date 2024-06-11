@@ -1,5 +1,5 @@
 "use client";
-import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
+import { FormOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -320,13 +320,13 @@ export default function AntrianVerifikasi() {
         return (
           <div className="flex justify-center">
             <button
-              className="py-1 px-2 rounded shadow"
+              className="py-1 px-2 rounded shadow text-white bg-green-500 hover:bg-green-600"
               onClick={() => {
                 setSelected(record);
                 setOpen(true);
               }}
             >
-              <FileOutlined />
+              <FormOutlined />
             </button>
           </div>
         );

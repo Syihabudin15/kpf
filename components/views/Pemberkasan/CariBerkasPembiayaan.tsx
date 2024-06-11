@@ -1,7 +1,7 @@
 "use client";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { LoadingOutlined } from "@ant-design/icons";
+import { FileFilled, LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps } from "antd";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -26,6 +26,8 @@ export default function CariBerkasPembiayaan() {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<DataDataPengajuan>();
 
   const getData = async () => {
     setLoading(true);
@@ -267,11 +269,17 @@ export default function CariBerkasPembiayaan() {
           },
           render(value, record, index) {
             return (
-              <ViewBerkasPengajuan
-                data={record}
-                role="PEMBERKASAN"
-                allowForm={false}
-              />
+              <div className="flex justify-center">
+                <button
+                  className="py-1 px-2 border rounded shadow"
+                  onClick={() => {
+                    setSelected(record);
+                    setOpen(true);
+                  }}
+                >
+                  <FileFilled />
+                </button>
+              </div>
             );
           },
         },
@@ -466,7 +474,7 @@ export default function CariBerkasPembiayaan() {
           bordered
           loading={loading}
           size="small"
-          scroll={{ x: 3000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           pagination={{
             pageSize: 20,
             total,
@@ -476,6 +484,15 @@ export default function CariBerkasPembiayaan() {
           }}
         />
       </div>
+      {selected && (
+        <ViewBerkasPengajuan
+          data={selected}
+          role="PEMBERKASAN"
+          allowForm={false}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
     </div>
   );
 }

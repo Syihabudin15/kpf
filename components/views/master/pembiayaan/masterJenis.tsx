@@ -16,10 +16,7 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import {
-  formatNumber,
-  inputTextToDecimal,
-} from "@/components/utils/inputUtils";
+import { formatNumber } from "@/components/utils/inputUtils";
 import { JenisPembiayaan } from "@prisma/client";
 
 interface DataType extends JenisPembiayaan {
@@ -142,6 +139,8 @@ export default function MasterJenis() {
     {
       title: "NAMA",
       dataIndex: "name",
+      width: 200,
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -154,6 +153,7 @@ export default function MasterJenis() {
     {
       title: "MUTASI (Rp)",
       dataIndex: "by_mutasi",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -176,8 +176,10 @@ export default function MasterJenis() {
           },
         };
       },
+      fixed: window.innerWidth < 600 ? false : "right",
+      width: 100,
       render: (value, record, index) => (
-        <div className="flex flex-wrap gap-2" key={value}>
+        <div className="flex flex-wrap gap-2 justify-center" key={value}>
           <button
             type="button"
             onClick={() => handleAction(record, "edit")}
@@ -222,8 +224,8 @@ export default function MasterJenis() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 500, y: 320 }}
-        size="middle"
+        scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
+        size="small"
         pagination={{
           pageSize: 20,
           total: total,
