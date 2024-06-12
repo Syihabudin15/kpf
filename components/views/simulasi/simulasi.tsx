@@ -13,6 +13,7 @@ import {
 import { Bank, JenisPembiayaan, Produk } from "@prisma/client";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { getAngsuranPerBulan } from "./simulasiUtil";
+import html2canvas from "html2canvas";
 const { PV, PMT, EDATE } = require("@formulajs/formulajs");
 const moment = require("moment-timezone");
 
@@ -71,10 +72,9 @@ export default function Simulasi() {
   const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
   const [selectedJenis, setSelectedJenis] = useState<JenisPembiayaan | null>();
   const [jenisDisable, setJenisDisable] = useState(true);
-  const [isFlash, setIsFlash] = useState(true);
   const [usiaLunas, setUsiaLunas] = useState("");
   const [tanggalLunas, setTanggalLunas] = useState("");
-  const [provisi, setProvisi] = useState("");
+  const [provisi, setProvisi] = useState("0");
   const [modalMsg, setModalMsg] = useState(false);
   const [tglLahirError, setTglLahirError] = useState(false);
   const [nama, setNama] = useState<string>();
@@ -308,15 +308,9 @@ export default function Simulasi() {
   };
   const jenisChange = () => {
     if (!selectedJenis) {
-      setProvisi("0");
       return setByMutasi("0");
     } else {
       setByMutasi(formatNumber(selectedJenis.by_mutasi.toString()));
-      if (selectedBank) {
-        setProvisi(formatNumber((selectedBank.by_provisi || 0).toString()));
-      } else {
-        setProvisi((0).toString());
-      }
     }
   };
   const handleGajiBersih = (e: string) => {
@@ -431,7 +425,7 @@ export default function Simulasi() {
   // End My
 
   const cekSimulasi = () => {
-    if (!nama || !nopen || !alamat || !tanggalLahir) {
+    if (!nama || !nopen || !alamat) {
       return setRequiredModal(true);
     }
     setShowModal(true);
@@ -470,11 +464,6 @@ export default function Simulasi() {
       setBersih("0");
       setKotor("0");
     }
-    if (selectedProduk && selectedProduk.name == "Flash Sisa Gaji") {
-      setIsFlash(true);
-    } else {
-      setIsFlash(false);
-    }
     if (selectedProduk) {
       getMaxTenor();
       if (selectedProduk.name == "Flash Sisa Gaji" || produkTidakSesuai) {
@@ -499,14 +488,11 @@ export default function Simulasi() {
       // let tmp = 0;
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
-          setProvisi("0");
           setByMutasi("0");
         } else {
-          setProvisi(formatNumber((selectedBank?.by_provisi || 0).toString()));
           setByMutasi(formatNumber(selectedJenis.by_mutasi.toString()));
         }
       } else {
-        setProvisi("0");
         setByMutasi("0");
       }
       const tmp =
@@ -585,6 +571,7 @@ export default function Simulasi() {
     }
     getanggalLunas();
   }, [
+    provisi,
     tenor,
     selectedProduk,
     tanggalLahir,
@@ -631,12 +618,7 @@ export default function Simulasi() {
   };
   const handleSave = async () => {
     setLoading(true);
-    if (
-      !tanggalLahir ||
-      !tenor ||
-      !plafond ||
-      !selectedProduk
-    ) {
+    if (!tanggalLahir || !tenor || !plafond || !selectedProduk) {
       setLoading(false);
       return setRequiredModal(true);
     }
@@ -685,6 +667,25 @@ export default function Simulasi() {
     setShowModal(false);
     setLoading(false);
   };
+
+  const handleDownload = () => {
+    const element = document.getElementById("analisa-perhitungan");
+    if (!element) {
+      return message.error("Download simulasi gagal. coba lagi nanti!");
+    }
+    html2canvas(element)
+      .then((canvas) => {
+        const myImage = canvas.toDataURL();
+        const link = document.createElement("a");
+        link.download = "simulasi.png";
+        link.href = myImage;
+        link.click();
+      })
+      .catch((err) => {
+        message.error("Download simulasi gagal. coba lagi nanti!");
+      });
+  };
+
   return (
     <section className="rounded border shadow bg-white">
       <div className="bg-orange-500 p-2 rounded">
@@ -712,10 +713,11 @@ export default function Simulasi() {
                 </div>
               </Form.Item>
               <div className="flex justify-between gap-5">
-                <Form.Item label="Nopen" className=" w-full md:w-30" >
+                <Form.Item label="Nopen" className=" w-full md:w-30" required>
                   <Input
                     id="nopen"
                     value={nopen}
+                    required
                     onChange={(e) => setNopen(e.target.value)}
                     style={{ backgroundColor: "white", color: "black" }}
                   />
@@ -728,10 +730,12 @@ export default function Simulasi() {
                 <Form.Item
                   label="Nama Lengkap"
                   className=" w-full md:w-30"
+                  required
                 >
                   <Input
                     id="nama"
                     value={nama}
+                    required
                     style={{ backgroundColor: "white", color: "black" }}
                     onChange={(e) => setNama(e.target.value)}
                   />
@@ -743,9 +747,10 @@ export default function Simulasi() {
                 </Form.Item>
               </div>
               <div className="block md:flex justify-between gap-5">
-                <Form.Item label="Alamat" className=" w-full md:w-30" >
+                <Form.Item label="Alamat" className=" w-full md:w-30" required>
                   <Input.TextArea
                     value={alamat}
+                    required
                     onChange={(e) => setAlamat(e.target.value)}
                     style={{ backgroundColor: "white", color: "black" }}
                   />
@@ -878,6 +883,7 @@ export default function Simulasi() {
                     required
                     placeholder="0"
                     disabled={disable}
+                    defaultValue={"0"}
                     data-hitung="simulasi-ulang"
                     value={tenor.toString()}
                     onChange={(e) =>
@@ -917,6 +923,7 @@ export default function Simulasi() {
                     placeholder="0"
                     disabled={disable}
                     data-hitung="simulasi-ulang"
+                    defaultValue={"0"}
                     value={plafond}
                     onChange={(e) => handlePlafond(e.target.value)}
                     style={{ backgroundColor: "white", color: "black" }}
@@ -962,7 +969,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -980,7 +987,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -998,7 +1005,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -1021,7 +1028,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           style={{ backgroundColor: "white", color: "black" }}
                           disabled
@@ -1043,7 +1050,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -1067,7 +1074,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -1090,12 +1097,34 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
                           data-hitung="simulasi-ulang"
                           value={by_mutasi}
+                          style={{ backgroundColor: "white", color: "black" }}
+                        />
+                      </Form.Item>
+                    </td>
+                  </tr>
+                  <tr className="flex justify-between border-b border-gray-300 items-center py-2">
+                    <td>
+                      <div className="font-semibold text-sm">Provisi</div>
+                      <div className="text-xs">Biaya provisi</div>
+                    </td>
+                    <td></td>
+                    <td className="pembiayaan-simulasi">
+                      <Form.Item className="w-full md:w-36">
+                        <Input
+                          disabled={disable}
+                          defaultValue={"0"}
+                          placeholder="0"
+                          data-hitung="simulasi-ulang"
+                          value={provisi}
+                          onChange={(e) =>
+                            setProvisi(formatNumber(e.target.value))
+                          }
                           style={{ backgroundColor: "white", color: "black" }}
                         />
                       </Form.Item>
@@ -1109,7 +1138,7 @@ export default function Simulasi() {
                       <div className="text-xs">Jumlah angsuran</div>
                     </td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className=" w-full md:w-20">
+                      <Form.Item className=" w-full md:w-36">
                         <Input
                           disabled={true}
                           placeholder="0"
@@ -1119,7 +1148,7 @@ export default function Simulasi() {
                       </Form.Item>
                     </td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className=" w-full md:w-20">
+                      <Form.Item className=" w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -1139,10 +1168,11 @@ export default function Simulasi() {
                       <div className="text-xs">Jumlah blokir</div>
                     </td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled={disable}
                           placeholder="0"
+                          defaultValue={"0"}
                           data-hitung="simulasi-ulang"
                           value={blokir}
                           onChange={(e) =>
@@ -1154,7 +1184,7 @@ export default function Simulasi() {
                       </Form.Item>
                     </td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className=" w-full md:w-20">
+                      <Form.Item className=" w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -1176,7 +1206,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -1196,10 +1226,11 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled={disable}
                           placeholder="0"
+                          defaultValue={"0"}
                           data-hitung="simulasi-ulang"
                           value={bpp}
                           onChange={(e) => setBpp(formatNumber(e.target.value))}
@@ -1217,11 +1248,12 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled={disable}
                           placeholder="0"
                           data-hitung="simulasi-ulang"
+                          defaultValue={"0"}
                           value={pelunasan}
                           onChange={(e) =>
                             setPelunasan(formatNumber(e.target.value))
@@ -1238,7 +1270,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -1256,7 +1288,7 @@ export default function Simulasi() {
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">
-                      <Form.Item className="w-full md:w-20">
+                      <Form.Item className="w-full md:w-36">
                         <Input
                           disabled
                           placeholder="0"
@@ -1309,7 +1341,10 @@ export default function Simulasi() {
         style={{ top: 40 }}
       >
         <Spin spinning={loading}>
-          <div className="my-2 block sm:flex sm:justify-between">
+          <div
+            id="analisa-perhitungan"
+            className="my-2 block sm:flex sm:justify-between"
+          >
             <div className="flex-1 sm:px-2">
               <div
                 className={`bg-${process.env.NEXT_PUBLIC_APP_JUDUL_ANALISA}-500 p-2 text-gray-100 font-semibold text-center`}
@@ -1464,6 +1499,14 @@ export default function Simulasi() {
                   {by_mutasi != "0" ? by_mutasi : "0"}
                 </div>
               </div>
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200`}
+              >
+                <div>Biaya Provisi</div>
+                <div className="text-right">
+                  {provisi != "0" ? provisi : "0"}
+                </div>
+              </div>
               <div className="flex justify-between py-0 border-b border-gray-200">
                 <div>Biaya Materai</div>
                 <div className="text-right">
@@ -1569,7 +1612,13 @@ export default function Simulasi() {
               </div>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            {/* <button
+              className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded shadow border"
+              onClick={() => handleDownload()}
+            >
+              Download
+            </button> */}
             <button
               className="bg-orange-500 text-gray-300 px-3 py-1 rounded shadow hover:bg-orange-600"
               onClick={() => handleSave()}

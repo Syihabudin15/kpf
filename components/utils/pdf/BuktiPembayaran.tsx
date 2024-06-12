@@ -37,6 +37,7 @@ export default function BuktiPembayaran({
       data.DataPembiayaan.plafond * (data.DataPembiayaan.by_asuransi / 100) +
       data.DataPembiayaan.by_buka_rekening +
       data.DataPembiayaan.by_mutasi +
+      data.DataPembiayaan.by_provisi +
       data.DataPembiayaan.by_materai +
       data.DataPembiayaan.by_epotpen +
       data.DataPembiayaan.by_flagging +
@@ -158,7 +159,8 @@ export default function BuktiPembayaran({
                 data.DataPembiayaan.by_flagging +
                 data.DataPembiayaan.by_epotpen +
                 data.DataPembiayaan.by_tatalaksana +
-                data.DataPembiayaan.by_mutasi
+                data.DataPembiayaan.by_mutasi +
+                data.DataPembiayaan.by_provisi
               ).toFixed(0)
             )}
           </Text>

@@ -79,7 +79,7 @@ export default function ModalCost({
       </button>
 
       <Modal
-        title={isEdit ? "Edit Pengeluaran" : "Tambah Pengeluaran"}
+        title={isEdit ? "EDIT PENGELUARAN" : "TAMBAH PENGELUARAN"}
         onCancel={() => setOpen(false)}
         footer={[]}
         open={open}

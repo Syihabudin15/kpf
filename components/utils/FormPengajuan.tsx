@@ -522,19 +522,13 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item
-                label="Sumber Dana"
-                name={"sumber_dana"}
-              >
+              <Form.Item label="Sumber Dana" name={"sumber_dana"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
-                </Form.Item>
-              <Form.Item
-                label="Jenis Margin"
-                name={"jenis_margin"}
-              >
+              </Form.Item>
+              <Form.Item label="Jenis Margin" name={"jenis_margin"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -603,6 +597,12 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
+              <Form.Item label="Biaya Provisi" name={"biaya_provisi"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
               <Form.Item label="Biaya Materai" name={"biaya_materai"}>
                 <Input
                   disabled
@@ -647,7 +647,10 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Blokir Angsuran" name={"blokir_angsuran"}>
+              <Form.Item
+                label="Jumlah Blokir Angsuran"
+                name={"blokir_angsuran"}
+              >
                 <Input
                   disabled
                   prefix={"Rp. "}
@@ -1118,7 +1121,10 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Pembiayaan Sebelumnya" name={"pembiayaan_sebelumnya"}>
+              <Form.Item
+                label="Pembiayaan Sebelumnya"
+                name={"pembiayaan_sebelumnya"}
+              >
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1166,10 +1172,7 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item
-                label="Jenis Margin"
-                name={"jenis_margin"}
-              >
+              <Form.Item label="Jenis Margin" name={"jenis_margin"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1233,6 +1236,12 @@ export default function TabsForm({
                 />
               </Form.Item>
               <Form.Item label="Biaya Mutasi" name={"biaya_mutasi"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Biaya Provisi" name={"biaya_provisi"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1356,11 +1365,16 @@ export default function TabsForm({
         },
       ]);
     }
-    const angs = ceiling(parseInt(getAngsuranPerBulan(
-      data?.DataPembiayaan.mg_bunga as number,
-      data?.DataPembiayaan.tenor as number,
-      data?.DataPembiayaan.plafond as number
-    )), data.DataPembiayaan.pembulatan || 1);
+    const angs = ceiling(
+      parseInt(
+        getAngsuranPerBulan(
+          data?.DataPembiayaan.mg_bunga as number,
+          data?.DataPembiayaan.tenor as number,
+          data?.DataPembiayaan.plafond as number
+        )
+      ),
+      data.DataPembiayaan.pembulatan || 1
+    );
     const kotor =
       (data?.DataPembiayaan.plafond || 0) -
       (data?.DataPembiayaan.plafond || 0) *
@@ -1437,6 +1451,9 @@ export default function TabsForm({
       biaya_mutasi: formatNumber(
         (data?.DataPembiayaan.by_mutasi || 0).toString()
       ),
+      biaya_provisi: formatNumber(
+        (data?.DataPembiayaan.by_provisi || 0).toString()
+      ),
       biaya_materai: formatNumber(
         (data?.DataPembiayaan.by_materai || 0).toString()
       ),
@@ -1490,7 +1507,9 @@ export default function TabsForm({
       jenis_margin: data?.jenis_margin,
       geo_location: data?.geo_location,
       nik: data?.nik,
-      masa_ktp: data?.masa_ktp ? moment(data.masa_ktp).format("DD-MM-YYYY") : "",
+      masa_ktp: data?.masa_ktp
+        ? moment(data.masa_ktp).format("DD-MM-YYYY")
+        : "",
       npwp: data?.npwp,
       pendidikan: data?.pendidikan,
       jenis_kelamin: data?.jenis_kelamin,
@@ -1507,10 +1526,17 @@ export default function TabsForm({
       tempat_lahir: data.DataPembiayaan.tempat_lahir,
       tempat_lahir_pasangan: data.DataPengajuanPasangan.tempat_lahir_pasangan,
       alamat_pasangan: data.DataPengajuanPasangan.alamat_pasangan,
-      tanggal_lahir_pasangan:
-        data?.DataPengajuanPasangan.tanggal_lahir_pasangan ? moment(data?.DataPengajuanPasangan.tanggal_lahir_pasangan).format("DD-MM-YYYY") : "",
+      tanggal_lahir_pasangan: data?.DataPengajuanPasangan.tanggal_lahir_pasangan
+        ? moment(data?.DataPengajuanPasangan.tanggal_lahir_pasangan).format(
+            "DD-MM-YYYY"
+          )
+        : "",
       nik_pasangan: data?.DataPengajuanPasangan.nik_pasangan,
-      masa_ktp_pasangan: data?.DataPengajuanPasangan.masa_ktp_pasangan ? moment(data?.DataPengajuanPasangan.masa_ktp_pasangan).format("DD-MM-YYYY") : "",
+      masa_ktp_pasangan: data?.DataPengajuanPasangan.masa_ktp_pasangan
+        ? moment(data?.DataPengajuanPasangan.masa_ktp_pasangan).format(
+            "DD-MM-YYYY"
+          )
+        : "",
       pekerjaan_pasangan: data?.DataPengajuanPasangan.pekerjaan_pasangan,
       nama_keluarga_tidak_serumah:
         data?.DataPengajuanPasangan.nama_keluarga_tidak_serumah,
@@ -1518,9 +1544,13 @@ export default function TabsForm({
       no_telepon_keluarga: data?.DataPengajuanPasangan.no_telepon_keluarga,
       alamat_keluarga: data?.DataPengajuanPasangan.alamat_keluarga,
       nomor_sk_pensiun: data?.nomor_sk_pensiun,
-      tanggal_sk_pensiun: data?.tanggal_sk_pensiun ? moment(data?.tanggal_sk_pensiun).format("DD-MM-YYYY") : "",
+      tanggal_sk_pensiun: data?.tanggal_sk_pensiun
+        ? moment(data?.tanggal_sk_pensiun).format("DD-MM-YYYY")
+        : "",
       no_telepon: data?.no_telepon,
-      tmt_pensiun: data?.tmt_pensiun ? moment(data?.tmt_pensiun).format("DD-MM-YYYY") : "",
+      tmt_pensiun: data?.tmt_pensiun
+        ? moment(data?.tmt_pensiun).format("DD-MM-YYYY")
+        : "",
       penerbit_sk: data?.penerbit_sk,
       jenis_pensiun: data?.jenis_pensiun,
       posisi: data?.User.posisi,

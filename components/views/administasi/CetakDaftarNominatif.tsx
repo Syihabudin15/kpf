@@ -30,6 +30,7 @@ export default function CetakDaftarNominatif({
       let totalBlokir = 0;
       let totalTakeOver = 0;
       let totalPencairan = 0;
+      let totalProvisi = 0;
 
       const newData: any[] = data.map((d: DataDataPengajuan, ind: number) => {
         const plafond = d.DataPembiayaan.plafond;
@@ -43,6 +44,7 @@ export default function CetakDaftarNominatif({
         const tabungan = d.DataPembiayaan.by_buka_rekening;
         const materai = d.DataPembiayaan.by_materai;
         const mutasi = d.DataPembiayaan.by_mutasi;
+        const provisi = d.DataPembiayaan.by_provisi;
         const angsuran = ceiling(
           parseInt(
             getAngsuranPerBulan(
@@ -66,6 +68,7 @@ export default function CetakDaftarNominatif({
             tabungan +
             materai +
             mutasi +
+            provisi +
             blokir +
             takeOver);
 
@@ -82,6 +85,7 @@ export default function CetakDaftarNominatif({
         totalBlokir += blokir;
         totalTakeOver += takeOver;
         totalPencairan += pencairan;
+        totalProvisi += provisi;
 
         return {
           NO: ind + 1,
@@ -109,6 +113,7 @@ export default function CetakDaftarNominatif({
           "PEMBUKAAN TABUNGAN": tabungan,
           "BIAYA MATERAI": materai,
           "BIAYA MUTASI": mutasi,
+          "BIAYA PROVISI": provisi,
           "BLOKIR ANGSURAN": blokir,
           "NOMINAL TAKE OVER": takeOver,
           PENCAIRAN: pencairan,
@@ -138,6 +143,7 @@ export default function CetakDaftarNominatif({
         "PEMBUKAAN TABUNGAN": totalTabungan,
         "BIAYA MATERAI": totalMaterai,
         "BIAYA MUTASI": totalMutasi,
+        "BIAYA PROVISI": totalProvisi,
         "BLOKIR ANGSURAN": totalBlokir,
         "NOMINAL TAKE OVER": totalTakeOver,
         PENCAIRAN: totalPencairan,

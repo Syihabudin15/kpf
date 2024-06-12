@@ -49,7 +49,7 @@ export default function RiwayatPencairanMitra() {
           size="small"
           dataSource={data}
           columns={columns}
-          scroll={{ x: 1000, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           bordered
           loading={loading}
           pagination={{

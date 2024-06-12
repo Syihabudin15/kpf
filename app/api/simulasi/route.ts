@@ -79,6 +79,7 @@ export const POST = async (req: NextRequest) => {
       { status: 201, statusText: "Data berhasil disimpan" }
     );
   } catch (err) {
+    console.log(err);
     return NextResponse.json(
       { msg: "Server Error" },
       { status: 500, statusText: "Server Error" }

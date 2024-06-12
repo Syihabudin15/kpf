@@ -267,61 +267,100 @@ export default function MasterUser() {
         );
       },
     },
-    { title: "NIP", dataIndex: "nip", key: "nip", width: 200, onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center", },
-    { title: "NIK", dataIndex: "nik", key: "nik", width: 200,onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center", },
-    { title: "USERNAME", dataIndex: "username", key: "username", width: 200,onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center", },
-    { title: "EMAIL", dataIndex: "email", key: "email", width: 200,onHeaderCell: (text, record) => {
+    {
+      title: "NIP",
+      dataIndex: "nip",
+      key: "nip",
+      width: 200,
+      onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
           },
         };
-      }, },
-    { title: "NO TELEPON", dataIndex: "no_telepon", key: "no_telepon",onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
-    { title: "STATUS PKWT", dataIndex: "status_pkwt", key: "status_pkwt", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "NIK",
+      dataIndex: "nik",
+      key: "nik",
+      width: 200,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
-    { title: "MASA KONTRAK", dataIndex: "masa_kotrak", key: "masa_kontrak",onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "USERNAME",
+      dataIndex: "username",
+      key: "username",
+      width: 200,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
+    {
+      title: "EMAIL",
+      dataIndex: "email",
+      key: "email",
+      width: 200,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+    },
+    {
+      title: "NO TELEPON",
+      dataIndex: "no_telepon",
+      key: "no_telepon",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+    },
+    {
+      title: "STATUS PKWT",
+      dataIndex: "status_pkwt",
+      key: "status_pkwt",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+    },
+    {
+      title: "MASA KONTRAK",
+      dataIndex: "masa_kotrak",
+      key: "masa_kontrak",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+    },
     {
       title: "ROLE",
       dataIndex: "role",
@@ -355,14 +394,19 @@ export default function MasterUser() {
         );
       },
     },
-    { title: "UNIT PELAYANAN", dataIndex: "cabang", key: "cabang", onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
+    {
+      title: "UNIT PELAYANAN",
+      dataIndex: "cabang",
+      key: "cabang",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
     },
-    className: "text-center", },
     {
       title: "BANK",
       dataIndex: "bank",
@@ -435,7 +479,7 @@ export default function MasterUser() {
         };
       },
       className: "text-center",
-      width: 100, 
+      width: 100,
       fixed: window.innerWidth < 600 ? false : "right",
       render: (value, record, index) => (
         <div className="flex flex-wrap justify-center gap-2" key={index}>
@@ -492,7 +536,7 @@ export default function MasterUser() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 2200, y: 320 }}
+        scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
         size="small"
         pagination={{
           pageSize: 20,
@@ -512,10 +556,13 @@ export default function MasterUser() {
         wrapClassName="modal-create"
         width={"100%"}
         footer={[]}
-        style={{ top: 20}}
+        style={{ top: 20 }}
       >
-        <Form onFinish={handlePost} className="my-5" labelCol={{ span: 8 }} >
-          <div className="block md:flex" style={{height: "73vh", overflowY: "auto"}}>
+        <Form onFinish={handlePost} className="my-5" labelCol={{ span: 8 }}>
+          <div
+            className="block md:flex"
+            style={{ height: "73vh", overflowY: "auto" }}
+          >
             <div className="flex-1">
               <Form.Item label="Role" name={"role"} required>
                 <Select
@@ -676,7 +723,10 @@ export default function MasterUser() {
           labelCol={{ span: 8 }}
           form={formData}
         >
-          <div className="block md:flex" style={{height: "73vh", overflowY: "auto"}}>
+          <div
+            className="block md:flex"
+            style={{ height: "73vh", overflowY: "auto" }}
+          >
             <div className="flex-1">
               <Form.Item label="ID " name={"id"} hidden>
                 <Input />

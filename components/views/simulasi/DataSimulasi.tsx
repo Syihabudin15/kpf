@@ -362,6 +362,16 @@ export default function DataSimulasi() {
                     : "0"}
                 </div>
               </div>
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200`}
+              >
+                <div>Biaya Provisi</div>
+                <div className="text-right">
+                  {selected
+                    ? formatNumber(selected.by_provisi.toString())
+                    : "0"}
+                </div>
+              </div>
               <div className="flex justify-between py-0 border-b border-gray-200">
                 <div>Biaya Materai</div>
                 <div className="text-right">

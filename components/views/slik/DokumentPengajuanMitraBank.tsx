@@ -244,7 +244,7 @@ export default function DokumenPengajuanMitraBank() {
             return (
               <div className="flex justify-center">
                 <button
-                  className="py-1 px-2 rounded shadow"
+                  className="py-1 px-2 rounded shadow border"
                   onClick={() => {
                     setSelected(record);
                     setOpen(true);
@@ -957,7 +957,7 @@ export default function DokumenPengajuanMitraBank() {
           size="small"
           dataSource={data}
           columns={columns}
-          scroll={{ x: 5500, y: "calc(65vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           bordered
           loading={loading}
           pagination={{

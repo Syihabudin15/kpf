@@ -54,6 +54,7 @@ export default function AnalisaPerhitungan({
       data.DataPembiayaan.by_mutasi +
       data.DataPembiayaan.by_epotpen +
       data.DataPembiayaan.by_flagging +
+      data.DataPembiayaan.by_provisi +
       data.DataPembiayaan.retensi +
       data.DataPembiayaan.blokir * parseInt(angsuran));
   return (
@@ -471,6 +472,30 @@ export default function AnalisaPerhitungan({
               </View>
             </View>
           )}
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 10,
+              padding: "2px 10px",
+            }}
+          >
+            <Text style={{ width: 100 }}>Biaya Provisi</Text>
+            <Text style={{ flex: 0.3 }}>:</Text>
+            <View
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "row",
+                width: 100,
+              }}
+            >
+              <Text style={{ flex: 1 }}>Rp. </Text>
+              <Text style={{ flex: 1, textAlign: "right" }}>
+                {formatNumber(data.DataPembiayaan.by_provisi.toFixed(0))}
+              </Text>
+            </View>
+          </View>
           <View
             style={{
               display: "flex",

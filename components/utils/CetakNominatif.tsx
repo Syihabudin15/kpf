@@ -89,6 +89,7 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
           "NO REKENING BANK": d.BerkasPengajuan.no_rekening,
           "NAMA BANK": d.BerkasPengajuan.nama_bank,
           "BIAYA MUTASI": d.DataPembiayaan.by_mutasi,
+          "BIAYA PROVISI": d.DataPembiayaan.by_provisi,
           "NO AKAD": d.nomor_akad,
           "NO SK": d.nomor_sk_pensiun,
           MARKETING: d.User.first_name + " " + d.User.last_name,

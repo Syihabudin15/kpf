@@ -256,7 +256,7 @@ export default function RiwayatSlik() {
         return (
           <div className="flex justify-center">
             <button
-              className="py-1 px-2 rounded shadow"
+              className="py-1 px-2 rounded shadow border"
               onClick={() => {
                 setSelected(record);
                 setOpen(true);
@@ -286,8 +286,8 @@ export default function RiwayatSlik() {
         <Table
           columns={columns}
           dataSource={data}
+          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
           bordered
-          scroll={{ x: 1500, y: "calc(65vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{

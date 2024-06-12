@@ -92,7 +92,7 @@ export default function DataBisnisArea() {
           bordered
           dataSource={dataOk}
           pagination={false}
-          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
           size="small"
           expandable={{
             expandedRowRender: (record) => {
@@ -115,7 +115,7 @@ export default function DataBisnisArea() {
                           })}
                           bordered
                           size="small"
-                          scroll={{ x: 800 }}
+                          scroll={{ x: "max-content" }}
                           pagination={false}
                         />
                       );
@@ -137,7 +137,7 @@ export default function DataBisnisArea() {
           bordered
           dataSource={dataPending}
           size="small"
-          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
           pagination={false}
           expandable={{
             expandedRowRender: (record) => {
@@ -160,7 +160,7 @@ export default function DataBisnisArea() {
                           })}
                           bordered
                           size="small"
-                          scroll={{ x: 800 }}
+                          scroll={{ x: "max-content" }}
                           pagination={false}
                         />
                       );

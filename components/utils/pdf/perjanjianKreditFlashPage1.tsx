@@ -24,7 +24,8 @@ export default function PerjanjianKreditFlashPage1({
     data.DataPembiayaan.by_flagging +
     data.DataPembiayaan.by_epotpen +
     data.DataPembiayaan.by_tatalaksana +
-    data.DataPembiayaan.by_mutasi;
+    data.DataPembiayaan.by_mutasi +
+    data.DataPembiayaan.by_provisi;
 
   const angsuranBulanan = ceiling(
     parseInt(
