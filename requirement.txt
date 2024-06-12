@@ -18,3 +18,7 @@ DBNAME:kpfdatabases
 # Github
 NEW_KPF(VERIF_SLIK):https://github.com/Syihabudin15/kpf.git
 GIT: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 -> Active
+
+# CLOUDPANEL
+admin
+Us=6M4+YLX12

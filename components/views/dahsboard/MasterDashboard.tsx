@@ -182,16 +182,18 @@ export default function MasterDashboard() {
           >
             DATA BISNIS AREA
           </div>
-          <Table
-            bordered
-            size="small"
-            pagination={false}
-            columns={columnsArea}
-            dataSource={dataArea}
-            loading={loading}
-            scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
-            key={"area"}
-          />
+          <div className="p-1">
+            <Table
+              bordered
+              size="small"
+              pagination={false}
+              columns={columnsArea}
+              dataSource={dataArea}
+              loading={loading}
+              scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
+              key={"area"}
+            />
+          </div>
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
           <div
@@ -199,16 +201,18 @@ export default function MasterDashboard() {
           >
             DATA BISNIS CABANG
           </div>
-          <Table
-            bordered
-            size="small"
-            pagination={false}
-            columns={columnsCabang}
-            dataSource={dataCabang}
-            loading={loading}
-            scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
-            key={"cabang"}
-          />
+          <div className="p-1">
+            <Table
+              bordered
+              size="small"
+              pagination={false}
+              columns={columnsCabang}
+              dataSource={dataCabang}
+              loading={loading}
+              scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
+              key={"cabang"}
+            />
+          </div>
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
           <div
@@ -216,16 +220,18 @@ export default function MasterDashboard() {
           >
             DATA BISNIS MARKETING
           </div>
-          <Table
-            bordered
-            size="small"
-            pagination={false}
-            columns={columnsMarketing}
-            dataSource={dataMarketing}
-            loading={loading}
-            scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
-            key={"marketing"}
-          />
+          <div className="p-1">
+            <Table
+              bordered
+              size="small"
+              pagination={false}
+              columns={columnsMarketing}
+              dataSource={dataMarketing}
+              loading={loading}
+              scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
+              key={"marketing"}
+            />
+          </div>
         </div>
       </div>
     </Spin>
@@ -251,6 +257,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
       {
         title: "SUMBER DANA",
         key: "sumdan",
+        width: 200,
         dataIndex: "sumdan",
         onHeaderCell: (text, record) => {
           return {
@@ -270,6 +277,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
         title: "SLIK",
         dataIndex: "slik",
         key: "slik",
+        width: 100,
         onHeaderCell: (text, record) => {
           return {
             ["style"]: {
@@ -285,6 +293,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
         title: "APPROVAL",
         dataIndex: "approval",
         key: "approval",
+        width: 100,
         onHeaderCell: (text, record) => {
           return {
             ["style"]: {
@@ -316,6 +325,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
       {
         title: "ANTRI",
         dataIndex: "antri",
+        width: 150,
         key: "antri",
         onHeaderCell: (text, record) => {
           return {
@@ -335,6 +345,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
         title: "PROSES",
         dataIndex: "proses",
         key: "proses",
+        width: 150,
         onHeaderCell: (text, record) => {
           return {
             ["style"]: {
@@ -355,6 +366,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
     title: moment().format("DD-MM-YYYY"),
     key: "hari_ini",
     dataIndex: "dropping_hari_ini",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -372,6 +384,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
   {
     title: "TOTAL",
     key: "total",
+    width: 150,
     dataIndex: "total",
     onHeaderCell: (text, record) => {
       return {
@@ -388,6 +401,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
         title: "DROPPING",
         dataIndex: "dropping",
         key: "dropping",
+        width: 150,
         onHeaderCell: (text, record) => {
           return {
             ["style"]: {
@@ -406,6 +420,7 @@ const columnsDashboard: TableProps<DashboardMaster>["columns"] = [
         title: "OS",
         dataIndex: "os",
         key: "os",
+        width: 150,
         onHeaderCell: (text, record) => {
           return {
             ["style"]: {
@@ -429,6 +444,7 @@ const columnsArea: TableProps<any>["columns"] = [
     title: "NAMA AREA",
     dataIndex: "nama",
     key: "nama",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -447,6 +463,7 @@ const columnsArea: TableProps<any>["columns"] = [
     title: "KODE AREA",
     dataIndex: "kode_area",
     key: "kode_area",
+    width: 100,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -497,6 +514,7 @@ const columnsArea: TableProps<any>["columns"] = [
     title: "TOTAL ANTRIAN",
     dataIndex: "total_antrian",
     key: "total_antrian",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -524,6 +542,7 @@ const columnsArea: TableProps<any>["columns"] = [
     title: "TOTAL PENCAIRAN",
     dataIndex: "total_pencairan",
     key: "total_pencairan",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -589,6 +608,7 @@ const columnsCabang: TableProps<any>["columns"] = [
     title: "NAMA CABANG",
     dataIndex: "nama",
     key: "nama",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -607,6 +627,7 @@ const columnsCabang: TableProps<any>["columns"] = [
     title: "AREA PELAYANAN",
     dataIndex: "nama",
     key: "nama",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -668,6 +689,7 @@ const columnsCabang: TableProps<any>["columns"] = [
     title: "TOTAL PENCAIRAN",
     dataIndex: "total_pencairan",
     key: "total_pencairan",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -733,6 +755,7 @@ const columnsMarketing: TableProps<any>["columns"] = [
     title: "NAMA MARKETING",
     dataIndex: "nama",
     key: "nama",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -751,6 +774,7 @@ const columnsMarketing: TableProps<any>["columns"] = [
     title: "JABATAN",
     dataIndex: "jabatan",
     key: "jabatan",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -767,6 +791,7 @@ const columnsMarketing: TableProps<any>["columns"] = [
     title: "UNIT PELAYANAN",
     dataIndex: "unit",
     key: "unit",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -783,6 +808,7 @@ const columnsMarketing: TableProps<any>["columns"] = [
     title: "AREA PELAYANAN",
     dataIndex: "area",
     key: "area",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -799,6 +825,7 @@ const columnsMarketing: TableProps<any>["columns"] = [
     title: "TOTAL NASABAH",
     dataIndex: "nasabah",
     key: "nasabah",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -817,6 +844,7 @@ const columnsMarketing: TableProps<any>["columns"] = [
     title: "TOTAL PLAFOND",
     dataIndex: "plafond",
     key: "plafond",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {

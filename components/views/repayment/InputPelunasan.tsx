@@ -44,7 +44,6 @@ export default function InputPelunasan({
   dataPelunasan: DataDataPengajuan[];
 }) {
   const [open, setOpen] = useState(false);
-  const [data, setData] = useState<DataDataPengajuan[]>(dataPelunasan);
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [admPelunasan, setAdmPelunasan] = useState(5);
   const [form] = Form.useForm();
@@ -153,7 +152,7 @@ export default function InputPelunasan({
             <div className="md:flex-1">
               <Form.Item label="Nopen" name={"nopen"}>
                 <Select
-                  options={data.map((e) => {
+                  options={dataPelunasan.map((e) => {
                     return {
                       label: e.nopen + " - " + e.nama,
                       value: e.id,
@@ -161,7 +160,7 @@ export default function InputPelunasan({
                   })}
                   showSearch
                   onChange={(e) => {
-                    const filter = dataPelunasan.filter((p) => p.nopen === e);
+                    const filter = dataPelunasan.filter((p) => p.id === e);
                     setSelected(filter[0]);
                   }}
                 />

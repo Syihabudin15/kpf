@@ -1,8 +1,7 @@
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
-import { daysInMonth } from "@/components/utils/inputUtils";
-import moment from "moment";
+import moment from "moment-timezone";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -27,8 +26,10 @@ export const GET = async (req: NextRequest) => {
       where: {
         status_pencairan: "TRANSFER",
         tanggal_pencairan: {
-          gte: moment(`${month}-01`).toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+          gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+            .tz("Asia/Jakarta")
+            .toISOString(),
         },
       },
       include: {
@@ -79,8 +80,10 @@ export const GET = async (req: NextRequest) => {
       where: {
         status_pencairan: "TRANSFER",
         tanggal_pencairan: {
-          gte: moment(`${month}-01`).toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+          gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+            .tz("Asia/Jakarta")
+            .toISOString(),
         },
       },
     });
@@ -114,8 +117,10 @@ const handleType = async (
           },
         },
         tanggal_pencairan: {
-          gte: moment(`${month}-01`).toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+          gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+            .tz("Asia/Jakarta")
+            .toISOString(),
         },
       },
       include: {
@@ -171,8 +176,10 @@ const handleType = async (
           },
         },
         tanggal_pencairan: {
-          gte: moment(`${month}-01`).toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+          gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+            .tz("Asia/Jakarta")
+            .toISOString(),
         },
       },
     });
@@ -186,8 +193,10 @@ const handleType = async (
           },
         },
         tanggal_pencairan: {
-          gte: moment(`${month}-01`).toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+          gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+            .tz("Asia/Jakarta")
+            .toISOString(),
         },
       },
       include: {
@@ -243,8 +252,10 @@ const handleType = async (
           },
         },
         tanggal_pencairan: {
-          gte: moment(`${month}-01`).toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(),
+          gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+            .tz("Asia/Jakarta")
+            .toISOString(),
         },
       },
     });

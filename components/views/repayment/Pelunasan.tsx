@@ -388,13 +388,15 @@ export default function Pelunasan() {
         />
       </div>
 
-      <BerkasOnly
-        title={`BERKAS PELUNASAN ${selected?.DataPengajuan.nama}`}
-        type="pdf"
-        url={selected?.berkas_pelunasan || ""}
-        open={openModalBerkas}
-        setOpen={setOpenModalBerkas}
-      />
+      {selected && (
+        <BerkasOnly
+          title={`BERKAS PELUNASAN ${selected.DataPengajuan.nama}`}
+          type="pdf"
+          url={selected.berkas_pelunasan || ""}
+          open={openModalBerkas}
+          setOpen={setOpenModalBerkas}
+        />
+      )}
     </div>
   );
 }

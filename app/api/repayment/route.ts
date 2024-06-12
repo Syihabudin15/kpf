@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { DataPelunasan } from "@/components/utils/Interfaces";
-import moment from "moment";
+import moment from "moment-timezone";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
@@ -10,7 +10,9 @@ export const GET = async (req: NextRequest) => {
   );
   const name = <any>req.nextUrl.searchParams.get("name");
   const skip = (page - 1) * pageSize;
-  const month: string = <any>req.nextUrl.searchParams.get("month");
+  const month: string =
+    <any>req.nextUrl.searchParams.get("month") ||
+    `${new Date().getFullYear()}-${new Date().getMonth() + 1}`;
 
   let result: DataPelunasan[] = [];
 
@@ -23,10 +25,10 @@ export const GET = async (req: NextRequest) => {
           is_active: true,
         },
         tanggal_pelunasan: {
-          gte: moment(`${month}-01`).toISOString(true),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(
-            true
-          ),
+          gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(true),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+            .tz("Asia/Jakarta")
+            .toISOString(true),
         },
       },
       include: {
@@ -59,6 +61,7 @@ export const GET = async (req: NextRequest) => {
             Bank: true,
             DataPengajuanAlamat: true,
             DataPengajuanPasangan: true,
+            JadwalAngsuran: true,
           },
         },
       },
@@ -73,10 +76,10 @@ export const GET = async (req: NextRequest) => {
           is_active: true,
         },
         tanggal_pelunasan: {
-          gte: moment(`${month}-01`).toISOString(true),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(
-            true
-          ),
+          gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(true),
+          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+            .tz("Asia/Jakarta")
+            .toISOString(true),
         },
       },
       include: {
@@ -109,6 +112,7 @@ export const GET = async (req: NextRequest) => {
             Bank: true,
             DataPengajuanAlamat: true,
             DataPengajuanPasangan: true,
+            JadwalAngsuran: true,
           },
         },
       },
@@ -124,10 +128,10 @@ export const GET = async (req: NextRequest) => {
         status_lunas: true,
       },
       tanggal_pelunasan: {
-        gte: moment(`${month}-01`).toISOString(true),
-        lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(
-          true
-        ),
+        gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(true),
+        lte: moment(`${month}-${moment(month).daysInMonth()}`)
+          .tz("Asia/Jakarta")
+          .toISOString(true),
       },
     },
   });
@@ -165,6 +169,7 @@ export const GET = async (req: NextRequest) => {
       Bank: true,
       DataPengajuanAlamat: true,
       DataPengajuanPasangan: true,
+      JadwalAngsuran: true,
     },
   });
 
