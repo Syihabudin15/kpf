@@ -1,8 +1,8 @@
+export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import moment from "moment-timezone";
 import { Bank, DataPembiayaan, DataPengajuan, Produk } from "@prisma/client";
-export const dynamic = "force-dynamic";
 
 export interface LineProps {
   options: object;

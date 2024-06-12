@@ -97,7 +97,7 @@ export default function Pelunasan() {
       className: "text-center",
       render(value, record, index) {
         return (
-          <div className="flex justify-center text-xs italic font-bold">
+          <div className="flex justify-center text-xs italic font-bold text-white">
             <span
               className={`py-1 px-4 bg-${
                 record.type === "MENINGGAL_DUNIA"
@@ -355,7 +355,11 @@ export default function Pelunasan() {
   return (
     <div>
       <div className="p-0 flex flex-wrap gap-2 mb-1">
-        <InputPelunasan loading={loading} dataPelunasan={dataPengajuan || []} />
+        <InputPelunasan
+          loading={loading}
+          dataPelunasan={dataPengajuan || []}
+          getData={getData}
+        />
         <Input.Search
           placeholder="nama pemohon"
           style={{ width: 170 }}
@@ -391,7 +395,7 @@ export default function Pelunasan() {
       {selected && (
         <BerkasOnly
           title={`BERKAS PELUNASAN ${selected.DataPengajuan.nama}`}
-          type="pdf"
+          type="application/pdf"
           url={selected.berkas_pelunasan || ""}
           open={openModalBerkas}
           setOpen={setOpenModalBerkas}

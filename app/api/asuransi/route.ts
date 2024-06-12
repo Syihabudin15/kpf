@@ -10,14 +10,15 @@ export const GET = async (req: NextRequest) => {
   const month =
     req.nextUrl.searchParams.get("month") || "2024-" + new Date().getMonth();
   const isTrue = req.nextUrl.searchParams.get("is-true");
-  const skip = (page - 1) * 20;
-  console.log(skip);
   let result: DataDataPengajuan[] = [];
+  const pageSize: number = parseInt(
+    req.nextUrl.searchParams.get("pageSize") || "20"
+  );
+  const skip = (page - 1) * pageSize;
 
   if (name) {
     result = <any>await prisma.dataPengajuan.findMany({
       where: {
-        pembayaran_asuransi: isTrue ? true : false,
         is_active: true,
         status_pencairan: "TRANSFER",
         tanggal_pencairan: {
@@ -82,64 +83,24 @@ export const GET = async (req: NextRequest) => {
         },
         Bank: true,
       },
-      take: 20,
+      take: pageSize,
       skip: skip,
     });
   } else {
-    result = <any>await prisma.dataPengajuan.findMany({
-      where: {
-        pembayaran_asuransi: isTrue ? true : false,
-        is_active: true,
-        status_pencairan: "TRANSFER",
-        tanggal_pencairan: {
-          gte: new Date(month + "-01"),
-          lte: new Date(
-            month +
-              "-" +
-              daysInMonth(
-                parseInt(month.split("-")[1]),
-                parseInt(month.split("-")[0])
-              )
-          ),
-        },
-      },
-      include: {
-        DataPembiayaan: {
-          include: {
-            User: {
-              include: {
-                UnitCabang: {
-                  include: {
-                    UnitPelayanan: true,
-                  },
-                },
-              },
-            },
-            Produk: true,
-            JenisPembiayaan: true,
-          },
-        },
-        User: {
-          include: {
-            UnitCabang: {
-              include: {
-                UnitPelayanan: true,
-              },
-            },
-          },
-        },
-        Bank: true,
-      },
-      take: 20,
-      skip: skip,
-    });
+    const temp = await handleGetData(
+      skip,
+      pageSize,
+      month,
+      isTrue || undefined
+    );
+    result = temp;
   }
 
   const total = await prisma.dataPengajuan.findMany({
     where: {
       is_active: true,
       status_pencairan: "TRANSFER",
-      pembayaran_asuransi: isTrue ? true : false,
+      // pembayaran_asuransi: isTrue ? true : false,
       DataPembiayaan: {
         created_at: {
           gte: new Date(month + "-01"),
@@ -185,4 +146,110 @@ export const POST = async (req: NextRequest) => {
     { msg: "Berhasil update data pembayaran asuransi!" },
     { status: 200 }
   );
+};
+
+const handleGetData = async (
+  skip: number,
+  take: number,
+  month: string,
+  opt?: string
+) => {
+  let result: DataDataPengajuan[] = [];
+  if (opt) {
+    result = <any>await prisma.dataPengajuan.findMany({
+      where: {
+        pembayaran_asuransi: opt === "true" ? true : false,
+        is_active: true,
+        status_pencairan: "TRANSFER",
+        tanggal_pencairan: {
+          gte: new Date(month + "-01"),
+          lte: new Date(
+            month +
+              "-" +
+              daysInMonth(
+                parseInt(month.split("-")[1]),
+                parseInt(month.split("-")[0])
+              )
+          ),
+        },
+      },
+      include: {
+        DataPembiayaan: {
+          include: {
+            User: {
+              include: {
+                UnitCabang: {
+                  include: {
+                    UnitPelayanan: true,
+                  },
+                },
+              },
+            },
+            Produk: true,
+            JenisPembiayaan: true,
+          },
+        },
+        User: {
+          include: {
+            UnitCabang: {
+              include: {
+                UnitPelayanan: true,
+              },
+            },
+          },
+        },
+        Bank: true,
+      },
+      take: take,
+      skip: skip,
+    });
+  } else {
+    result = <any>await prisma.dataPengajuan.findMany({
+      where: {
+        is_active: true,
+        status_pencairan: "TRANSFER",
+        tanggal_pencairan: {
+          gte: new Date(month + "-01"),
+          lte: new Date(
+            month +
+              "-" +
+              daysInMonth(
+                parseInt(month.split("-")[1]),
+                parseInt(month.split("-")[0])
+              )
+          ),
+        },
+      },
+      include: {
+        DataPembiayaan: {
+          include: {
+            User: {
+              include: {
+                UnitCabang: {
+                  include: {
+                    UnitPelayanan: true,
+                  },
+                },
+              },
+            },
+            Produk: true,
+            JenisPembiayaan: true,
+          },
+        },
+        User: {
+          include: {
+            UnitCabang: {
+              include: {
+                UnitPelayanan: true,
+              },
+            },
+          },
+        },
+        Bank: true,
+      },
+      take: take,
+      skip: skip,
+    });
+  }
+  return result;
 };

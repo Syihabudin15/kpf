@@ -105,6 +105,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       title: "JADWAL BAYAR",
       dataIndex: "tanggal_bayar",
       key: "tanggal_bayar",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -121,6 +122,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       title: "ANGSURAN",
       dataIndex: "angsuran",
       key: "angsuran",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -137,6 +139,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       title: "POKOK",
       dataIndex: "pokok",
       key: "pokok",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -153,6 +156,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       title: "MARGIN",
       dataIndex: "margin",
       key: "margin",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -169,6 +173,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       title: "STATUS PEMBAYARAN",
       dataIndex: "status",
       key: "status",
+      width: 150,
       className: "text-center",
       onHeaderCell: (text, record) => {
         return {
@@ -195,6 +200,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       title: "TANGGAL PEMBAYARAN",
       dataIndex: "tanggal_bayar",
       key: "tanggal_bayar",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

@@ -183,7 +183,27 @@ export const POST = async (req: NextRequest) => {
   const data = await req.json();
 
   try {
-    const result = await prisma.pelunasanDebitur.create({ data: data });
+    const result = await prisma.$transaction(async (tx) => {
+      await tx.dataPengajuan.update({
+        where: {
+          id: data.dataPengajuanId,
+        },
+        data: {
+          status_lunas: true,
+        },
+      });
+      let savePelunasan = await tx.pelunasanDebitur.create({ data: data });
+      await tx.jadwalAngsuran.updateMany({
+        where: {
+          dataPengajuanId: data.id,
+          tanggal_pelunasan: null,
+        },
+        data: {
+          tanggal_pelunasan: new Date(),
+        },
+      });
+      return savePelunasan;
+    });
     return NextResponse.json(
       { msg: "Berhasil menambahkan data pelunasan!", data: result },
       { status: 201 }

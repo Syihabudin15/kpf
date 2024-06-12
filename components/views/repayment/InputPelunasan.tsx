@@ -1,6 +1,9 @@
 "use client";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
-import { formatNumber } from "@/components/utils/inputUtils";
+import {
+  formatNumber,
+  inputTextToDecimal,
+} from "@/components/utils/inputUtils";
 import {
   CloudUploadOutlined,
   LoadingOutlined,
@@ -39,9 +42,11 @@ const getBase64 = (file: any) =>
 export default function InputPelunasan({
   loading,
   dataPelunasan,
+  getData,
 }: {
   loading: boolean;
   dataPelunasan: DataDataPengajuan[];
+  getData: Function;
 }) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
@@ -108,6 +113,40 @@ export default function InputPelunasan({
     setCurrLoading(false);
   };
 
+  const handleFinish = async (e: any) => {
+    setCurrLoading(true);
+    if (!selected) {
+      message.error("Data pengajuan tidak ditemukan!");
+      return;
+    }
+    if (!url || !e.type) {
+      message.error("Mohon pilih status dan upload berkas pelunasan!");
+      return;
+    }
+    const res = await fetch("/api/repayment", {
+      method: "POST",
+      body: JSON.stringify({
+        type: e.type,
+        by_admin: e.margin,
+        sisa_pokok: inputTextToDecimal(e.sisa),
+        no_rekening: e.no_rekening,
+        nama_bank: e.nama_bank,
+        keterangan: e.keterangan,
+        tanggal_pelunasan: new Date(e.tanggal_pelunasan).toISOString(),
+        berkas_pelunasan: url,
+        dataPengajuanId: selected?.id,
+      }),
+    });
+    if (res.ok) {
+      message.success("Berhasil menambahkan pelunasan debitur");
+      await getData();
+      setOpen(false);
+    } else {
+      message.error("Gagal menambahkan pelunasan debitur!");
+    }
+    setCurrLoading(false);
+  };
+
   useEffect(() => {
     if (!selected) return;
     let sisa = 0;
@@ -125,9 +164,11 @@ export default function InputPelunasan({
       sumber_dana: selected.Bank.name,
       margin: selected.DataPembiayaan.mg_bunga,
       adm_pelunasan: admPelunasan,
-      total_pelunasan: formatNumber((sisa * (admPelunasan / 100)).toFixed(0)),
+      total_pelunasan: formatNumber(
+        (sisa * (admPelunasan / 100) + sisa).toFixed(0)
+      ),
     });
-  }, [selected]);
+  }, [selected, admPelunasan]);
 
   return (
     <div>
@@ -147,10 +188,10 @@ export default function InputPelunasan({
         footer={[]}
         style={{ top: 50 }}
       >
-        <Form labelCol={{ span: 6 }} form={form}>
+        <Form labelCol={{ span: 6 }} form={form} onFinish={handleFinish}>
           <div className="flex flex-wrap gap-2">
             <div className="md:flex-1">
-              <Form.Item label="Nopen" name={"nopen"}>
+              <Form.Item label="Nopen" name={"nopen"} required>
                 <Select
                   options={dataPelunasan.map((e) => {
                     return {
@@ -180,10 +221,20 @@ export default function InputPelunasan({
               <Form.Item label="Margin" name={"margin"}>
                 <Input disabled />
               </Form.Item>
-              <Form.Item label="Adm Pelunasan" name={"adm_pelunasan"}>
+              <Form.Item label="Status Pelunasan" name={"type"} required>
+                <Select
+                  options={[
+                    { label: "TOPUP", value: "TOPUP" },
+                    { label: "LEPAS", value: "LEPAS" },
+                    { label: "MENINGGAL DUNIA", value: "MENINGGAL_DUNIA" },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item label="Adm Pelunasan" name={"adm_pelunasan"} required>
                 <Input
                   onChange={(e) => setAdmPelunasan(parseInt(e.target.value))}
                   type="number"
+                  required
                 />
               </Form.Item>
             </div>
@@ -191,17 +242,21 @@ export default function InputPelunasan({
               <Form.Item label="Total Pelunasan" name={"total_pelunasan"}>
                 <Input disabled />
               </Form.Item>
-              <Form.Item label="No Rekening" name={"no_rekening"}>
-                <Input />
+              <Form.Item label="No Rekening" name={"no_rekening"} required>
+                <Input required />
               </Form.Item>
-              <Form.Item label="Nama Bank" name={"nama_bank"}>
-                <Input />
+              <Form.Item label="Nama Bank" name={"nama_bank"} required>
+                <Input required />
               </Form.Item>
-              <Form.Item label="Tanggal Pelunasan" name={"tanggal_pelunasan"}>
-                <Input type="date" />
+              <Form.Item
+                label="Tanggal Pelunasan"
+                name={"tanggal_pelunasan"}
+                required
+              >
+                <Input type="date" required />
               </Form.Item>
-              <Form.Item label="Keterangan" name={"keterangan"}>
-                <Input.TextArea style={{ height: 100 }} />
+              <Form.Item label="Keterangan" name={"keterangan"} required>
+                <Input.TextArea style={{ height: 100 }} required />
               </Form.Item>
               <Form.Item label="Berkas Pelunasan">
                 <div className="block sm:flex justify-between px-3 py-1 border-b border-gray-300 items-center">
@@ -261,6 +316,9 @@ export default function InputPelunasan({
                 <div className="flex justify-end mt-1">
                   <button
                     className={`bg-${process.env.NEXT_PUBLIC_APP_BG_BUTTON}-500 text-white text-xs py-2 px-5 rounded shadow`}
+                    style={{ opacity: loading || currLoading ? 0.7 : 1 }}
+                    disabled={loading || currLoading}
+                    type="submit"
                   >
                     {loading || currLoading ? <LoadingOutlined /> : "Submit"}
                   </button>
