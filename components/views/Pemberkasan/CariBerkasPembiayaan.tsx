@@ -72,7 +72,11 @@ export default function CariBerkasPembiayaan() {
       title: "AREA PELAYANAN",
       key: "up",
       dataIndex: "up",
-      width: 130,
+      sorter: (a, b) =>
+        a.User.UnitCabang.UnitPelayanan.name
+          .toString()
+          .localeCompare(b.User.UnitCabang.UnitPelayanan.name.toString()),
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -88,7 +92,7 @@ export default function CariBerkasPembiayaan() {
     {
       title: "TANGGAL PENCAIRAN",
       key: "tanggal_pencairan",
-      width: 100,
+      width: 150,
       dataIndex: "tanggal_pencairan",
       onHeaderCell: (text, record) => {
         return {
@@ -149,6 +153,8 @@ export default function CariBerkasPembiayaan() {
       title: "SUMBER DANA",
       key: "sumber_dana",
       width: 200,
+      sorter: (a, b) =>
+        a.Bank.name.toString().localeCompare(b.Bank.name.toString()),
       dataIndex: "sumber_dana",
       onHeaderCell: (text, record) => {
         return {
@@ -198,7 +204,7 @@ export default function CariBerkasPembiayaan() {
     {
       title: "PLAFOND",
       key: "plafon",
-      width: 120,
+      width: 150,
       dataIndex: "plafon",
       onHeaderCell: (text, record) => {
         return {
@@ -215,7 +221,7 @@ export default function CariBerkasPembiayaan() {
     {
       title: "PRODUK PEMBIAYAAN",
       key: "produk",
-      width: 120,
+      width: 150,
       dataIndex: "produk",
       onHeaderCell: (text, record) => {
         return {
@@ -232,7 +238,7 @@ export default function CariBerkasPembiayaan() {
       title: "JENIS PEMBIAYAAN",
       key: "jenis",
       dataIndex: "jenis",
-      width: 130,
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
