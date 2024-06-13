@@ -488,6 +488,23 @@ export default function DaftarNominatif() {
       },
     },
     {
+      title: "BIAYA PROVISI",
+      dataIndex: "biaya_provisi",
+      width: 150,
+      key: "biaya_provisi",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{formatNumber(record.DataPembiayaan.by_provisi.toFixed(0))}</>;
+      },
+    },
+    {
       title: "BLOKIR ANGSURAN",
       dataIndex: "blokir",
       key: "blokir",
@@ -639,6 +656,7 @@ export default function DaftarNominatif() {
             let mutasi = 0;
             let blokir = 0;
             let takeover = 0;
+            let provisi = 0;
             pageData.forEach((pd, ind) => {
               plafon += pd.DataPembiayaan.plafond;
               adminBank +=
@@ -658,6 +676,7 @@ export default function DaftarNominatif() {
               tabungan += pd.DataPembiayaan.by_buka_rekening;
               materai += pd.DataPembiayaan.by_materai;
               mutasi += pd.DataPembiayaan.by_mutasi;
+              provisi += pd.DataPembiayaan.by_provisi;
               const angsuran = ceiling(
                 parseInt(
                   getAngsuranPerBulan(
@@ -682,6 +701,7 @@ export default function DaftarNominatif() {
                 tabungan +
                 materai +
                 mutasi +
+                provisi +
                 blokir +
                 takeover);
             return (
@@ -754,6 +774,9 @@ export default function DaftarNominatif() {
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={23} className="text-center">
                   <>{formatNumber(mutasi.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={23} className="text-center">
+                  <>{formatNumber(provisi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={24} className="text-center">
                   <>{formatNumber(blokir.toFixed(0))}</>

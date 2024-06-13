@@ -18,6 +18,7 @@ export default function FixedCost() {
   const [name, setName] = useState<string>();
   const [data, setData] = useState<DataCost[]>();
   const [loading, setLoading] = useState(false);
+  const [pageSize, setPageSize] = useState(20);
 
   const getData = async () => {
     setLoading(true);
@@ -49,15 +50,16 @@ export default function FixedCost() {
           },
         };
       },
-      width: 500,
+      width: 50,
       render(value, record, index) {
-        return <>{index + 1}</>;
+        return <>{(page - 1) * pageSize + (index + 1)}</>;
       },
     },
     {
       title: "NAMA",
       key: "name",
       dataIndex: "name",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -85,6 +87,7 @@ export default function FixedCost() {
       title: "NOMINAL",
       key: "nominal",
       dataIndex: "nominal",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -101,6 +104,7 @@ export default function FixedCost() {
       title: "PEMBUAT",
       key: "user",
       dataIndex: "user",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

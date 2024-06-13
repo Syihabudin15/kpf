@@ -1,6 +1,5 @@
 "use client";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
-import { formatNumber } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { LoadingOutlined, PrinterOutlined } from "@ant-design/icons";
 import { message } from "antd";

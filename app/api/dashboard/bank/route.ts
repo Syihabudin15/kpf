@@ -2,8 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { DataDashboardBank } from "@/components/utils/Interfaces";
-import { daysInMonth } from "@/components/utils/inputUtils";
-import moment from "moment";
+import moment from "moment-timezone";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -74,12 +73,16 @@ export const GET = async (req: NextRequest) => {
         status_pencairan: "TRANSFER",
         bankId: user.bank_id,
         tanggal_pencairan: {
-          gte: moment(`${date.getFullYear()}-${j + 1}-01`).toISOString(true),
+          gte: moment(`${date.getFullYear()}-${j + 1}-01`)
+            .tz("Asia/Jakarta")
+            .toISOString(true),
           lte: moment(
             `${date.getFullYear()}-${j + 1}-${moment(
               `${date.getFullYear()}-${j + 1}`
             ).daysInMonth()}`
-          ).toISOString(true),
+          )
+            .tz("Asia/Jakarta")
+            .toISOString(true),
         },
       },
       include: {

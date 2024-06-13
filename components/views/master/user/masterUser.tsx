@@ -326,6 +326,7 @@ export default function MasterUser() {
       title: "NO TELEPON",
       dataIndex: "no_telepon",
       key: "no_telepon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -339,6 +340,7 @@ export default function MasterUser() {
       title: "STATUS PKWT",
       dataIndex: "status_pkwt",
       key: "status_pkwt",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -352,6 +354,7 @@ export default function MasterUser() {
       title: "MASA KONTRAK",
       dataIndex: "masa_kotrak",
       key: "masa_kontrak",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -365,6 +368,7 @@ export default function MasterUser() {
       title: "ROLE",
       dataIndex: "role",
       key: "role",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -378,6 +382,7 @@ export default function MasterUser() {
       title: "AREA PELAYANAN",
       dataIndex: "cabang",
       key: "unit_pelayanan",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -397,6 +402,7 @@ export default function MasterUser() {
     {
       title: "UNIT PELAYANAN",
       dataIndex: "cabang",
+      width: 150,
       key: "cabang",
       onHeaderCell: (text, record) => {
         return {
@@ -411,6 +417,7 @@ export default function MasterUser() {
       title: "BANK",
       dataIndex: "bank",
       key: "bank",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -427,6 +434,7 @@ export default function MasterUser() {
       title: "TARGET",
       key: "target",
       dataIndex: "target",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -443,6 +451,7 @@ export default function MasterUser() {
       title: "STATUS",
       dataIndex: "status_active",
       key: "status_active",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

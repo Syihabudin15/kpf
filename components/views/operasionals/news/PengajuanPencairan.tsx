@@ -118,7 +118,7 @@ export default function PengajuanPencairan() {
       title: "NOMOR SURAT",
       dataIndex: "nomor_surat",
       key: "nomor_surat",
-      width: 150,
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

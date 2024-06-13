@@ -37,12 +37,12 @@ export default function EditBiaya({
   currData,
   refferal,
   setPembiayaan,
-  setJenisMargin
+  setJenisMargin,
 }: {
   currData: DataDataPengajuan;
   refferal: productOptions[];
   setPembiayaan: Function;
-  setJenisMargin: Function
+  setJenisMargin: Function;
 }) {
   const [data, setData] = useState<BankOptions[]>([]);
   const [dataBank, setDataBank] = useState<Produk[]>([]);
@@ -81,7 +81,7 @@ export default function EditBiaya({
   const [selectedJenis, setSelectedJenis] = useState<JenisPembiayaan | null>();
   const [jenisDisable, setJenisDisable] = useState(false);
   const [tanggalLunas, setTanggalLunas] = useState("");
-  const [provisi, setProvisi] = useState("");
+  const [provisi, setProvisi] = useState("0");
   const [modalMsg, setModalMsg] = useState(false);
   const [tglLahirError, setTglLahirError] = useState(false);
   const [requiredModal, setRequiredModal] = useState(false);
@@ -129,7 +129,7 @@ export default function EditBiaya({
       setKotor("0");
       setBersih("0");
       setTanggalLunas("");
-      setProvisi("");
+      setProvisi("0");
     } else {
       setMaxAngsuran("0");
       setTenor(0);
@@ -141,7 +141,7 @@ export default function EditBiaya({
       setByAdmin("0");
       setByAdminBank("0");
       setByLainnya("0");
-      setProvisi("");
+      setProvisi("0");
       setKotor("0");
       setBpp("0");
       setPelunasan("0");
@@ -319,15 +319,9 @@ export default function EditBiaya({
   };
   const jenisChange = () => {
     if (!selectedJenis) {
-      setProvisi("0");
       return setByMutasi("0");
     } else {
       setByMutasi(formatNumber(selectedJenis.by_mutasi.toString()));
-      if (plafond) {
-        setProvisi(formatNumber((selectedBank?.by_provisi || 0).toString()));
-      } else {
-        setProvisi((selectedBank?.by_provisi || 0).toString());
-      }
     }
   };
   const handleGajiBersih = (e: string) => {
@@ -482,14 +476,11 @@ export default function EditBiaya({
       // let tmp = 0;
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
-          setProvisi("0");
           setByMutasi("0");
         } else {
-          setProvisi(formatNumber((selectedBank?.by_provisi || 0).toString()));
           setByMutasi(formatNumber(selectedJenis.by_mutasi.toString()));
         }
       } else {
-        setProvisi("0");
         setByMutasi("0");
       }
       const tmp =
@@ -611,6 +602,7 @@ export default function EditBiaya({
       by_epotpen: currData.DataPembiayaan.by_epotpen,
     });
   }, [
+    provisi,
     tenor,
     selectedProduk,
     tanggalLahir,
@@ -702,6 +694,7 @@ export default function EditBiaya({
     setTatalaksana(
       formatNumber(currData.DataPembiayaan.by_tatalaksana.toFixed(0))
     );
+    setProvisi(currData.DataPembiayaan.by_provisi.toFixed(0));
     setByAdmin(formatNumber(byAdmin.toFixed(0)));
     setByAdminBank(formatNumber(byAdminBank.toFixed(0)));
     setByLainnya(formatNumber(byCadangan.toFixed(0)));
@@ -924,7 +917,7 @@ export default function EditBiaya({
                       { label: "ANUITAS", value: "ANUITAS" },
                     ]}
                   />
-                </Form.Item>                
+                </Form.Item>
               </div>
               <div className="block md:flex items-end justify-between gap-5">
                 <Form.Item
@@ -1159,6 +1152,21 @@ export default function EditBiaya({
                   </div>
                   <div className="border rounded w-20 md:w-32 py-1 px-2 text-center">
                     {formatNumber((selectedJenis?.by_mutasi || 0).toFixed(0))}
+                  </div>
+                </div>
+                <div className="flex justify-between items-center border-b pb-1">
+                  <div>
+                    <div className="font-semibold text-sm">Provisi</div>
+                    <div className="text-xs">Biaya provisi</div>
+                  </div>
+                  <div className="w-20 md:w-32 text-center">
+                    <Input
+                      className="text-center"
+                      onChange={(e) => setProvisi(e.target.value)}
+                      value={formatNumber(provisi)}
+                      disabled={disable}
+                      style={{ backgroundColor: "white", color: "black" }}
+                    />
                   </div>
                 </div>
                 <div className="flex justify-between items-center border-b pb-1">

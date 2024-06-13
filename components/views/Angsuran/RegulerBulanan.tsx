@@ -33,6 +33,7 @@ export default function RegulerBulanan() {
       title: "NAMA PEMOHON",
       key: "nama",
       dataIndex: "nama",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -49,6 +50,7 @@ export default function RegulerBulanan() {
     {
       title: "NOPEN",
       key: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -65,6 +67,7 @@ export default function RegulerBulanan() {
     {
       title: "PRODUK",
       key: "produk",
+      width: 150,
       dataIndex: "produk",
       onHeaderCell: (text, record) => {
         return {
@@ -81,6 +84,7 @@ export default function RegulerBulanan() {
     {
       title: "JENIS PEMBIAYAAN",
       key: "jenis",
+      width: 150,
       dataIndex: "jenis",
       onHeaderCell: (text, record) => {
         return {
@@ -103,6 +107,7 @@ export default function RegulerBulanan() {
     {
       title: "PLAFOND",
       key: "plafon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -125,6 +130,7 @@ export default function RegulerBulanan() {
     {
       title: "TENOR",
       key: "tenor",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -175,6 +181,7 @@ export default function RegulerBulanan() {
       title: "JADWAL BAYAR",
       dataIndex: "tanggal_bayar",
       key: "tanggal_bayar",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -191,6 +198,7 @@ export default function RegulerBulanan() {
       title: "ANGSURAN",
       dataIndex: "angsuran",
       key: "angsuran",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -207,6 +215,7 @@ export default function RegulerBulanan() {
       title: "SISA PLAFOND",
       dataIndex: "sisa_plafond",
       key: "sisa_plafond",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -223,6 +232,7 @@ export default function RegulerBulanan() {
       title: "STATUS PEMBAYARAN",
       dataIndex: "status",
       key: "status",
+      width: 150,
       className: "text-center",
       onHeaderCell: (text, record) => {
         return {
@@ -254,6 +264,7 @@ export default function RegulerBulanan() {
     {
       title: "TANGGAL PEMBAYARAN",
       dataIndex: "tgl_pembayaran",
+      width: 150,
       key: "tgl_pembayaran",
       onHeaderCell: (text, record) => {
         return {

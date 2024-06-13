@@ -442,6 +442,23 @@ export default function Management() {
       },
     },
     {
+      title: "PROVISI",
+      key: "provisi",
+      dataIndex: "provisi",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{formatNumber(record.DataPembiayaan.by_provisi.toFixed(0))}</>;
+      },
+    },
+    {
       title: "TATALAKSANA",
       key: "tatalaksana",
       dataIndex: "tatalaksana",

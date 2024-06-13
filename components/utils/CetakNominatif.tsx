@@ -13,6 +13,27 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
     setLoading(true);
     try {
       const newData = data.DataPengajuan.map((d: DataDataPengajuan) => {
+        const plafond = d.DataPembiayaan.plafond;
+        const adminBank =
+          d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
+        const adminKoperasi =
+          d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin / 100);
+        const cadangan =
+          d.DataPembiayaan.plafond * (d.DataPembiayaan.by_lainnya / 100);
+        const asuransi =
+          d.DataPembiayaan.plafond * (d.DataPembiayaan.by_asuransi / 100);
+        const angsuran = ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              d.DataPembiayaan.mg_bunga,
+              d.DataPembiayaan.tenor,
+              d.DataPembiayaan.plafond
+            )
+          ),
+          d.DataPembiayaan.pembulatan
+        );
+        const blokir = d.DataPembiayaan.blokir * angsuran;
+
         return {
           NOPEN: d.DataPembiayaan.nopen,
           NAMA: d.DataPembiayaan.name,
@@ -39,49 +60,11 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
           PLAFON: d.DataPembiayaan.plafond,
           TENOR: d.DataPembiayaan.tenor,
           MARGIN: d.DataPembiayaan.mg_bunga,
-          "ANGSURAN PERBULAN": ceiling(
-            parseInt(
-              getAngsuranPerBulan(
-                d.DataPembiayaan.mg_bunga,
-                d.DataPembiayaan.tenor,
-                d.DataPembiayaan.plafond
-              )
-            ),
-            parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-          ),
-          [`ADMIN ${d.Bank.kode}`]: ceiling(
-            parseInt(
-              getAngsuranPerBulan(
-                d.Bank.margin_bank || 0,
-                d.DataPembiayaan.tenor,
-                d.DataPembiayaan.plafond
-              )
-            ),
-            parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-          ),
-          [`ADMIN MITRA`]:
-            ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  d.DataPembiayaan.mg_bunga,
-                  d.DataPembiayaan.tenor,
-                  d.DataPembiayaan.plafond
-                )
-              ),
-              parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-            ) -
-            ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  d.Bank.margin_bank || 0,
-                  d.DataPembiayaan.tenor,
-                  d.DataPembiayaan.plafond
-                )
-              ),
-              parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-            ),
-          "BIAYA ASURANSI":
-            d.DataPembiayaan.plafond * (d.DataPembiayaan.by_asuransi / 100),
+          "ANGSURAN PERBULAN": angsuran,
+          [`ADMIN ${d.Bank.kode}`]: adminBank,
+          [`ADMIN MITRA`]: adminKoperasi,
+          [`PENCADANGAN PUSAT`]: cadangan,
+          "BIAYA ASURANSI": asuransi,
           "BIAYA PEMBUKAAN TABUNGAN": d.DataPembiayaan.by_buka_rekening,
           "BIAYA MATERAI": d.DataPembiayaan.by_materai,
           "BIAYA DATA INFORMASI":
@@ -90,6 +73,23 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
           "NAMA BANK": d.BerkasPengajuan.nama_bank,
           "BIAYA MUTASI": d.DataPembiayaan.by_mutasi,
           "BIAYA PROVISI": d.DataPembiayaan.by_provisi,
+          "BUNGA BERJALAN": 0,
+          "POTONGAN DIMUKA": d.DataPembiayaan.blokir,
+          "ANGSURAN DIMUKA": blokir,
+          "TAKE OVER": d.DataPembiayaan.pelunasan + d.DataPembiayaan.bpp,
+          "SISA PENCAIRAN END USER":
+            plafond -
+            (asuransi +
+              adminBank +
+              adminKoperasi +
+              cadangan +
+              blokir +
+              d.DataPembiayaan.by_provisi +
+              d.DataPembiayaan.by_buka_rekening +
+              d.DataPembiayaan.by_mutasi +
+              d.DataPembiayaan.by_epotpen +
+              d.DataPembiayaan.by_flagging +
+              d.DataPembiayaan.by_materai),
           "NO AKAD": d.nomor_akad,
           "NO SK": d.nomor_sk_pensiun,
           MARKETING: d.User.first_name + " " + d.User.last_name,

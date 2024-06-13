@@ -14,6 +14,14 @@ const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+const CetakCIFTAB = dynamic(() => import("./CetakCiftab"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
+const CetakUPPINJ = dynamic(() => import("./CetakUppinj"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 
 export default function PencairanBank() {
   const [data, setData] = useState<DataDataPencairan[]>();
@@ -276,6 +284,48 @@ export default function PencairanBank() {
           },
         },
       ],
+    },
+    {
+      title: "CIFTAB",
+      key: "ciftab",
+      dataIndex: "ciftab",
+      width: 100,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <>
+            <CetakCIFTAB data={record.DataPengajuan} />
+          </>
+        );
+      },
+    },
+    {
+      title: "UPPINJ",
+      key: "uppinj",
+      dataIndex: "uppinj",
+      width: 100,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <>
+            <CetakUPPINJ data={record.DataPengajuan} />
+          </>
+        );
+      },
     },
     {
       title: "NOMINATIF",

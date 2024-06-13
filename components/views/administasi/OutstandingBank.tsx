@@ -87,6 +87,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "MITRA BANK",
     dataIndex: "mitra",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -102,6 +103,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   },
   {
     title: "NOPEN",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -118,6 +120,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   },
   {
     title: "NAMA PEMOHON",
+    width: 200,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -144,6 +147,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     dataIndex: "sumber_dana",
+    width: 200,
     key: "sumber_dana",
     render(value, record, index) {
       return <>{record.Bank.name}</>;
@@ -160,6 +164,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     dataIndex: "tanggal_akad",
+    width: 150,
     key: "tanggal_akad",
     render(value, record, index) {
       return (
@@ -179,6 +184,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     className: "text-center",
+    width: 150,
     dataIndex: "tanggal_cair",
     key: "tanggal_cair",
     render(value, record, index) {
@@ -200,6 +206,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     dataIndex: "tanggal_lunas",
+    width: 150,
     key: "tanggal_lunas",
     render(value, record, index) {
       const lunas = moment(record.tanggal_cetak_akad)
@@ -219,6 +226,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     dataIndex: "produk",
+    width: 150,
     key: "produk",
     render(value, record, index) {
       return <>{record.DataPembiayaan.Produk.name}</>;
@@ -235,6 +243,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     },
     className: "text-center",
     dataIndex: "jenis",
+    width: 150,
     key: "jenis",
     render(value, record, index) {
       return (
@@ -250,6 +259,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "TENOR",
     dataIndex: "tenor",
     key: "tenor",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -265,6 +275,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "PLAFOND",
     dataIndex: "plafon",
+    width: 150,
     key: "plafon",
     onHeaderCell: (text, record) => {
       return {
@@ -281,6 +292,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "ANGSURAN PERBULAN",
     dataIndex: "angsuran",
+    width: 150,
     key: "angsuran",
     onHeaderCell: (text, record) => {
       return {
@@ -306,6 +318,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "ANGSURAN KE",
     dataIndex: "angsuran_ke",
+    width: 150,
     key: "angsuran_ke",
     onHeaderCell: (text, record) => {
       return {
@@ -325,6 +338,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "SISA TENOR",
     dataIndex: "sisa_tenor",
+    width: 150,
     key: "sisa_tenor",
     onHeaderCell: (text, record) => {
       return {
@@ -344,6 +358,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "OUTSTANDING",
     dataIndex: "outstanding",
+    width: 150,
     key: "outstanding",
     onHeaderCell: (text, record) => {
       return {

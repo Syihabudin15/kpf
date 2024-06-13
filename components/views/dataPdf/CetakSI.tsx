@@ -24,7 +24,8 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
 
   let tables = data.DataPengajuan.map((d, i) => {
     const admin =
-      d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
+      d.DataPembiayaan.plafond *
+      (d.DataPembiayaan.by_admin_bank / 100 + d.DataPembiayaan.by_provisi);
     const rekening = d.DataPembiayaan.by_buka_rekening;
     totalAdmin += admin;
     totalRekening += rekening;
@@ -77,9 +78,7 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
               <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
                 <Text style={{ width: 50 }}>Lampiran</Text>
                 <Text style={{ width: 20 }}>:</Text>
-                <Text>
-                  1 (satu) Daftar Permohonan Dropping
-                </Text>
+                <Text>1 (satu) Daftar Permohonan Dropping</Text>
               </View>
               <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
                 <Text style={{ width: 50 }}>Perihal</Text>
@@ -368,8 +367,8 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
                     padding: 2,
                   }}
                 >
-                  <Text>Administrasi</Text>
-                  <Text>Bank 1% (Rp)</Text>
+                  <Text>Adm Bank 1%</Text>
+                  <Text>& Provisi 1% (Rp)</Text>
                 </View>
                 <View
                   style={{

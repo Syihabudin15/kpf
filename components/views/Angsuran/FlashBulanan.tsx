@@ -32,6 +32,7 @@ export default function FlashBulanan() {
     {
       title: "NAMA PEMOHON",
       key: "nama",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -50,6 +51,7 @@ export default function FlashBulanan() {
       title: "NOPEN",
       key: "nopen",
       dataIndex: "nopen",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -65,6 +67,7 @@ export default function FlashBulanan() {
     {
       title: "PRODUK",
       key: "produk",
+      width: 150,
       dataIndex: "produk",
       onHeaderCell: (text, record) => {
         return {
@@ -82,6 +85,7 @@ export default function FlashBulanan() {
       title: "JENIS PEMBIAYAAN",
       key: "jenis",
       dataIndex: "jenis",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -104,6 +108,7 @@ export default function FlashBulanan() {
       title: "PLAFOND",
       key: "plafon",
       dataIndex: "plafon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -125,6 +130,7 @@ export default function FlashBulanan() {
     {
       title: "TENOR",
       key: "tenor",
+      width: 150,
       dataIndex: "tenor",
       onHeaderCell: (text, record) => {
         return {
@@ -142,7 +148,7 @@ export default function FlashBulanan() {
       title: "SISA TENOR",
       dataIndex: "sisa tenor",
       key: "sisa tenor",
-      width: 100,
+      width: 150,
       className: "text-center",
       onHeaderCell: (text, record) => {
         return {
@@ -175,6 +181,7 @@ export default function FlashBulanan() {
       title: "JADWAL BAYAR",
       dataIndex: "tanggal_bayar",
       key: "tanggal_bayar",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -191,6 +198,7 @@ export default function FlashBulanan() {
       title: "ANGSURAN",
       dataIndex: "angsuran",
       key: "angsuran",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -207,6 +215,7 @@ export default function FlashBulanan() {
       title: "SISA PLAFOND",
       dataIndex: "sisa_plafond",
       key: "sisa_plafond",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -223,6 +232,7 @@ export default function FlashBulanan() {
       title: "STATUS PEMBAYARAN",
       dataIndex: "status",
       key: "status",
+      width: 150,
       className: "text-center",
       onHeaderCell: (text, record) => {
         return {
@@ -256,6 +266,7 @@ export default function FlashBulanan() {
       title: "TANGGAL PEMBAYARAN",
       dataIndex: "tgl_pembayaran",
       key: "tgl_pembayaran",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

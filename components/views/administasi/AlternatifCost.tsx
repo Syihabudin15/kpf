@@ -60,6 +60,7 @@ export default function AlternatifCost() {
       title: "NAMA",
       key: "name",
       dataIndex: "name",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -86,6 +87,7 @@ export default function AlternatifCost() {
     {
       title: "NOMINAL",
       key: "nominal",
+      width: 150,
       dataIndex: "nominal",
       onHeaderCell: (text, record) => {
         return {
@@ -102,6 +104,7 @@ export default function AlternatifCost() {
     {
       title: "PEMBUAT",
       key: "user",
+      width: 200,
       dataIndex: "user",
       onHeaderCell: (text, record) => {
         return {

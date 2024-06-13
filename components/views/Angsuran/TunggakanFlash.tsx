@@ -33,6 +33,7 @@ export default function TuggakanFlash() {
       title: "NAMA PEMOHON",
       key: "nama",
       dataIndex: "nama",
+      width: 200,
       fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
@@ -49,6 +50,7 @@ export default function TuggakanFlash() {
     {
       title: "NOPEN",
       key: "nopen",
+      width: 150,
       dataIndex: "nopen",
       onHeaderCell: (text, record) => {
         return {
@@ -65,6 +67,7 @@ export default function TuggakanFlash() {
     {
       title: "PRODUK",
       key: "produk",
+      width: 150,
       dataIndex: "produk",
       onHeaderCell: (text, record) => {
         return {
@@ -81,6 +84,7 @@ export default function TuggakanFlash() {
     {
       title: "JENIS PEMBIAYAAN",
       key: "jenis",
+      width: 150,
       dataIndex: "jenis",
       onHeaderCell: (text, record) => {
         return {
@@ -103,6 +107,7 @@ export default function TuggakanFlash() {
     {
       title: "PLAFOND",
       key: "plafon",
+      width: 150,
       dataIndex: "plafon",
       onHeaderCell: (text, record) => {
         return {
@@ -125,6 +130,7 @@ export default function TuggakanFlash() {
     {
       title: "TENOR",
       key: "tenor",
+      width: 150,
       dataIndex: "tenor",
       onHeaderCell: (text, record) => {
         return {
@@ -155,6 +161,7 @@ export default function TuggakanFlash() {
     {
       title: "JADWAL BAYAR",
       dataIndex: "tanggal_bayar",
+      width: 150,
       key: "tanggal_bayar",
       onHeaderCell: (text, record) => {
         return {
@@ -171,6 +178,7 @@ export default function TuggakanFlash() {
     {
       title: "ANGSURAN",
       dataIndex: "angsuran",
+      width: 150,
       key: "angsuran",
       onHeaderCell: (text, record) => {
         return {
@@ -187,6 +195,7 @@ export default function TuggakanFlash() {
     {
       title: "SISA PLAFOND",
       dataIndex: "sisa_plafond",
+      width: 150,
       key: "sisa_plafond",
       onHeaderCell: (text, record) => {
         return {
@@ -203,6 +212,7 @@ export default function TuggakanFlash() {
     {
       title: "STATUS PEMBAYARAN",
       dataIndex: "status",
+      width: 150,
       key: "status",
       onHeaderCell: (text, record) => {
         return {
@@ -236,6 +246,7 @@ export default function TuggakanFlash() {
     {
       title: "TANGGAL PEMBAYARAN",
       dataIndex: "tgl_pembayaran",
+      width: 150,
       key: "tgl_pembayaran",
       onHeaderCell: (text, record) => {
         return {

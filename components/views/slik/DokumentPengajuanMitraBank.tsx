@@ -87,7 +87,7 @@ export default function DokumenPengajuanMitraBank() {
       title: "No SK PENSIUN",
       dataIndex: "no_skep",
       key: "no_skep",
-      width: 150,
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

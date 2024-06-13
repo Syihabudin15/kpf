@@ -103,7 +103,7 @@ export default function RiwayatSlik() {
       dataIndex: "name",
       key: "name",
       width: 200,
-      fixed: "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

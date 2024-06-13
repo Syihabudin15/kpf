@@ -33,6 +33,7 @@ export default function TuggakanReguler() {
       title: "NAMA PEMOHON",
       key: "nama",
       dataIndex: "nama",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -48,6 +49,7 @@ export default function TuggakanReguler() {
     },
     {
       title: "NOPEN",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -65,6 +67,7 @@ export default function TuggakanReguler() {
     {
       title: "PRODUK",
       key: "produk",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -82,6 +85,7 @@ export default function TuggakanReguler() {
       title: "JENIS PEMBIAYAAN",
       key: "jenis",
       dataIndex: "jenis",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -103,6 +107,7 @@ export default function TuggakanReguler() {
     {
       title: "PLAFOND",
       key: "plafon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -125,6 +130,7 @@ export default function TuggakanReguler() {
     {
       title: "TENOR",
       key: "tenor",
+      width: 150,
       dataIndex: "tenor",
       onHeaderCell: (text, record) => {
         return {
@@ -156,6 +162,7 @@ export default function TuggakanReguler() {
       title: "JADWAL BAYAR",
       dataIndex: "tanggal_bayar",
       key: "tanggal_bayar",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -171,6 +178,7 @@ export default function TuggakanReguler() {
     {
       title: "ANGSURAN",
       dataIndex: "angsuran",
+      width: 150,
       key: "angsuran",
       onHeaderCell: (text, record) => {
         return {
@@ -187,6 +195,7 @@ export default function TuggakanReguler() {
     {
       title: "SISA PLAFOND",
       dataIndex: "sisa_plafond",
+      width: 150,
       key: "sisa_plafond",
       onHeaderCell: (text, record) => {
         return {
@@ -204,6 +213,7 @@ export default function TuggakanReguler() {
       title: "STATUS PEMBAYARAN",
       dataIndex: "status",
       key: "status",
+      width: 150,
       className: "text-center",
       onHeaderCell: (text, record) => {
         return {
@@ -234,6 +244,7 @@ export default function TuggakanReguler() {
     },
     {
       title: "TANGGAL PEMBAYARAN",
+      width: 150,
       dataIndex: "tgl_pembayaran",
       onHeaderCell: (text, record) => {
         return {

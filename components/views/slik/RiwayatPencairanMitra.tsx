@@ -2,9 +2,11 @@
 
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { DatePicker, Input, Table, TableProps } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 
 export default function RiwayatPencairanMitra() {
   const [name, setName] = useState<string>();
@@ -69,6 +71,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "NO",
     key: "no",
+    width: 50,
     dataIndex: "no",
     onHeaderCell: (text, record) => {
       return {
@@ -85,6 +88,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "MITRA BANK",
     key: "mitra",
+    width: 200,
     dataIndex: "mitra",
     onHeaderCell: (text, record) => {
       return {
@@ -101,7 +105,9 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "NAMA PEMOHON",
     key: "nama",
+    width: 200,
     dataIndex: "nama",
+    fixed: window.innerWidth < 600 ? false : "left",
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -117,6 +123,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "PENGAJUAN PEMBIAYAAN",
     key: "pembiayaan",
+    width: 150,
     dataIndex: "pembiayaan",
     onHeaderCell: (text, record) => {
       return {
@@ -128,6 +135,57 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     className: "text-center",
     render(value, record, index) {
       return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
+    },
+  },
+  {
+    title: "PENCAIRAN MITRA BANK",
+    key: "pencairan_mitra",
+    width: 150,
+    dataIndex: "pencairan_mitra",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      const admin =
+        record.DataPembiayaan.plafond *
+        ((record.DataPembiayaan.by_admin +
+          record.DataPembiayaan.by_admin_bank +
+          record.DataPembiayaan.by_lainnya) /
+          100);
+      const asuransi =
+        record.DataPembiayaan.plafond *
+        (record.DataPembiayaan.by_asuransi / 100);
+      const angsuran = ceiling(
+        parseInt(
+          getAngsuranPerBulan(
+            record.DataPembiayaan.mg_bunga,
+            record.DataPembiayaan.tenor,
+            record.DataPembiayaan.plafond
+          )
+        ),
+        record.DataPembiayaan.pembulatan
+      );
+      const blokir = angsuran * record.DataPembiayaan.blokir;
+      const kotor =
+        record.DataPembiayaan.plafond -
+        (admin +
+          asuransi +
+          record.DataPembiayaan.by_tatalaksana +
+          record.DataPembiayaan.by_mutasi +
+          record.DataPembiayaan.by_provisi +
+          record.DataPembiayaan.by_buka_rekening +
+          record.DataPembiayaan.by_epotpen +
+          record.DataPembiayaan.by_flagging +
+          blokir +
+          record.DataPembiayaan.by_materai);
+      const bersih =
+        kotor - (record.DataPembiayaan.bpp + record.DataPembiayaan.pelunasan);
+      return <>{formatNumber(bersih.toFixed(0))}</>;
     },
   },
   // {
@@ -149,6 +207,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "TANGGAL PENCAIRAN",
     key: "tanggal_cair",
+    width: 150,
     dataIndex: "tanggal_cair",
     onHeaderCell: (text, record) => {
       return {

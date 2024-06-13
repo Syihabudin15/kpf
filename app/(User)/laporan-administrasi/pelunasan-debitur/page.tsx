@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   title: "Pelunasan Debitur",
 };
 
-const Pelunasan = dynamic(
-  () => import("@/components/views/repayment/Pelunasan"),
+const PelunasanDebitur = dynamic(
+  () => import("@/components/views/administasi/DaftarPelunasanDebitur"),
   {
     loading: () => <LoadingOutlined />,
     ssr: false,
@@ -16,7 +16,7 @@ const Pelunasan = dynamic(
 );
 
 export default async function page() {
-  await handleRoute("/laporan-administrasi/pelunasan");
+  await handleRoute("/laporan-administrasi/pelunasan-debitur");
   return (
     <div className="bg-white shadow">
       <div
@@ -25,7 +25,7 @@ export default async function page() {
         <h1 className="font-bold text-md">DAFTAR PELUNASAN DEBITUR</h1>
       </div>
       <div className="p-2">
-        <Pelunasan />
+        <PelunasanDebitur />
       </div>
     </div>
   );

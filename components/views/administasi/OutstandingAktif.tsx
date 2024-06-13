@@ -55,6 +55,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     {
       title: "MITRA BANK",
       dataIndex: "mitra",
+      width: 150,
       key: "mitra",
       onHeaderCell: (text, record) => {
         return {
@@ -70,6 +71,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     },
     {
       title: "NOPEN",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -86,6 +88,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     },
     {
       title: "NAMA PEMOHON",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -105,6 +108,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -122,6 +126,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       title: "TANGGAL AKAD",
       dataIndex: "tanggal_akad",
       key: "tanggal_akad",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -142,6 +147,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       title: "TANGGAL CAIR",
       dataIndex: "tanggal_cair",
       key: "tanggal_cair",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -161,6 +167,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     {
       title: "TANGGAL LUNAS",
       dataIndex: "tanggal_lunas",
+      width: 150,
       key: "tanggal_lunas",
       onHeaderCell: (text, record) => {
         return {
@@ -180,6 +187,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -196,6 +204,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "jenis",
+      width: 150,
       key: "jenis",
       render(value, record, index) {
         return (
@@ -210,6 +219,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     {
       title: "TENOR",
       dataIndex: "tenor",
+      width: 150,
       key: "tenor",
       onHeaderCell: (text, record) => {
         return {
@@ -227,6 +237,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       title: "PLAFOND",
       dataIndex: "plafon",
       key: "plafon",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -250,6 +261,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       },
       className: "text-center",
       dataIndex: "angsuran",
+      width: 150,
       key: "angsuran",
       render(value, record, index) {
         const angsuran = getAngsuranPerBulan(
@@ -270,6 +282,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       title: "ANGSURAN KE",
       dataIndex: "angsuran_ke",
       key: "angsuran_ke",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -289,6 +302,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       title: "SISA TENOR",
       dataIndex: "sisa_tenor",
       key: "sisa_tenor",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -308,6 +322,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       title: "OUTSTANDING",
       dataIndex: "outstanding",
       key: "outstanding",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
