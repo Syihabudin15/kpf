@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
-import { daysInMonth } from "@/components/utils/inputUtils";
-import moment from "moment";
+import moment from "moment-timezone";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -18,9 +17,11 @@ export const GET = async (req: NextRequest) => {
           { status_pencairan: "TRANSFER" },
           {
             tanggal_pencairan: {
-              gte: moment(`${month}-01`).toISOString(true),
+              gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(true),
               lte: moment(
-                `${month}-${moment(month).daysInMonth()}`
+                `${month}-${moment(month)
+                  .tz("Asia/Jakarta")
+                  .daysInMonth()} 23:59`
               ).toISOString(true),
             },
           },
@@ -79,10 +80,10 @@ export const GET = async (req: NextRequest) => {
         { is_fixed: true },
         {
           created_at: {
-            gte: moment(`${month}-01`).toISOString(true),
-            lte: moment(`${month}-${moment(month).daysInMonth()}`).toISOString(
-              true
-            ),
+            gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(true),
+            lte: moment(`${month}-${moment(month).daysInMonth()}`)
+              .tz("Asia/Jakarta")
+              .toISOString(true),
           },
         },
       ],

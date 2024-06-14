@@ -49,7 +49,13 @@ export default function LaporanBulananMaster() {
         <DatePicker
           picker="month"
           // value={month}
-          onChange={(date, datestring) => setMonth(datestring as string)}
+          onChange={(date, datestring) =>
+            setMonth(
+              datestring
+                ? (datestring as string)
+                : `${new Date().getFullYear()}-${new Date().getMonth() + 1}`
+            )
+          }
           placeholder={`${new Date().getFullYear()}-${
             new Date().getMonth() + 1
           }`}
@@ -338,7 +344,13 @@ const columnsPengajuan: TableProps<DataDataPengajuan>["columns"] = [
       };
     },
     render(value, record, index) {
-      return <>{record.DataPembiayaan.JenisPembiayaan.name}</>;
+      return (
+        <>
+          {record.DataPembiayaan.jenis_pembiayaan_id
+            ? record.DataPembiayaan.JenisPembiayaan.name
+            : "Sisa Gaji"}
+        </>
+      );
     },
   },
   {

@@ -64,7 +64,7 @@ export const GET = async (req: NextRequest) => {
             lte: moment(
               `${date.getFullYear()}-${j + 1}-${moment(
                 `${date.getFullYear()}-${j + 1}`
-              ).daysInMonth()}`
+              ).daysInMonth()} 23:59`
             )
               .tz("Asia/Jakarta")
               .toISOString(true),

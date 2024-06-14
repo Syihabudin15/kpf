@@ -177,7 +177,7 @@ const handleType = async (
         },
         tanggal_pencairan: {
           gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+          lte: moment(`${month}-${moment(month).daysInMonth()} 23:59`)
             .tz("Asia/Jakarta")
             .toISOString(),
         },
@@ -194,7 +194,7 @@ const handleType = async (
         },
         tanggal_pencairan: {
           gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+          lte: moment(`${month}-${moment(month).daysInMonth()} 23:59`)
             .tz("Asia/Jakarta")
             .toISOString(),
         },
@@ -253,7 +253,7 @@ const handleType = async (
         },
         tanggal_pencairan: {
           gte: moment(`${month}-01`).tz("Asia/Jakarta").toISOString(),
-          lte: moment(`${month}-${moment(month).daysInMonth()}`)
+          lte: moment(`${month}-${moment(month).daysInMonth()} 23:59`)
             .tz("Asia/Jakarta")
             .toISOString(),
         },
