@@ -282,7 +282,7 @@ export default function AntrianSlik() {
           allowForm={true}
           isPeriksa={true}
           pathname="slik"
-          nextpath="verifikasi"
+          nextpath="approval"
           getData={getData}
           open={open}
           setOpen={setOpen}

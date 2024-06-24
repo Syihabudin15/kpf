@@ -171,6 +171,7 @@ export default function FormEditPengajuan({
     e.no_rek = pembiayaan.no_rekening || null;
     e.bankId = currData.bankId;
     e.jenis_margin = jenisMargin;
+    pembiayaan.name = e.nama;
 
     const res = await fetch("/api/slik", {
       method: "PUT",
@@ -295,7 +296,7 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input  />
+                <Input />
               </Form.Item>
             </div>
             <div className="block md:flex justify-between gap-5">
@@ -313,7 +314,7 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required  />
+                <Input required />
               </Form.Item>
             </div>
             <Form.Item
@@ -322,7 +323,7 @@ export default function FormEditPengajuan({
               required
               className="flex-1"
             >
-              <Input required  />
+              <Input required />
             </Form.Item>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mt-2 mb-2 font-semibold">
               Data Alamat
@@ -808,14 +809,14 @@ export default function FormEditPengajuan({
                 name={"no_telepon_keluarga"}
                 className="flex-1"
               >
-                <Input  />
+                <Input />
               </Form.Item>
               <Form.Item
                 className="flex-1"
                 label="Alamat"
                 name={"alamat_keluarga"}
               >
-                <Input.TextArea  />
+                <Input.TextArea />
               </Form.Item>
             </div>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">

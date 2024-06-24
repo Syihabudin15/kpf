@@ -500,7 +500,7 @@ export const POST = async (req: NextRequest) => {
                 user_id: data.user_id,
                 data_pembiayaan_id: biaya.id,
                 berkasPengajuanId: berkas.id,
-                status_slik: "ANTRI",
+                status_verifikasi: "ANTRI",
                 dataTaspenId: dataTaspenId,
                 bankId: data.bankId,
                 dataPengajuanKeluargaId: pengajuanKeluarga.id,
@@ -669,6 +669,9 @@ export const PUT = async (req: NextRequest) => {
           alamat_pekerjaan: data.alamat_pekerjaan
             ? data.alamat_pekerjaan
             : findPengajuan?.alamat_pekerjaan,
+          nama: data.nama ? data.nama : findPengajuan?.nama,
+          nama_skep: data.nama ? data.nama_skep : findPengajuan?.nama_skep,
+          kode_jiwa: data.kode_jiwa ? data.kode_jiwa : findPengajuan?.kode_jiwa,
         },
       });
 

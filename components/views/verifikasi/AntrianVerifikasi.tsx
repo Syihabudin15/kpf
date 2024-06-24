@@ -369,7 +369,7 @@ export default function AntrianVerifikasi() {
           allowForm={true}
           isPeriksa={true}
           pathname="verifikasi"
-          nextpath="approval"
+          nextpath="slik"
           open={open}
           setOpen={setOpen}
         />
