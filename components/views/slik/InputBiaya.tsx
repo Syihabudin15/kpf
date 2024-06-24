@@ -86,12 +86,12 @@ export default function InputPembiayaan({
   const [jenisDisable, setJenisDisable] = useState(true);
   const [usiaLunas, setUsiaLunas] = useState("");
   const [tanggalLunas, setTanggalLunas] = useState("");
-  const [provisi, setProvisi] = useState("");
+  const [provisi, setProvisi] = useState("0");
   const [modalMsg, setModalMsg] = useState(false);
   const [tglLahirError, setTglLahirError] = useState(false);
   const [requiredModal, setRequiredModal] = useState(false);
-  const [reffFee, setReffFee] = useState<number>();
-  const [reffRp, setReffRp] = useState<string>();
+  const [reffFee, setReffFee] = useState<number>(0);
+  const [reffRp, setReffRp] = useState<string>("0");
   const [juruAsal, setJuruAsal] = useState<string>();
   const [juruTujuan, setJuruTujuan] = useState<string>();
   const [pembiayaanSebelumnya, setpembiayaanSebelumnya] = useState<string>();
@@ -136,7 +136,7 @@ export default function InputPembiayaan({
       setBersih("0");
       setTanggalLunas("");
       setUsiaLunas("");
-      setProvisi("");
+      setProvisi("0");
     } else {
       setMaxAngsuran("0");
       setTenor(0);
@@ -148,7 +148,7 @@ export default function InputPembiayaan({
       setByAdmin("0");
       setByAdminBank("0");
       setByLainnya("0");
-      setProvisi("");
+      setProvisi("0");
       setKotor("0");
       setBpp("0");
       setPelunasan("0");
@@ -280,6 +280,10 @@ export default function InputPembiayaan({
     setSelectedProduk(filter[0]);
     setSelectedBank(filterBank[0]);
     setBankOpt([{ label: filterBank[0].name, value: filterBank[0].id }]);
+    if (filterBank[0]) {
+      let prov = (filterBank[0].by_provisi || 0) / 100;
+      setProvisi(formatNumber((inputTextToDecimal(plafond) * prov).toFixed(0)));
+    }
     const userAge =
       parseFloat(tanggalMasuk.tahunMasuk) +
       Math.floor(
@@ -326,20 +330,9 @@ export default function InputPembiayaan({
   };
   const jenisChange = () => {
     if (!selectedJenis) {
-      setProvisi("0");
       return setByMutasi("0");
     } else {
       setByMutasi(formatNumber(selectedJenis.by_mutasi.toString()));
-      if (plafond) {
-        let prov = selectedBank ? (selectedBank.by_provisi || 0) / 100 : 0;
-        setProvisi(
-          formatNumber(
-            ((inputTextToDecimal(plafond) * prov) / 100 || 0).toString()
-          )
-        );
-      } else {
-        setProvisi((0).toString());
-      }
     }
   };
   const handleGajiBersih = (e: string) => {
@@ -494,17 +487,17 @@ export default function InputPembiayaan({
     if (plafond) {
       getAngsuran();
       const plaf = inputTextToDecimal(plafond);
-      // let tmp = 0;
+      if (selectedBank) {
+        let prov = (selectedBank.by_provisi || 0) / 100;
+        setProvisi(formatNumber((plaf * prov).toFixed(0)));
+      }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
-          setProvisi("0");
           setByMutasi("0");
         } else {
-          setProvisi(formatNumber((selectedBank?.by_provisi || 0).toString()));
           setByMutasi(formatNumber(selectedJenis.by_mutasi.toString()));
         }
       } else {
-        setProvisi("0");
         setByMutasi("0");
       }
       const tmp =
@@ -635,6 +628,7 @@ export default function InputPembiayaan({
       pembulatan: parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "1"),
     });
   }, [
+    provisi,
     tenor,
     selectedProduk,
     tanggalLahir,
@@ -920,7 +914,8 @@ export default function InputPembiayaan({
                       disabled={disable}
                       onChange={(e) => setReffFee(parseFloat(e.target.value))}
                       data-hitung="simulasi-ulang"
-                      type="tel"
+                      value={reffFee ? reffFee : 0}
+                      type="number"
                     />
                   </Form.Item>
                 </div>
@@ -1124,6 +1119,23 @@ export default function InputPembiayaan({
                   </div>
                   <div className="border rounded w-20 md:w-32 py-1 px-2 text-center">
                     {formatNumber((selectedJenis?.by_mutasi || 0).toFixed(0))}
+                  </div>
+                </div>
+                <div className="flex justify-between items-center border-b pb-1">
+                  <div>
+                    <div className="font-semibold text-sm">Provisi</div>
+                    <div className="text-xs">Biaya provisi</div>
+                  </div>
+                  <div className="w-20 md:w-32 py-1-center">
+                    <Input
+                      className="text-center"
+                      onChange={(e) =>
+                        setProvisi(formatNumber(e.target.value || "0"))
+                      }
+                      value={provisi}
+                      disabled={disable}
+                      style={{ backgroundColor: "white", color: "black" }}
+                    />
                   </div>
                 </div>
                 <div className="flex justify-between items-center border-b pb-1">

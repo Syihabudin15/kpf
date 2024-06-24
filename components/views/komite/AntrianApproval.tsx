@@ -1,6 +1,6 @@
 "use client";
 import { FormOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Input, Table, TableProps, DatePicker } from "antd";
+import { Input, Table, TableProps, DatePicker, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -23,6 +23,7 @@ export default function AntrianApproval() {
   const [total, setTotal] = useState(0);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -238,6 +239,20 @@ export default function AntrianApproval() {
           },
           className: "text-justify",
           width: 300,
+          render(value, record, index) {
+            return (
+              <Typography.Paragraph
+                ellipsis={{
+                  rows: 2,
+                  expandable: "collapsible",
+                  expanded: expand,
+                  onExpand: (_, info) => setExpand(info.expanded),
+                }}
+              >
+                {record.keterangan_slik}
+              </Typography.Paragraph>
+            );
+          },
         },
         {
           title: "PEMERIKSA",
@@ -344,6 +359,20 @@ export default function AntrianApproval() {
           },
           width: 300,
           className: "text-justify",
+          render(value, record, index) {
+            return (
+              <Typography.Paragraph
+                ellipsis={{
+                  rows: 2,
+                  expandable: "collapsible",
+                  expanded: expand,
+                  onExpand: (_, info) => setExpand(info.expanded),
+                }}
+              >
+                {record.keterangan_verifikasi}
+              </Typography.Paragraph>
+            );
+          },
         },
         {
           title: "PEMERIKSA",

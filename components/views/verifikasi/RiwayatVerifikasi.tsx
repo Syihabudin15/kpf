@@ -1,6 +1,6 @@
 "use client";
 import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Input, Table, TableProps, DatePicker } from "antd";
+import { Input, Table, TableProps, DatePicker, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -24,6 +24,7 @@ export default function RiwayatVerifikasi() {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -57,7 +58,8 @@ export default function RiwayatVerifikasi() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{index + 1}</>;
+        const currPage = (page - 1) * 20;
+        return <>{currPage + (index + 1)}</>;
       },
     },
     {
@@ -157,111 +159,6 @@ export default function RiwayatVerifikasi() {
         );
       },
     },
-    // {
-    //   title: "Informasi Data Slik",
-    //   dataIndex: `status_slik`,
-    //   key: "slik",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         background: "#22c55e",
-    //         color: "#f3f4f6",
-    //         textAlign: "center",
-    //       },
-    //       className: "example-class-in-td bg-green-500 text-white",
-    //     };
-    //   },
-    //   children: [
-    //     {
-    //       title: "Status",
-    //       dataIndex: "status_slik",
-    //       key: "status_slik",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#22c55e",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       className: "text-center",
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.status_slik && (
-    //               <div
-    //                 className={`py-1 px-2 w-24 bg-${
-    //                   record.status_slik === "SETUJU"
-    //                     ? "green"
-    //                     : record.status_slik === "DITOLAK"
-    //                     ? "red"
-    //                     : record.status_slik === "ANTRI"
-    //                     ? "orange"
-    //                     : "blue"
-    //                 }-500 text-gray-100 text-center`}
-    //               >
-    //                 {record.status_slik}
-    //               </div>
-    //             )}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //     {
-    //       title: "Keterangan",
-    //       dataIndex: "keterangan_slik",
-    //       key: "keterangan_slik",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#22c55e",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       width: 300,
-    //     },
-    //     {
-    //       title: "Pemeriksa",
-    //       dataIndex: "nama_pemeriksa_slik",
-    //       key: "nama_pemeriksa_slik",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#22c55e",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //     },
-    //     {
-    //       title: "Tanggal",
-    //       dataIndex: "tanggal_slik",
-    //       key: "tanggal_slik",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#22c55e",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       render(value, record, index) {
-    //         return (
-    //           <div>{moment(record.tanggal_slik).format("DD-MM-YYYY")}</div>
-    //         );
-    //       },
-    //     },
-    //   ],
-    // },
     {
       title: "STATUS",
       dataIndex: "status_verifikasi",
@@ -313,6 +210,20 @@ export default function RiwayatVerifikasi() {
         };
       },
       className: "text-justify",
+      render(value, record, index) {
+        return (
+          <Typography.Paragraph
+            ellipsis={{
+              rows: 2,
+              expandable: "collapsible",
+              expanded: expand,
+              onExpand: (_, info) => setExpand(info.expanded),
+            }}
+          >
+            {record.keterangan_verifikasi}
+          </Typography.Paragraph>
+        );
+      },
     },
     {
       title: "PEMERIKSA",

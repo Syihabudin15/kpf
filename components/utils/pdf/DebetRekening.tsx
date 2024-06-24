@@ -375,34 +375,10 @@ export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          gap: 20,
+          justifyContent: "space-around",
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center",
-            border: "1px solid #aaa",
-            padding: 5,
-          }}
-        >
-          <Text>Penerima Kuasa</Text>
-          <Text>Bendahara / Juru Bayar</Text>
-          <View style={{ height: 70 }}></View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ width: 120, borderBottom: "1px solid #aaa" }}></Text>
-            <Text style={{ fontWeight: "bold", height: 10 }}>NIPPOS</Text>
-          </View>
-        </View>
         <View
           style={{
             flex: 1,

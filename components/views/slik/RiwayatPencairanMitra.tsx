@@ -34,6 +34,152 @@ export default function RiwayatPencairanMitra() {
     })();
   }, [page, name, year]);
 
+  const columns: TableProps<DataDataPengajuan>["columns"] = [
+    {
+      title: "NO",
+      key: "no",
+      width: 50,
+      dataIndex: "no",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        const currPage = (page - 1) * 20;
+        return <>{currPage + (index + 1)}</>;
+      },
+    },
+    {
+      title: "MITRA BANK",
+      key: "mitra",
+      width: 200,
+      dataIndex: "mitra",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{record.Bank.kode}</>;
+      },
+    },
+    {
+      title: "NAMA PEMOHON",
+      key: "nama",
+      width: 200,
+      dataIndex: "nama",
+      fixed: window.innerWidth < 600 ? false : "left",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{record.DataPembiayaan.name}</>;
+      },
+    },
+    {
+      title: "PENGAJUAN PEMBIAYAAN",
+      key: "pembiayaan",
+      width: 150,
+      dataIndex: "pembiayaan",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
+      },
+    },
+    {
+      title: "PENCAIRAN MITRA BANK",
+      key: "pencairan_mitra",
+      width: 150,
+      dataIndex: "pencairan_mitra",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        const admin =
+          record.DataPembiayaan.plafond *
+          ((record.DataPembiayaan.by_admin +
+            record.DataPembiayaan.by_admin_bank +
+            record.DataPembiayaan.by_lainnya) /
+            100);
+        const asuransi =
+          record.DataPembiayaan.plafond *
+          (record.DataPembiayaan.by_asuransi / 100);
+        const angsuran = ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              record.DataPembiayaan.mg_bunga,
+              record.DataPembiayaan.tenor,
+              record.DataPembiayaan.plafond
+            )
+          ),
+          record.DataPembiayaan.pembulatan
+        );
+        const blokir = angsuran * record.DataPembiayaan.blokir;
+        const kotor =
+          record.DataPembiayaan.plafond -
+          (admin +
+            asuransi +
+            record.DataPembiayaan.by_tatalaksana +
+            record.DataPembiayaan.by_mutasi +
+            record.DataPembiayaan.by_provisi +
+            record.DataPembiayaan.by_buka_rekening +
+            record.DataPembiayaan.by_epotpen +
+            record.DataPembiayaan.by_flagging +
+            blokir +
+            record.DataPembiayaan.by_materai);
+        const bersih =
+          kotor - (record.DataPembiayaan.bpp + record.DataPembiayaan.pelunasan);
+        return <>{formatNumber(bersih.toFixed(0))}</>;
+      },
+    },
+    {
+      title: "TANGGAL PENCAIRAN",
+      key: "tanggal_cair",
+      width: 150,
+      dataIndex: "tanggal_cair",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <>
+            {record.DataPencairan.tanggal_proses &&
+              moment(record.DataPencairan.tanggal_proses).format("DD-MM-YYYY")}
+          </>
+        );
+      },
+    },
+  ];
+
   return (
     <div>
       <div className="flex gap-5 my-1 mx-1">
@@ -66,164 +212,3 @@ export default function RiwayatPencairanMitra() {
     </div>
   );
 }
-
-const columns: TableProps<DataDataPengajuan>["columns"] = [
-  {
-    title: "NO",
-    key: "no",
-    width: 50,
-    dataIndex: "no",
-    onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center",
-    render(value, record, index) {
-      return <>{index + 1}</>;
-    },
-  },
-  {
-    title: "MITRA BANK",
-    key: "mitra",
-    width: 200,
-    dataIndex: "mitra",
-    onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center",
-    render(value, record, index) {
-      return <>{record.Bank.kode}</>;
-    },
-  },
-  {
-    title: "NAMA PEMOHON",
-    key: "nama",
-    width: 200,
-    dataIndex: "nama",
-    fixed: window.innerWidth < 600 ? false : "left",
-    onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center",
-    render(value, record, index) {
-      return <>{record.DataPembiayaan.name}</>;
-    },
-  },
-  {
-    title: "PENGAJUAN PEMBIAYAAN",
-    key: "pembiayaan",
-    width: 150,
-    dataIndex: "pembiayaan",
-    onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center",
-    render(value, record, index) {
-      return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
-    },
-  },
-  {
-    title: "PENCAIRAN MITRA BANK",
-    key: "pencairan_mitra",
-    width: 150,
-    dataIndex: "pencairan_mitra",
-    onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center",
-    render(value, record, index) {
-      const admin =
-        record.DataPembiayaan.plafond *
-        ((record.DataPembiayaan.by_admin +
-          record.DataPembiayaan.by_admin_bank +
-          record.DataPembiayaan.by_lainnya) /
-          100);
-      const asuransi =
-        record.DataPembiayaan.plafond *
-        (record.DataPembiayaan.by_asuransi / 100);
-      const angsuran = ceiling(
-        parseInt(
-          getAngsuranPerBulan(
-            record.DataPembiayaan.mg_bunga,
-            record.DataPembiayaan.tenor,
-            record.DataPembiayaan.plafond
-          )
-        ),
-        record.DataPembiayaan.pembulatan
-      );
-      const blokir = angsuran * record.DataPembiayaan.blokir;
-      const kotor =
-        record.DataPembiayaan.plafond -
-        (admin +
-          asuransi +
-          record.DataPembiayaan.by_tatalaksana +
-          record.DataPembiayaan.by_mutasi +
-          record.DataPembiayaan.by_provisi +
-          record.DataPembiayaan.by_buka_rekening +
-          record.DataPembiayaan.by_epotpen +
-          record.DataPembiayaan.by_flagging +
-          blokir +
-          record.DataPembiayaan.by_materai);
-      const bersih =
-        kotor - (record.DataPembiayaan.bpp + record.DataPembiayaan.pelunasan);
-      return <>{formatNumber(bersih.toFixed(0))}</>;
-    },
-  },
-  // {
-  //   title: "PENCAIRAN MITRA BANK",
-  //   key: "pencairan_mitra",
-  //   dataIndex: "pencairan_mitra",
-  //   onHeaderCell: (text, record) => {
-  //     return {
-  //       ["style"]: {
-  //         textAlign: "center",
-  //       },
-  //     };
-  //   },
-  //   className: "text-center",
-  //   render(value, record, index) {
-  //     return <>{0}</>;
-  //   },
-  // },
-  {
-    title: "TANGGAL PENCAIRAN",
-    key: "tanggal_cair",
-    width: 150,
-    dataIndex: "tanggal_cair",
-    onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center",
-    render(value, record, index) {
-      return (
-        <>
-          {record.DataPencairan.tanggal_proses &&
-            moment(record.DataPencairan.tanggal_proses).format("DD-MM-YYYY")}
-        </>
-      );
-    },
-  },
-];

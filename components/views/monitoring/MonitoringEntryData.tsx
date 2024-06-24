@@ -1,5 +1,10 @@
 "use client";
-import { DeleteOutlined, FileFilled, LoadingOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  FileFilled,
+  FormOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
 import { Input, Modal, Table, TableProps, DatePicker, message } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -61,6 +66,7 @@ export default function MonitoringEntryData() {
   const [provinsi, setProvinsi] = useState<Options[]>();
   const [open, setOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<DataDataPengajuan>();
+  const [modalEdit, setModalEdit] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -159,7 +165,8 @@ export default function MonitoringEntryData() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{index + 1}</>;
+        const currPage = (page - 1) * 20;
+        return <>{currPage + (index + 1)}</>;
       },
     },
     {
@@ -953,16 +960,18 @@ export default function MonitoringEntryData() {
       width: 100,
       render(value, record, index) {
         return (
-          <div className="flex justify-center gap-1">
-            <EditPengajuan
-              data={record}
-              getData={getData}
-              fullCabang={cabang || []}
-              fullUser={marketing || []}
-              upOpt={up || []}
-              refferalOpt={refferal || []}
-              provinsi={provinsi || []}
-            />
+          <div className="flex justify-center">
+            <button
+              className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded shadow"
+              onClick={() => {
+                setSelectedData(record);
+                setModalEdit(true);
+              }}
+              // disabled={data.status_pencairan === "TRANSFER" ? true : false}
+              // style={{ opacity: data.status_pencairan === "TRANSFER" ? 0.5 : 1 }}
+            >
+              <FormOutlined />
+            </button>
           </div>
         );
       },
@@ -1024,6 +1033,19 @@ export default function MonitoringEntryData() {
           allowForm={true}
           open={open}
           setOpen={setOpen}
+        />
+      )}
+      {selectedData && (
+        <EditPengajuan
+          data={selectedData}
+          getData={getData}
+          fullCabang={cabang || []}
+          fullUser={marketing || []}
+          upOpt={up || []}
+          refferalOpt={refferal || []}
+          provinsi={provinsi || []}
+          open={modalEdit}
+          setOpen={setModalEdit}
         />
       )}
     </div>

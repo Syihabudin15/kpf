@@ -1,6 +1,6 @@
 "use client";
 import { FileOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Input, Table, TableProps, DatePicker } from "antd";
+import { Input, Table, TableProps, DatePicker, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -24,6 +24,7 @@ export default function RiwayatSlik() {
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [open, setOpen] = useState(false);
+  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -57,7 +58,8 @@ export default function RiwayatSlik() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{index + 1}</>;
+        const currPage = (page - 1) * 20;
+        return <>{currPage + (index + 1)}</>;
       },
     },
     {
@@ -201,6 +203,20 @@ export default function RiwayatSlik() {
       },
       className: "text-justify",
       width: 300,
+      render(value, record, index) {
+        return (
+          <Typography.Paragraph
+            ellipsis={{
+              rows: 2,
+              expandable: "collapsible",
+              expanded: expand,
+              onExpand: (_, info) => setExpand(info.expanded),
+            }}
+          >
+            {record.keterangan_slik}
+          </Typography.Paragraph>
+        );
+      },
     },
     {
       title: "PEMERIKSA",

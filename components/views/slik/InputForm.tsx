@@ -188,6 +188,7 @@ export default function InputForm({
     e.bankId = selectedBank ? selectedBank.id : null;
     e.jenis_margin = jenisMargin;
     e.status_slik = "ANTRI";
+    e.status_verifikasi = "ANTRI";
     e.margin_bank = selectedBank?.margin_bank;
     e.pembulatan = parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "1");
     e.tanggal_sk_pensiun = moment(e.tanggal_sk_pensiun).toISOString();

@@ -65,7 +65,8 @@ export default function CariBerkasPembiayaan() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{index + 1}</>;
+        const currPage = (page - 1) * 20;
+        return <>{currPage + (index + 1)}</>;
       },
     },
     {

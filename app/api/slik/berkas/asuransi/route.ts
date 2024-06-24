@@ -10,9 +10,9 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const buff = Buffer.from(data.file.split(",")[1], "base64");
-    const fileName = `ASURANSI_PEMOHON_${moment().format(
-      "DDMMYYYY"
-    )}${Date.now()}.${data.ext}`;
+    const fileName = `ASURANSI_${moment().format("DDMMYYYY")}${Date.now()}.${
+      data.ext
+    }`;
     const pathUrl = path.join(
       process.cwd(),
       `/storage/${data.dir.toLowerCase()}/${fileName}`

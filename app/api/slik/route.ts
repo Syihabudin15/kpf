@@ -202,17 +202,6 @@ export const POST = async (req: NextRequest) => {
     const find = await prisma.dataTaspen.findFirst({
       where: { nopen: data.DataPembiayaan.nopen },
     });
-    // if (!find)
-    //   return NextResponse.json(
-    //     { msg: "Data taspen tidak ditemukan" },
-    //     { status: 404, statusText: "NOT FOUND" }
-    //   );
-    // if (find.is_active == false) {
-    //   return NextResponse.json(
-    //     { msg: "Data telah dihapus atau tidak baik" },
-    //     { status: 404, statusText: "NOT FOUND" }
-    //   );
-    // }
 
     const findProduk = await prisma.produk.findFirst({
       where: { id: data.DataPembiayaan.produk_id },
@@ -501,6 +490,7 @@ export const POST = async (req: NextRequest) => {
                 data_pembiayaan_id: biaya.id,
                 berkasPengajuanId: berkas.id,
                 status_verifikasi: "ANTRI",
+                status_slik: "ANTRI",
                 dataTaspenId: dataTaspenId,
                 bankId: data.bankId,
                 dataPengajuanKeluargaId: pengajuanKeluarga.id,
@@ -563,6 +553,7 @@ export const PUT = async (req: NextRequest) => {
       where: { id: data.id },
       include: {
         BerkasPengajuan: true,
+        DataPembiayaan: true,
       },
     });
     data.DataPembiayaan.is_simulasi = false;
@@ -584,6 +575,7 @@ export const PUT = async (req: NextRequest) => {
             : findPengajuan?.BerkasPengajuan?.video_asuransi,
         },
       });
+      data.DataPembiayaan.user_id = findPengajuan?.DataPembiayaan.user_id;
       const biaya = await tx.dataPembiayaan.update({
         where: { id: findPengajuan?.data_pembiayaan_id },
         data: data.DataPembiayaan,

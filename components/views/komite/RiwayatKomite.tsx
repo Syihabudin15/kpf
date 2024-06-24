@@ -1,6 +1,6 @@
 "use client";
 import { FileFilled, LoadingOutlined } from "@ant-design/icons";
-import { Input, Table, TableProps, DatePicker } from "antd";
+import { Input, Table, TableProps, DatePicker, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -24,6 +24,7 @@ export default function RiwayatKomite() {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -58,7 +59,8 @@ export default function RiwayatKomite() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{index + 1}</>;
+        const currPage = (page - 1) * 20;
+        return <>{currPage + (index + 1)}</>;
       },
     },
     {
@@ -279,6 +281,20 @@ export default function RiwayatKomite() {
           },
           className: "text-justify",
           width: 300,
+          render(value, record, index) {
+            return (
+              <Typography.Paragraph
+                ellipsis={{
+                  rows: 2,
+                  expandable: "collapsible",
+                  expanded: expand,
+                  onExpand: (_, info) => setExpand(info.expanded),
+                }}
+              >
+                {record.keterangan_slik}
+              </Typography.Paragraph>
+            );
+          },
         },
         {
           title: "PEMERIKSA",
@@ -388,6 +404,20 @@ export default function RiwayatKomite() {
           },
           className: "text-justify",
           width: 300,
+          render(value, record, index) {
+            return (
+              <Typography.Paragraph
+                ellipsis={{
+                  rows: 2,
+                  expandable: "collapsible",
+                  expanded: expand,
+                  onExpand: (_, info) => setExpand(info.expanded),
+                }}
+              >
+                {record.keterangan_verifikasi}
+              </Typography.Paragraph>
+            );
+          },
         },
         {
           title: "PEMERIKSA",
@@ -431,223 +461,6 @@ export default function RiwayatKomite() {
         },
       ],
     },
-
-    // {
-    //   title: "Informasi Data Checker",
-    //   dataIndex: `maker`,
-    //   key: "cheker",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         background: "#e11d48",
-    //         color: "#f3f4f6",
-    //         textAlign: "center",
-    //       },
-    //       className: "example-class-in-td bg-green-500 text-white",
-    //     };
-    //   },
-    //   children: [
-    //     {
-    //       title: "Status",
-    //       dataIndex: "status_maker",
-    //       key: "status_checker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#e11d48",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       className: "text-center",
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.status_checker && (
-    //               <div
-    //                 className={`py-1 px-2 w-24 bg-${
-    //                   record.status_checker === "SETUJU"
-    //                     ? "green"
-    //                     : record.status_checker === "DITOLAK"
-    //                     ? "red"
-    //                     : record.status_checker === "ANTRI"
-    //                     ? "orange"
-    //                     : "blue"
-    //                 }-500 text-gray-100 text-center`}
-    //               >
-    //                 {record.status_checker}
-    //               </div>
-    //             )}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //     {
-    //       title: "Keterangan",
-    //       dataIndex: "keterangan_checker",
-    //       key: "keterangan_maker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#e11d48",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       width: 300,
-    //     },
-    //     {
-    //       title: "Pemeriksa",
-    //       dataIndex: "nama_pemeriksa_checker",
-    //       key: "nama_pemeriksa_checker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#e11d48",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //     },
-    //     {
-    //       title: "Tanggal",
-    //       dataIndex: "tanggal_checker",
-    //       key: "tanggal_checker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#e11d48",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.tanggal_checker &&
-    //               moment(record.tanggal_checker).format("DD-MM-YYYY")}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Informasi Data Maker",
-    //   dataIndex: `maker`,
-    //   key: "maker",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         background: "#ea580c",
-    //         color: "#f3f4f6",
-    //         textAlign: "center",
-    //       },
-    //       className: "example-class-in-td bg-green-500 text-white",
-    //     };
-    //   },
-    //   children: [
-    //     {
-    //       title: "Status",
-    //       dataIndex: "status_maker",
-    //       key: "status_maker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#ea580c",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       className: "text-center",
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.status_maker && (
-    //               <div
-    //                 className={`py-1 px-2 w-24 bg-${
-    //                   record.status_maker === "SETUJU"
-    //                     ? "green"
-    //                     : record.status_maker === "DITOLAK"
-    //                     ? "red"
-    //                     : record.status_maker === "ANTRI"
-    //                     ? "orange"
-    //                     : "blue"
-    //                 }-500 text-gray-100 text-center`}
-    //               >
-    //                 {record.status_maker}
-    //               </div>
-    //             )}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //     {
-    //       title: "Keterangan",
-    //       dataIndex: "keterangan_maker",
-    //       key: "keterangan_maker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#ea580c",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       width: 300,
-    //     },
-    //     {
-    //       title: "Pemeriksa",
-    //       dataIndex: "nama_pemeriksa_maker",
-    //       key: "nama_pemeriksa_maker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#ea580c",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //     },
-    //     {
-    //       title: "Tanggal",
-    //       dataIndex: "tanggal_maker",
-    //       key: "tanggal_maker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#ea580c",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.tanggal_maker &&
-    //               moment(record.tanggal_maker).format("DD-MM-YYYY")}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //   ],
-    // },
     {
       title: "Informasi APPROVAL",
       dataIndex: `approval`,
@@ -713,6 +526,20 @@ export default function RiwayatKomite() {
             };
           },
           className: "text-justify",
+          render(value, record, index) {
+            return (
+              <Typography.Paragraph
+                ellipsis={{
+                  rows: 2,
+                  expandable: "collapsible",
+                  expanded: expand,
+                  onExpand: (_, info) => setExpand(info.expanded),
+                }}
+              >
+                {record.keterangan_approval}
+              </Typography.Paragraph>
+            );
+          },
           width: 300,
         },
         {

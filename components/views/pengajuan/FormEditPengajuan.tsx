@@ -16,9 +16,23 @@ import {
 import { Checkbox, Divider, Form, Input, Select, Spin, message } from "antd";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import EditBiaya from "./EditBiaya";
-import UploadDoc from "./UploadDoc";
 import { filterOption } from "@/components/utils/inputUtils";
+import dynamic from "next/dynamic";
+
+const EditBiaya = dynamic(
+  () => import("@/components/views/pengajuan/EditBiaya"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
+const UploadDoc = dynamic(
+  () => import("@/components/views/pengajuan/UploadDoc"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
 
 export default function FormEditPengajuan({
   currData,
@@ -196,6 +210,7 @@ export default function FormEditPengajuan({
     } else {
       setStatusKawinDisable(true);
     }
+    console.log(currData);
     form.setFieldsValue({
       nama: currData.DataPembiayaan.name,
       nopen: currData.DataPembiayaan.nopen,
@@ -248,6 +263,11 @@ export default function FormEditPengajuan({
         moment(currData.DataPengajuanPasangan.tanggal_lahir_pasangan).format(
           "YYYY-MM-DD"
         ),
+      masa_ktp_pasangan:
+        currData.status_kawin === "KAWIN" &&
+        moment(currData.DataPengajuanPasangan.masa_ktp_pasangan).format(
+          "YYYY-MM-DD"
+        ),
       keluarga_tidak_serumah:
         currData.DataPengajuanPasangan.nama_keluarga_tidak_serumah,
       hubungan_keluarga: currData.DataPengajuanPasangan.hubungan,
@@ -265,7 +285,7 @@ export default function FormEditPengajuan({
       agent_fronting: currData.agent_fronting,
       masa_ktp: moment(currData.masa_ktp).format("YYYY-MM-DD"),
     });
-  }, []);
+  }, [currData]);
 
   return (
     <div>
@@ -643,7 +663,6 @@ export default function FormEditPengajuan({
               <Form.Item
                 label="Pekerjaan Saat Ini"
                 name={"pekerjaan_sekarang"}
-                required
                 className="flex-1"
               >
                 <Input required />
@@ -651,7 +670,6 @@ export default function FormEditPengajuan({
               <Form.Item
                 label="Alamat Pekerjaan"
                 name={"alamat_pekerjaan"}
-                required
                 className="w-full md:flex-1"
               >
                 <Input.TextArea required />

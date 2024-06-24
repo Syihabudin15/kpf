@@ -8,12 +8,26 @@ import {
 } from "@/components/utils/Interfaces";
 import { Modal, Tabs, TabsProps } from "antd";
 import { useEffect, useState } from "react";
-import FormEditPengajuan from "./FormEditPengajuan";
-import { FormOutlined } from "@ant-design/icons";
-import DataPembanding from "../dataPdf/DataPembanding";
 import { User } from "@prisma/client";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { icon } from "leaflet";
+import dynamic from "next/dynamic";
+import { LoadingOutlined } from "@ant-design/icons";
+
+const FormEditPengajuan = dynamic(
+  () => import("@/components/views/pengajuan/FormEditPengajuan"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
+const DataPembanding = dynamic(
+  () => import("@/components/views/dataPdf/DataPembanding"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
 
 export default function EditPengajuan({
   data,
@@ -23,6 +37,8 @@ export default function EditPengajuan({
   upOpt,
   refferalOpt,
   provinsi,
+  open,
+  setOpen,
 }: {
   data: DataDataPengajuan;
   getData: Function;
@@ -31,8 +47,9 @@ export default function EditPengajuan({
   upOpt: BankOpt[];
   refferalOpt: Options[];
   provinsi: Options[];
+  open: boolean;
+  setOpen: Function;
 }) {
-  const [open, setOpen] = useState(false);
   const [items, setItems] = useState<TabsProps["items"]>();
   const [itemsBerkas, setItemsBerkas] = useState<TabsProps["items"]>();
   const [itemsMobile, setItemsMobile] = useState<TabsProps["items"]>();
@@ -185,20 +202,10 @@ export default function EditPengajuan({
       mob.push(el);
     });
     setItemsMobile(mob);
-  }, []);
+  }, [data]);
 
   return (
     <div>
-      <div className="flex justify-center">
-        <button
-          className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded shadow"
-          onClick={() => setOpen(true)}
-          disabled={data.status_pencairan === "TRANSFER" ? true : false}
-          style={{ opacity: data.status_pencairan === "TRANSFER" ? 0.5 : 1 }}
-        >
-          <FormOutlined />
-        </button>
-      </div>
       <Modal
         open={open}
         footer={[]}
@@ -228,16 +235,24 @@ const ViewBerkas = ({ url, type }: { url: string; type: string }) => {
   return (
     <div style={{ width: "100%", height: "100%" }}>
       <object data={url} type={type} height={"100%"} width={"100%"}>
-        <div className="text-center">
-          Browser anda tidak mendukung pembukaan file pdf
-        </div>
-        <div className="flex justify-center">
-          <a href={url} download={split[split.length]}>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-3 rounded shadow">
-              Download
-            </button>
-          </a>
-        </div>
+        {url ? (
+          <>
+            <div className="text-center">
+              Browser anda tidak mendukung pembukaan file pdf
+            </div>
+            <div className="flex justify-center">
+              <a href={url} download={split[split.length]}>
+                <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-3 rounded shadow">
+                  Download
+                </button>
+              </a>
+            </div>
+          </>
+        ) : (
+          <div className="text-center text-red font-bold italic">
+            Berkas belum di upload!
+          </div>
+        )}
       </object>
     </div>
   );

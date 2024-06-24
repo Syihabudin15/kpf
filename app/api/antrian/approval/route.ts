@@ -46,6 +46,8 @@ const handleMaster = async (year: any, skip: number, nama: string | null) => {
       where: {
         AND: [
           { status_approval: "ANTRI" },
+          { status_slik: "SETUJU" },
+          { status_verifikasi: "SETUJU" },
           { is_active: true },
           {
             DataPembiayaan: {
@@ -101,6 +103,8 @@ const handleMaster = async (year: any, skip: number, nama: string | null) => {
       where: {
         AND: [
           { status_approval: "ANTRI" },
+          { status_slik: "SETUJU" },
+          { status_verifikasi: "SETUJU" },
           { is_active: true },
           {
             DataPembiayaan: {
@@ -163,6 +167,8 @@ const handleMaster = async (year: any, skip: number, nama: string | null) => {
     where: {
       AND: [
         { status_approval: "ANTRI" },
+        { status_slik: "SETUJU" },
+        { status_verifikasi: "SETUJU" },
         { is_active: true },
         {
           DataPembiayaan: {
@@ -193,6 +199,8 @@ const handleBank = async (
       where: {
         AND: [
           { status_approval: "ANTRI" },
+          { status_slik: "SETUJU" },
+          { status_verifikasi: "SETUJU" },
           { is_active: true },
           { bankId: bankId },
           {
@@ -249,6 +257,8 @@ const handleBank = async (
       where: {
         AND: [
           { status_approval: "ANTRI" },
+          { status_slik: "SETUJU" },
+          { status_verifikasi: "SETUJU" },
           { is_active: true },
           { bankId: bankId },
           {
@@ -312,6 +322,8 @@ const handleBank = async (
     where: {
       AND: [
         { status_approval: "ANTRI" },
+        { status_slik: "SETUJU" },
+        { status_verifikasi: "SETUJU" },
         { is_active: true },
         { bankId: bankId },
         {

@@ -121,7 +121,7 @@ export default function Simulasi() {
       setBersih("0");
       setTanggalLunas("");
       setUsiaLunas("");
-      setProvisi("");
+      setProvisi("0");
     } else {
       setMaxAngsuran("0");
       setTenor(0);
@@ -131,7 +131,7 @@ export default function Simulasi() {
       setAngsuranBulan("0");
       setBlokir(0);
       setByAdmin("0");
-      setProvisi("");
+      setProvisi("0");
       setKotor("0");
       setBpp("0");
       setPelunasan("0");
@@ -262,6 +262,10 @@ export default function Simulasi() {
     const filterBank = banks.filter((d) => d.id == e.split("/")[0]);
     setSelectedProduk(filter[0]);
     setSelectedBank(filterBank[0]);
+    if (filterBank[0]) {
+      let prov = (filterBank[0].by_provisi || 0) / 100;
+      setProvisi(formatNumber((inputTextToDecimal(plafond) * prov).toFixed(0)));
+    }
     const userAge =
       parseFloat(tanggalMasuk.tahunMasuk) +
       Math.floor(
@@ -331,9 +335,6 @@ export default function Simulasi() {
   };
   const getAngsuran = () => {
     if (!selectedProduk || !plafond || !tenor) return;
-    // const mgBunga = selectedProduk.mg_bunga / 100;
-    // const result = PMT(mgBunga / 12, tenor, inputTextToDecimal(plafond)) * -1;
-    // setAngsuranBulan(formatNumber(Math.round(result).toFixed(0)));
     const result = ceiling(
       parseInt(
         getAngsuranPerBulan(
@@ -485,7 +486,10 @@ export default function Simulasi() {
     if (plafond) {
       getAngsuran();
       const plaf = inputTextToDecimal(plafond);
-      // let tmp = 0;
+      if (selectedBank) {
+        let prov = (selectedBank.by_provisi || 0) / 100;
+        setProvisi(formatNumber((plaf * prov).toFixed(0)));
+      }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
           setByMutasi("0");
@@ -1123,7 +1127,7 @@ export default function Simulasi() {
                           data-hitung="simulasi-ulang"
                           value={provisi}
                           onChange={(e) =>
-                            setProvisi(formatNumber(e.target.value))
+                            setProvisi(formatNumber(e.target.value || "0"))
                           }
                           style={{ backgroundColor: "white", color: "black" }}
                         />

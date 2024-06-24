@@ -30,10 +30,17 @@ export const GET = async (req: NextRequest) => {
     slik = await getNotifFieldBank("status_slik", user.bank_id as string);
     checker = await getNotifFieldBank("status_checker", user.bank_id as string);
     maker = await getNotifFieldBank("status_maker", user.bank_id as string);
-    approval = await getNotifFieldBank(
-      "status_approval",
-      user.bank_id as string
-    );
+    approval = await prisma.dataPengajuan.count({
+      where: {
+        AND: [
+          { status_approval: "ANTRI" },
+          { status_verifikasi: "SETUJU" },
+          { status_slik: "SETUJU" },
+          { is_active: true },
+          { bankId: user.bank_id },
+        ],
+      },
+    });
     si = await prisma.dataPencairan.count({
       where: { status: false, berkas_si: { not: null } },
     });
@@ -41,7 +48,16 @@ export const GET = async (req: NextRequest) => {
     slik = await getNotifField("status_slik");
     checker = await getNotifField("status_checker");
     maker = await getNotifField("status_maker");
-    approval = await getNotifField("status_approval");
+    approval = await prisma.dataPengajuan.count({
+      where: {
+        AND: [
+          { status_approval: "ANTRI" },
+          { status_verifikasi: "SETUJU" },
+          { status_slik: "SETUJU" },
+          { is_active: true },
+        ],
+      },
+    });
     si = await prisma.dataPencairan.count({
       where: { berkas_si: null },
     });

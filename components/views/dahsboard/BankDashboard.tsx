@@ -5,17 +5,10 @@ import {
   PengajuanBank,
 } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import {
-  CheckCircleOutlined,
-  DoubleRightOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
-import { Divider, Spin, Table, TableProps } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Spin, Table, TableProps } from "antd";
 import moment from "moment";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-
-import dynamic from "next/dynamic";
 import { LineProps } from "@/app/api/dashboard/master/route";
 import ReactApexChart from "react-apexcharts";
 

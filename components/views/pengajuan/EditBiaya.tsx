@@ -274,6 +274,10 @@ export default function EditBiaya({
     const filterBank = banks.filter((d) => d.id == e.split("/")[0]);
     setSelectedProduk(filter[0]);
     setSelectedBank(filterBank[0]);
+    if (filterBank[0]) {
+      let prov = (filterBank[0].by_provisi || 0) / 100;
+      setProvisi(formatNumber((inputTextToDecimal(plafond) * prov).toFixed(0)));
+    }
     const userAge =
       parseFloat(tanggalMasuk.tahunMasuk) +
       Math.floor(
@@ -473,7 +477,10 @@ export default function EditBiaya({
     if (plafond) {
       getAngsuran();
       const plaf = inputTextToDecimal(plafond);
-      // let tmp = 0;
+      if (selectedBank) {
+        let prov = (selectedBank.by_provisi || 0) / 100;
+        setProvisi(formatNumber((plaf * prov).toFixed(0)));
+      }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
           setByMutasi("0");
@@ -600,6 +607,7 @@ export default function EditBiaya({
       no_rekening: noBank,
       by_flagging: currData.DataPembiayaan.by_flagging,
       by_epotpen: currData.DataPembiayaan.by_epotpen,
+      user_id: currData.DataPembiayaan.user_id,
     });
   }, [
     provisi,
@@ -687,14 +695,12 @@ export default function EditBiaya({
     const byCadangan =
       currData.DataPembiayaan.plafond *
       (currData.DataPembiayaan.by_lainnya / 100);
-    const reffFee =
-      currData.DataPembiayaan.plafond * (currData.DataPembiayaan.fee / 100);
 
     setAngsuranBulan(formatNumber(angsuranPerbulan.toFixed(0)));
     setTatalaksana(
       formatNumber(currData.DataPembiayaan.by_tatalaksana.toFixed(0))
     );
-    setProvisi(currData.DataPembiayaan.by_provisi.toFixed(0));
+    setProvisi(formatNumber(currData.DataPembiayaan.by_provisi.toFixed(0)));
     setByAdmin(formatNumber(byAdmin.toFixed(0)));
     setByAdminBank(formatNumber(byAdminBank.toFixed(0)));
     setByLainnya(formatNumber(byCadangan.toFixed(0)));
@@ -702,7 +708,7 @@ export default function EditBiaya({
     setBlokir(currData.DataPembiayaan.blokir);
     setBpp(formatNumber(currData.DataPembiayaan.bpp.toFixed(0)));
     setPelunasan(formatNumber(currData.DataPembiayaan.pelunasan.toFixed(0)));
-  }, []);
+  }, [currData]);
   return (
     <section>
       <div className="bg-orange-500 p-2 rounded">
@@ -906,7 +912,7 @@ export default function EditBiaya({
                   label="Jenis Margin"
                   name={"jenis_margin"}
                   required
-                  rules={[{ required: true, message: "Mohon isi field ini!" }]}
+                  // rules={[{ required: true, message: "Mohon isi field ini!" }]}
                   className="flex-1"
                 >
                   <Select
@@ -916,6 +922,7 @@ export default function EditBiaya({
                       { label: "FLAT", value: "FLAT" },
                       { label: "ANUITAS", value: "ANUITAS" },
                     ]}
+                    defaultValue={currData.jenis_margin}
                   />
                 </Form.Item>
               </div>
@@ -1162,8 +1169,10 @@ export default function EditBiaya({
                   <div className="w-20 md:w-32 text-center">
                     <Input
                       className="text-center"
-                      onChange={(e) => setProvisi(e.target.value)}
-                      value={formatNumber(provisi)}
+                      onChange={(e) =>
+                        setProvisi(formatNumber(e.target.value || "0"))
+                      }
+                      value={provisi}
                       disabled={disable}
                       style={{ backgroundColor: "white", color: "black" }}
                     />

@@ -111,7 +111,8 @@ export default function PencairanBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{(page - 1) * 20 + (index + 1)}</>;
+        const currPage = (page - 1) * 20;
+        return <>{currPage + (index + 1)}</>;
       },
     },
     {
