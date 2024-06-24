@@ -376,7 +376,7 @@ export default function LaporanBulananMaster() {
           dataSource={data}
           size="small"
           bordered
-          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           pagination={{
             pageSize: pageSize,
             defaultPageSize: pageSize,

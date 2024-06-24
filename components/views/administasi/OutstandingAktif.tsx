@@ -361,7 +361,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           bordered
           size="small"
           loading={loading}
-          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           pagination={{
             pageSize: 20,
             total: total,

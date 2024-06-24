@@ -26,7 +26,8 @@ export default function CetakSuratBerkas({
   let totalAdmin = 0;
   let totalRekening = 0;
   let tables = data.DataPengajuan.map((d, i) => {
-    const admin = d.DataPembiayaan.plafond * 0.01;
+    const adm = d.DataPembiayaan.plafond * 0.01;
+    let admin = adm + d.DataPembiayaan.by_provisi;
     const rekening = d.DataPembiayaan.by_buka_rekening;
     totalAdmin += admin;
     totalRekening += rekening;
@@ -79,9 +80,7 @@ export default function CetakSuratBerkas({
               <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
                 <Text style={{ width: 50 }}>Lampiran</Text>
                 <Text style={{ width: 20 }}>:</Text>
-                <Text>
-                  1 (satu) Daftar Nominatif
-                </Text>
+                <Text>1 (satu) Daftar Nominatif</Text>
               </View>
               <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
                 <Text style={{ width: 50 }}>Perihal</Text>
@@ -206,8 +205,7 @@ export default function CetakSuratBerkas({
               }}
             >
               <Text>
-                BANDUNG, 
-                , {moment(data.tanggal_cetak).format("DD-MM-YYYY")}
+                BANDUNG, , {moment(data.tanggal_cetak).format("DD-MM-YYYY")}
               </Text>
               <Text>A.N. PENGURUS</Text>
             </View>
@@ -374,8 +372,8 @@ export default function CetakSuratBerkas({
                     padding: 2,
                   }}
                 >
-                  <Text>Administrasi</Text>
-                  <Text>Bank 1% (Rp)</Text>
+                  <Text>Adm Bank 1%</Text>
+                  <Text>& Provisi 1% (Rp)</Text>
                 </View>
                 <View
                   style={{

@@ -286,7 +286,7 @@ export default function RiwayatSlik() {
         <Table
           columns={columns}
           dataSource={data}
-          scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           bordered
           size="small"
           loading={loading}

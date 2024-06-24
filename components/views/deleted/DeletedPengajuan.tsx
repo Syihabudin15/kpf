@@ -228,7 +228,7 @@ export default function DeletedPengajuan() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+        scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
         size="small"
         loading={loading}
         pagination={{

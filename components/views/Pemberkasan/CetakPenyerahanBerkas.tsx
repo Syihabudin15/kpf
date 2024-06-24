@@ -66,7 +66,7 @@ export default function CetakPenyerahanBerkas() {
       body: JSON.stringify({
         id: selectedDatas[0].id,
         tanggal_cetak: new Date(tanggalSI || ""),
-        nomor_surat:nomor,
+        nomor_surat: nomor,
         pengajuans: dataPengajuanIds,
       }),
     });
@@ -315,7 +315,7 @@ export default function CetakPenyerahanBerkas() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 500, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 500, y: "calc(62vh - 100px)" }}
           loading={loading}
           pagination={{
             pageSize: 20,
@@ -371,9 +371,11 @@ export default function CetakPenyerahanBerkas() {
                 required
                 onChange={(e) => {
                   setTanggalSI(e.target.value);
-                  setNomor(`/SURAT_BERKAS/KPF-${
-                    selectedDatas && selectedDatas[0].kode
-                  }/${moment(e.target.value).format("DDMMYYYY")}`);
+                  setNomor(
+                    `/SURAT_BERKAS/KPF-${
+                      selectedDatas && selectedDatas[0].kode
+                    }/${moment(e.target.value).format("DDMMYYYY")}`
+                  );
                 }}
               />
             </Form.Item>

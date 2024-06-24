@@ -350,7 +350,7 @@ export default function AntrianVerifikasi() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1200, y: "calc(65vh - 100px)" }}
+        scroll={{ x: 1200, y: "calc(62vh - 100px)" }}
         size="small"
         loading={loading}
         pagination={{
@@ -369,7 +369,7 @@ export default function AntrianVerifikasi() {
           allowForm={true}
           isPeriksa={true}
           pathname="verifikasi"
-          nextpath="slik"
+          nextpath="approval"
           open={open}
           setOpen={setOpen}
         />

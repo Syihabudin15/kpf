@@ -66,7 +66,7 @@ export default function CetakPenyerahanJaminan() {
       body: JSON.stringify({
         id: selectedDatas[0].id,
         tanggal_cetak: new Date(tanggalSI || ""),
-        nomor_surat:nomor,
+        nomor_surat: nomor,
         pengajuans: dataPengajuanIds,
       }),
     });
@@ -331,7 +331,7 @@ export default function CetakPenyerahanJaminan() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 500, y: 'calc(65vh - 100px)' }}
+          scroll={{ x: 500, y: "calc(62vh - 100px)" }}
           loading={loading}
           pagination={{
             pageSize: 20,
@@ -386,10 +386,12 @@ export default function CetakPenyerahanJaminan() {
                 type="date"
                 required
                 onChange={(e) => {
-                  setTanggalSI(e.target.value)
-                  setNomor(`/JAMINAN/KPF-${
-                    selectedDatas && selectedDatas[0].kode
-                  }/${moment(e.target.value).format("DDMMYYYY")}`)
+                  setTanggalSI(e.target.value);
+                  setNomor(
+                    `/JAMINAN/KPF-${
+                      selectedDatas && selectedDatas[0].kode
+                    }/${moment(e.target.value).format("DDMMYYYY")}`
+                  );
                 }}
               />
             </Form.Item>

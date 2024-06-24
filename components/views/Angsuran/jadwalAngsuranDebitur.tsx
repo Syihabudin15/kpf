@@ -341,7 +341,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
             loading={loading}
             bordered
             pagination={{ pageSize: 12 }}
-            scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+            scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           />
         </div>
       </div>

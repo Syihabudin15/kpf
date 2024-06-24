@@ -927,7 +927,7 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         dataSource={data}
         size="small"
         bordered
-        scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
+        scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
         loading={loading}
         pagination={{
           pageSize: 20,
