@@ -355,11 +355,17 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                   </Text>
                 </View>
                 <View style={{ display: "flex", flexDirection: "row" }}>
-                  <Text style={{ width: "40%" }}>Provisi</Text>
+                  <Text style={{ width: "40%" }}>Admin & Provisi</Text>
                   <Text style={{ width: "10%" }}>:</Text>
                   <Text style={{ width: "50%" }}>
                     Rp.{" "}
-                    {formatNumber(data.DataPembiayaan.by_provisi.toFixed(0))}
+                    {formatNumber(
+                      (
+                        data.DataPembiayaan.plafond *
+                          (data.DataPembiayaan.by_admin_bank / 100) +
+                        data.DataPembiayaan.by_provisi
+                      ).toFixed(0)
+                    )}
                   </Text>
                 </View>
               </View>

@@ -24,23 +24,23 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
 
   let tables = data.DataPengajuan.map((d, i) => {
     const admin =
-      d.DataPembiayaan.plafond *
-      (d.DataPembiayaan.by_admin_bank / 100 + d.DataPembiayaan.by_provisi);
+      d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
+    const newAdmin = admin + d.DataPembiayaan.by_provisi;
     const rekening = d.DataPembiayaan.by_buka_rekening;
-    totalAdmin += admin;
+    totalAdmin += newAdmin;
     totalRekening += rekening;
-    totalDropping += d.DataPembiayaan.plafond - (admin + rekening);
+    totalDropping += d.DataPembiayaan.plafond - (newAdmin + rekening);
     return [
       { data: i + 1, width: 40 },
       { data: d.DataPembiayaan.nopen, width: 80 },
       { data: d.DataPembiayaan.name, width: 100 },
       { data: d.DataPembiayaan.Produk.name, width: 80 },
       { data: formatNumber(d.DataPembiayaan.plafond.toFixed(0)), width: 80 },
-      { data: formatNumber(admin.toFixed(0)), width: 80 },
+      { data: formatNumber(newAdmin.toFixed(0)), width: 80 },
       { data: formatNumber(rekening.toFixed(0)), width: 80 },
       {
         data: formatNumber(
-          (d.DataPembiayaan.plafond - (admin + rekening)).toFixed(0)
+          (d.DataPembiayaan.plafond - (newAdmin + rekening)).toFixed(0)
         ),
         width: 80,
       },

@@ -467,7 +467,7 @@ export default function AnalisaPerhitungan({
               >
                 <Text style={{ flex: 1 }}>Rp.</Text>
                 <Text style={{ flex: 1, textAlign: "right" }}>
-                  Rp. {formatNumber(data.DataPembiayaan.by_mutasi.toFixed(0))}
+                  {formatNumber(data.DataPembiayaan.by_mutasi.toFixed(0))}
                 </Text>
               </View>
             </View>
