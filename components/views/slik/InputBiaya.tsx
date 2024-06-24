@@ -37,7 +37,7 @@ export default function InputPembiayaan({
   setPembiayaan,
   setBankOpt,
   selected,
-  setJenisMargin
+  setJenisMargin,
 }: {
   refferal: productOptions[];
   nama: string | null;
@@ -46,7 +46,7 @@ export default function InputPembiayaan({
   setPembiayaan: Function;
   setBankOpt: Function;
   selected: Function;
-  setJenisMargin: Function
+  setJenisMargin: Function;
 }) {
   const [data, setData] = useState<BankOptions[]>([]);
   const [dataBank, setDataBank] = useState<Produk[]>([]);
@@ -331,9 +331,14 @@ export default function InputPembiayaan({
     } else {
       setByMutasi(formatNumber(selectedJenis.by_mutasi.toString()));
       if (plafond) {
-        setProvisi(formatNumber((selectedBank?.by_provisi || 0).toString()));
+        let prov = selectedBank ? (selectedBank.by_provisi || 0) / 100 : 0;
+        setProvisi(
+          formatNumber(
+            ((inputTextToDecimal(plafond) * prov) / 100 || 0).toString()
+          )
+        );
       } else {
-        setProvisi((selectedBank?.by_provisi || 0).toString());
+        setProvisi((0).toString());
       }
     }
   };
@@ -698,8 +703,7 @@ export default function InputPembiayaan({
                 </Form.Item>
               </div>
               <div className="block md:flex gap-5">
-                
-              <Form.Item
+                <Form.Item
                   label="Pembiayaan Sebelumnya"
                   className="w-full md:w-50"
                 >
@@ -727,7 +731,7 @@ export default function InputPembiayaan({
                   name={"no_rekening"}
                   className="w-full md:w-50 flex-1"
                 >
-                  <Input onChange={(e) => setNoBank(e.target.value)}  />
+                  <Input onChange={(e) => setNoBank(e.target.value)} />
                 </Form.Item>
                 <Form.Item
                   label="Tempat Lahir"
