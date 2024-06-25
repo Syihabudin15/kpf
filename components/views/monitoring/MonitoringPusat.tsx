@@ -29,6 +29,7 @@ import {
 } from "@/components/utils/Interfaces";
 import { Refferal, User } from "@prisma/client";
 import CetakDataPengajuan from "@/components/utils/CetakDataPengajuan";
+const { Paragraph } = Typography;
 
 const EditPengajuan = dynamic(
   () => import("@/components/views/pengajuan/EditPengajuan"),
@@ -516,7 +517,7 @@ export default function MonitoringPusat() {
           },
           render(value, record, index) {
             return (
-              <Typography.Paragraph
+              <Paragraph
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
@@ -525,7 +526,7 @@ export default function MonitoringPusat() {
                 }}
               >
                 {record.keterangan_slik}
-              </Typography.Paragraph>
+              </Paragraph>
             );
           },
         },
@@ -638,7 +639,7 @@ export default function MonitoringPusat() {
           },
           render(value, record, index) {
             return (
-              <Typography.Paragraph
+              <Paragraph
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
@@ -647,7 +648,7 @@ export default function MonitoringPusat() {
                 }}
               >
                 {record.keterangan_verifikasi}
-              </Typography.Paragraph>
+              </Paragraph>
             );
           },
         },
@@ -760,7 +761,7 @@ export default function MonitoringPusat() {
           },
           render(value, record, index) {
             return (
-              <Typography.Paragraph
+              <Paragraph
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
@@ -769,7 +770,7 @@ export default function MonitoringPusat() {
                 }}
               >
                 {record.keterangan_approval}
-              </Typography.Paragraph>
+              </Paragraph>
             );
           },
         },

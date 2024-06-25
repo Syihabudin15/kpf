@@ -15,6 +15,7 @@ const ViewBerkasPengajuan = dynamic(
     loading: () => <LoadingOutlined />,
   }
 );
+const { Paragraph } = Typography;
 
 export default function MonitoringBank() {
   const [data, setData] = useState<DataDataPengajuan[]>();
@@ -309,7 +310,7 @@ export default function MonitoringBank() {
           className: "text-justify",
           render(value, record, index) {
             return (
-              <Typography.Paragraph
+              <Paragraph
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
@@ -318,7 +319,7 @@ export default function MonitoringBank() {
                 }}
               >
                 {record.keterangan_slik}
-              </Typography.Paragraph>
+              </Paragraph>
             );
           },
         },
@@ -339,7 +340,7 @@ export default function MonitoringBank() {
           className: "text-center",
           render(value, record, index) {
             return (
-              <Typography.Paragraph
+              <Paragraph
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
@@ -348,7 +349,7 @@ export default function MonitoringBank() {
                 }}
               >
                 {record.keterangan_verifikasi}
-              </Typography.Paragraph>
+              </Paragraph>
             );
           },
         },
@@ -445,7 +446,7 @@ export default function MonitoringBank() {
           className: "text-justify",
           render(value, record, index) {
             return (
-              <Typography.Paragraph
+              <Paragraph
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
@@ -454,7 +455,7 @@ export default function MonitoringBank() {
                 }}
               >
                 {record.keterangan_approval}
-              </Typography.Paragraph>
+              </Paragraph>
             );
           },
         },
