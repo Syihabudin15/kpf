@@ -4,6 +4,7 @@ import prisma from "@/components/prisma";
 import { daysInMonth } from "@/components/utils/inputUtils";
 import path from "path";
 import { existsSync, promises as fs } from "fs";
+import moment from "moment-timezone";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -11,6 +12,10 @@ export const GET = async (req: NextRequest) => {
   const skip = (page - 1) * 20;
   const year = req.nextUrl.searchParams.get("year") || new Date().getFullYear();
   const name = req.nextUrl.searchParams.get("name");
+  const status: "ALL" | "SLIK" | "VERIFIKASI" | "APPROVAL" | "TRANSFER" =
+    <any>req.nextUrl.searchParams.get("status") || "ALL";
+  const group: "ALL" | "FLASH" | "REGULLER" =
+    <any>req.nextUrl.searchParams.get("group") || "ALL";
 
   let result: DataDataPengajuan[] = [];
 
@@ -65,10 +70,10 @@ export const GET = async (req: NextRequest) => {
           {
             DataPembiayaan: {
               created_at: {
-                gte: new Date(`${year}-01-01`),
-                lte: new Date(
-                  `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
-                ),
+                gte: moment(`${year}-01`).tz("Asia/Jakarta").toISOString(true),
+                lte: moment(`${year}-${moment(`${year}`).daysInMonth()} 23:59`)
+                  .tz("Asia/Jakarta")
+                  .toISOString(true),
               },
             },
           },
@@ -115,10 +120,10 @@ export const GET = async (req: NextRequest) => {
         {
           DataPembiayaan: {
             created_at: {
-              gte: new Date(`${year}-01-01`),
-              lte: new Date(
-                `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
-              ),
+              gte: moment(`${year}-01`).tz("Asia/Jakarta").toISOString(true),
+              lte: moment(`${year}-${moment(`${year}`).daysInMonth()} 23:59`)
+                .tz("Asia/Jakarta")
+                .toISOString(true),
             },
           },
         },

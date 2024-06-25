@@ -12,55 +12,68 @@ export const GET = async (req: NextRequest) => {
   const session = await getServerSession();
   const user = await prisma.user.findFirst({
     where: { email: session?.user?.email },
+    include: {
+      UnitCabang: true,
+    },
   });
+  let result: DataPembiayaan[] = [];
+  let total = 0;
 
   if (!user) return NextResponse.json({ data: [], total: 0 }, { status: 200 });
 
-  let result: DataPembiayaan[] = <any>await prisma.dataPembiayaan.findMany({
-    where: {
-      AND: [
-        { is_simulasi: true },
-        { user_id: user.id },
-        {
-          created_at: {
-            gte: new Date(`${year}-01-01`),
-            lte: new Date(
-              `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
-            ),
+  if (user.role === "ENTRY_DATA") {
+    const data = await handleAdmin(
+      user.UnitCabang?.unit_pelayanan_id as string,
+      year as string,
+      skip
+    );
+  } else {
+    result = <any>await prisma.dataPembiayaan.findMany({
+      where: {
+        AND: [
+          { is_simulasi: true },
+          { user_id: user.id },
+          {
+            created_at: {
+              gte: new Date(`${year}-01-01`),
+              lte: new Date(
+                `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
+              ),
+            },
           },
-        },
-      ],
-    },
-    include: {
-      JenisPembiayaan: true,
-      Produk: {
-        include: {
-          Bank: true,
-        },
+        ],
       },
-      User: true,
-    },
-    orderBy: { created_at: "desc" },
-    skip: skip,
-    take: 20,
-  });
-
-  const total = await prisma.dataPembiayaan.count({
-    where: {
-      AND: [
-        {
-          is_simulasi: true,
-          user_id: user.id,
-          created_at: {
-            gte: new Date(`${year}-01-01`),
-            lte: new Date(
-              `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
-            ),
+      include: {
+        JenisPembiayaan: true,
+        Produk: {
+          include: {
+            Bank: true,
           },
         },
-      ],
-    },
-  });
+        User: true,
+      },
+      orderBy: { created_at: "desc" },
+      skip: skip,
+      take: 20,
+    });
+
+    total = await prisma.dataPembiayaan.count({
+      where: {
+        AND: [
+          {
+            is_simulasi: true,
+            user_id: user.id,
+            created_at: {
+              gte: new Date(`${year}-01-01`),
+              lte: new Date(
+                `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
+              ),
+            },
+          },
+        ],
+      },
+    });
+  }
   return NextResponse.json({ data: result, total: total }, { status: 200 });
 };
 
@@ -106,4 +119,57 @@ export const DELETE = async (req: NextRequest) => {
       { status: 500 }
     );
   }
+};
+
+const handleAdmin = async (areaId: string, year: string, skip: number) => {
+  let result: DataPembiayaan[] = <any>await prisma.dataPembiayaan.findMany({
+    where: {
+      AND: [
+        { is_simulasi: true },
+        {
+          User: {
+            UnitCabang: { unit_pelayanan_id: areaId },
+          },
+        },
+        {
+          created_at: {
+            gte: new Date(`${year}-01-01`),
+            lte: new Date(
+              `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
+            ),
+          },
+        },
+      ],
+    },
+    include: {
+      JenisPembiayaan: true,
+      Produk: {
+        include: {
+          Bank: true,
+        },
+      },
+      User: true,
+    },
+    orderBy: { created_at: "desc" },
+    skip: skip,
+    take: 20,
+  });
+
+  const total = await prisma.dataPembiayaan.count({
+    where: {
+      AND: [
+        {
+          is_simulasi: true,
+          User: { UnitCabang: { unit_pelayanan_id: areaId } },
+          created_at: {
+            gte: new Date(`${year}-01-01`),
+            lte: new Date(
+              `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
+            ),
+          },
+        },
+      ],
+    },
+  });
+  return { result, total };
 };
