@@ -76,12 +76,6 @@ export default function MonitoringPusat() {
   const [open, setOpen] = useState(false);
   const [expand, setExpand] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
-  const [berkas, setBerkas] = useState<{
-    title: string;
-    type: string;
-    url: string;
-  }>();
-  const [openBerkas, setOpenBerkas] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -393,25 +387,15 @@ export default function MonitoringPusat() {
           width: 80,
           render(value, record, index) {
             return (
-              <div className="flex justify-center">
-                <button
-                  className="border rounded shadow py-1 px-2"
-                  style={{
-                    opacity: record.BerkasPengajuan.berkas_akad ? 1 : 0.5,
+              <>
+                <ModalBerkas
+                  data={{
+                    url: record.BerkasPengajuan.berkas_akad || "",
+                    type: "application/pdf",
+                    title: `BERKAS AKAD ${record.DataPembiayaan.name}`,
                   }}
-                  disabled={record.BerkasPengajuan.berkas_akad ? false : true}
-                  onClick={() => {
-                    setBerkas({
-                      title: `BERKAS AKAD ${record.nama}`,
-                      type: "application/pdf",
-                      url: record.BerkasPengajuan.berkas_akad || "",
-                    });
-                    setOpenBerkas(true);
-                  }}
-                >
-                  <FileFilled />
-                </button>
-              </div>
+                />
+              </>
             );
           },
         },
@@ -959,9 +943,6 @@ export default function MonitoringPusat() {
           open={modalEdit}
           setOpen={setModalEdit}
         />
-      )}
-      {berkas && (
-        <ModalBerkas data={berkas} open={openBerkas} setOpen={setOpenBerkas} />
       )}
     </div>
   );
