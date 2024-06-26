@@ -159,6 +159,7 @@ const handleMaster = async (year: any, skip: number, nama: string | null) => {
       },
       skip: skip,
       take: 20,
+      orderBy: { DataPembiayaan: { created_at: "asc" } },
     });
   }
   const total = await prisma.dataPengajuan.count({
@@ -311,6 +312,7 @@ const handleBank = async (
       },
       skip: skip,
       take: 20,
+      orderBy: { DataPembiayaan: { created_at: "asc" } },
     });
   }
   const total = await prisma.dataPengajuan.count({

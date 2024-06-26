@@ -217,8 +217,8 @@ export default function BerkasTabsPengajuan({
                         ),
                       },
                       {
-                        label: data.id + "MAUK",
-                        key: "mauk",
+                        label: "MAUK",
+                        key: data.id + "mauk",
                         children: (
                           <div style={{ height: "70vh" }}>
                             <Mauk data={data} />

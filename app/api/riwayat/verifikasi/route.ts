@@ -136,6 +136,7 @@ export const GET = async (req: NextRequest) => {
       },
       skip: skip,
       take: 20,
+      orderBy: { DataPembiayaan: { created_at: "asc" } },
     });
   }
   const total = await prisma.dataPengajuan.count({

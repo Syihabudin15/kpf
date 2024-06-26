@@ -393,14 +393,21 @@ export default function UploadDoc({
         berkas_flagging: berkasFlagging.fileName ? berkasFlagging.fileName : "",
       });
     }
-  }, [berkasAsuransi, berkasWawancara, berkasPengajuan, berkasSlik, berkasFlagging, berkasIDPB]);
+  }, [
+    berkasAsuransi,
+    berkasWawancara,
+    berkasPengajuan,
+    berkasSlik,
+    berkasFlagging,
+    berkasIDPB,
+  ]);
   return (
     <div>
       {/* Slik */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasSlik.fileName ? "flex-1" : ""}>Berkas Slik (PDF) :</p>
-          <div className={berkasSlik.fileName ? "flex-1" : ""}>
+          <p style={{ width: 100 }}>Berkas Slik (PDF) :</p>
+          <div>
             <Upload
               accept="application/pdf"
               beforeUpload={beforeUploadPDF}
@@ -417,14 +424,18 @@ export default function UploadDoc({
                   <CloudUploadOutlined /> Browse
                 </button>
               ) : (
-                <div className="flex gap-2 flex-wrap">
+                <div
+                  className={`flex gap-2 flex-wrap ${
+                    berkasSlik.fileName ? "justify-center" : "justify-end"
+                  }`}
+                >
                   <span style={{ flex: 1.5, textWrap: "wrap" }}>
                     {berkasSlik.fileName.toUpperCase()}
                   </span>
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
                     type="button"
-                    style={{flex: .5}}
+                    style={{ flex: 0.5 }}
                     onClick={() =>
                       handleDelete(
                         "/api/slik/berkas/slik",
@@ -447,8 +458,8 @@ export default function UploadDoc({
       {/* Pengajuan */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasPengajuan.fileName ? "flex-1" : ""}>Berkas Pengajuan (PDF) :</p>
-          <div className={berkasPengajuan.fileName ? "flex-1" : ""}>
+          <p style={{ width: 100 }}>Berkas Pengajuan (PDF) :</p>
+          <div className={`flex justify-center flex-wrap`}>
             <Upload
               accept="application/pdf"
               beforeUpload={beforeUploadPDF}
@@ -472,7 +483,7 @@ export default function UploadDoc({
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
                     type="button"
-                    style={{flex: .5}}
+                    style={{ flex: 0.5 }}
                     onClick={() =>
                       handleDelete(
                         "/api/slik/berkas/pengajuan",
@@ -497,7 +508,9 @@ export default function UploadDoc({
       {/* IDPB */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasIDPB.fileName ? "flex-1" : ""}>Berkas IDPB (PDF) :</p>
+          <p className={berkasIDPB.fileName ? "flex-1" : ""}>
+            Berkas IDPB (PDF) :
+          </p>
           <div className={berkasIDPB.fileName ? "flex-1" : ""}>
             <Upload
               accept="application/pdf"
@@ -521,7 +534,7 @@ export default function UploadDoc({
                   </span>
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
-                    style={{flex: .5}}
+                    style={{ flex: 0.5 }}
                     type="button"
                     onClick={() =>
                       handleDelete(
@@ -535,19 +548,19 @@ export default function UploadDoc({
                   </button>
                 </div>
               )}
-              </Upload>
+            </Upload>
           </div>
         </div>
-        {berkasIDPB.progres > 0 && (
-          <Progress percent={berkasIDPB.progres} />
-        )}
+        {berkasIDPB.progres > 0 && <Progress percent={berkasIDPB.progres} />}
       </div>
       {/* End IDPB */}
 
       {/* FLAFFING */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasFlagging.fileName ? "flex-1" : ""}>Berkas Flagging (PDF) :</p>
+          <p className={berkasFlagging.fileName ? "flex-1" : ""}>
+            Berkas Flagging (PDF) :
+          </p>
           <div className={berkasFlagging.fileName ? "flex-1" : ""}>
             <Upload
               accept="application/pdf"
@@ -571,7 +584,7 @@ export default function UploadDoc({
                   </span>
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
-                    style={{flex: .5}}
+                    style={{ flex: 0.5 }}
                     type="button"
                     onClick={() =>
                       handleDelete(
@@ -585,7 +598,7 @@ export default function UploadDoc({
                   </button>
                 </div>
               )}
-              </Upload>
+            </Upload>
           </div>
         </div>
         {berkasFlagging.progres > 0 && (
@@ -597,7 +610,9 @@ export default function UploadDoc({
       {/* Wawancara */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasWawancara.fileName ? "flex-1" : ""}>Video Wawancara (MP4) :</p>
+          <p className={berkasWawancara.fileName ? "flex-1" : ""}>
+            Video Wawancara (MP4) :
+          </p>
           <div className={berkasWawancara.fileName ? "flex-1" : ""}>
             <Upload
               accept="video/mp4"
@@ -620,7 +635,7 @@ export default function UploadDoc({
                     {berkasWawancara.fileName.toUpperCase()}
                   </span>
                   <button
-                  style={{flex:.5,}}
+                    style={{ flex: 0.5 }}
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
                     type="button"
                     onClick={() =>
@@ -647,7 +662,9 @@ export default function UploadDoc({
       {/* Asuransi */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasAsuransi.fileName ? "flex-1" : ""}>Video Asuransi (MP4) :</p>
+          <p className={berkasAsuransi.fileName ? "flex-1" : ""}>
+            Video Asuransi (MP4) :
+          </p>
           <div className={berkasAsuransi.fileName ? "flex-1" : ""}>
             <Upload
               accept="video/mp4"
@@ -670,7 +687,7 @@ export default function UploadDoc({
                     {berkasAsuransi.fileName.toUpperCase()}
                   </span>
                   <button
-                    style={{flex: .5}}
+                    style={{ flex: 0.5 }}
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
                     type="button"
                     onClick={() =>

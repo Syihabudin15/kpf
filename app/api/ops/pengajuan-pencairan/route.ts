@@ -16,7 +16,6 @@ export const GET = async (req: NextRequest) => {
       where: {
         nomor_surat: { contains: name },
         is_active: true,
-        // status: true,
       },
       include: {
         Bank: true,
