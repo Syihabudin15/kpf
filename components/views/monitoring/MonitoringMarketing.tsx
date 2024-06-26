@@ -244,6 +244,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#22c55e",
+                color: "#f3f4f6",
               },
             };
           },
@@ -278,6 +280,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#22c55e",
+                color: "#f3f4f6",
               },
             };
           },
@@ -312,6 +316,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#22c55e",
+                color: "#f3f4f6",
               },
             };
           },
@@ -361,6 +367,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#0284c7",
+                color: "#f3f4f6",
               },
             };
           },
@@ -388,6 +396,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#0284c7",
+                color: "#f3f4f6",
               },
             };
           },
@@ -415,6 +425,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#0284c7",
+                color: "#f3f4f6",
               },
             };
           },
@@ -460,6 +472,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#4b5563",
+                color: "#f3f4f6",
               },
             };
           },
@@ -474,6 +488,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#4b5563",
+                color: "#f3f4f6",
               },
             };
           },
@@ -488,6 +504,8 @@ export default function MonitoringMarketing() {
             return {
               ["style"]: {
                 textAlign: "center",
+                background: "#4b5563",
+                color: "#f3f4f6",
               },
             };
           },
@@ -502,6 +520,8 @@ export default function MonitoringMarketing() {
         return {
           ["style"]: {
             textAlign: "center",
+            backgroundColor: "#f97316",
+            color: "#f3f4f6",
           },
         };
       },
@@ -510,10 +530,13 @@ export default function MonitoringMarketing() {
           title: "SLIK",
           key: "tanggal_slik",
           dataIndex: "tanggal_slik",
+          width: 100,
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
                 textAlign: "center",
+                backgroundColor: "#f97316",
+                color: "#f3f4f6",
               },
             };
           },
@@ -522,6 +545,52 @@ export default function MonitoringMarketing() {
               <div className="text-center">
                 {record.tanggal_slik &&
                   moment(record.tanggal_slik).format("DD-MM-YYYY")}
+              </div>
+            );
+          },
+        },
+        {
+          title: "VERIFIKASI",
+          key: "tanggal_verifikasi",
+          dataIndex: "tanggal_verifikasi",
+          width: 100,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+                backgroundColor: "#f97316",
+                color: "#f3f4f6",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <div className="text-center">
+                {record.tanggal_verifikasi &&
+                  moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
+              </div>
+            );
+          },
+        },
+        {
+          title: "APPROVAL",
+          key: "tanggal_approval",
+          dataIndex: "tanggal_approval",
+          width: 100,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+                backgroundColor: "#f97316",
+                color: "#f3f4f6",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <div className="text-center">
+                {record.tanggal_approval &&
+                  moment(record.tanggal_approval).format("DD-MM-YYYY")}
               </div>
             );
           },

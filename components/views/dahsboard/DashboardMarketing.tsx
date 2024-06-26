@@ -43,7 +43,7 @@ export default function DashboardMarketing() {
   return (
     <div className="p-0">
       <Spin spinning={loading}>
-        <div className="my-10 flex flex-col sm:flex-row gap-5">
+        <div className="mb-5 flex flex-col sm:flex-row gap-5">
           <div className="flex-1 bg-white p-3 rounded shadow">
             <div className="flex justify-between items-center my-1">
               <div className="flex-1">
@@ -135,6 +135,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "No",
     key: "no",
     dataIndex: "no",
+    width: 50,
     render(value, record, index) {
       return <>{index + 1}</>;
     },
@@ -142,6 +143,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "Tanggal Pengajuan",
     key: "tanggal_pengajuan",
+    width: 150,
     dataIndex: "tanggal_pengajuan",
     render(value, record, index) {
       return (
@@ -152,6 +154,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "Nopen",
     key: "nopen",
+    width: 150,
     dataIndex: "nopen",
     render(value, record, index) {
       return <>{record.DataPembiayaan.nopen}</>;
@@ -160,6 +163,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "Nama Pemohon",
     key: "Nama Pemohon",
+    width: 200,
     dataIndex: "Nama Pemohon",
     render(value, record, index) {
       return <>{record.DataPembiayaan.name}</>;
@@ -168,6 +172,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "Produk Pembiayaan",
     key: "produk",
+    width: 200,
     dataIndex: "produk",
     render(value, record, index) {
       return <>{record.DataPembiayaan.Produk.name}</>;
@@ -176,13 +181,14 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "Jenis Pembiayaan",
     key: "jenis",
+    width: 150,
     dataIndex: "jenis",
     render(value, record, index) {
       return (
         <>
           {record.DataPembiayaan.jenis_pembiayaan_id
             ? record.DataPembiayaan.JenisPembiayaan.name
-            : "-"}
+            : "Sisa Gaji"}
         </>
       );
     },
@@ -191,6 +197,7 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     title: "Tenor",
     key: "tenor",
     dataIndex: "tenor",
+    width: 100,
     render(value, record, index) {
       return <>{record.DataPembiayaan.tenor}</>;
     },
@@ -198,14 +205,16 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
   {
     title: "Plafond",
     key: "plafond",
+    width: 150,
     dataIndex: "plafond",
     render(value, record, index) {
-      return <>Rp. {formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
+      return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
     },
   },
   {
     title: "Sumber Dana",
     key: "sumber_dana",
+    width: 200,
     dataIndex: "sumber_dana",
     render(value, record, index) {
       return <>{record.Bank.name}</>;

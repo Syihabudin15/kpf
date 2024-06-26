@@ -12,6 +12,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { icon } from "leaflet";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
+import ViewBerkas from "@/components/utils/VewBerkas";
 
 const FormEditPengajuan = dynamic(
   () => import("@/components/views/pengajuan/FormEditPengajuan"),
@@ -27,10 +28,6 @@ const DataPembanding = dynamic(
     loading: () => <LoadingOutlined />,
   }
 );
-const ViewBerkas = dynamic(() => import("@/components/utils/VewBerkas"), {
-  ssr: false,
-  loading: () => <LoadingOutlined />,
-});
 
 export default function EditPengajuan({
   data,
@@ -66,6 +63,7 @@ export default function EditPengajuan({
         <div className="sm:flex">
           <div style={{ flex: 0.8 }}>
             <Tabs
+              size="small"
               items={[
                 {
                   label: "Edit Pengajuan",
@@ -89,10 +87,11 @@ export default function EditPengajuan({
           </div>
           <div style={{ flex: 1.2 }}>
             <Tabs
+              size="small"
               items={[
                 {
                   label: "Data Pembanding",
-                  key: "data_pembanding",
+                  key: data.id + "data_pembanding",
                   children: (
                     <div style={{ height: "70vh" }}>
                       <DataPembanding data={data.DataTaspen} />
@@ -101,54 +100,46 @@ export default function EditPengajuan({
                 },
                 {
                   label: "Slik",
-                  key: "slik",
+                  key: data.id + "slik",
                   children: (
-                    <div style={{ height: "70vh" }}>
-                      <ViewBerkas
-                        currUrl={data.BerkasPengajuan.berkas_slik || ""}
-                        currType="application/pdf"
-                      />
-                    </div>
+                    <ViewBerkas
+                      currUrl={data.BerkasPengajuan.berkas_slik || ""}
+                      currType="application/pdf"
+                    />
                   ),
                 },
                 {
                   label: "Pengajuan",
-                  key: "pengajuan",
+                  key: data.id + "pengajuan",
                   children: (
-                    <div style={{ height: "70vh" }}>
-                      <ViewBerkas
-                        currUrl={data.BerkasPengajuan.berkas_pengajuan || ""}
-                        currType="application/pdf"
-                      />
-                    </div>
+                    <ViewBerkas
+                      currUrl={data.BerkasPengajuan.berkas_pengajuan || ""}
+                      currType="application/pdf"
+                    />
                   ),
                 },
                 {
                   label: "Asuransi",
-                  key: "asuransi",
+                  key: data.id + "asuransi",
                   children: (
-                    <div style={{ height: "70vh" }}>
-                      <ViewBerkas
-                        currUrl={data.BerkasPengajuan.video_asuransi || ""}
-                        currType="video/mp4"
-                      />
-                    </div>
+                    <ViewBerkas
+                      currUrl={data.BerkasPengajuan.video_asuransi || ""}
+                      currType="video/mp4"
+                    />
                   ),
                 },
                 {
                   label: "Wawancara",
-                  key: "wawancara",
+                  key: data.id + "wawancara",
                   children: (
-                    <div style={{ height: "70vh" }}>
-                      <ViewBerkas
-                        currUrl={data.BerkasPengajuan.video_wawancara || ""}
-                        currType="video/mp4"
-                      />
-                    </div>
+                    <ViewBerkas
+                      currUrl={data.BerkasPengajuan.video_wawancara || ""}
+                      currType="video/mp4"
+                    />
                   ),
                 },
                 {
-                  key: "geo_location",
+                  key: data.id + "geo_location",
                   label: "Lokasi",
                   children: (
                     <div className="border" style={{ height: "70vh" }}>

@@ -45,14 +45,14 @@ export default function DataMarketing() {
           <span>Jumlah : {jumlah}</span>
         </div>
       </div>
-      <div className="p-2">
+      <div className="px-2 py-0">
         <Table
           loading={loading}
           columns={columns}
           dataSource={data}
           bordered
           size="small"
-          scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(61vh - 100px)" }}
           pagination={{
             pageSize: 20,
             onChange(page, pageSize) {
