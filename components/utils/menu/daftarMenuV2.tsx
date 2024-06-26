@@ -242,6 +242,12 @@ export const menusV2: Menus[] = [
         icon: <FormOutlined />,
       },
       {
+        label: "Pencairan Tahap 2",
+        url: "/operasional/pencairan-tahap-2",
+        role: ["MASTER", "OPERASIONAL"],
+        icon: <FormOutlined />,
+      },
+      {
         label: "Riwayat Pengajuan Bank",
         url: "/operasional/riwayat-pengajuan-bank",
         role: ["MASTER", "OPERASIONAL"],
