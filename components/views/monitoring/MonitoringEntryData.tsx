@@ -14,7 +14,7 @@ import {
   message,
   Typography,
 } from "antd";
-import moment from "moment";
+import moment from "moment-timezone";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { formatNumber } from "@/components/utils/inputUtils";
@@ -61,7 +61,7 @@ const ViewBerkasPengajuan = dynamic(
 export default function MonitoringEntryData() {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
-  const [year, setYear] = useState<string>();
+  const [year, setYear] = useState<string>(moment().format("YYYY-MM"));
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [total, setTotal] = useState<number>();
   const [page, setPage] = useState<number>(1);
@@ -817,7 +817,7 @@ export default function MonitoringEntryData() {
     <div className="px-2">
       <div className="flex gap-5 my-1 mx-1">
         <DatePicker
-          picker="year"
+          picker="month"
           onChange={(date, dateString) => setYear(dateString as string)}
         />
         <Input.Search

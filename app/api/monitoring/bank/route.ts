@@ -3,12 +3,14 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { daysInMonth } from "@/components/utils/inputUtils";
 import { getServerSession } from "next-auth";
+import moment from "moment-timezone";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
   const skip = (page - 1) * 20;
-  const year = req.nextUrl.searchParams.get("year") || new Date().getFullYear();
+  const year =
+    req.nextUrl.searchParams.get("year") || moment().format("YYYY-MM");
   const name = req.nextUrl.searchParams.get("name");
   const session = await getServerSession();
   const user = await prisma.user.findFirst({
@@ -73,10 +75,10 @@ export const GET = async (req: NextRequest) => {
           {
             DataPembiayaan: {
               created_at: {
-                gte: new Date(`${year}-01-01`),
-                lte: new Date(
-                  `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
-                ),
+                gte: moment(`${year}-01`).tz("Asia/Jakarta").toISOString(true),
+                lte: moment(`${year}-${moment(year).daysInMonth()} 23:59`)
+                  .tz("Asia/Jakarta")
+                  .toISOString(true),
               },
             },
           },
@@ -125,10 +127,10 @@ export const GET = async (req: NextRequest) => {
         {
           DataPembiayaan: {
             created_at: {
-              gte: new Date(`${year}-01-01`),
-              lte: new Date(
-                `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
-              ),
+              gte: moment(`${year}-01`).tz("Asia/Jakarta").toISOString(true),
+              lte: moment(`${year}-${moment(year).daysInMonth()} 23:59`)
+                .tz("Asia/Jakarta")
+                .toISOString(true),
             },
           },
         },
