@@ -5,7 +5,15 @@ import {
   FormOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { Input, Modal, Table, TableProps, DatePicker, message } from "antd";
+import {
+  Input,
+  Modal,
+  Table,
+  TableProps,
+  DatePicker,
+  message,
+  Typography,
+} from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -14,12 +22,13 @@ import {
   BankOpt,
   Cabang,
   DataDataPengajuan,
-  DataDataTaspen,
   Options,
   UP,
 } from "@/components/utils/Interfaces";
 import { Refferal, User } from "@prisma/client";
 import CetakDataPengajuan from "@/components/utils/CetakDataPengajuan";
+
+const { Paragraph } = Typography;
 
 const CetakAkad = dynamic(
   () => import("@/components/views/monitoring/CetakAkad"),
@@ -50,7 +59,6 @@ const ViewBerkasPengajuan = dynamic(
 );
 
 export default function MonitoringEntryData() {
-  const [selected, setSelected] = useState<DataDataPengajuan>();
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
   const [year, setYear] = useState<string>();
@@ -62,18 +70,14 @@ export default function MonitoringEntryData() {
   const [cabang, setCabang] = useState<Cabang[]>();
   const [marketing, setMarketing] = useState<User[]>();
   const [refferal, setRefferal] = useState<Options[]>();
-  const [dataTaspen, setDataTaspen] = useState<DataDataTaspen[]>();
   const [provinsi, setProvinsi] = useState<Options[]>();
   const [open, setOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<DataDataPengajuan>();
   const [modalEdit, setModalEdit] = useState(false);
+  const [expand, setExpand] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const resTaspen = await fetch("/api/data-taspen");
-      const { data } = await resTaspen.json();
-      setDataTaspen(data);
-
       const resProvinsi = await fetch(
         "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"
       );
@@ -137,7 +141,7 @@ export default function MonitoringEntryData() {
     const result = await fetch("/api/monitoring/pusat", {
       method: "DELETE",
       headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify({ id: selected?.id }),
+      body: JSON.stringify({ id: selectedData?.id }),
     });
     const res = await result.json();
     if (result.ok) {
@@ -472,6 +476,20 @@ export default function MonitoringEntryData() {
             };
           },
           className: "text-justify",
+          render(value, record, index) {
+            return (
+              <Paragraph
+                ellipsis={{
+                  rows: 2,
+                  expandable: "collapsible",
+                  expanded: expand,
+                  onExpand: (_, info) => setExpand(info.expanded),
+                }}
+              >
+                {record.keterangan_slik}
+              </Paragraph>
+            );
+          },
         },
         {
           title: "PEMERIKSA",
@@ -580,6 +598,20 @@ export default function MonitoringEntryData() {
             };
           },
           className: "text-justify",
+          render(value, record, index) {
+            return (
+              <Paragraph
+                ellipsis={{
+                  rows: 2,
+                  expandable: "collapsible",
+                  expanded: expand,
+                  onExpand: (_, info) => setExpand(info.expanded),
+                }}
+              >
+                {record.keterangan_verifikasi}
+              </Paragraph>
+            );
+          },
         },
         {
           title: "PEMERIKSA",
@@ -623,220 +655,6 @@ export default function MonitoringEntryData() {
         },
       ],
     },
-    // {
-    //   title: "Informasi Data Checker",
-    //   dataIndex: `status_checker`,
-    //   key: "checker",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         background: "#e11d48",
-    //         color: "#f3f4f6",
-    //         textAlign: "center",
-    //       },
-    //       className: "example-class-in-td bg-green-500 text-white",
-    //     };
-    //   },
-    //   children: [
-    //     {
-    //       title: "Status",
-    //       dataIndex: "status_checker",
-    //       key: "status_checker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#e11d48",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.status_checker && (
-    //               <div
-    //                 className={`py-1 px-2 w-24 bg-${
-    //                   record.status_checker === "SETUJU"
-    //                     ? "green"
-    //                     : record.status_checker === "DITOLAK"
-    //                     ? "red"
-    //                     : record.status_checker === "ANTRI"
-    //                     ? "orange"
-    //                     : "blue"
-    //                 }-500 text-gray-100 text-center`}
-    //               >
-    //                 {record.status_checker}
-    //               </div>
-    //             )}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //     {
-    //       title: "Keterangan",
-    //       dataIndex: "keterangan_checker",
-    //       key: "keterangan_checker",
-    //       width: 300,
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#e11d48",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //     },
-    //     {
-    //       title: "Pemeriksa",
-    //       dataIndex: "nama_pemeriksa_checker",
-    //       key: "nama_pemeriksa_checker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#e11d48",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //     },
-    //     {
-    //       title: "Tanggal",
-    //       dataIndex: "tanggal_checker",
-    //       key: "tanggal_checker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#e11d48",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.tanggal_checker &&
-    //               moment(record.tanggal_checker).format("DD-MM-YYYY")}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: "Informasi Data Maker",
-    //   dataIndex: `status_maker`,
-    //   key: "maker",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         background: "#ea580c",
-    //         color: "#f3f4f6",
-    //         textAlign: "center",
-    //       },
-    //       className: "example-class-in-td bg-green-500 text-white",
-    //     };
-    //   },
-    //   children: [
-    //     {
-    //       title: "Status",
-    //       dataIndex: "status_maker",
-    //       key: "status_maker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#ea580c",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.status_maker && (
-    //               <div
-    //                 className={`py-1 px-2 w-24 bg-${
-    //                   record.status_maker === "SETUJU"
-    //                     ? "green"
-    //                     : record.status_maker === "DITOLAK"
-    //                     ? "red"
-    //                     : record.status_maker === "ANTRI"
-    //                     ? "orange"
-    //                     : "blue"
-    //                 }-500 text-gray-100 text-center`}
-    //               >
-    //                 {record.status_maker}
-    //               </div>
-    //             )}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //     {
-    //       title: "Keterangan",
-    //       dataIndex: "keterangan_maker",
-    //       key: "keterangan_maker",
-    //       width: 300,
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#ea580c",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //     },
-    //     {
-    //       title: "Pemeriksa",
-    //       dataIndex: "nama_pemeriksa_maker",
-    //       key: "nama_pemeriksa_maker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#ea580c",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //     },
-    //     {
-    //       title: "Tanggal",
-    //       dataIndex: "tanggal_maker",
-    //       key: "tanggal_maker",
-    //       onHeaderCell: (text, record) => {
-    //         return {
-    //           ["style"]: {
-    //             background: "#ea580c",
-    //             color: "#f3f4f6",
-    //             textAlign: "center",
-    //           },
-    //           className: "example-class-in-td bg-green-500 text-white",
-    //         };
-    //       },
-    //       render(value, record, index) {
-    //         return (
-    //           <div>
-    //             {record.tanggal_maker &&
-    //               moment(record.tanggal_maker).format("DD-MM-YYYY")}
-    //           </div>
-    //         );
-    //       },
-    //     },
-    //   ],
-    // },
     {
       title: "INFORMASI APPROVAL",
       dataIndex: `status_approval`,
@@ -902,6 +720,20 @@ export default function MonitoringEntryData() {
             };
           },
           className: "text-justify",
+          render(value, record, index) {
+            return (
+              <Paragraph
+                ellipsis={{
+                  rows: 2,
+                  expandable: "collapsible",
+                  expanded: expand,
+                  onExpand: (_, info) => setExpand(info.expanded),
+                }}
+              >
+                {record.keterangan_approval}
+              </Paragraph>
+            );
+          },
         },
         {
           title: "PEMERIKSA",
@@ -1018,7 +850,8 @@ export default function MonitoringEntryData() {
         footer={[]}
       >
         <p>
-          Lanjutkan penghapusan data pengajuan {selected?.DataPembiayaan.name}?
+          Lanjutkan penghapusan data pengajuan{" "}
+          {selectedData?.DataPembiayaan.name}?
         </p>
         <div className="flex justify-end">
           <button className="bg-red-500 hover:bg-red-500 text-white rounded shadow py-1 px-2">

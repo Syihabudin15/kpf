@@ -1,11 +1,11 @@
 "use client";
 import { Role } from "@prisma/client";
-import { Modal, Tabs, TabsProps } from "antd";
+import { Modal, Tabs } from "antd";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import { DataDataPengajuan } from "./Interfaces";
 import Mauk from "../views/dataPdf/Mauk";
