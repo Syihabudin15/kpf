@@ -1,9 +1,5 @@
 import { LoadingOutlined, PrinterOutlined } from "@ant-design/icons";
-import {
-  AngsuranPengajuan,
-  DataDataPencairan,
-  DataDataPengajuan,
-} from "./Interfaces";
+import { AngsuranPengajuan } from "./Interfaces";
 import * as XLSX from "xlsx";
 import { useState } from "react";
 import { message } from "antd";

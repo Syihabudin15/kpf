@@ -29,6 +29,12 @@ export default function DokumenPengajuanMitraBank() {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [open, setOpen] = useState(false);
+  const [berkas, setBerkas] = useState<{
+    type: string;
+    title: string;
+    url: string;
+  }>();
+  const [openBerkas, setOpenBerkas] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -63,7 +69,8 @@ export default function DokumenPengajuanMitraBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{index + 1}</>;
+        const currPage = (page - 1) * 20;
+        return <>{currPage + (index + 1)}</>;
       },
     },
     {

@@ -1514,7 +1514,7 @@ export default function TabsForm({
       pendidikan: data?.pendidikan,
       jenis_kelamin: data?.jenis_kelamin,
       agama: data?.agama,
-      masa_kerja: data?.masa_kerja,
+      masa_kerja: data?.masa_kerja || 0,
       status_rumah: data?.status_rumah,
       menempati_tahun: data?.menempati_tahun,
       nama_ibu_kandung: data?.nama_ibu_kandung,

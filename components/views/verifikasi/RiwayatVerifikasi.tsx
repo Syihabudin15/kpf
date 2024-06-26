@@ -313,7 +313,7 @@ export default function RiwayatVerifikasi() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: 2000, y: "calc(62vh - 100px)" }}
+          scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           size="small"
           loading={loading}
           pagination={{

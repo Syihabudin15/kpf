@@ -13,6 +13,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { icon } from "leaflet";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
+import ViewBerkas from "@/components/utils/VewBerkas";
 
 const FormEditPengajuan = dynamic(
   () => import("@/components/views/pengajuan/FormEditPengajuan"),
@@ -71,8 +72,8 @@ export default function EditPengajuan({
         children: (
           <div style={{ height: "70vh" }}>
             <ViewBerkas
-              url={data.BerkasPengajuan.berkas_slik || ""}
-              type="application/pdf"
+              currUrl={data.BerkasPengajuan.berkas_slik || ""}
+              currType="application/pdf"
             />
           </div>
         ),
@@ -83,8 +84,8 @@ export default function EditPengajuan({
         children: (
           <div style={{ height: "70vh" }}>
             <ViewBerkas
-              url={data.BerkasPengajuan.berkas_pengajuan || ""}
-              type="application/pdf"
+              currUrl={data.BerkasPengajuan.berkas_pengajuan || ""}
+              currType="application/pdf"
             />
           </div>
         ),
@@ -95,8 +96,8 @@ export default function EditPengajuan({
         children: (
           <div style={{ height: "70vh" }}>
             <ViewBerkas
-              url={data.BerkasPengajuan.video_asuransi || ""}
-              type="video/mp4"
+              currUrl={data.BerkasPengajuan.video_asuransi || ""}
+              currType="video/mp4"
             />
           </div>
         ),
@@ -107,8 +108,8 @@ export default function EditPengajuan({
         children: (
           <div style={{ height: "70vh" }}>
             <ViewBerkas
-              url={data.BerkasPengajuan.video_wawancara || ""}
-              type="video/mp4"
+              currUrl={data.BerkasPengajuan.video_wawancara || ""}
+              currType="video/mp4"
             />
           </div>
         ),
@@ -229,31 +230,3 @@ export default function EditPengajuan({
     </div>
   );
 }
-
-const ViewBerkas = ({ url, type }: { url: string; type: string }) => {
-  const split: string[] = url.split("/");
-  return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <object data={url} type={type} height={"100%"} width={"100%"}>
-        {url ? (
-          <>
-            <div className="text-center">
-              Browser anda tidak mendukung pembukaan file pdf
-            </div>
-            <div className="flex justify-center">
-              <a href={url} download={split[split.length]}>
-                <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-3 rounded shadow">
-                  Download
-                </button>
-              </a>
-            </div>
-          </>
-        ) : (
-          <div className="text-center text-red font-bold italic">
-            Berkas belum di upload!
-          </div>
-        )}
-      </object>
-    </div>
-  );
-};

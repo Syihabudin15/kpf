@@ -350,7 +350,7 @@ export default function AntrianVerifikasi() {
         columns={columns}
         dataSource={data}
         bordered
-        scroll={{ x: 1200, y: "calc(62vh - 100px)" }}
+        scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
         size="small"
         loading={loading}
         pagination={{

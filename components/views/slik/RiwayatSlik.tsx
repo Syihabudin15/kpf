@@ -15,6 +15,8 @@ const ViewBerkasPengajuan = dynamic(
   }
 );
 
+const { Paragraph } = Typography;
+
 export default function RiwayatSlik() {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
@@ -205,7 +207,7 @@ export default function RiwayatSlik() {
       width: 300,
       render(value, record, index) {
         return (
-          <Typography.Paragraph
+          <Paragraph
             ellipsis={{
               rows: 2,
               expandable: "collapsible",
@@ -214,7 +216,7 @@ export default function RiwayatSlik() {
             }}
           >
             {record.keterangan_slik}
-          </Typography.Paragraph>
+          </Paragraph>
         );
       },
     },
