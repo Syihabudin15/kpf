@@ -53,7 +53,7 @@ export const GET = async (req: NextRequest) => {
           DataPengajuanAlamat: true,
           DataPengajuanPasangan: true,
         },
-        orderBy: { DataPembiayaan: { created_at: "desc" } },
+        orderBy: { tanggal_approval: "desc" },
         skip: skip,
         take: 20,
       });

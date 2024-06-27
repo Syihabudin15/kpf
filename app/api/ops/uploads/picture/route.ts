@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import path from "path";
-import { promises as fs } from "fs";
+import { existsSync, promises as fs } from "fs";
 import moment from "moment";
 export const dynamic = "force-dynamic";
 
@@ -39,7 +39,9 @@ export const DELETE = async (req: NextRequest) => {
   const pathUrl = path.join(process.cwd(), "/storage" + data.url);
   try {
     if (data.url !== "/profile/profile_default.svg") {
-      await fs.unlink(pathUrl);
+      if (existsSync(pathUrl)) {
+        await fs.unlink(pathUrl);
+      }
     }
     if (data.id && data.id !== "") {
       await prisma.user.update({

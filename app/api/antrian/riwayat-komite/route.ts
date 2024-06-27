@@ -312,7 +312,7 @@ const handleBank = async (
       },
       skip: skip,
       take: 20,
-      orderBy: { DataPembiayaan: { created_at: "asc" } },
+      orderBy: { DataPembiayaan: { created_at: "desc" } },
     });
   }
   const total = await prisma.dataPengajuan.count({
