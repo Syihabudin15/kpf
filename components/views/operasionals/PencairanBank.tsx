@@ -1,6 +1,10 @@
 "use client";
 import { formatNumber, formatNumberTitik } from "@/components/utils/inputUtils";
-import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  CloudUploadOutlined,
+  LoadingOutlined,
+  PrinterFilled,
+} from "@ant-design/icons";
 import { Input, Modal, Table, TableProps, message } from "antd";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
@@ -22,6 +26,10 @@ const CetakUPPINJ = dynamic(() => import("./CetakUppinj"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+const CetakSI = dynamic(() => import("@/components/views/dataPdf/CetakSI"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 
 export default function PencairanBank() {
   const [data, setData] = useState<DataDataPencairan[]>();
@@ -33,6 +41,7 @@ export default function PencairanBank() {
   const [modalUpload, setModalUpload] = useState(false);
   const [urls, setUrls] = useState<any>();
   const notifCtx = useContext(notifContext);
+  const [modalSI, setModalSI] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -287,6 +296,72 @@ export default function PencairanBank() {
       ],
     },
     {
+      title: "BERKAS SI",
+      dataIndex: "berkas_si",
+      key: "berkas_si",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      children: [
+        {
+          title: "CETAK",
+          key: "cetak_si",
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          width: 100,
+          dataIndex: "upload_surat",
+          render(value, record, index) {
+            return (
+              <div className="flex justify-center">
+                <button
+                  className="rounded shadow border py-1 px-2"
+                  onClick={() => {
+                    setSelected(record);
+                    setModalSI(true);
+                  }}
+                >
+                  <PrinterFilled />
+                </button>
+              </div>
+            );
+          },
+        },
+        {
+          title: "VIEW",
+          key: "view_si",
+          dataIndex: "view_si",
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          width: 100,
+          render(value, record, index) {
+            return (
+              <ModalBerkas
+                data={{
+                  type: "application/pdf",
+                  url: record.berkas_si || "",
+                  title: `BERKAS SI ${record.nomor_surat}`,
+                }}
+              />
+            );
+          },
+        },
+      ],
+    },
+    {
       title: "CIFTAB",
       key: "ciftab",
       dataIndex: "ciftab",
@@ -455,35 +530,51 @@ export default function PencairanBank() {
           }}
         />
       </div>
-      <Modal
-        open={modalUpload}
-        title={`BUKTI TRANSFER ${selected?.nomor_surat}`}
-        onCancel={() => setModalUpload(false)}
-        footer={[]}
-      >
-        <div className="my-5">
-          <UploadBerkas
-            url="/api/ops/uploads/bukti_transfer"
-            dir="bukti_transfer"
-            name="Bukti Transfer"
-            id={selected?.id || ""}
-            ext="pdf"
-            fileType="application/pdf"
-            filePath={urls && urls["bukti_transfer"]}
-            pathName="bukti_transfer"
-            setUrl={setUrls}
-          />
-        </div>
-        <div className="flex justify-end mt-5">
-          <button
-            className={`text-white py-1 px-4 bg-orange-500 hover:bg-orange-600 rounded shadow text-sm`}
-            disabled={!urls ? true : false}
-            onClick={() => handleUpload()}
-          >
-            Simpan {loading && <LoadingOutlined />}{" "}
-          </button>
-        </div>
-      </Modal>
+      {selected && (
+        <Modal
+          open={modalUpload}
+          title={`BUKTI TRANSFER ${selected?.nomor_surat}`}
+          onCancel={() => setModalUpload(false)}
+          footer={[]}
+        >
+          <div className="my-5">
+            <UploadBerkas
+              url="/api/ops/uploads/bukti_transfer"
+              dir="bukti_transfer"
+              name="Bukti Transfer"
+              id={selected?.id || ""}
+              ext="pdf"
+              fileType="application/pdf"
+              filePath={urls && urls["bukti_transfer"]}
+              pathName="bukti_transfer"
+              setUrl={setUrls}
+            />
+          </div>
+          <div className="flex justify-end mt-5">
+            <button
+              className={`text-white py-1 px-4 bg-orange-500 hover:bg-orange-600 rounded shadow text-sm`}
+              disabled={!urls ? true : false}
+              onClick={() => handleUpload()}
+            >
+              Simpan {loading && <LoadingOutlined />}{" "}
+            </button>
+          </div>
+        </Modal>
+      )}
+      {selected && (
+        <Modal
+          open={modalSI}
+          onCancel={() => setModalSI(false)}
+          width={"95vw"}
+          style={{ top: 20 }}
+          footer={[]}
+          title="CETAK BERKAS SI"
+        >
+          <div style={{ height: "80vh" }}>
+            <CetakSI data={selected as DataDataPencairan} />
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

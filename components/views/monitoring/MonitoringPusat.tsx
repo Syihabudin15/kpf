@@ -14,6 +14,7 @@ import {
   DatePicker,
   message,
   Typography,
+  Select,
 } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -77,6 +78,7 @@ export default function MonitoringPusat() {
   const [open, setOpen] = useState(false);
   const [expand, setExpand] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
+  const [group, setGroup] = useState<string>();
 
   useEffect(() => {
     (async () => {
@@ -127,14 +129,32 @@ export default function MonitoringPusat() {
       }${year ? "&year=" + year : ""}`
     );
     const { data, total } = await res.json();
-    setData(
-      data.map((d: DataDataPengajuan) => {
-        return {
-          ...d,
-          key: d.id,
-        };
-      })
-    );
+    if (group === "EXPRESS") {
+      setData(
+        data &&
+          data.filter(
+            (d: DataDataPengajuan) =>
+              d.DataPembiayaan.jenis_pembiayaan_id === null
+          )
+      );
+    } else if (group === "REGULER") {
+      setData(
+        data &&
+          data.filter(
+            (d: DataDataPengajuan) =>
+              d.DataPembiayaan.jenis_pembiayaan_id !== null
+          )
+      );
+    } else {
+      setData(
+        data.map((d: DataDataPengajuan) => {
+          return {
+            ...d,
+            key: d.id,
+          };
+        })
+      );
+    }
     setTotal(total);
     setLoading(false);
   };
@@ -143,7 +163,7 @@ export default function MonitoringPusat() {
     (async () => {
       await getData();
     })();
-  }, [year, nameOrNopen, page]);
+  }, [year, nameOrNopen, page, group]);
 
   const handleDelete = async () => {
     setLoading(true);
@@ -891,6 +911,17 @@ export default function MonitoringPusat() {
         <Input.Search
           style={{ width: 170 }}
           onChange={(e) => setNameOrNopen(e.target.value)}
+        />
+        <Select
+          style={{ width: 150 }}
+          options={[
+            { label: "EXPRESS", value: "EXPRESS" },
+            { label: "REGULER", value: "REGULER" },
+          ]}
+          defaultValue={"ALL"}
+          placeholder="ALL"
+          onChange={(e) => setGroup(e)}
+          allowClear
         />
         <CetakDataPengajuan data={data || []} />
       </div>

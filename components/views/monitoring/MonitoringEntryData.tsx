@@ -13,6 +13,7 @@ import {
   DatePicker,
   message,
   Typography,
+  Select,
 } from "antd";
 import moment from "moment-timezone";
 import { useEffect, useState } from "react";
@@ -75,6 +76,7 @@ export default function MonitoringEntryData() {
   const [selectedData, setSelectedData] = useState<DataDataPengajuan>();
   const [modalEdit, setModalEdit] = useState(false);
   const [expand, setExpand] = useState(false);
+  const [group, setGroup] = useState<string>();
 
   useEffect(() => {
     (async () => {
@@ -125,7 +127,33 @@ export default function MonitoringEntryData() {
       }${year ? "&year=" + year : ""}`
     );
     const { data, total } = await res.json();
-    setData(data);
+    if (group === "EXPRESS") {
+      setData(
+        data &&
+          data.filter(
+            (d: DataDataPengajuan) =>
+              d.DataPembiayaan.jenis_pembiayaan_id === null
+          )
+      );
+    } else if (group === "REGULER") {
+      setData(
+        data &&
+          data.filter(
+            (d: DataDataPengajuan) =>
+              d.DataPembiayaan.jenis_pembiayaan_id !== null
+          )
+      );
+    } else {
+      setData(
+        data.map((d: DataDataPengajuan) => {
+          return {
+            ...d,
+            key: d.id,
+          };
+        })
+      );
+    }
+    // setData(data);
     setTotal(total);
     setLoading(false);
   };
@@ -823,6 +851,17 @@ export default function MonitoringEntryData() {
         <Input.Search
           style={{ width: 170 }}
           onChange={(e) => setNameOrNopen(e.target.value)}
+        />
+        <Select
+          style={{ width: 150 }}
+          options={[
+            { label: "EXPRESS", value: "EXPRESS" },
+            { label: "REGULER", value: "REGULER" },
+          ]}
+          defaultValue={"ALL"}
+          placeholder="ALL"
+          onChange={(e) => setGroup(e)}
+          allowClear
         />
         <CetakDataPengajuan data={data || []} />
       </div>

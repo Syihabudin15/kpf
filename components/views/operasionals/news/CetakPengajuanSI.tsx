@@ -260,72 +260,6 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
         );
       },
     },
-    // {
-    //   title: "CASH COLL TBO JAMINAN",
-    //   dataIndex: "cash_coll",
-    //   key: "cash_coll",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         textAlign: "center",
-    //       },
-    //     };
-    //   },
-    //   className: "text-center",
-    //   render(value, record, index) {
-    //     return <>{formatNumber((0).toFixed(0))}</>;
-    //   },
-    // },
-    // {
-    //   title: "DROPPING MITRA BANK",
-    //   dataIndex: "dropping_mitra",
-    //   key: "dropping_mitra",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         textAlign: "center",
-    //       },
-    //     };
-    //   },
-    //   className: "text-center",
-    //   render(value, record, index) {
-    //     return <>{formatNumber((0).toFixed(0))}</>;
-    //   },
-    // },
-    // {
-    //   title: "DROPPING NASABAH",
-    //   dataIndex: "dropping_nasabah",
-    //   key: "dropping_nasabah",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         textAlign: "center",
-    //       },
-    //     };
-    //   },
-    //   className: "text-center",
-    //   render(value, record, index) {
-    //     return <>{formatNumber((0).toFixed(0))}</>;
-    //   },
-    // },
-    // {
-    //   title: "BERKAS PENGAJUAN",
-    //   dataIndex: "berkas_pengajuan",
-    //   key: "berkas_pengajuan",
-    //   onHeaderCell: (text, record) => {
-    //     return {
-    //       ["style"]: {
-    //         textAlign: "center",
-    //       },
-    //       className: "example-class-in-td",
-    //     };
-    //   },
-    //   render(value, record, index) {
-    //     return (
-    //       <ViewBerkasPengajuan data={record} role={role} allowForm={false} />
-    //     );
-    //   },
-    // },
     {
       title: "PLAFOND",
       dataIndex: "plafond",
@@ -427,11 +361,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
                     split[0],
                   ]).format("YYYY-MM-DD");
                   setTanggalSI(result);
-                  setNomorSurat(
-                    `/SI/KPF-${selectedDatas && selectedDatas[0].kode}/${moment(
-                      result
-                    ).format("DDMMYYYY")}`
-                  );
+                  setNomorSurat(`/KPF-OPS/${moment(result).format("MMYYYY")}`);
                 }}
               />
             </Form.Item>

@@ -221,6 +221,9 @@ const handleMaster = async (skip: number, name: string | null) => {
       },
       skip: skip,
       take: 20,
+      orderBy: {
+        tanggal_cetak: "desc",
+      },
     });
   }
   const total = await prisma.dataPencairan.count({
@@ -323,6 +326,9 @@ const handleBank = async (
       },
       skip: skip,
       take: 20,
+      orderBy: {
+        tanggal_cetak: "desc",
+      },
     });
   }
   const total = await prisma.dataPencairan.count({

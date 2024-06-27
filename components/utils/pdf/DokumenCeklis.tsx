@@ -46,7 +46,7 @@ export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
     ],
     [
       { data: "6", width: 30 },
-      { data: "Slip Haji karyawan / Rekening Bank 3 Bln Terakhir", width: 120 },
+      { data: "Slip Gaji karyawan / Rekening Bank 3 Bln Terakhir", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },
@@ -64,7 +64,7 @@ export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
     ],
     [
       { data: "2", width: 30 },
-      { data: "Form Permohonan Pembiaayn Pensiun", width: 120 },
+      { data: "Form Permohonan Pembiayaan Pensiun", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },
@@ -72,7 +72,7 @@ export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
     ],
     [
       { data: "3", width: 30 },
-      { data: "Surat Keterangan Asli Post", width: 120 },
+      { data: "Surat Keterangan Asli Pos", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },
@@ -81,7 +81,7 @@ export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
     [
       { data: "4", width: 30 },
       {
-        data: "surat oenyetaan dan ketentuan pembiayaan dan keteranganm kesehatan dan domisili pemohhon",
+        data: "Surat pernyataan ketentuan pembiayaan, keterangan kesehatan dan domisili pemohon",
         width: 120,
       },
       { data: "ASLI", width: 80 },
@@ -91,7 +91,7 @@ export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
     ],
     [
       { data: "5", width: 30 },
-      { data: "Surat Keterangan / Pernyataan Laiinya", width: 120 },
+      { data: "Surat Keterangan / Pernyataan Lainnya", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },

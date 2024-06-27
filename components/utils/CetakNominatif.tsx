@@ -105,7 +105,10 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
         ws,
         data.nomor_surat.replaceAll("/", "_")
       );
-      XLSX.writeFile(wb, "nominatif.xlsx");
+      XLSX.writeFile(
+        wb,
+        `Nominatif_${data.nomor_surat.replaceAll("/", "_")}.xlsx`
+      );
     } catch (err) {
       message.error("Gagal cetak nominatif. Coba lagi nanti!");
     }

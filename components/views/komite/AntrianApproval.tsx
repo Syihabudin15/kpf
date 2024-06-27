@@ -44,6 +44,24 @@ export default function AntrianApproval() {
   }, [year, nameOrNopen, page]);
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
+      title: "NAMA PEMOHON",
+      dataIndex: "name",
+      key: "name",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      fixed: window.innerWidth < 600 ? false : "left",
+      render(value, record, index) {
+        return <>{record.DataPembiayaan && record.DataPembiayaan.name}</>;
+      },
+    },
+    {
       title: "NO",
       dataIndex: "nopen",
       key: "nopen",
@@ -118,24 +136,6 @@ export default function AntrianApproval() {
       },
       render(value, record, index) {
         return <>{record.Bank.name}</>;
-      },
-    },
-    {
-      title: "NAMA PEMOHON",
-      dataIndex: "name",
-      key: "name",
-      width: 150,
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      className: "text-center",
-      fixed: window.innerWidth < 600 ? false : "left",
-      render(value, record, index) {
-        return <>{record.DataPembiayaan && record.DataPembiayaan.name}</>;
       },
     },
     {
