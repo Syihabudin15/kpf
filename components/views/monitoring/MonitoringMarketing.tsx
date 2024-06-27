@@ -96,7 +96,6 @@ export default function MonitoringMarketing() {
           },
         };
       },
-      className: "text-center",
       render(value, record, index) {
         return <>{record.DataPembiayaan.name}</>;
       },

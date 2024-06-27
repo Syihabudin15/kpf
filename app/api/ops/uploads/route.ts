@@ -34,8 +34,6 @@ export const POST = async (req: NextRequest) => {
         tanggal_video_cair: data.tanggal_video_cair,
         no_rekening: data.no_rekening,
         nama_bank: data.nama_bank,
-        berkas_lainnya: data.berkas_lainnya,
-        tanggal_berkas_lainnya: data.tanggal_berkas_lainnya,
         video_cair2: data.video_cair2,
         tanggal_video_cair2: data.tanggal_video_cair2,
         video_cair3: data.video_cair3,

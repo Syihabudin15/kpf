@@ -374,6 +374,7 @@ export default function PenerimaanBersih() {
           title={"UPLOAD BERKAS PENERIMAAN BERSIH"}
           onCancel={() => {
             setUrl({ berkas_lainnya: "", tanggal_berkas_lainnya: "" });
+            setSelected(undefined);
             setOpenUpload(false);
           }}
           open={openUpload}

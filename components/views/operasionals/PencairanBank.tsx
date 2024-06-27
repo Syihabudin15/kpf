@@ -271,8 +271,8 @@ export default function PencairanBank() {
         },
         {
           title: "VIEW",
-          key: "view_surat",
-          dataIndex: "view_surat",
+          key: "view_bukti_transfer",
+          dataIndex: "view_bukti_transfer",
           onHeaderCell: (text, record) => {
             return {
               ["style"]: {
@@ -296,9 +296,9 @@ export default function PencairanBank() {
       ],
     },
     {
-      title: "BERKAS SI",
-      dataIndex: "berkas_si",
-      key: "berkas_si",
+      title: "VIEW SI",
+      key: "view_si",
+      dataIndex: "view_si",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -306,60 +306,18 @@ export default function PencairanBank() {
           },
         };
       },
-      children: [
-        {
-          title: "CETAK",
-          key: "cetak_si",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-              },
-            };
-          },
-          width: 100,
-          dataIndex: "upload_surat",
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center">
-                <button
-                  className="rounded shadow border py-1 px-2"
-                  onClick={() => {
-                    setSelected(record);
-                    setModalSI(true);
-                  }}
-                >
-                  <PrinterFilled />
-                </button>
-              </div>
-            );
-          },
-        },
-        {
-          title: "VIEW",
-          key: "view_si",
-          dataIndex: "view_si",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-              },
-            };
-          },
-          width: 100,
-          render(value, record, index) {
-            return (
-              <ModalBerkas
-                data={{
-                  type: "application/pdf",
-                  url: record.berkas_si || "",
-                  title: `BERKAS SI ${record.nomor_surat}`,
-                }}
-              />
-            );
-          },
-        },
-      ],
+      width: 100,
+      render(value, record, index) {
+        return (
+          <ModalBerkas
+            data={{
+              type: "application/pdf",
+              url: record.berkas_si || "",
+              title: `BERKAS SI ${record.nomor_surat}`,
+            }}
+          />
+        );
+      },
     },
     {
       title: "CIFTAB",
@@ -558,20 +516,6 @@ export default function PencairanBank() {
             >
               Simpan {loading && <LoadingOutlined />}{" "}
             </button>
-          </div>
-        </Modal>
-      )}
-      {selected && (
-        <Modal
-          open={modalSI}
-          onCancel={() => setModalSI(false)}
-          width={"95vw"}
-          style={{ top: 20 }}
-          footer={[]}
-          title="CETAK BERKAS SI"
-        >
-          <div style={{ height: "80vh" }}>
-            <CetakSI data={selected as DataDataPencairan} />
           </div>
         </Modal>
       )}

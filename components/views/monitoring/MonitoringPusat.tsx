@@ -247,7 +247,6 @@ export default function MonitoringPusat() {
           },
         };
       },
-      className: "text-center",
       fixed: window.innerWidth < 600 ? false : "left",
       width: 150,
       render(value, record, index) {

@@ -114,7 +114,6 @@ export default function RiwayatVerifikasi() {
           },
         };
       },
-      className: "text-center",
       render(value, record, index) {
         return <>{record.DataPembiayaan && record.DataPembiayaan.name}</>;
       },

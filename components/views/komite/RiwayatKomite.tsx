@@ -135,7 +135,6 @@ export default function RiwayatKomite() {
           },
         };
       },
-      className: "text-center",
       fixed: window.innerWidth < 600 ? false : "left",
       render(value, record, index) {
         return <>{record.DataPembiayaan && record.DataPembiayaan.name}</>;

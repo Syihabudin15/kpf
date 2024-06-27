@@ -231,7 +231,6 @@ export default function MonitoringEntryData() {
           },
         };
       },
-      className: "text-center",
       render(value, record, index) {
         return <>{record.DataPembiayaan.name}</>;
       },

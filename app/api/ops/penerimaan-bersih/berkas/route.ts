@@ -54,7 +54,7 @@ export const PUT = async (req: NextRequest) => {
       },
       data: {
         berkas_lainnya: data.url,
-        tanggal_berkas_lainnya: new Date().toISOString(),
+        tanggal_berkas_lainnya: data.url ? new Date().toISOString() : null,
       },
     });
     return NextResponse.json(
@@ -90,6 +90,7 @@ export const DELETE = async (req: NextRequest) => {
         tanggal_berkas_lainnya: null,
       },
     });
+    console.log("OKE");
     return NextResponse.json(
       { msg: "berhasil mengahapus file" },
       { status: 200 }

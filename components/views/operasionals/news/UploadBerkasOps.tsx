@@ -84,9 +84,6 @@ export default function UploadBerksOps({
       video_cair: data.BerkasPengajuan.video_cair || undefined,
       tanggal_video_cair:
         data.BerkasPengajuan.tanggal_video_cair?.toString() || undefined,
-      berkas_lainnya: data.BerkasPengajuan.video_cair || undefined,
-      tanggal_berkas_lainnya:
-        data.BerkasPengajuan.tanggal_video_cair?.toString() || undefined,
       video_cair2: data.BerkasPengajuan.video_cair2 || undefined,
       tanggal_video_cair2:
         data.BerkasPengajuan.tanggal_video_cair2?.toString() || undefined,
