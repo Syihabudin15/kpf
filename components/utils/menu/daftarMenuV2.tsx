@@ -157,6 +157,12 @@ export const menusV2: Menus[] = [
         icon: <BookOutlined />,
       },
       {
+        label: "Pencairan Tahap 2",
+        url: "/operasional/pencairan-tahap-2",
+        role: ["MASTER", "OPERASIONAL", "BANK"],
+        icon: <FormOutlined />,
+      },
+      {
         label: "Dokumen Pengajuan Mitra",
         role: ["BANK"],
         url: "/slik/dokumen-pengajuan-mitra",
@@ -183,12 +189,6 @@ export const menusV2: Menus[] = [
         role: ["VERIFIKASI", "MASTER"],
         icon: <BookOutlined />,
       },
-      // {
-      //   label: "Dokumen Pengajuan",
-      //   url: "/verifikasi/pengajuan-mitra",
-      //   role: ["VERIFIKASI", "MASTER"],
-      //   icon: <FolderOpenOutlined />,
-      // },
     ],
   },
   {
@@ -197,18 +197,6 @@ export const menusV2: Menus[] = [
     role: ["CHECKER", "MAKER", "MASTER", "APPROVAL"],
     icon: <DiffOutlined />,
     child: [
-      // {
-      //   label: "Antrian Pengajuan Checker",
-      //   url: "/pengajuan-komite/checker",
-      //   role: ["CHECKER", "MASTER"],
-      //   icon: <FormOutlined />,
-      // },
-      // {
-      //   label: "Antrian Pengajuan Maker",
-      //   url: "/pengajuan-komite/maker",
-      //   role: ["MAKER", "MASTER"],
-      //   icon: <FormOutlined />,
-      // },
       {
         label: "Antrian Pengajuan Komite",
         url: "/pengajuan-komite/approval",
@@ -244,7 +232,7 @@ export const menusV2: Menus[] = [
       {
         label: "Pencairan Tahap 2",
         url: "/operasional/pencairan-tahap-2",
-        role: ["MASTER", "OPERASIONAL"],
+        role: ["MASTER", "OPERASIONAL", "BANK"],
         icon: <FormOutlined />,
       },
       {

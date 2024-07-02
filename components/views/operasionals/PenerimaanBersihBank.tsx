@@ -26,15 +26,6 @@ export default function PenerimaanBersih() {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState<DataDataPengajuan>();
-  const [openUpload, setOpenUpload] = useState(false);
-  const [url, setUrl] = useState<{
-    berkas_lainnya: string;
-    tanggal_berkas_lainnya: string;
-  }>({
-    berkas_lainnya: "",
-    tanggal_berkas_lainnya: "",
-  });
 
   const getData = async () => {
     setLoading(true);
@@ -57,26 +48,6 @@ export default function PenerimaanBersih() {
       await getData();
     })();
   }, [nama, page, year]);
-
-  const handleSubmit = async () => {
-    setLoading(true);
-    const res = await fetch("/api/ops/penerimaan-bersih/berkas", {
-      method: "PUT",
-      headers: { "Content-Type": "Application/json" },
-      body: JSON.stringify({
-        id: selected?.berkasPengajuanId,
-        url: url.berkas_lainnya,
-      }),
-    });
-    if (res.ok) {
-      message.success("Upload berkas penerimaan bersih berhasil");
-      setOpenUpload(false);
-      await getData();
-    } else {
-      message.error("Gagal upload berkas. Coba lagi nanti!");
-    }
-    setLoading(false);
-  };
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
@@ -119,8 +90,8 @@ export default function PenerimaanBersih() {
       title: "NO PENSIUN",
       dataIndex: "no",
       key: "nopen",
-      width: 150,
       fixed: window.innerWidth < 600 ? false : "left",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -131,6 +102,23 @@ export default function PenerimaanBersih() {
       className: "text-center",
       render(value, record, index) {
         return <>{record.DataPembiayaan.nopen}</>;
+      },
+    },
+    {
+      title: "NAMA PEMOHON",
+      dataIndex: "nama",
+      key: "nama",
+      width: 200,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      fixed: window.innerWidth < 600 ? false : "left",
+      render(value, record, index) {
+        return <>{record.DataPembiayaan.name}</>;
       },
     },
     {
@@ -148,23 +136,6 @@ export default function PenerimaanBersih() {
       className: "text-center",
       render(value, record, index) {
         return <>{record.nomor_sk_pensiun}</>;
-      },
-    },
-    {
-      title: "NAMA PEMOHON",
-      dataIndex: "nama",
-      key: "nama",
-      width: 200,
-      fixed: window.innerWidth < 600 ? false : "left",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      render(value, record, index) {
-        return <>{record.DataPembiayaan.name}</>;
       },
     },
     {
@@ -261,35 +232,6 @@ export default function PenerimaanBersih() {
       key: "berkas_terima_bersih",
       children: [
         {
-          title: "UPLOAD BERKAS",
-          dataIndex: "upload_berkas",
-          key: "upload_berkas",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center">
-                <button
-                  className="py-1 px-2 border rounded shadow bg-green-500 hover:bg-green-600 text-white"
-                  onClick={() => {
-                    setSelected(record);
-                    setOpenUpload(true);
-                  }}
-                >
-                  <CloudUploadOutlined />
-                </button>
-              </div>
-            );
-          },
-        },
-        {
           title: "VIEW",
           key: "view",
           dataIndex: "view",
@@ -370,42 +312,6 @@ export default function PenerimaanBersih() {
           }}
         />
       </div>
-      {selected && (
-        <Modal
-          footer={[]}
-          title={"UPLOAD BERKAS PENERIMAAN BERSIH"}
-          onCancel={() => {
-            setUrl({ berkas_lainnya: "", tanggal_berkas_lainnya: "" });
-            setSelected(undefined);
-            setOpenUpload(false);
-          }}
-          open={openUpload}
-        >
-          <div className="mb-5">
-            <UploadBerkas
-              name="Berkas Terima Bersih"
-              pathName="berkas_lainnya"
-              dir="berkas_lainnya"
-              url="/api/ops/penerimaan-bersih/berkas"
-              fileType={"application/pdf"}
-              setUrl={setUrl}
-              filePath={selected.BerkasPengajuan.berkas_lainnya}
-              id={selected.berkasPengajuanId || ""}
-              ext="pdf"
-            />
-          </div>
-          <div className="flex justify-end">
-            <button
-              className="py-2 px-5 bg-blue-500 hover:bg-blue-600 text-white rounded shadow text-xs"
-              disabled={loading}
-              style={{ opacity: loading ? 0.7 : 1 }}
-              onClick={() => handleSubmit()}
-            >
-              SUBMIT {loading && <LoadingOutlined />}
-            </button>
-          </div>
-        </Modal>
-      )}
     </div>
   );
 }

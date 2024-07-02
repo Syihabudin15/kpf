@@ -816,46 +816,6 @@ export default function RiwayatPengajuanBank({ role }: { role: Role }) {
         },
       ],
     },
-    // {
-    //   title: "Video Tambahan",
-    //   dataIndex: "berkas_tambahan",
-    //   key: "berkas_tambahan",
-    //   children: [
-    //     {
-    //       title: "View",
-    //       key: "view",
-    //       dataIndex: "view",
-    //       render(value, record, index) {
-    //         return (
-    //           <>
-    //             <ModalBerkas
-    //               data={{
-    //                 url: record.BerkasPengajuan.berkas_lainnya || "",
-    //                 type: "video/mp4",
-    //                 title: `Berkas Tambahan ${record.DataPembiayaan.name}`,
-    //               }}
-    //             />
-    //           </>
-    //         );
-    //       },
-    //     },
-    //     {
-    //       title: "Tanggal",
-    //       key: "tanggal",
-    //       dataIndex: "tanggal",
-    //       render(value, record, index) {
-    //         return (
-    //           <>
-    //             {record.BerkasPengajuan.tanggal_berkas_lainnya &&
-    //               moment(record.BerkasPengajuan.tanggal_berkas_lainnya).format(
-    //                 "DD-MM-YYYY"
-    //               )}
-    //           </>
-    //         );
-    //       },
-    //     },
-    //   ],
-    // },
     {
       title: "EPOTPEN",
       dataIndex: "epotpen",

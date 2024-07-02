@@ -50,6 +50,13 @@ const handleBank = async (
           { nopen: { contains: nama } },
           { nama_skep: { contains: nama } },
         ],
+        DataPembiayaan: {
+          OR: [
+            { JenisPembiayaan: { name: "Mutasi" } },
+            { JenisPembiayaan: { name: "Mutasi Take Over" } },
+            { JenisPembiayaan: { name: "Take Over" } },
+          ],
+        },
       },
       include: {
         DataPembiayaan: {
@@ -95,6 +102,11 @@ const handleBank = async (
               .tz("Asia/Jakarta")
               .toISOString(true),
           },
+          OR: [
+            { JenisPembiayaan: { name: "Mutasi" } },
+            { JenisPembiayaan: { name: "Mutasi Take Over" } },
+            { JenisPembiayaan: { name: "Take Over" } },
+          ],
         },
       },
       include: {
@@ -141,6 +153,11 @@ const handleBank = async (
             .tz("Asia/Jakarta")
             .toISOString(true),
         },
+        OR: [
+          { JenisPembiayaan: { name: "Mutasi" } },
+          { JenisPembiayaan: { name: "Mutasi Take Over" } },
+          { JenisPembiayaan: { name: "Take Over" } },
+        ],
       },
     },
     orderBy: { tanggal_pencairan: "desc" },
@@ -162,6 +179,13 @@ const handleNonBank = async (
           { nopen: { contains: nama } },
           { nama_skep: { contains: nama } },
         ],
+        DataPembiayaan: {
+          OR: [
+            { JenisPembiayaan: { name: "Mutasi" } },
+            { JenisPembiayaan: { name: "Mutasi Take Over" } },
+            { JenisPembiayaan: { name: "Take Over" } },
+          ],
+        },
       },
       include: {
         DataPembiayaan: {
@@ -206,6 +230,11 @@ const handleNonBank = async (
               .tz("Asia/Jakarta")
               .toISOString(true),
           },
+          OR: [
+            { JenisPembiayaan: { name: "Mutasi" } },
+            { JenisPembiayaan: { name: "Mutasi Take Over" } },
+            { JenisPembiayaan: { name: "Take Over" } },
+          ],
         },
       },
       include: {
@@ -251,6 +280,11 @@ const handleNonBank = async (
             .tz("Asia/Jakarta")
             .toISOString(true),
         },
+        OR: [
+          { JenisPembiayaan: { name: "Mutasi" } },
+          { JenisPembiayaan: { name: "Mutasi Take Over" } },
+          { JenisPembiayaan: { name: "Take Over" } },
+        ],
       },
     },
     orderBy: { tanggal_pencairan: "desc" },

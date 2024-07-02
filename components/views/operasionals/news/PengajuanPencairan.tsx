@@ -297,6 +297,7 @@ export default function PengajuanPencairan() {
           let plaf =
             d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
           total -= plaf + d.DataPembiayaan.by_buka_rekening;
+          total -= d.DataPembiayaan.by_provisi;
         });
         return <>{formatNumberTitik(total.toFixed(0))}</>;
       },

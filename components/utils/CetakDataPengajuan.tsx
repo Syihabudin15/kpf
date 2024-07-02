@@ -21,6 +21,9 @@ export default function CetakDataPengajuan({
           "TANGGAL PENGAJUAN": moment(d.DataPembiayaan.created_at).format(
             "DD-MM-YYYY"
           ),
+          "UNIT PELAYANAN": d.User.unit_cabang_id
+            ? d.User.UnitCabang.name
+            : "PUSAT",
           "AREA PELAYANAN": d.User.unit_cabang_id
             ? d.User.UnitCabang.UnitPelayanan.name
             : "JAWA BARAT",

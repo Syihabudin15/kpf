@@ -870,8 +870,6 @@ export default function MonitoringPusat() {
                 setSelected(record);
                 setModalEdit(true);
               }}
-              // disabled={data.status_pencairan === "TRANSFER" ? true : false}
-              // style={{ opacity: data.status_pencairan === "TRANSFER" ? 0.5 : 1 }}
             >
               <FormOutlined />
             </button>
