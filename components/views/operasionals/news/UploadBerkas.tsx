@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { GetProp, Progress, Upload, UploadProps, message } from "antd";
 import axios from "axios";
@@ -139,15 +139,18 @@ export default function UploadBerkas({
     setLoading(false);
   };
   return (
-    <div className="block sm:flex justify-between px-3 py-1 border-b border-gray-300 items-center" key={pathName}>
-      <p>{name}</p>
+    <div
+      className="block sm:flex justify-between px-3 py-1 border-b border-gray-300 items-center gap-3"
+      key={pathName}
+    >
+      <p style={{ width: 220 }}>{name} :</p>
       <div>
         {progress > 0 && progress < 100 ? (
           <Progress percent={progress} />
         ) : (
           <div>
             {currUrl ? (
-              <div className="flex-1 flex gap-2 items-center justify-center flex-wrap">
+              <div className="flex-1 flex gap-2 items-center justify-center">
                 <span style={{ opacity: 0.7 }}>{currUrl}</span>
                 <button
                   className="bg-red-500 hover:bg-red-600 text-white rounded shadow border px-2 py-1"

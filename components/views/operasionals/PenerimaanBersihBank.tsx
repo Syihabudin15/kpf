@@ -1,8 +1,8 @@
 "use client";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
-import { DatePicker, Input, Modal, Table, TableProps, message } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { DatePicker, Input, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -11,13 +11,6 @@ const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
-const UploadBerkas = dynamic(
-  () => import("@/components/views/operasionals/news/UploadBerkas"),
-  {
-    ssr: false,
-    loading: () => <LoadingOutlined />,
-  }
-);
 
 export default function PenerimaanBersih() {
   const [nama, setName] = useState<string>();
@@ -251,6 +244,7 @@ export default function PenerimaanBersih() {
                   type: "application/pdf",
                   title: `PENERIMAAN BERSIH ${record.DataPembiayaan.name}`,
                 }}
+                key={record.id}
               />
             );
           },

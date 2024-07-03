@@ -1,16 +1,19 @@
 "use client";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
-import { formatNumber } from "@/components/utils/inputUtils";
 import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { DatePicker, Input, Modal, Table, TableProps, message } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { formatNumber } from "@/components/utils/inputUtils";
+import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
 
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+
 const UploadBerkas = dynamic(
   () => import("@/components/views/operasionals/news/UploadBerkas"),
   {
@@ -168,6 +171,57 @@ export default function PenerimaanBersih() {
       },
     },
     {
+      title: "TERIMAS BERSIH",
+      dataIndex: "bersih",
+      key: "bersih",
+      width: 150,
+      fixed: window.innerWidth < 600 ? false : "left",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      render(value, record, index) {
+        const plaf = record.DataPembiayaan.plafond;
+        const admin =
+          plaf *
+          ((record.DataPembiayaan.by_admin +
+            record.DataPembiayaan.by_admin_bank) /
+            100);
+        const asuransi = plaf * (record.DataPembiayaan.by_asuransi / 100);
+        const blokir =
+          record.DataPembiayaan.blokir *
+          ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                record.DataPembiayaan.mg_bunga,
+                record.DataPembiayaan.tenor,
+                record.DataPembiayaan.plafond
+              )
+            ),
+            record.DataPembiayaan.pembulatan
+          );
+        const biaya =
+          admin +
+          asuransi +
+          record.DataPembiayaan.by_tatalaksana +
+          record.DataPembiayaan.by_buka_rekening +
+          record.DataPembiayaan.by_mutasi +
+          record.DataPembiayaan.by_epotpen +
+          record.DataPembiayaan.by_flagging +
+          record.DataPembiayaan.by_provisi +
+          record.DataPembiayaan.by_materai +
+          blokir;
+        const bersih =
+          plaf -
+          (biaya + record.DataPembiayaan.bpp + record.DataPembiayaan.pelunasan);
+
+        return <>{formatNumber(bersih.toFixed(0))}</>;
+      },
+    },
+    {
       title: "AREA PELAYANAN",
       dataIndex: "up",
       key: "up",
@@ -309,6 +363,7 @@ export default function PenerimaanBersih() {
                   type: "application/pdf",
                   title: `PENERIMAAN BERSIH ${record.DataPembiayaan.name}`,
                 }}
+                key={record.id}
               />
             );
           },

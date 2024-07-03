@@ -664,12 +664,21 @@ export default function EditBiaya({
       bulanMasuk: masuk.bulan.toString(),
       hariMasuk: masuk.hari.toString(),
     });
-    setSelectedProduk(currData.DataPembiayaan.Produk);
+    setSelectedProduk({
+      ...currData.DataPembiayaan.Produk,
+      by_asuransi: currData.DataPembiayaan.by_asuransi,
+      mg_bunga: currData.DataPembiayaan.mg_bunga,
+    });
     setSelectedBank({
       ...currData.Bank,
+      by_admin: currData.DataPembiayaan.by_admin,
+      by_admin_bank: currData.DataPembiayaan.by_admin_bank,
       products: [currData.DataPembiayaan.Produk],
     });
-    setSelectedJenis(currData.DataPembiayaan.JenisPembiayaan);
+    setSelectedJenis({
+      ...currData.DataPembiayaan.JenisPembiayaan,
+      by_mutasi: currData.DataPembiayaan.by_mutasi,
+    });
     setTenor(currData.DataPembiayaan.tenor);
     setPlafond(formatNumber(currData.DataPembiayaan.plafond.toFixed(0)));
     const byAngs = currData.Bank.by_angsuran / 100;

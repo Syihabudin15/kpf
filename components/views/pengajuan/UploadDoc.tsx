@@ -406,7 +406,7 @@ export default function UploadDoc({
       {/* Slik */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p style={{ width: 100 }}>Berkas Slik (PDF) :</p>
+          <p style={{ width: 200 }}>Berkas Slik (PDF) :</p>
           <div>
             <Upload
               accept="application/pdf"
@@ -458,7 +458,7 @@ export default function UploadDoc({
       {/* Pengajuan */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p style={{ width: 100 }}>Berkas Pengajuan (PDF) :</p>
+          <p style={{ width: 200 }}>Berkas Pengajuan (PDF) :</p>
           <div className={`flex justify-center flex-wrap`}>
             <Upload
               accept="application/pdf"
@@ -508,9 +508,7 @@ export default function UploadDoc({
       {/* IDPB */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasIDPB.fileName ? "flex-1" : ""}>
-            Berkas IDPB (PDF) :
-          </p>
+          <p style={{ width: 200 }}>Berkas IDPB (PDF) :</p>
           <div className={berkasIDPB.fileName ? "flex-1" : ""}>
             <Upload
               accept="application/pdf"
@@ -558,9 +556,7 @@ export default function UploadDoc({
       {/* FLAFFING */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasFlagging.fileName ? "flex-1" : ""}>
-            Berkas Flagging (PDF) :
-          </p>
+          <p style={{ width: 200 }}>Berkas Flagging (PDF) :</p>
           <div className={berkasFlagging.fileName ? "flex-1" : ""}>
             <Upload
               accept="application/pdf"
@@ -610,9 +606,7 @@ export default function UploadDoc({
       {/* Wawancara */}
       <div className="py-2">
         <div className="flex flex-wrap justify-between">
-          <p className={berkasWawancara.fileName ? "flex-1" : ""}>
-            Video Wawancara (MP4) :
-          </p>
+          <p style={{ width: 200 }}>Video Wawancara (MP4) :</p>
           <div className={berkasWawancara.fileName ? "flex-1" : ""}>
             <Upload
               accept="video/mp4"
@@ -661,11 +655,15 @@ export default function UploadDoc({
 
       {/* Asuransi */}
       <div className="py-2">
-        <div className="flex flex-wrap justify-between">
-          <p className={berkasAsuransi.fileName ? "flex-1" : ""}>
+        <div
+          className={`flex ${
+            berkasAsuransi.fileName ? "" : "justify-between"
+          } gap-2 item-center`}
+        >
+          <p style={{ width: 150, border: "1px solid black" }}>
             Video Asuransi (MP4) :
           </p>
-          <div className={berkasAsuransi.fileName ? "flex-1" : ""}>
+          <div className="border">
             <Upload
               accept="video/mp4"
               beforeUpload={beforeUploadVideo}
@@ -682,8 +680,8 @@ export default function UploadDoc({
                   <CloudUploadOutlined /> Browse
                 </button>
               ) : (
-                <div className="flex gap-2 flex-wrap">
-                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                <div className="flex gap-2">
+                  <span style={{ width: 200, textWrap: "wrap" }}>
                     {berkasAsuransi.fileName.toUpperCase()}
                   </span>
                   <button
