@@ -127,15 +127,15 @@ export default function UploadBerkasSI({
       <div className="flex justify-center">
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded shadow border"
-          disabled={data.berkas_si ? true : false}
-          style={{ opacity: data.berkas_si ? 0.5 : 1 }}
+          // disabled={data.berkas_si ? true : false}
+          // style={{ opacity: data.berkas_si ? 0.5 : 1 }}
           onClick={() => setOpen(true)}
         >
           {loading ? <Loading3QuartersOutlined /> : <CloudUploadOutlined />}
         </button>
       </div>
       <Modal
-        title="UPLOAD SURAT PENCAIRAN"
+        title={`UPLOAD SURAT PENCAIRAN ${data.nomor_surat}`}
         open={open}
         onCancel={() => setOpen(false)}
         footer={[]}

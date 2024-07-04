@@ -1,6 +1,6 @@
 "use client";
 import { FileFilled, LoadingOutlined } from "@ant-design/icons";
-import { Input, Table, TableProps, DatePicker, Typography } from "antd";
+import { Input, Table, TableProps, DatePicker, Typography, Select } from "antd";
 import moment from "moment-timezone";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -16,27 +16,61 @@ const ViewBerkasPengajuan = dynamic(
   }
 );
 const { Paragraph } = Typography;
+const { RangePicker } = DatePicker;
 
 export default function MonitoringBank() {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
-  const [year, setYear] = useState<string>(moment().format("YYYY-MM"));
+  const [from, setFrom] = useState<string>();
+  const [to, setTo] = useState<string>();
   const [nameOrNopen, setNameOrNopen] = useState<string>();
   const [total, setTotal] = useState<number>();
   const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(50);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [expand, setExpand] = useState(false);
+  const [pencairan, setPencairan] = useState<string>();
 
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/monitoring/bank?page=${page}${
+      `/api/monitoring/bank?page=${page}&pageSize=${pageSize}${
         nameOrNopen ? "&name=" + nameOrNopen : ""
-      }${year ? "&year=" + year : ""}`
+      }${from ? "&from=" + from : ""}${to ? "&to=" + to : ""}`
     );
     const { data, total } = await res.json();
-    setData(data);
+    let currData = data;
+    if (pencairan === "PROSES") {
+      currData =
+        currData &&
+        currData.filter(
+          (d: DataDataPengajuan) =>
+            d.status_approval === "SETUJU" && d.status_pencairan !== "TRANSFER"
+        );
+    }
+    if (pencairan === "ANTRI") {
+      currData =
+        currData &&
+        currData.filter(
+          (d: DataDataPengajuan) =>
+            d.status_approval === "ANTRI" ||
+            d.status_slik === "ANTRI" ||
+            d.status_verifikasi === "ANTRI"
+        );
+    }
+    if (pencairan === "CAIR") {
+      currData =
+        currData &&
+        currData.filter(
+          (d: DataDataPengajuan) => d.status_pencairan === "TRANSFER"
+        );
+    }
+    setData(
+      currData.map((d: DataDataPengajuan) => {
+        return { ...d, key: d.id };
+      })
+    );
     setTotal(total);
     setLoading(false);
   };
@@ -45,7 +79,7 @@ export default function MonitoringBank() {
     (async () => {
       await getData();
     })();
-  }, [year, nameOrNopen, page]);
+  }, [from, to, nameOrNopen, page, pageSize]);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
@@ -617,18 +651,111 @@ export default function MonitoringBank() {
         },
       ],
     },
+    {
+      title: "DATA PENCAIRAN",
+      key: "pencairan",
+      dataIndex: "pencairan",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+            backgroundColor: "#ec4899",
+            color: "#f3f4f6",
+          },
+        };
+      },
+      children: [
+        {
+          title: "STATUS",
+          key: "status_pencairan",
+          dataIndex: "status_pencairan",
+          width: 100,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+                backgroundColor: "#ec4899",
+                color: "#f3f4f6",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <div className="flex justify-center text-xs text-center font-bold italic">
+                {record.status_pencairan ? (
+                  <div
+                    className={`py-1 px-2 w-24 bg-${
+                      record.status_pencairan === "TRANSFER"
+                        ? "green"
+                        : record.status_pencairan === "BATAL"
+                        ? "red"
+                        : "blue"
+                    }-500 text-gray-100 text-center`}
+                  >
+                    {record.status_pencairan}
+                  </div>
+                ) : (
+                  <div
+                    className={`py-1 px-2 w-24 bg-orange-500 text-gray-100 text-center`}
+                  >
+                    ANTRI
+                  </div>
+                )}
+              </div>
+            );
+          },
+        },
+        {
+          title: "TANGGAL",
+          key: "tanggal_pencairan",
+          dataIndex: "tanggal_pencairan",
+          width: 100,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+                backgroundColor: "#ec4899",
+                color: "#f3f4f6",
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <div className="text-center">
+                {record.tanggal_pencairan &&
+                  moment(record.tanggal_pencairan).format("DD-MM-YYYY")}
+              </div>
+            );
+          },
+        },
+      ],
+    },
   ];
 
   return (
     <div className="px-2">
       <div className="flex gap-5 my-1 mx-1">
-        <DatePicker
-          picker="month"
-          onChange={(date, dateString) => setYear(dateString as string)}
+        <RangePicker
+          onChange={(_, info) => {
+            setFrom(info && info[0]);
+            setTo(info && info[1]);
+          }}
         />
         <Input.Search
           style={{ width: 170 }}
           onChange={(e) => setNameOrNopen(e.target.value)}
+        />
+        <Select
+          style={{ width: 150 }}
+          options={[
+            { label: "ANTRI", value: "ANTRI" },
+            { label: "PROSES", value: "PROSES" },
+            { label: "CAIR", value: "CAIR" },
+          ]}
+          // defaultValue={"ALL"}
+          placeholder="PENCAIRAN"
+          allowClear
+          onChange={(e) => setPencairan(e)}
         />
         <CetakDataPengajuan data={data || []} />
       </div>
@@ -642,10 +769,12 @@ export default function MonitoringBank() {
           size="small"
           loading={loading}
           pagination={{
-            pageSize: 20,
+            pageSize: pageSize,
+            pageSizeOptions: [10, 20, 50, 100, 150, 200],
             total,
             onChange(page, pageSize) {
               setPage(page);
+              setPageSize(pageSize);
             },
           }}
         />

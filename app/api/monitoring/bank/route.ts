@@ -8,9 +8,23 @@ export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
-  const skip = (page - 1) * 20;
-  const year =
-    req.nextUrl.searchParams.get("year") || moment().format("YYYY-MM");
+  const pageSize: number = parseInt(
+    <any>req.nextUrl.searchParams.get("pageSize") || "50"
+  );
+  const skip = (page - 1) * pageSize;
+  const date = new Date();
+  const from =
+    req.nextUrl.searchParams.get("from") ||
+    moment(`${date.getFullYear()}-${date.getMonth() + 1}-1`).format(
+      "YYYY-MM-DD"
+    );
+  const to =
+    req.nextUrl.searchParams.get("to") ||
+    moment(
+      `${date.getFullYear()}-${date.getMonth() + 1}-${moment(
+        date
+      ).daysInMonth()}`
+    ).format("YYYY-MM-DD");
   const name = req.nextUrl.searchParams.get("name");
   const session = await getServerSession();
   const user = await prisma.user.findFirst({
@@ -62,7 +76,7 @@ export const GET = async (req: NextRequest) => {
         DataPengajuanPasangan: true,
       },
       skip: skip,
-      take: 20,
+      take: pageSize,
       orderBy: { DataPembiayaan: { created_at: "desc" } },
     });
   } else {
@@ -75,10 +89,8 @@ export const GET = async (req: NextRequest) => {
           {
             DataPembiayaan: {
               created_at: {
-                gte: moment(`${year}-01`).tz("Asia/Jakarta").toISOString(true),
-                lte: moment(`${year}-${moment(year).daysInMonth()} 23:59`)
-                  .tz("Asia/Jakarta")
-                  .toISOString(true),
+                gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+                lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
               },
             },
           },
@@ -112,7 +124,7 @@ export const GET = async (req: NextRequest) => {
         DataPengajuanPasangan: true,
       },
       skip: skip,
-      take: 20,
+      take: pageSize,
       orderBy: { DataPembiayaan: { created_at: "desc" } },
     });
   }
@@ -127,10 +139,8 @@ export const GET = async (req: NextRequest) => {
         {
           DataPembiayaan: {
             created_at: {
-              gte: moment(`${year}-01`).tz("Asia/Jakarta").toISOString(true),
-              lte: moment(`${year}-${moment(year).daysInMonth()} 23:59`)
-                .tz("Asia/Jakarta")
-                .toISOString(true),
+              gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+              lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
             },
           },
         },

@@ -33,7 +33,6 @@ export default function PencairanBank() {
   const [modalUpload, setModalUpload] = useState(false);
   const [urls, setUrls] = useState<any>();
   const notifCtx = useContext(notifContext);
-  const [modalSI, setModalSI] = useState(false);
 
   const getData = async () => {
     setLoading(true);

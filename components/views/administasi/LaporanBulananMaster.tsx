@@ -48,7 +48,6 @@ export default function LaporanBulananMaster() {
       <div className="flex gap-2 my-1">
         <DatePicker
           picker="month"
-          // value={month}
           onChange={(date, datestring) =>
             setMonth(
               datestring

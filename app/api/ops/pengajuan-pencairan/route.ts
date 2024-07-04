@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import path from "path";
-import { promises as fs } from "fs";
+import { existsSync, promises as fs } from "fs";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 export const dynamic = "force-dynamic";
 
@@ -170,7 +170,9 @@ export const DELETE = async (req: NextRequest) => {
   const data = await req.json();
   const pathUrl = path.join(process.cwd(), "/storage" + data.url);
   try {
-    await fs.unlink(pathUrl);
+    if (existsSync(pathUrl)) {
+      await fs.unlink(pathUrl);
+    }
     await prisma.dataPencairan.update({
       where: { id: data.id },
       data: {
