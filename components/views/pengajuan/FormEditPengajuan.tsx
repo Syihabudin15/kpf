@@ -179,7 +179,7 @@ export default function FormEditPengajuan({
     e.BerkasPengajuan = berkas;
     e.DataPembiayaan = pembiayaan;
     e.menempati_tahun = e.menempati_tahun;
-    e.masa_kerja = parseInt(e.masa_kerja) || null;
+    e.masa_kerja = parseInt(e.masa_kerja) || 0;
     e.tanggal_lahir = pembiayaan.tanggal_lahir;
     e.nopen = currData.DataPembiayaan.nopen;
     e.no_rek = pembiayaan.no_rekening || null;
@@ -242,7 +242,7 @@ export default function FormEditPengajuan({
       pendidikan: currData.pendidikan,
       jenis_kelamin: currData.jenis_kelamin,
       agama: currData.agama,
-      masa_kerja: currData.masa_kerja,
+      masa_kerja: currData.masa_kerja || 0,
       status_rumah: currData.status_rumah,
       menempati_tahun: currData.menempati_tahun,
       nama_ibu_kandung: currData.nama_ibu_kandung,

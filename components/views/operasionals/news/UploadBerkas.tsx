@@ -82,9 +82,9 @@ export default function UploadBerkas({
             setProgress(1);
             const percent = Math.floor((event.loaded / event.total) * 100);
             setProgress(percent);
-            // if (percent === 100) {
-            //   setProgress(100);
-            // }
+            if (percent === 100) {
+              setProgress(100);
+            }
             onProgress({ percent: (event.loaded / event.total) * 100 });
           },
         }

@@ -1513,27 +1513,17 @@ export default function TabsForm({
       npwp: data?.npwp,
       pendidikan: data?.pendidikan,
       jenis_kelamin:
-        isPeriksa && data?.jenis_kelamin
-          ? data?.jenis_kelamin.split("_").join(" ")
-          : data?.jenis_kelamin,
+        data?.jenis_kelamin && data?.jenis_kelamin.split("_").join(" "),
       agama: data?.agama,
       masa_kerja: data?.masa_kerja || 0,
       status_rumah:
-        isPeriksa && data?.status_rumah
-          ? data?.status_rumah.split("_").join(" ")
-          : data?.status_rumah,
+        data?.status_rumah && data?.status_rumah.split("_").join(" "),
       menempati_tahun: data?.menempati_tahun,
       nama_ibu_kandung: data?.nama_ibu_kandung,
       pekerjaan_sekarang: data?.pekerjaan_sekarang,
       alamat_pekerjaan: data.alamat_pekerjaan,
-      jenis_usaha:
-        isPeriksa && data?.jenis_usaha
-          ? data?.jenis_usaha.split("_").join(" ")
-          : data?.jenis_usaha,
-      status_kawin:
-        isPeriksa && data?.status_kawin
-          ? data.status_kawin.split("_").join(" ")
-          : data.status_kawin,
+      jenis_usaha: data?.jenis_usaha && data?.jenis_usaha.split("_").join(" "),
+      status_kawin: data.status_kawin && data.status_kawin.split("_").join(" "),
       nama_pasangan: data?.DataPengajuanPasangan.nama_pasangan,
       tempat_lahir: data.DataPembiayaan.tempat_lahir,
       tempat_lahir_pasangan: data.DataPengajuanPasangan.tempat_lahir_pasangan,

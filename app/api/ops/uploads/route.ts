@@ -42,15 +42,15 @@ export const POST = async (req: NextRequest) => {
         tanggal_epotpen: data.tanggal_epotpen,
       },
     });
-    if (data.bukti_cair && !find.bukti_cair) {
-      await prisma.dataPengajuan.updateMany({
-        where: { berkasPengajuanId: data.id },
-        data: {
-          status_pencairan: "TRANSFER",
-          tanggal_pencairan: new Date(),
-        },
-      });
-    }
+    // if (data.bukti_cair && !find.bukti_cair) {
+    //   await prisma.dataPengajuan.updateMany({
+    //     where: { berkasPengajuanId: data.id },
+    //     data: {
+    //       status_pencairan: "TRANSFER",
+    //       tanggal_pencairan: new Date(),
+    //     },
+    //   });
+    // }
     return NextResponse.json(
       { msg: "Upload berkas berhasil" },
       { status: 200, statusText: "OK" }

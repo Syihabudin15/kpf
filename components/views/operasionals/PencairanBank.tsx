@@ -1,10 +1,6 @@
 "use client";
 import { formatNumber, formatNumberTitik } from "@/components/utils/inputUtils";
-import {
-  CloudUploadOutlined,
-  LoadingOutlined,
-  PrinterFilled,
-} from "@ant-design/icons";
+import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Modal, Table, TableProps, message } from "antd";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
@@ -23,10 +19,6 @@ const CetakCIFTAB = dynamic(() => import("./CetakCiftab"), {
   loading: () => <LoadingOutlined />,
 });
 const CetakUPPINJ = dynamic(() => import("./CetakUppinj"), {
-  ssr: false,
-  loading: () => <LoadingOutlined />,
-});
-const CetakSI = dynamic(() => import("@/components/views/dataPdf/CetakSI"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });

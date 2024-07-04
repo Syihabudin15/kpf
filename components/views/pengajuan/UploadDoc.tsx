@@ -405,8 +405,8 @@ export default function UploadDoc({
     <div>
       {/* Slik */}
       <div className="py-2">
-        <div className="flex flex-wrap justify-between">
-          <p style={{ width: 200 }}>Berkas Slik (PDF) :</p>
+        <div className={`flex justify-between gap-2 item-center`}>
+          <p style={{ width: 170 }}>Berkas Slik (PDF) :</p>
           <div>
             <Upload
               accept="application/pdf"
@@ -424,18 +424,13 @@ export default function UploadDoc({
                   <CloudUploadOutlined /> Browse
                 </button>
               ) : (
-                <div
-                  className={`flex gap-2 flex-wrap ${
-                    berkasSlik.fileName ? "justify-center" : "justify-end"
-                  }`}
-                >
-                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                <div className="flex gap-2">
+                  <span style={{ textWrap: "wrap" }}>
                     {berkasSlik.fileName.toUpperCase()}
                   </span>
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
                     type="button"
-                    style={{ flex: 0.5 }}
                     onClick={() =>
                       handleDelete(
                         "/api/slik/berkas/slik",
@@ -457,9 +452,9 @@ export default function UploadDoc({
 
       {/* Pengajuan */}
       <div className="py-2">
-        <div className="flex flex-wrap justify-between">
-          <p style={{ width: 200 }}>Berkas Pengajuan (PDF) :</p>
-          <div className={`flex justify-center flex-wrap`}>
+        <div className={`flex justify-between gap-2 item-center`}>
+          <p style={{ width: 170 }}>Berkas Pengajuan (PDF) :</p>
+          <div>
             <Upload
               accept="application/pdf"
               beforeUpload={beforeUploadPDF}
@@ -476,14 +471,13 @@ export default function UploadDoc({
                   <CloudUploadOutlined /> Browse
                 </button>
               ) : (
-                <div className="flex gap-2 flex-wrap">
-                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                <div className="flex gap-2">
+                  <span style={{ textWrap: "wrap" }}>
                     {berkasPengajuan.fileName.toUpperCase()}
                   </span>
                   <button
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
                     type="button"
-                    style={{ flex: 0.5 }}
                     onClick={() =>
                       handleDelete(
                         "/api/slik/berkas/pengajuan",
@@ -506,7 +500,7 @@ export default function UploadDoc({
       {/* End Pengajuan*/}
 
       {/* IDPB */}
-      <div className="py-2">
+      <div className="py-2 hidden">
         <div className="flex flex-wrap justify-between">
           <p style={{ width: 200 }}>Berkas IDPB (PDF) :</p>
           <div className={berkasIDPB.fileName ? "flex-1" : ""}>
@@ -554,7 +548,7 @@ export default function UploadDoc({
       {/* End IDPB */}
 
       {/* FLAFFING */}
-      <div className="py-2">
+      <div className="py-2 hidden">
         <div className="flex flex-wrap justify-between">
           <p style={{ width: 200 }}>Berkas Flagging (PDF) :</p>
           <div className={berkasFlagging.fileName ? "flex-1" : ""}>
@@ -605,9 +599,9 @@ export default function UploadDoc({
 
       {/* Wawancara */}
       <div className="py-2">
-        <div className="flex flex-wrap justify-between">
-          <p style={{ width: 200 }}>Video Wawancara (MP4) :</p>
-          <div className={berkasWawancara.fileName ? "flex-1" : ""}>
+        <div className={`flex justify-between gap-2 item-center`}>
+          <p style={{ width: 170 }}>Video Wawancara (MP4) :</p>
+          <div>
             <Upload
               accept="video/mp4"
               beforeUpload={beforeUploadVideo}
@@ -624,12 +618,11 @@ export default function UploadDoc({
                   <CloudUploadOutlined /> Browse
                 </button>
               ) : (
-                <div className="flex gap-2 flex-wrap">
-                  <span style={{ flex: 1.5, textWrap: "wrap" }}>
+                <div className="flex gap-2">
+                  <span style={{ textWrap: "wrap" }}>
                     {berkasWawancara.fileName.toUpperCase()}
                   </span>
                   <button
-                    style={{ flex: 0.5 }}
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
                     type="button"
                     onClick={() =>
@@ -655,15 +648,9 @@ export default function UploadDoc({
 
       {/* Asuransi */}
       <div className="py-2">
-        <div
-          className={`flex ${
-            berkasAsuransi.fileName ? "" : "justify-between"
-          } gap-2 item-center`}
-        >
-          <p style={{ width: 150, border: "1px solid black" }}>
-            Video Asuransi (MP4) :
-          </p>
-          <div className="border">
+        <div className={`flex justify-between gap-2 item-center`}>
+          <p style={{ width: 170 }}>Video Asuransi (MP4) :</p>
+          <div>
             <Upload
               accept="video/mp4"
               beforeUpload={beforeUploadVideo}
@@ -681,11 +668,10 @@ export default function UploadDoc({
                 </button>
               ) : (
                 <div className="flex gap-2">
-                  <span style={{ width: 200, textWrap: "wrap" }}>
+                  <span style={{ textWrap: "wrap" }}>
                     {berkasAsuransi.fileName.toUpperCase()}
                   </span>
                   <button
-                    style={{ flex: 0.5 }}
                     className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
                     type="button"
                     onClick={() =>

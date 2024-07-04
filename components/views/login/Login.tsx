@@ -66,7 +66,10 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
     }
   };
   return (
-    <section className="login-wrap bg-gray-200">
+    <section className="login-wrap flex justify-around md:gap-32">
+      <div className="hidden md:block">
+        <img src="/assets/images/bg-login.png" alt="Login Screen" />
+      </div>
       <Spin spinning={loading}>
         <div className="login-form">
           <div className="flex justify-center">

@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import path from "path";
-import { exists, existsSync, promises as fs } from "fs";
-import moment from "moment";
+import { existsSync, promises as fs } from "fs";
 export const dynamic = "force-dynamic";
 
 export const POST = async (req: NextRequest) => {
@@ -10,9 +9,7 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const buff = Buffer.from(data.file.split(",")[1], "base64");
-    const fileName = `SLIK_${moment().format("DDMMYYYY")}${Date.now()}.${
-      data.ext
-    }`;
+    const fileName = `SLIK_${Date.now()}.${data.ext}`;
     const pathUrl = path.join(
       process.cwd(),
       `/storage/${data.dir.toLowerCase()}/${fileName}`

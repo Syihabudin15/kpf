@@ -1,1 +1,5 @@
 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
+
+host:103.150.190.79
+username: kpfidb
+password : @Today1234
