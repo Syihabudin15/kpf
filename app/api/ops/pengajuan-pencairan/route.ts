@@ -138,7 +138,11 @@ export const POST = async (req: NextRequest) => {
 };
 export const PUT = async (req: NextRequest) => {
   const data = await req.json();
+  const pathUrl = path.join(process.cwd(), "/storage" + data.url);
   try {
+    if (existsSync(pathUrl)) {
+      await fs.unlink(pathUrl);
+    }
     await prisma.dataPencairan.update({
       where: {
         id: data.id,
