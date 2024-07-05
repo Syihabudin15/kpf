@@ -54,9 +54,10 @@ export default function MonitoringBank() {
         currData &&
         currData.filter(
           (d: DataDataPengajuan) =>
-            d.status_approval === "ANTRI" ||
-            d.status_slik === "ANTRI" ||
-            d.status_verifikasi === "ANTRI"
+            (d.status_approval === "ANTRI" ||
+              d.status_slik === "ANTRI" ||
+              d.status_verifikasi === "ANTRI") &&
+            d.status_pencairan !== "BATAL"
         );
     }
     if (pencairan === "CAIR") {
@@ -64,6 +65,13 @@ export default function MonitoringBank() {
         currData &&
         currData.filter(
           (d: DataDataPengajuan) => d.status_pencairan === "TRANSFER"
+        );
+    }
+    if (pencairan === "BATAL") {
+      currData =
+        currData &&
+        currData.filter(
+          (d: DataDataPengajuan) => d.status_pencairan === "BATAL"
         );
     }
     setData(
@@ -751,6 +759,7 @@ export default function MonitoringBank() {
             { label: "ANTRI", value: "ANTRI" },
             { label: "PROSES", value: "PROSES" },
             { label: "CAIR", value: "CAIR" },
+            { label: "BATAL", value: "BATAL" },
           ]}
           // defaultValue={"ALL"}
           placeholder="PENCAIRAN"
