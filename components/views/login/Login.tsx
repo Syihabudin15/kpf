@@ -112,7 +112,7 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
                 )}
                 <button
                   type="submit"
-                  className="w-full bg-orange-500 p-3 rounded text-gray-100 font-bold"
+                  className="w-full bg-blue-500 p-3 rounded text-gray-100 font-bold"
                 >
                   {loading ? (
                     <LoadingOutlined />

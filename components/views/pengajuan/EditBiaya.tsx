@@ -96,6 +96,7 @@ export default function EditBiaya({
   const [byAdminBank, setByAdminBank] = useState<string>("0");
   const [byLainnya, setByLainnya] = useState<string>("0");
   const [modalGajiBersih, setModalGajiBersih] = useState(false);
+  const [by_asuransi, setByAsuransi] = useState<string>("0");
 
   const hitungUlang = (type: string) => {
     if (type == "all") {
@@ -338,8 +339,8 @@ export default function EditBiaya({
     setPlafond(formatNumber(e));
     if (inputTextToDecimal(e) > inputTextToDecimal(maxPlafond)) {
       setPlafondMsg("");
-      setBersih("0");
-      setKotor("0");
+      // setBersih("0");
+      // setKotor("0");
       return;
     }
     setPlafondMsg("");
@@ -477,10 +478,10 @@ export default function EditBiaya({
     if (plafond) {
       getAngsuran();
       const plaf = inputTextToDecimal(plafond);
-      if (selectedBank) {
-        let prov = (selectedBank.by_provisi || 0) / 100;
-        setProvisi(formatNumber((plaf * prov).toFixed(0)));
-      }
+      // if (selectedBank) {
+      //   let prov = (selectedBank.by_provisi || 0) / 100;
+      //   setProvisi(formatNumber((plaf * prov).toFixed(0)));
+      // }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
           setByMutasi("0");
@@ -499,8 +500,7 @@ export default function EditBiaya({
         inputTextToDecimal(byAdminBank) -
         inputTextToDecimal(byLainnya) -
         inputTextToDecimal(by_tatalaksana) -
-        inputTextToDecimal(plafond) *
-          (selectedProduk ? selectedProduk.by_asuransi / 100 : 0) -
+        inputTextToDecimal(by_asuransi) -
         inputTextToDecimal(provisi) -
         inputTextToDecimal(
           selectedBank ? selectedBank.by_buka_rekening.toString() : "0"
@@ -511,15 +511,15 @@ export default function EditBiaya({
         inputTextToDecimal(by_mutasi ? by_mutasi.toString() : "0") -
         blokir * inputTextToDecimal(angsuranBulan);
 
-      if (tanggalMasuk.tahunMasuk != "0" && plafond !== "0") {
-        setKotor(formatNumber(tmp.toFixed(0).toString()));
-        setBersih(formatNumber(tmp.toFixed(0).toString()));
-      }
-      if (inputTextToDecimal(plafond) > inputTextToDecimal(maxPlafond)) {
-        setBersih("0");
-        setKotor("0");
-        setJumlahGajiBersih("0");
-      }
+      setKotor(formatNumber(tmp.toFixed(0).toString()));
+      // if (tanggalMasuk.tahunMasuk != "0" && plafond !== "0") {
+      //   // setBersih(formatNumber(tmp.toFixed(0).toString()));
+      // }
+      // if (inputTextToDecimal(plafond) > inputTextToDecimal(maxPlafond)) {
+      //   // setBersih("0");
+      //   // setKotor("0");
+      //   // setJumlahGajiBersih("0");
+      // }
       if (!selectedProduk || !selectedBank) return;
       const byAdmin = selectedBank ? selectedBank?.by_admin / 100 : 0.2;
       const admin = inputTextToDecimal(plafond) * byAdmin;
@@ -527,18 +527,15 @@ export default function EditBiaya({
         inputTextToDecimal(plafond) * ((selectedBank.by_admin_bank || 0) / 100);
       const layanan =
         inputTextToDecimal(plafond) * ((selectedBank.by_lainnya || 0) / 100);
+      const asuransi =
+        inputTextToDecimal(plafond) * ((selectedProduk.by_asuransi || 0) / 100);
       setByAdmin(formatNumber(admin.toFixed(0).toString()));
       setByAdminBank(formatNumber(adminBank.toFixed(0).toString()));
       setByLainnya(formatNumber(layanan.toFixed(0).toString()));
+      setByAsuransi(formatNumber(asuransi.toFixed(0)));
     }
     if (inputTextToDecimal(bpp) >= inputTextToDecimal(kotor) || kotor == "0") {
       setBpp("0");
-    }
-    if (
-      inputTextToDecimal(pelunasan) > inputTextToDecimal(kotor) ||
-      kotor == "0"
-    ) {
-      setPelunasan("0");
     }
     if (inputTextToDecimal(tenor.toString()) > inputTextToDecimal(maxtenor)) {
       setTenorMsg("0");
@@ -569,6 +566,12 @@ export default function EditBiaya({
       setTatalaksana("0");
     }
     getanggalLunas();
+    if (
+      inputTextToDecimal(pelunasan) > inputTextToDecimal(kotor) ||
+      kotor == "0"
+    ) {
+      setPelunasan("0");
+    }
 
     setPembiayaan({
       name: currData.DataPembiayaan.name,
@@ -600,6 +603,7 @@ export default function EditBiaya({
       refferal_id: reffId ? reffId : currData.DataPembiayaan.refferal_id,
       keterangan: "Edit Pengajuan Slik",
       fee: reffFee,
+      updated_at: new Date(),
       by_admin_bank: currData.DataPembiayaan.by_admin_bank,
       by_lainnya: currData.DataPembiayaan.by_lainnya,
       tempat_lahir: tempatLahir,
@@ -627,9 +631,10 @@ export default function EditBiaya({
     by_tatalaksana,
     produkTidakSesuai,
     reffFee,
-    kotor,
     pelunasan,
     bpp,
+    provisi,
+    by_asuransi,
   ]);
   useEffect(() => {
     setModalGajiBersih(false);
@@ -704,25 +709,48 @@ export default function EditBiaya({
     const byCadangan =
       currData.DataPembiayaan.plafond *
       (currData.DataPembiayaan.by_lainnya / 100);
+    const Asuransi =
+      currData.DataPembiayaan.plafond *
+      (currData.DataPembiayaan.by_asuransi / 100);
 
     setAngsuranBulan(formatNumber(angsuranPerbulan.toFixed(0)));
     setTatalaksana(
       formatNumber(currData.DataPembiayaan.by_tatalaksana.toFixed(0))
     );
+    setByAsuransi(formatNumber(Asuransi.toFixed(0)));
     setProvisi(formatNumber(currData.DataPembiayaan.by_provisi.toFixed(0)));
     setByAdmin(formatNumber(byAdmin.toFixed(0)));
     setByAdminBank(formatNumber(byAdminBank.toFixed(0)));
     setByLainnya(formatNumber(byCadangan.toFixed(0)));
     setReffFee(currData.DataPembiayaan.fee);
     setBlokir(currData.DataPembiayaan.blokir);
+    const biaya =
+      byAdmin +
+      byAdminBank +
+      byCadangan +
+      currData.DataPembiayaan.by_tatalaksana +
+      Asuransi +
+      currData.DataPembiayaan.by_buka_rekening +
+      currData.DataPembiayaan.by_materai +
+      currData.DataPembiayaan.by_epotpen +
+      currData.DataPembiayaan.by_flagging +
+      currData.DataPembiayaan.by_mutasi +
+      +(blokir * angsuranPerbulan) +
+      currData.DataPembiayaan.by_provisi;
+    const ktr = currData.DataPembiayaan.plafond - biaya;
+    setKotor(formatNumber(ktr.toFixed(0)));
     setBpp(formatNumber(currData.DataPembiayaan.bpp.toFixed(0)));
     setPelunasan(formatNumber(currData.DataPembiayaan.pelunasan.toFixed(0)));
+    setBersih(
+      formatNumber(
+        (
+          ktr -
+          (currData.DataPembiayaan.bpp + currData.DataPembiayaan.pelunasan)
+        ).toFixed(0)
+      )
+    );
   }, []);
 
-  useEffect(() => {
-    const ktr = inputTextToDecimal(kotor);
-    setKotor(formatNumber((ktr - inputTextToDecimal(provisi)).toFixed(0)));
-  }, [provisi]);
   return (
     <section>
       <div className="bg-orange-500 p-2 rounded">
@@ -1110,12 +1138,7 @@ export default function EditBiaya({
                     <div className="text-xs">Biaya asuransi (NON-BPP)</div>
                   </div>
                   <div className="border rounded w-20 md:w-32 py-1 px-2 text-center">
-                    {formatNumber(
-                      (
-                        inputTextToDecimal(plafond || "0") *
-                        ((selectedProduk?.by_asuransi || 0) / 100)
-                      ).toFixed(0)
-                    )}
+                    {by_asuransi || 0}
                   </div>
                 </div>
                 <div className="flex justify-between items-center border-b pb-1">

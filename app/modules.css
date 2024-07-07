@@ -1,0 +1,257 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  color: #3f3f3f;
+  background-color: #f4f4f4;
+}
+.map {
+  width: 400px;
+  height: 250px;
+  border: 1px solid #939393;
+  position: relative;
+}
+#map {
+  position: absolute;
+  width: 100%;
+}
+#map,
+.leaflet-container {
+  height: 100%;
+}
+.content-children {
+  min-height: 82vh;
+  font-size: 15px;
+}
+nav {
+  font-size: 13px;
+}
+.form-berkas {
+  width: 50%;
+}
+.nav-wrap {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: flex-start;
+}
+.logo {
+  flex: 0.5;
+}
+.menu-items {
+  flex: 2;
+}
+.mobile-menu {
+  border-top: 1px solid #a36a00;
+  z-index: 10;
+}
+.menu-mobile li {
+  border-bottom: 1px solid rgba(201, 131, 2, 0.752);
+}
+.mobile-ver2 {
+  display: none;
+}
+.login-wrap {
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(90deg, #7178ce, rgba(23, 10, 208, 0.827));
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-form {
+  width: 30vw;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px #efefef;
+}
+.analisa-simulasi {
+  width: 70vw;
+  margin: 0 auto;
+}
+.simulasi-button {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.pembiayaan .ant-form-item {
+  margin-bottom: 0 !important;
+}
+.hide-item {
+  display: none;
+}
+input:where(.css-1k979oh).ant-input-outlined.ant-input-disabled,
+input:where(.css-1k979oh).ant-input-outlined[disabled] {
+  color: #2c2c2c;
+}
+input:where(
+    .css-dev-only-do-not-override-1k979oh
+  ).ant-input-outlined.ant-input-disabled,
+input:where(
+    .css-dev-only-do-not-override-1k979oh
+  ).ant-input-outlined[disabled] {
+  color: #2c2c2c;
+}
+.btn-action-top {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.upload-wrap {
+  width: 50%;
+  border-right: 1px solid #cdcdcd;
+}
+.data-taspen {
+  width: 45%;
+}
+.alamat {
+  width: 30%;
+}
+.mini-input-pengajuan {
+  width: 80px;
+}
+.select-input {
+  width: 130px;
+}
+.divider-input span {
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.7;
+}
+.jenis_usaha {
+  width: 200px;
+}
+.unit-pelayanan {
+  width: 40%;
+}
+.data-ao {
+  width: 60%;
+}
+.detail-pengajuan-item {
+  width: 100%;
+  height: 500px;
+}
+.detai-video {
+  width: 600px;
+  height: 400px;
+}
+.who-login {
+  display: flex;
+  gap: 20px;
+}
+.input-width {
+  width: 300px;
+}
+.badge {
+  position: absolute;
+  top: -7px;
+  right: -2px;
+  width: 15px;
+  height: 15px;
+  background-color: #ff1f1f;
+  color: #fff;
+  border-radius: 3px;
+  font-size: 10px;
+  text-align: center;
+}
+.childWrap {
+  height: 79vh;
+  overflow-x: auto;
+}
+.menu-over {
+  height: 420px;
+  overflow-y: auto;
+}
+.berkas-without-form,
+.input-pengajuan,
+.modal-create {
+  width: 70vw;
+  margin: 0 auto;
+}
+.modalUploadSI {
+  width: 50vw;
+  margin: 0 auto;
+}
+.tabs-mobile {
+  display: none;
+}
+@media only screen and (max-width: 760px) {
+  .tabs-windows {
+    display: none;
+  }
+  .tabs-mobile {
+    display: block;
+  }
+  .nav-wrap {
+    justify-content: space-between;
+  }
+  .who-login {
+    display: none;
+  }
+  .login-form {
+    width: 90vw;
+  }
+  .footer-ver {
+    display: none;
+  }
+  .pembiayaan-simulasi {
+    width: 110px;
+  }
+  .btn-action-top {
+    margin-bottom: 10px;
+  }
+  .upload-wrap {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #cdcdcd;
+  }
+  .alamat,
+  .data-taspen {
+    width: 100%;
+  }
+  .mini-input-pengajuan {
+    width: 150px;
+  }
+  .data-ao,
+  .jenis_usaha,
+  .kecamatan,
+  .select-input,
+  .unit-pelayanan {
+    width: 100%;
+  }
+  .detail-pengajuan-item {
+    width: 100%;
+    height: 400px;
+  }
+  .detai-video {
+    width: 600px;
+    height: 300px;
+  }
+  .input-width {
+    width: 50vw;
+  }
+  .analisa-simulasi {
+    width: 95vw;
+  }
+  .windows-ver2 {
+    display: none;
+  }
+  .berkas-without-form {
+    width: 95vw;
+  }
+  .modal-create {
+    width: 95vw;
+    margin: 0 auto;
+  }
+  .input-pengajuan {
+    width: 95vw;
+  }
+  .form-berkas {
+    width: 100%;
+  }
+  .modalUploadSI {
+    width: 95vw;
+  }
+}

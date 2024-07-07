@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 import "./globals.css";
+import "./modules.css";
 import AuthProvider from "@/components/AuthProvider";
 import Script from "next/script";
 

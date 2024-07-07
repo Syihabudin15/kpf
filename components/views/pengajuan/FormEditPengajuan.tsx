@@ -252,7 +252,7 @@ export default function FormEditPengajuan({
       status_kawin: currData.status_kawin,
       nama_pasangan: currData.DataPengajuanPasangan.nama_pasangan,
       tempat_lahir_pasangan:
-        currData.DataPengajuanPasangan.tempat_lahir_pasangan,
+        currData.DataPengajuanPasangan.tempat_lahir_pasangan || "-",
       nik_pasangan: currData.DataPengajuanPasangan.nik_pasangan,
       pekerjaan_pasangan: currData.DataPengajuanPasangan.pekerjaan_pasangan,
       no_sk_pensiun: currData.nomor_sk_pensiun,
@@ -285,6 +285,7 @@ export default function FormEditPengajuan({
       agent_fronting: currData.agent_fronting,
       masa_ktp: moment(currData.masa_ktp).format("YYYY-MM-DD"),
     });
+    setBerkas(currData.BerkasPengajuan);
   }, [currData]);
 
   return (
@@ -991,10 +992,7 @@ export default function FormEditPengajuan({
             </div>
 
             {/* Dokument */}
-            <UploadDoc
-              setBerkas={setBerkas}
-              currData={currData.BerkasPengajuan}
-            />
+            <UploadDoc setBerkas={setBerkas} currData={berkas} />
             {/* End Dokumen */}
           </div>
           <Form.Item className="block md:flex justify-end">
