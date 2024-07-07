@@ -610,15 +610,12 @@ export default function EditBiaya({
       user_id: currData.DataPembiayaan.user_id,
     });
   }, [
-    provisi,
     tenor,
     selectedProduk,
     tanggalLahir,
     plafond,
     blokir,
     gajiBersih,
-    bpp,
-    pelunasan,
     angsuranBulan,
     by_admin,
     kotor,
@@ -630,6 +627,9 @@ export default function EditBiaya({
     by_tatalaksana,
     produkTidakSesuai,
     reffFee,
+    kotor,
+    pelunasan,
+    bpp,
   ]);
   useEffect(() => {
     setModalGajiBersih(false);
@@ -717,7 +717,12 @@ export default function EditBiaya({
     setBlokir(currData.DataPembiayaan.blokir);
     setBpp(formatNumber(currData.DataPembiayaan.bpp.toFixed(0)));
     setPelunasan(formatNumber(currData.DataPembiayaan.pelunasan.toFixed(0)));
-  }, [currData]);
+  }, []);
+
+  useEffect(() => {
+    const ktr = inputTextToDecimal(kotor);
+    setKotor(formatNumber((ktr - inputTextToDecimal(provisi)).toFixed(0)));
+  }, [provisi]);
   return (
     <section>
       <div className="bg-orange-500 p-2 rounded">
