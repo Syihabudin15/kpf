@@ -7,7 +7,7 @@ import "./modules.css";
 import AuthProvider from "@/components/AuthProvider";
 import Script from "next/script";
 
-// const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {

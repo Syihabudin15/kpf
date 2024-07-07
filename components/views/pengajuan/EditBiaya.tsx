@@ -749,7 +749,7 @@ export default function EditBiaya({
         ).toFixed(0)
       )
     );
-  }, []);
+  }, [currData]);
 
   return (
     <section>

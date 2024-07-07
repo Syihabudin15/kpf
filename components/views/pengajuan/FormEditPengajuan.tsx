@@ -285,7 +285,6 @@ export default function FormEditPengajuan({
       agent_fronting: currData.agent_fronting,
       masa_ktp: moment(currData.masa_ktp).format("YYYY-MM-DD"),
     });
-    setBerkas(currData.BerkasPengajuan);
   }, [currData]);
 
   return (
@@ -992,7 +991,10 @@ export default function FormEditPengajuan({
             </div>
 
             {/* Dokument */}
-            <UploadDoc setBerkas={setBerkas} currData={berkas} />
+            <UploadDoc
+              setBerkas={setBerkas}
+              currData={currData.BerkasPengajuan}
+            />
             {/* End Dokumen */}
           </div>
           <Form.Item className="block md:flex justify-end">
