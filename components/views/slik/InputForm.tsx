@@ -131,7 +131,8 @@ export default function InputForm({
       !pembiayaan ||
       !pembiayaan.name ||
       !pembiayaan.nopen ||
-      !pembiayaan.alamat
+      !pembiayaan.alamat ||
+      !pembiayaan.refferal_id
     ) {
       setLoading(false);
       return message.error("Mohon lengkapi data pembiayaan terlebih dahulu!");
@@ -150,7 +151,9 @@ export default function InputForm({
       kota_domisili: domisiliSama ? e.kota : e.kota_domisili,
       provinsi_domisili: domisiliSama
         ? findProvince[0].label
-        : findProvinceDomisili[0] ? findProvinceDomisili[0].label : findProvince[0].label,
+        : findProvinceDomisili[0]
+        ? findProvinceDomisili[0].label
+        : findProvince[0].label,
       kode_pos_domisili: domisiliSama ? e.kode_pos : e.kode_pos_domisili,
       geo_location: e.geo_location,
       alamat: e.alamat || null,
@@ -171,7 +174,9 @@ export default function InputForm({
         ? null
         : moment(e.tanggal_lahir_pasangan).toISOString(),
       nik_pasangan: statusKawinDisable ? null : e.nik_pasangan,
-      masa_ktp_pasangan: statusKawinDisable ? null : moment(e.masa_ktp_pasangan).toISOString(),
+      masa_ktp_pasangan: statusKawinDisable
+        ? null
+        : moment(e.masa_ktp_pasangan).toISOString(),
       pekerjaan_pasangan: statusKawinDisable ? null : e.pekerjaan_pasangan,
       nama_keluarga_tidak_serumah: e.keluarga_tidak_serumah || null,
       hubungan: e.hubungan_keluarga || null,
@@ -190,10 +195,12 @@ export default function InputForm({
     e.status_slik = "ANTRI";
     e.status_verifikasi = "ANTRI";
     e.margin_bank = selectedBank?.margin_bank;
-    e.pembulatan = parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "1");
+    e.pembulatan = parseInt(
+      selectedBank ? selectedBank.pembulatan.toString() : "1"
+    );
     e.tanggal_sk_pensiun = moment(e.tanggal_sk_pensiun).toISOString();
-    e.masa_ktp = moment(e.masa_ktp).toISOString()
-    e.tmt_pensiun = moment(e.tmt_pensiun).toISOString()
+    e.masa_ktp = moment(e.masa_ktp).toISOString();
+    e.tmt_pensiun = moment(e.tmt_pensiun).toISOString();
 
     const res = await fetch("/api/slik", {
       method: "POST",
@@ -263,9 +270,9 @@ export default function InputForm({
         penerbit_sk: taspen.penerbit_sk || "",
         jenis_pensiun: taspen.jenis_pensiun || "",
       });
-      if(taspen.status_kawin && taspen.status_kawin === "KAWIN"){
+      if (taspen.status_kawin && taspen.status_kawin === "KAWIN") {
         setStatusKawinDisable(false);
-      }else{
+      } else {
         setStatusKawinDisable(true);
       }
     }
@@ -429,30 +436,34 @@ export default function InputForm({
                   </Form.Item>
                 </div>
                 <div className="block md:flex justify-between gap-5">
-                <Form.Item
-                  label="Provinsi"
-                  name={"provinsi"}
-                  required
-                  className="flex-1"
-                  rules={[{ required: true, message: "Mohon isi field ini!" }]}
-                >
-                  <Select
-                    onChange={(e) => handleChangeProvince(e, "all")}
-                    options={provinsi}
-                    showSearch
-                    filterOption={filterOption}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Kota/Kabupaten"
-                  name={"kota"}
-                  required
-                  className="flex-1"
-                  rules={[{ required: true, message: "Mohon isi field ini!" }]}
-                >
-                  <Select options={kabupaten} showSearch />
-                </Form.Item>
-              </div>
+                  <Form.Item
+                    label="Provinsi"
+                    name={"provinsi"}
+                    required
+                    className="flex-1"
+                    rules={[
+                      { required: true, message: "Mohon isi field ini!" },
+                    ]}
+                  >
+                    <Select
+                      onChange={(e) => handleChangeProvince(e, "all")}
+                      options={provinsi}
+                      showSearch
+                      filterOption={filterOption}
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Kota/Kabupaten"
+                    name={"kota"}
+                    required
+                    className="flex-1"
+                    rules={[
+                      { required: true, message: "Mohon isi field ini!" },
+                    ]}
+                  >
+                    <Select options={kabupaten} showSearch />
+                  </Form.Item>
+                </div>
                 <Form.Item
                   label="Kode Pos"
                   name={"kode_pos"}
@@ -795,7 +806,7 @@ export default function InputForm({
                       },
                     ]}
                   >
-                    <Input suffix="Tahun" required type="number"/>
+                    <Input suffix="Tahun" required type="number" />
                   </Form.Item>
                 </div>
               </div>
@@ -1053,7 +1064,7 @@ export default function InputForm({
                       },
                     ]}
                   >
-                    <Input  type="date" required />
+                    <Input type="date" required />
                   </Form.Item>
                   <Form.Item
                     label="TMT Pensiun"
@@ -1067,7 +1078,7 @@ export default function InputForm({
                       },
                     ]}
                   >
-                    <Input type="date" required  />
+                    <Input type="date" required />
                   </Form.Item>
                 </div>
               </div>
@@ -1206,7 +1217,7 @@ export default function InputForm({
                   name={"agent_fronting"}
                   className="flex-1"
                 >
-                  <Input  />
+                  <Input />
                 </Form.Item>
               </div>
               <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
@@ -1216,16 +1227,16 @@ export default function InputForm({
               {/* Dokument */}
               <UploadDoc setBerkas={setBerkas} />
               {/* End Dokumen */}
-            <Form.Item className="block md:flex justify-end">
-              <button
-                className="bg-orange-500 hover:bg-orange-600 text-gray-100 rounded shadow px-10 py-1 mr-5"
-                type="submit"
-                  style={{opacity : isDisable || loading ? .5 : 1}}
-                disabled={isDisable ? isDisable : loading}
-              >
-                {loading ? <LoadingOutlined /> : "Submit"}
-              </button>
-            </Form.Item>
+              <Form.Item className="block md:flex justify-end">
+                <button
+                  className="bg-orange-500 hover:bg-orange-600 text-gray-100 rounded shadow px-10 py-1 mr-5"
+                  type="submit"
+                  style={{ opacity: isDisable || loading ? 0.5 : 1 }}
+                  disabled={isDisable ? isDisable : loading}
+                >
+                  {loading ? <LoadingOutlined /> : "Submit"}
+                </button>
+              </Form.Item>
             </div>
           </Form>
         </Spin>

@@ -111,10 +111,9 @@ export const GET = async (req: NextRequest) => {
 
 export const POST = async (req: NextRequest) => {
   const data = await req.json();
-
   try {
     const buff = Buffer.from(data.file.split(",")[1], "base64");
-    const fileName = `${data.nomor.replace("/", "_")}.${data.ext}`;
+    const fileName = `${Date.now()}.${data.ext}`;
     const pathUrl = path.join(
       process.cwd(),
       `/storage/${data.dir.toLowerCase()}/${fileName}`
@@ -138,11 +137,7 @@ export const POST = async (req: NextRequest) => {
 };
 export const PUT = async (req: NextRequest) => {
   const data = await req.json();
-  const pathUrl = path.join(process.cwd(), "/storage" + data.url);
   try {
-    if (existsSync(pathUrl)) {
-      await fs.unlink(pathUrl);
-    }
     await prisma.dataPencairan.update({
       where: {
         id: data.id,

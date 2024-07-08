@@ -391,12 +391,10 @@ export default function EditBiaya({
     }
   };
   const bppPelunasan = () => {
-    if (bpp != "0" || pelunasan != "0") {
-      const awal = inputTextToDecimal(kotor.toString());
-      const bersih =
-        awal - inputTextToDecimal(bpp) - inputTextToDecimal(pelunasan);
-      setBersih(formatNumber(bersih.toString()));
-    }
+    const awal = inputTextToDecimal(kotor.toString());
+    const bersih =
+      awal - inputTextToDecimal(bpp) - inputTextToDecimal(pelunasan);
+    setBersih(formatNumber(bersih.toString()));
   };
   // My
   const getanggalLunas = () => {
@@ -512,14 +510,6 @@ export default function EditBiaya({
         blokir * inputTextToDecimal(angsuranBulan);
 
       setKotor(formatNumber(tmp.toFixed(0).toString()));
-      // if (tanggalMasuk.tahunMasuk != "0" && plafond !== "0") {
-      //   // setBersih(formatNumber(tmp.toFixed(0).toString()));
-      // }
-      // if (inputTextToDecimal(plafond) > inputTextToDecimal(maxPlafond)) {
-      //   // setBersih("0");
-      //   // setKotor("0");
-      //   // setJumlahGajiBersih("0");
-      // }
       if (!selectedProduk || !selectedBank) return;
       const byAdmin = selectedBank ? selectedBank?.by_admin / 100 : 0.2;
       const admin = inputTextToDecimal(plafond) * byAdmin;
@@ -612,6 +602,7 @@ export default function EditBiaya({
       by_flagging: currData.DataPembiayaan.by_flagging,
       by_epotpen: currData.DataPembiayaan.by_epotpen,
       user_id: currData.DataPembiayaan.user_id,
+      pembulatan: currData.DataPembiayaan.pembulatan,
     });
   }, [
     tenor,
@@ -698,7 +689,7 @@ export default function EditBiaya({
           currData.DataPembiayaan.plafond
         )
       ),
-      parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
+      currData.DataPembiayaan.pembulatan
     );
     const byAdmin =
       currData.DataPembiayaan.plafond *

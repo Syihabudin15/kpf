@@ -684,7 +684,7 @@ export default function MasterBank() {
               </Form.Item>
               <Form.Item label="Biaya Provisi" required name={"by_provisi"}>
                 <InputNumber
-                  prefix="Rp"
+                  prefix="%"
                   required
                   formatter={(value) =>
                     `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")

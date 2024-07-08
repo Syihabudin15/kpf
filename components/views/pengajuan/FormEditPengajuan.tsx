@@ -120,7 +120,8 @@ export default function FormEditPengajuan({
       !pembiayaan ||
       !pembiayaan.name ||
       !pembiayaan.nopen ||
-      !pembiayaan.alamat
+      !pembiayaan.alamat ||
+      !pembiayaan.refferal_id
     ) {
       setLoading(false);
       return message.error("Mohon lengkapi data pembiayaan terlebih dahulu!");

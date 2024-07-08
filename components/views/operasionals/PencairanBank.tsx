@@ -421,14 +421,19 @@ export default function PencairanBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        let total = 0;
+        let totalplaf = 0;
+        let totalBiaya = 0;
         record.DataPengajuan.forEach((d) => {
-          total += d.DataPembiayaan.plafond;
-          let plaf =
+          totalplaf += d.DataPembiayaan.plafond;
+
+          let admin =
             d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
-          total -= plaf + d.DataPembiayaan.by_buka_rekening;
+          totalBiaya +=
+            d.DataPembiayaan.by_buka_rekening +
+            d.DataPembiayaan.by_provisi +
+            admin;
         });
-        return <>{formatNumberTitik(total.toFixed(0))}</>;
+        return <>{formatNumberTitik((totalplaf - totalBiaya).toFixed(0))}</>;
       },
     },
     {

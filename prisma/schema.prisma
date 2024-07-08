@@ -160,6 +160,7 @@ model Bank {
   email             String?
   is_active         Boolean  @default(true)
   created_at        DateTime @default(now())
+  pembulatan        Int @default(1)
 
   products          Produk[]
   User              User[]

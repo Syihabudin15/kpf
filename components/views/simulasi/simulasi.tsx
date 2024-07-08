@@ -343,7 +343,7 @@ export default function Simulasi() {
           inputTextToDecimal(plafond)
         )
       ),
-      parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "1")
+      parseInt(selectedBank ? selectedBank.pembulatan.toString() : "1")
     );
     setAngsuranBulan(formatNumber(result.toFixed(0)));
   };
@@ -659,7 +659,9 @@ export default function Simulasi() {
         by_epotpen: selectedBank?.by_epotpen,
         is_simulasi: true,
         margin_bank: selectedBank?.margin_bank,
-        pembulatan: parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100"),
+        pembulatan: parseInt(
+          selectedBank ? selectedBank.pembulatan.toString() : "1"
+        ),
       }),
     });
     const resultMsg = await result.json();

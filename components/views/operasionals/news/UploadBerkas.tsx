@@ -134,7 +134,7 @@ export default function UploadBerkas({
         };
       });
     } else {
-      message.error(`Gagal hapus ${name}!`);
+      message.error(`Gagal hapus berkas!`);
     }
     setLoading(false);
   };
