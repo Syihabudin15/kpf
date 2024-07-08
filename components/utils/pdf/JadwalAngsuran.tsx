@@ -118,7 +118,7 @@ export default function JadwalAngsuran({
                       data.DataPembiayaan.plafond
                     )
                   ),
-                  parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
+                  data.DataPembiayaan.pembulatan
                 ).toString()
               )}
             </Text>
@@ -180,7 +180,7 @@ export default function JadwalAngsuran({
       </View>
 
       {/* Jadwal Angsuran */}
-      <View style={{ margin: "30px 0" }}>
+      <View style={{ margin: "0px 0" }}>
         <TableAngsuran dataHeader={headerAngsuran} dataBodies={bodyAngsuran} />
       </View>
       {/* End Jadwal Angsuran */}
@@ -198,7 +198,5 @@ const headerAngsuran: TablePdfHeaders[] = [
   { title: "Angsuran", dataIndex: "angsuran", style: { textAlign: "center" } },
   { title: "Pokok", dataIndex: "pokok", style: { textAlign: "center" } },
   { title: "Margin", dataIndex: "margin", style: { textAlign: "center" } },
-  // { title: "Bank", dataIndex: "bank", style: { textAlign: "center" } },
-  // { title: "Colfee", dataIndex: "colfee", style: { textAlign: "center" } },
   { title: "Sisa Pokok", dataIndex: "sisa", style: { textAlign: "center" } },
 ];

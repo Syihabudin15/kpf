@@ -83,7 +83,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
             NO AKAD : {data.nomor_akad ? data.nomor_akad : ""}
           </Text>
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
           <Image src={process.env.NEXT_PUBLIC_APP_LOGO} style={{ width: 50 }} />
         </View>
       </View>
@@ -191,11 +191,14 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       <Text style={{ width: 100 }}>Alamat</Text>
                       <Text style={{ width: 20 }}>:</Text>
                       <Text style={{ width: 300 }}>
-                        {data.DataPengajuanAlamat.alamat_domisili},{" "}
-                        {data.DataPengajuanAlamat.kelurahan_domisili},{" "}
-                        {data.DataPengajuanAlamat.kecamatan_domisili},{" "}
-                        {data.DataPengajuanAlamat.kota_domisili},{" "}
-                        {data.DataPengajuanAlamat.provinsi_domisili}{" "}
+                        {data.DataPengajuanAlamat.alamat}{" "}
+                        {data.DataPengajuanAlamat.rt}
+                        {data.DataPengajuanAlamat.rw}/,{" "}
+                        {data.DataPengajuanAlamat.kelurahan}{" "}
+                        {data.DataPengajuanAlamat.kecamatan},{" "}
+                        {data.DataPengajuanAlamat.kota}{" "}
+                        {data.DataPengajuanAlamat.provinsi}{" "}
+                        {data.DataPengajuanAlamat.kode_pos}
                       </Text>
                     </View>
                     <View

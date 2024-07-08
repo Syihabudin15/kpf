@@ -164,6 +164,8 @@ export default function MasterBank() {
       by_lainnya: selected.by_lainnya,
       margin_bank: selected.margin_bank,
       is_syariah: selected.is_syariah,
+      kode: selected.kode,
+      logo: selected.logo,
     });
   }, [selected]);
 
