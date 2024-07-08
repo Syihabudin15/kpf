@@ -25,8 +25,15 @@ export const POST = async (req: NextRequest) => {
         nomor_akad: data.nomor_akad,
       },
     });
+    return NextResponse.json(
+      { msg: "cetak berkas akad berhasil" },
+      { status: 200 }
+    );
   } catch (err) {
     console.log(err);
-    return NextResponse.json({ msg: "Server Error" }, { status: 500 });
+    return NextResponse.json(
+      { msg: "Gagal cetak akad. coba lagi nanti!" },
+      { status: 500 }
+    );
   }
 };

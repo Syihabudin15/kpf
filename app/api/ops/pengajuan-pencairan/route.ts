@@ -114,7 +114,7 @@ export const POST = async (req: NextRequest) => {
 
   try {
     const buff = Buffer.from(data.file.split(",")[1], "base64");
-    const fileName = `${data.nomor.split("/").join("_")}.${data.ext}`;
+    const fileName = `${data.nomor.replace("/", "_")}.${data.ext}`;
     const pathUrl = path.join(
       process.cwd(),
       `/storage/${data.dir.toLowerCase()}/${fileName}`
