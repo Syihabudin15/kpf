@@ -60,7 +60,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
           padding: "0 10px",
         }}
       >
-        <View style={{ flex: 1 }}>
+        <View>
           <Image
             src={data.Bank.logo || "/assets/images/logo_kpf.jpg"}
             style={{ width: 50 }}
@@ -68,7 +68,6 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
         </View>
         <View
           style={{
-            flex: 1,
             fontWeight: "bold",
             display: "flex",
             flexDirection: "column",
@@ -83,7 +82,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
             NO AKAD : {data.nomor_akad ? data.nomor_akad : ""}
           </Text>
         </View>
-        <View style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+        <View>
           <Image src={process.env.NEXT_PUBLIC_APP_LOGO} style={{ width: 50 }} />
         </View>
       </View>
