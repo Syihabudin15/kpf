@@ -1475,11 +1475,67 @@ export default function Simulasi() {
               >
                 Rincian Pembiayaan
               </div>
-              <div className="flex justify-between py-0 border-b border-gray-200">
+
+              {/* KHUSUS SIP */}
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200 ${
+                  selectedBank && selectedBank.kode !== "BPR SIP"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
+                <div>Biaya Admin Bank</div>
+                <div className="text-right">
+                  {formatNumber(
+                    (
+                      inputTextToDecimal(plafond) *
+                      ((selectedBank?.by_admin_bank || 0) / 100)
+                    ).toFixed(0)
+                  )}
+                </div>
+              </div>
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200 ${
+                  selectedBank && selectedBank.kode !== "BPR SIP"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
+                <div>Biaya Admin Koperasi</div>
+                <div className="text-right">
+                  {formatNumber(
+                    (
+                      inputTextToDecimal(plafond) *
+                        ((selectedBank?.by_admin || 0) / 100) +
+                      inputTextToDecimal(by_tatalaksana) +
+                      (selectedBank?.by_buka_rekening || 0) +
+                      inputTextToDecimal(provisi) +
+                      (selectedBank?.by_materai || 0) +
+                      (selectedBank?.by_epotpen || 0) +
+                      (selectedBank?.by_flagging || 0)
+                    ).toFixed(0)
+                  )}
+                </div>
+              </div>
+              {/* END KHUSUS SIP */}
+
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200 ${
+                  selectedBank && selectedBank.kode === "BPR SIP"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
                 <div>Biaya Administrasi</div>
                 <div className="text-right">{by_admin && by_admin}</div>
               </div>
-              <div className="flex justify-between py-0 border-b border-gray-200">
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200 ${
+                  selectedBank && selectedBank.kode === "BPR SIP"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
                 <div>Biaya Tatalaksana</div>
                 <div className="text-right">
                   {by_tatalaksana != "0" ? by_tatalaksana : "0"}
@@ -1498,7 +1554,13 @@ export default function Simulasi() {
                   )}
                 </div>
               </div>
-              <div className="flex justify-between py-0 border-b border-gray-200">
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200 ${
+                  selectedBank && selectedBank.kode === "BPR SIP"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
                 <div>Biaya Buka Rekening</div>
                 <div className="text-right">
                   {selectedBank
@@ -1517,14 +1579,24 @@ export default function Simulasi() {
                 </div>
               </div>
               <div
-                className={`flex justify-between py-0 border-b border-gray-200`}
+                className={`flex justify-between py-0 border-b border-gray-200 ${
+                  selectedBank && selectedBank.kode === "BPR SIP"
+                    ? "hidden"
+                    : ""
+                }`}
               >
                 <div>Biaya Provisi</div>
                 <div className="text-right">
                   {provisi != "0" ? provisi : "0"}
                 </div>
               </div>
-              <div className="flex justify-between py-0 border-b border-gray-200">
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200 ${
+                  selectedBank && selectedBank.kode === "BPR SIP"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
                 <div>Biaya Materai</div>
                 <div className="text-right">
                   {selectedBank
@@ -1532,7 +1604,13 @@ export default function Simulasi() {
                     : "0"}
                 </div>
               </div>
-              <div className="flex justify-between py-0 border-b border-gray-200">
+              <div
+                className={`flex justify-between py-0 border-b border-gray-200 ${
+                  selectedBank && selectedBank.kode === "BPR SIP"
+                    ? "hidden"
+                    : ""
+                }`}
+              >
                 <div>Biaya Data Informasi</div>
                 <div className="text-right">
                   {selectedBank
