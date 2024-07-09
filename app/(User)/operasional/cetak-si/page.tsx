@@ -26,7 +26,6 @@ export default async function page() {
         <h1 className="text-1xl font-semibold text-gray-200">
           DAFTAR PENGAJUAN PENCAIRAN
         </h1>
-        <p className="text-gray-300 text-xs">Data daftar pengajuan pencairan</p>
       </div>
       <CetakPengajuanSI role="OPERASIONAL" />
     </section>

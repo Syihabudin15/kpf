@@ -5,4 +5,4 @@ username: kpfidb
 password : @Today1234
 
 ssh -i rizalmac.pem sipkpfi@103.127.97.143
-ssh sip@kpfi.co.id
+ssh sip@kpfi.co.id  

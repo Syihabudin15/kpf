@@ -24,9 +24,6 @@ export default async function page() {
         className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 p-2 text-gray-100 rounded`}
       >
         <h1 className="font-bold text-md">FIXED COST</h1>
-        <p className="text-gray-300 text-xs">
-          Rincian pengeluaran bulanan (tetap)
-        </p>
       </div>
       <div className="p-2">
         <FixedCost />

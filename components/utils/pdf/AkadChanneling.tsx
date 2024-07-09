@@ -112,7 +112,10 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 >
                   <Text style={{ width: 100 }}>Nama</Text>
                   <Text style={{ width: 20 }}>:</Text>
-                  <Text>{data.Bank.up_direktur || "Lodewijk HF Lantang"}</Text>
+                  <Text>
+                    {process.env.NEXT_PUBLIC_APP_DIREKTUR ||
+                      "Lodewijk HF Lantang"}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -125,7 +128,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 >
                   <Text style={{ width: 100 }}>Jabatan</Text>
                   <Text style={{ width: 20 }}>:</Text>
-                  <Text>Direktur Utama</Text>
+                  <Text>Direktur Operasonal</Text>
                 </View>
                 <View
                   style={{
@@ -1463,7 +1466,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               </View>
               {/* Pasal 10 */}
               <View style={{ marginTop: 20 }}>
-                <Text style={{ fontWeight: "bold" }}>Jakarta,</Text>
+                <Text style={{ fontWeight: "bold" }}>Bandung,</Text>
                 <View
                   style={{
                     display: "flex",
@@ -1504,7 +1507,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                         {process.env.NEXT_PUBLIC_APP_DIREKTUR ||
                           "Lodewijk HF Lantang"}
                       </Text>
-                      <Text>Direktur Utama</Text>
+                      <Text>Direktur Operasional</Text>
                     </View>
                   </View>
                   <View

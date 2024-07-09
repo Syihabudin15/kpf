@@ -24,7 +24,6 @@ export default async function page() {
         style={{ zIndex: 10 }}
       >
         <h1 className="font-bold text-md">TUNGGAKAN NON-FLASH</h1>
-        <div className="text-xs">Data tunggakan angsuran non-flash</div>
       </div>
       <div className="overflow-auto">
         <TunggakanReguler />

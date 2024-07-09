@@ -39,7 +39,6 @@ export default async function page() {
         <h1 className="text-1xl font-semibold text-gray-200">
           MONITORING PEMBIAYAAN
         </h1>
-        <p className="text-gray-300 text-xs">Data monitoring pembiayaan</p>
       </div>
       {user?.unit_cabang_id ? <MonitoringEntryData /> : <MonitoringPusat />}
     </section>

@@ -25,9 +25,6 @@ export default async function page() {
         <h1 className="font-semibold text-gray-200 italic">
           MONITORING PEMBIAYAAN
         </h1>
-        <p className="text-gray-300 text-xs italic">
-          Data monitoring pembiayaan
-        </p>
       </div>
       <MonitoringPusat />
     </section>

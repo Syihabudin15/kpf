@@ -24,7 +24,6 @@ export default async function page() {
         style={{ zIndex: 10 }}
       >
         <h1 className="font-bold text-md">TUNGGAKAN FLASH</h1>
-        <div className="text-xs">Data tunggakan angsuran flash</div>
       </div>
       <div className="overflow-auto">
         <TunggakanFlash />

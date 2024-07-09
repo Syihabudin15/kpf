@@ -24,12 +24,6 @@ export default async function page() {
         style={{ zIndex: 10 }}
       >
         <h1 className="font-bold text-md">ANGSURAN FLASH BULANAN</h1>
-        <div className="text-xs">
-          Data angsuran flash bulan{" "}
-          {new Date().toLocaleString("id-ID", {
-            month: "long",
-          })}
-        </div>
       </div>
       <div className="overflow-auto">
         <FlashBulanan />

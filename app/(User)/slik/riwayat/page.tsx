@@ -26,7 +26,6 @@ export default async function page() {
         <h1 className="text-1xl font-semibold text-gray-200">
           RIWAYAT PENGAJUAN
         </h1>
-        <p className="text-gray-300 text-xs">Data riwayat pengajuan slik</p>
       </div>
       <RiwayatSlik />
     </section>

@@ -40,9 +40,6 @@ export default async function page() {
           className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 p-3 text-gray-100 rounded`}
         >
           <h1 className="font-bold text-sm">DATA SUMBER DANA</h1>
-          <div className="text-xs">
-            Manajemen data bank penyedia produk pembiayaan
-          </div>
         </div>
         <div className="p-2">
           <MasterBank />
@@ -53,7 +50,6 @@ export default async function page() {
           className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 p-3 text-gray-100 rounded`}
         >
           <h1 className="font-bold text-sm">DATA JENIS PEMBIAYAAN</h1>
-          <div className="text-xs">Manajemen data jenis pembiayaan</div>
         </div>
         <div className="p-2">
           <MasterJenis />
@@ -64,7 +60,6 @@ export default async function page() {
           className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 p-3 text-gray-100 rounded`}
         >
           <h1 className="font-bold text-sm">DATA PRODUK PEMBIAYAAN</h1>
-          <div className="text-xs">Manajemen data produk pinjaman</div>
         </div>
         <div className="p-2">
           <MasterProduk />

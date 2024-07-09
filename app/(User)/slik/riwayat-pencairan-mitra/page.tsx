@@ -25,7 +25,6 @@ export default async function page() {
         <h1 className="text-1xl font-semibold text-gray-200">
           RIWAYAT PENCAIRAN MITRA
         </h1>
-        <p className="text-gray-300 text-xs">Data riwayat pencairan mitra</p>
       </div>
       <RiwayatPencairanMitra />
     </section>

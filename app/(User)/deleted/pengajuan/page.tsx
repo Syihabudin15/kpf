@@ -24,7 +24,6 @@ export default async function page() {
         style={{ zIndex: 10 }}
       >
         <h1 className="font-bold text-md">RIWAYAT HAPUS PENGAJUAN</h1>
-        <div className="text-xs">History pengajuan yang telah dihapus</div>
       </div>
       <div className="overflow-auto">
         <DeletedPengajuan />

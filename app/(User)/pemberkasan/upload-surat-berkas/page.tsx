@@ -25,7 +25,6 @@ export default async function page() {
         <h1 className="text-1xl font-semibold text-gray-200">
           UPLOAD SURAT BERKAS
         </h1>
-        <p className="text-gray-300 text-xs">Daftar upload surat berkas</p>
       </div>
       <UploadSuratBerkas />
     </section>

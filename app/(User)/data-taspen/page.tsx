@@ -24,7 +24,6 @@ export default async function page() {
         style={{ zIndex: 10 }}
       >
         <h1 className="font-bold text-md">DATA TASPEN</h1>
-        <div className="text-xs">Manajemen database taspen</div>
       </div>
       <div className="overflow-auto">
         <ExportToJson />

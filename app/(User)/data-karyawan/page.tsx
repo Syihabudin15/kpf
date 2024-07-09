@@ -24,7 +24,6 @@ export default async function page() {
         className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 p-2 rounded`}
       >
         <h1 className="text-1xl font-semibold text-gray-200">DATA KARYAWAN</h1>
-        <p className="text-gray-300 text-xs">Data daftar karyawan</p>
       </div>
       <DataMarketing />
     </section>
