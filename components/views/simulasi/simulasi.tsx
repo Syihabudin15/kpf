@@ -1425,6 +1425,17 @@ export default function Simulasi() {
                   {selectedProduk ? selectedProduk?.name : "-"}
                 </div>
               </div>
+              {selectedBank && selectedBank.kode === "BPR SIP" && (
+                <div
+                  className="flex justify-between sm:py-0 border-b border-gray-200"
+                  style={{ padding: "2.5px 0" }}
+                >
+                  <div>Margin Bunga</div>
+                  <div className="text-right">
+                    {selectedProduk ? selectedProduk.mg_bunga : "0"}
+                  </div>
+                </div>
+              )}
               <div
                 className="flex justify-between sm:py-0 border-b border-gray-200"
                 style={{ padding: "2.5px 0" }}
