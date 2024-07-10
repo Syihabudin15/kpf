@@ -517,7 +517,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                     style={{ display: "flex", flexDirection: "row", gap: 5 }}
                   >
                     <Text>b. </Text>
-                    <Text style={{ width: 130 }}>Asusansi Jiwa / Kredit</Text>
+                    <Text style={{ width: 130 }}>Asuransi Jiwa / Kredit</Text>
                     <Text>:</Text>
                     <View
                       style={{
