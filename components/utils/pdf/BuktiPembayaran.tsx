@@ -369,7 +369,7 @@ export default function BuktiPembayaran({
               <View
                 style={{ width: 150, borderBottom: "1px solid #aaa" }}
               ></View>
-              <Text style={{ height: 10 }}>Direktur Operasional</Text>
+              <Text style={{ height: 10 }}>Kepala Operasional</Text>
             </View>
           </View>
         </View>

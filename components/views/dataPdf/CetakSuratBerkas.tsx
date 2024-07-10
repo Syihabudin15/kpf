@@ -230,7 +230,7 @@ export default function CetakSuratBerkas({
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>
-                <Text>Direktur Operasional</Text>
+                <Text>Kepala Operasional</Text>
               </View>
             </View>
           </Page>

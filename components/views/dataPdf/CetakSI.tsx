@@ -225,7 +225,7 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>
-                <Text>Direktur Operasional</Text>
+                <Text>Kepala Operasional</Text>
               </View>
             </View>
           </Page>
@@ -513,7 +513,7 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
-                  <Text>Direktur Operasional</Text>
+                  <Text>Kepala Operasional</Text>
                 </View>
               </View>
               <View

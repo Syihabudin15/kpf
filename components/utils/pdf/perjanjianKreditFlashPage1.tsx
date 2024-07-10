@@ -133,7 +133,7 @@ export default function PerjanjianKreditFlashPage1({
               >
                 <Text style={{ width: 50 }}>Posisi</Text>
                 <Text style={{ width: 20 }}>:</Text>
-                <Text>Direktur Operasional</Text>
+                <Text>Kepala Operasional</Text>
               </View>
               <View style={{ marginTop: 8, marginBottom: 2 }}>
                 <Text>

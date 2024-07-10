@@ -486,10 +486,10 @@ export default function Simulasi() {
     if (plafond) {
       getAngsuran();
       const plaf = inputTextToDecimal(plafond);
-      if (selectedBank) {
-        let prov = (selectedBank.by_provisi || 0) / 100;
-        setProvisi(formatNumber((plaf * prov).toFixed(0)));
-      }
+      // if (selectedBank) {
+      //   let prov = (selectedBank.by_provisi || 0) / 100;
+      //   setProvisi(formatNumber((plaf * prov).toFixed(0)));
+      // }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
           setByMutasi("0");

@@ -128,7 +128,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 >
                   <Text style={{ width: 100 }}>Jabatan</Text>
                   <Text style={{ width: 20 }}>:</Text>
-                  <Text>Direktur Operasonal</Text>
+                  <Text>Kepala Operasional</Text>
                 </View>
                 <View
                   style={{
@@ -1507,7 +1507,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                         {process.env.NEXT_PUBLIC_APP_DIREKTUR ||
                           "Lodewijk HF Lantang"}
                       </Text>
-                      <Text>Direktur Operasional</Text>
+                      <Text>Kepala Operasional</Text>
                     </View>
                   </View>
                   <View

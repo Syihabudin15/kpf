@@ -389,7 +389,7 @@ export default function PerjanjianKreditFlashPage2({
               <Text
                 style={{ borderBottom: "1px solid #aaa", width: "80%" }}
               ></Text>
-              <Text>Direktur Operasional</Text>
+              <Text>Kepala Operasional</Text>
               <Text>{process.env.NEXT_PUBLIC_APP_FULL_NAME}</Text>
             </View>
             <View

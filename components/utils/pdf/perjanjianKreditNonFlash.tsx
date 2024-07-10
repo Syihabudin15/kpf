@@ -117,7 +117,7 @@ export default function PerjanjianKreditNonFlash({
                 >
                   <Text style={{ width: 100 }}>Nama</Text>
                   <Text style={{ width: 20 }}>:</Text>
-                  <Text>{data.Bank.direktur || "Nama Direktur"}</Text>
+                  <Text>{data.Bank.direktur || "Lodewijk HF Lantang"}</Text>
                 </View>
                 <View
                   style={{
