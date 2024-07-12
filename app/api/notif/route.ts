@@ -42,7 +42,7 @@ export const GET = async (req: NextRequest) => {
       },
     });
     si = await prisma.dataPencairan.count({
-      where: { status: false, berkas_si: { not: null } },
+      where: { status: false, berkas_si: { not: null }, bankId: user.bank_id },
     });
   } else {
     slik = await getNotifField("status_slik");

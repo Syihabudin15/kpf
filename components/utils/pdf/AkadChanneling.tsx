@@ -1417,7 +1417,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   Mengenai perjanjian ini dan segala akibat serta pelaksanaannya
                   kedua belah pihak menerangkan telah memilih tempat kedudukan
                   hukum yang tetap dan umum di Kantor Panitera Pengadilan Negeri
-                  Tangerang, demikian dengan tidak mengurangi hak dari BANK
+                  Bandung, demikian dengan tidak mengurangi hak dari BANK
                   untuk memohon gugatan atau pelaksanaan eksekusi dari
                   perjanjian ini melalui Peradilan lainnya dalam wilayah
                   Republik Indonesia.
@@ -1616,7 +1616,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                           margin: "0 auto",
                         }}
                       >
-                        Sumai / Istri / Ahli Waris*
+                        Suami / Istri / Ahli Waris*
                       </Text>
                     </View>
                   </View>
