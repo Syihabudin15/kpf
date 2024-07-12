@@ -674,23 +674,6 @@ export default function Simulasi() {
     setLoading(false);
   };
 
-  const handleDownload = () => {
-    const element = document.getElementById("analisa-perhitungan");
-    if (!element) {
-      return message.error("Download simulasi gagal. coba lagi nanti!");
-    }
-    html2canvas(element)
-      .then((canvas) => {
-        const myImage = canvas.toDataURL();
-        const link = document.createElement("a");
-        link.download = "simulasi.png";
-        link.href = myImage;
-        link.click();
-      })
-      .catch((err) => {
-        message.error("Download simulasi gagal. coba lagi nanti!");
-      });
-  };
 
   return (
     <section className="rounded border shadow bg-white">
@@ -1526,7 +1509,7 @@ export default function Simulasi() {
               <div
                 className={`flex justify-between py-0 border-b border-gray-200`}
               >
-                <div>Biaya Provisi</div>
+                <div>{selectedBank && selectedBank.kode === "BPR SIP" ? "Biaya Layanan Kredit" : "Biaya Provisi"}</div>
                 <div className="text-right">
                   {provisi != "0" ? provisi : "0"}
                 </div>

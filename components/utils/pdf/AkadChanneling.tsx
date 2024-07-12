@@ -540,7 +540,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                     style={{ display: "flex", flexDirection: "row", gap: 5 }}
                   >
                     <Text>c. </Text>
-                    <Text style={{ width: 130 }}>Provisi</Text>
+                    <Text style={{ width: 130 }}>{data.Bank.kode === "BPR SIP" ? "Layanan Kredit" : "Provisi"}</Text>
                     <Text>:</Text>
                     <View
                       style={{
