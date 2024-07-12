@@ -21,7 +21,6 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
     data.DataPembiayaan.by_epotpen +
     data.DataPembiayaan.by_tatalaksana +
     data.DataPembiayaan.by_mutasi;
-    // data.DataPembiayaan.by_provisi;
 
   const angsuranBulanan = ceiling(
     parseInt(
@@ -369,7 +368,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 <Text style={{ width: 100 }}>Fee Collection</Text>
                 <Text style={{ width: 20 }}>:</Text>
                 <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                  <Text style={{ width: 50 }}>Rp.</Text>
+                  <Text style={{ width: 50 }}></Text>
                   {data.Bank.kode === "BPR SIP" ? (
                     <Text>{data.DataPembiayaan.mg_bunga - (data.DataPembiayaan.margin_bank || 0)} %</Text>
                   ): (
@@ -540,7 +539,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                     style={{ display: "flex", flexDirection: "row", gap: 5 }}
                   >
                     <Text>c. </Text>
-                    <Text style={{ width: 130 }}>{data.Bank.kode === "BPR SIP" ? "Layanan Kredit" : "Provisi"}</Text>
+                    <Text style={{ width: 130 }}>Layanan Kredit</Text>
                     <Text>:</Text>
                     <View
                       style={{
@@ -672,7 +671,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                             byAsuransi +
                             byLainLain +
                             data.DataPembiayaan.by_buka_rekening +
-                            data.DataPembiayaan.by_materai
+                            data.DataPembiayaan.by_materai + data.DataPembiayaan.by_provisi
                           ).toFixed(0)
                         )}
                       </Text>
@@ -1516,7 +1515,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       fontWeight: "bold",
                     }}
                   >
-                    <Text>{data.Bank.name.toUpperCase() || ""}</Text>
+                    <Text>KOPERASI PEMASARAN FADILLAH</Text>
                     <View style={{ height: 50 }}></View>
                     <View
                       style={{
