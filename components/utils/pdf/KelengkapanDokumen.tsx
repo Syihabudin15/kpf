@@ -236,7 +236,7 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "2", width: 30 },
-      { data: "Data pembelian barang", width: 120 },
+      { data: "Data Pembelian Barang", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },
@@ -244,7 +244,7 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "3", width: 30 },
-      { data: "Jadwal anguran (Repayment schelude ", width: 120 },
+      { data: "Jadwal Anguran (Repayment schedule)", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },

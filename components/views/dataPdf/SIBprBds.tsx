@@ -351,7 +351,7 @@ export default function SIBprBds({ data }: { data: DataDataPencairan }) {
                     padding: 2,
                   }}
                 >
-                  <Text>Plafond (Rp.)</Text>
+                  <Text>Plafond (Rp)</Text>
                 </View>
                 <View
                   style={{
