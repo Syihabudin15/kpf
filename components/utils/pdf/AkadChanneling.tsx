@@ -20,8 +20,8 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
     data.DataPembiayaan.by_flagging +
     data.DataPembiayaan.by_epotpen +
     data.DataPembiayaan.by_tatalaksana +
-    data.DataPembiayaan.by_mutasi +
-    data.DataPembiayaan.by_provisi;
+    data.DataPembiayaan.by_mutasi;
+    // data.DataPembiayaan.by_provisi;
 
   const angsuranBulanan = ceiling(
     parseInt(
@@ -370,7 +370,11 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 <Text style={{ width: 20 }}>:</Text>
                 <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
                   <Text style={{ width: 50 }}>Rp.</Text>
-                  <Text>{formatNumber(colfee)} / Bulan</Text>
+                  {data.Bank.kode === "BPR SIP" ? (
+                    <Text>{data.DataPembiayaan.mg_bunga - (data.DataPembiayaan.margin_bank || 0)} %</Text>
+                  ): (
+                    <Text>{formatNumber(colfee)} / Bulan</Text>
+                  )}
                 </View>
               </View>
               <View
@@ -531,7 +535,31 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       <Text>{formatNumber(byAsuransi.toFixed(0))}</Text>
                     </View>
                   </View>
-                  <View
+                  {data.Bank.kode === "BPR SIP" ? (
+                    <View
+                    style={{ display: "flex", flexDirection: "row", gap: 5 }}
+                  >
+                    <Text>c. </Text>
+                    <Text style={{ width: 130 }}>Provisi</Text>
+                    <Text>:</Text>
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 10,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <Text style={{ width: 50 }}>Rp.</Text>
+                      <Text>
+                        {formatNumber(
+                          data.DataPembiayaan.by_provisi.toFixed(0)
+                        )}
+                      </Text>
+                    </View>
+                  </View>
+                  ) : (
+                    <View
                     style={{ display: "flex", flexDirection: "row", gap: 5 }}
                   >
                     <Text>c. </Text>
@@ -553,6 +581,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       </Text>
                     </View>
                   </View>
+                  )}
                   <View
                     style={{ display: "flex", flexDirection: "row", gap: 5 }}
                   >
@@ -590,7 +619,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       }}
                     >
                       <Text style={{ width: 50 }}>Rp.</Text>
-                      <Text>{formatNumber(byLainLain.toFixed(0))}</Text>
+                      <Text>{data.Bank.kode === "BPR SIP" ? formatNumber((byLainLain + data.DataPembiayaan.by_buka_rekening).toFixed(0)) : formatNumber((byLainLain + data.DataPembiayaan.by_provisi).toFixed(0))}</Text>
                     </View>
                   </View>
                   <View
@@ -1578,7 +1607,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       }}
                     >
                       <Text style={{ height: 10 }}>
-                        {data.DataPengajuanPasangan.nama_pasangan || " "}
+                        {data.DataPengajuanPasangan.nama_pasangan || " "} 
                       </Text>
                       <Text
                         style={{

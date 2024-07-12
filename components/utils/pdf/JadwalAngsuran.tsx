@@ -103,7 +103,7 @@ export default function JadwalAngsuran({
           <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
             <Text style={{ width: 80 }}>Jangka Waktu</Text>
             <Text>:</Text>
-            <Text>{data.DataPembiayaan.tenor}</Text>
+            <Text>{data.DataPembiayaan.tenor} Bulan</Text>
           </View>
           <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
             <Text style={{ width: 80 }}>Angsuran Perbulan</Text>

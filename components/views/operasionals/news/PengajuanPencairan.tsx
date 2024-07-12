@@ -172,8 +172,8 @@ export default function PengajuanPencairan() {
                     setSelected(record);
                     setModalSI(true);
                   }}
-                  disabled={record.berkas_si ? true : false}
-                  style={{ opacity: record.berkas_si ? 0.5 : 1 }}
+                  // disabled={record.berkas_si ? true : false}
+                  // style={{ opacity: record.berkas_si ? 0.5 : 1 }}
                 >
                   <PrinterFilled />
                 </button>

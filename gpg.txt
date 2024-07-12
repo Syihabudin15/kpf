@@ -6,3 +6,13 @@ password : @Today1234
 
 ssh -i rizalmac.pem sipkpfi@103.127.97.143
 ssh sip@kpfi.co.id  
+
+jangan ampe ilang ya
+[WHM]
+https://103.150.190.79:2087/
+user : root
+password : @Today1234
+[Cpanel]
+https://103.150.190.79:2083/
+user : adminkpfi
+password : @Today1234

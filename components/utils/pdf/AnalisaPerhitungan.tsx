@@ -243,6 +243,22 @@ export default function AnalisaPerhitungan({
               {data.DataPembiayaan.Produk.name}
             </Text>
           </View>
+          {data.Bank.kode === "BPR SIP" && (
+            <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              gap: 10,
+              padding: "2px 10px",
+            }}
+          >
+            <Text style={{ width: 100 }}>Margin Bunga</Text>
+            <Text style={{ flex: 0.3 }}>:</Text>
+            <Text style={{ flex: 2, textAlign: "right" }}>
+              {data.DataPembiayaan.Produk.mg_bunga} %
+            </Text>
+          </View>
+          )}
           <View
             style={{
               display: "flex",
@@ -480,7 +496,7 @@ export default function AnalisaPerhitungan({
               padding: "2px 10px",
             }}
           >
-            <Text style={{ width: 100 }}>Biaya Provisi</Text>
+            <Text style={{ width: 100 }}>Biaya {data.Bank.kode === "BPR SIP" ? "Layanan Kredit" : "Provisi"}</Text>
             <Text style={{ flex: 0.3 }}>:</Text>
             <View
               style={{
