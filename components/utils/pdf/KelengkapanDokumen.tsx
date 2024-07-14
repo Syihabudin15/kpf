@@ -380,7 +380,7 @@ export default function KelengkapanDokumen({
                       data.DataPembiayaan.plafond
                     )
                   ),
-                  parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
+                  data.DataPembiayaan.pembulatan || 100
                 ).toString()
               )}
             </Text>
