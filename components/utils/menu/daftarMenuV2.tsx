@@ -406,7 +406,7 @@ export const menusV2: Menus[] = [
       {
         label: "Pelunasan Debitur",
         url: "/laporan-administrasi/pelunasan-debitur",
-        role: ["BANK", "APPROVAL"],
+        role: ["BANK", "APPROVAL", "BANK"],
         icon: <DiffOutlined />,
       },
     ],

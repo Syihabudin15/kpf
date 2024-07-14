@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
-import {
-  BankWithDataPengajuan,
-  savePencairan,
-} from "@/components/utils/Interfaces";
+import { BankWithDataPengajuan } from "@/components/utils/Interfaces";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -14,7 +11,7 @@ export const GET = async (req: NextRequest) => {
           where: {
             AND: [
               { status_approval: "SETUJU" },
-              { BerkasPengajuan: { berkas_akad: { not: null } } },
+              // { BerkasPengajuan: { berkas_akad: { not: null } } },
               { is_active: true },
               { is_cetak: false },
             ],

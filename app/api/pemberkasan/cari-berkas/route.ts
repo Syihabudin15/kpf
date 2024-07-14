@@ -51,7 +51,7 @@ export const GET = async (req: NextRequest) => {
       },
       skip: skip,
       take: 20,
-      orderBy: { tanggal_pencairan: "asc" },
+      orderBy: { tanggal_pencairan: "desc" },
     });
   } else {
     result = <any>await prisma.dataPengajuan.findMany({
@@ -86,7 +86,7 @@ export const GET = async (req: NextRequest) => {
       },
       skip: skip,
       take: 20,
-      orderBy: { tanggal_pencairan: "asc" },
+      orderBy: { tanggal_pencairan: "desc" },
     });
   }
   const total = await prisma.dataPengajuan.count({
