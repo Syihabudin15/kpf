@@ -27,7 +27,7 @@ export const GET = async (req: NextRequest) => {
     result = <any>await prisma.dataPengajuan.findMany({
       where: {
         bankId: user.bank_id,
-        status_pencairan: "TRANSFER",
+        status_approval: "SETUJU",
         DataPembiayaan: {
           OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
         },
@@ -83,8 +83,7 @@ export const GET = async (req: NextRequest) => {
     result = <any>await prisma.dataPengajuan.findMany({
       where: {
         bankId: user.bank_id,
-        status_pencairan: "TRANSFER",
-
+        status_approval: "SETUJU",
         DataPembiayaan: {
           created_at: {
             gte: new Date(`${year}-01-01`),
@@ -146,8 +145,8 @@ export const GET = async (req: NextRequest) => {
 
   const total = await prisma.dataPengajuan.count({
     where: {
-      status_pencairan: "TRANSFER",
       bankId: user.bank_id,
+      status_approval: "SETUJU",
       DataPembiayaan: {
         created_at: {
           gte: new Date(`${year}-01-01`),

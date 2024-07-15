@@ -216,20 +216,15 @@ export default function BerkasTabsPengajuan({
                           </div>
                         ),
                       },
-                      role === "APPROVAL"
-                        ? {
-                            label: "MAUK",
-                            key: data.id + "mauk",
-                            children: (
-                              <div style={{ height: "70vh" }}>
-                                <Mauk data={data} />
-                              </div>
-                            ),
-                          }
-                        : {
-                            label: "",
-                            key: "",
-                          },
+                      {
+                        label: "MAUK",
+                        key: data.id + "mauk",
+                        children: (
+                          <div style={{ height: "70vh" }}>
+                            <Mauk data={data} />
+                          </div>
+                        ),
+                      },
                     ]
                   : [
                       {

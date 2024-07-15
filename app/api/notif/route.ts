@@ -65,9 +65,9 @@ export const GET = async (req: NextRequest) => {
   let cair = await prisma.dataPengajuan.count({
     where: {
       status_approval: "SETUJU",
-      BerkasPengajuan: {
-        berkas_akad: { not: null },
-      },
+      // BerkasPengajuan: {
+      //   berkas_akad: { not: null },
+      // },
       is_active: true,
       is_cetak: false,
     },
