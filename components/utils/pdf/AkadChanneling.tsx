@@ -363,19 +363,20 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   <Text>{formatNumber(angsuranBank)} / Bulan</Text>
                 </View>
               </View>
-              <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                <Text style={{ width: 20 }}>2.3</Text>
-                <Text style={{ width: 100 }}>Fee Collection</Text>
-                <Text style={{ width: 20 }}>:</Text>
+              {data.Bank.kode !== "BPR SIP" && (
                 <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                  <Text style={{ width: 50 }}></Text>
-                  {data.Bank.kode === "BPR SIP" ? (
-                    <Text>{data.DataPembiayaan.mg_bunga - (data.DataPembiayaan.margin_bank || 0)} %</Text>
-                  ): (
+                  <Text style={{ width: 20 }}>2.3</Text>
+                  <Text style={{ width: 100 }}>Fee Collection</Text>
+                  <Text style={{ width: 20 }}>:</Text>
+                  <View
+                    style={{ display: "flex", gap: 5, flexDirection: "row" }}
+                  >
+                    <Text style={{ width: 50 }}></Text>
                     <Text>{formatNumber(colfee)} / Bulan</Text>
-                  )}
+                  </View>
                 </View>
-              </View>
+              )}
+
               <View
                 style={{
                   display: "flex",
@@ -536,50 +537,50 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   </View>
                   {data.Bank.kode === "BPR SIP" ? (
                     <View
-                    style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                  >
-                    <Text>c. </Text>
-                    <Text style={{ width: 130 }}>Layanan Kredit</Text>
-                    <Text>:</Text>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 10,
-                        fontWeight: "bold",
-                      }}
+                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
                     >
-                      <Text style={{ width: 50 }}>Rp.</Text>
-                      <Text>
-                        {formatNumber(
-                          data.DataPembiayaan.by_provisi.toFixed(0)
-                        )}
-                      </Text>
+                      <Text>c. </Text>
+                      <Text style={{ width: 130 }}>Layanan Kredit</Text>
+                      <Text>:</Text>
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: 10,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        <Text style={{ width: 50 }}>Rp.</Text>
+                        <Text>
+                          {formatNumber(
+                            data.DataPembiayaan.by_provisi.toFixed(0)
+                          )}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
                   ) : (
                     <View
-                    style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                  >
-                    <Text>c. </Text>
-                    <Text style={{ width: 130 }}>Pembukaan Tabungan</Text>
-                    <Text>:</Text>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 10,
-                        fontWeight: "bold",
-                      }}
+                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
                     >
-                      <Text style={{ width: 50 }}>Rp.</Text>
-                      <Text>
-                        {formatNumber(
-                          data.DataPembiayaan.by_buka_rekening.toFixed(0)
-                        )}
-                      </Text>
+                      <Text>c. </Text>
+                      <Text style={{ width: 130 }}>Pembukaan Tabungan</Text>
+                      <Text>:</Text>
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: 10,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        <Text style={{ width: 50 }}>Rp.</Text>
+                        <Text>
+                          {formatNumber(
+                            data.DataPembiayaan.by_buka_rekening.toFixed(0)
+                          )}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
                   )}
                   <View
                     style={{ display: "flex", flexDirection: "row", gap: 5 }}
@@ -618,7 +619,20 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       }}
                     >
                       <Text style={{ width: 50 }}>Rp.</Text>
-                      <Text>{data.Bank.kode === "BPR SIP" ? formatNumber((byLainLain + data.DataPembiayaan.by_buka_rekening).toFixed(0)) : formatNumber((byLainLain + data.DataPembiayaan.by_provisi).toFixed(0))}</Text>
+                      <Text>
+                        {data.Bank.kode === "BPR SIP"
+                          ? formatNumber(
+                              (
+                                byLainLain +
+                                data.DataPembiayaan.by_buka_rekening
+                              ).toFixed(0)
+                            )
+                          : formatNumber(
+                              (
+                                byLainLain + data.DataPembiayaan.by_provisi
+                              ).toFixed(0)
+                            )}
+                      </Text>
                     </View>
                   </View>
                   <View
@@ -671,7 +685,8 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                             byAsuransi +
                             byLainLain +
                             data.DataPembiayaan.by_buka_rekening +
-                            data.DataPembiayaan.by_materai + data.DataPembiayaan.by_provisi
+                            data.DataPembiayaan.by_materai +
+                            data.DataPembiayaan.by_provisi
                           ).toFixed(0)
                         )}
                       </Text>
@@ -1417,10 +1432,9 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   Mengenai perjanjian ini dan segala akibat serta pelaksanaannya
                   kedua belah pihak menerangkan telah memilih tempat kedudukan
                   hukum yang tetap dan umum di Kantor Panitera Pengadilan Negeri
-                  Bandung, demikian dengan tidak mengurangi hak dari BANK
-                  untuk memohon gugatan atau pelaksanaan eksekusi dari
-                  perjanjian ini melalui Peradilan lainnya dalam wilayah
-                  Republik Indonesia.
+                  Bandung, demikian dengan tidak mengurangi hak dari BANK untuk
+                  memohon gugatan atau pelaksanaan eksekusi dari perjanjian ini
+                  melalui Peradilan lainnya dalam wilayah Republik Indonesia.
                 </Text>
               </View>
               {/* Pasal 10 */}
@@ -1606,7 +1620,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       }}
                     >
                       <Text style={{ height: 10 }}>
-                        {data.DataPengajuanPasangan.nama_pasangan || " "} 
+                        {data.DataPengajuanPasangan.nama_pasangan || " "}
                       </Text>
                       <Text
                         style={{
