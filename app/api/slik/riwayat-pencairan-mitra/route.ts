@@ -139,7 +139,7 @@ export const GET = async (req: NextRequest) => {
       },
       skip: skip,
       take: 20,
-      orderBy: { tanggal_pencairan: "desc" },
+      orderBy: { tanggal_approval: "desc" },
     });
   }
 
