@@ -2,8 +2,12 @@
 import { flagging } from "@prisma/client";
 import { Input, Table, TableProps } from "antd";
 import { useEffect, useState } from "react";
-import CetakFlagging from "./CetakFlagging";
-
+import dynamic from "next/dynamic";
+import { LoadingOutlined } from "@ant-design/icons";
+const CetakFlagging = dynamic(
+  () => import("@/components/views/flagging/CetakFlagging"),
+  { ssr: false, loading: () => <LoadingOutlined /> }
+);
 export default function Flagging() {
   const [name, setName] = useState<string>();
   const [loading, setLoading] = useState(false);
@@ -65,7 +69,7 @@ export default function Flagging() {
 
 const columns: TableProps<flagging>["columns"] = [
   {
-    title: "No",
+    title: "NO",
     key: "no",
     dataIndex: "no",
     className: "text-center",
