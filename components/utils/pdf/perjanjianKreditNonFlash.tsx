@@ -1,11 +1,27 @@
 import { DataDataPengajuan } from "../Interfaces";
 import { Image, Page, Text, View } from "@react-pdf/renderer";
-import moment from "moment-timezone";
+import moment from "moment";
 import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling } from "./pdfUtil";
 import { stylePdf } from "./stylePdf";
 const angkaTerbilang = require("angka-menjadi-terbilang");
+moment.updateLocale("id", {
+  months: [
+    "January",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ],
+});
 
 export default function PerjanjianKreditNonFlash({
   data,
@@ -1454,8 +1470,8 @@ export default function PerjanjianKreditNonFlash({
                 <Text style={{ fontWeight: "bold" }}>
                   Jakarta,{" "}
                   {moment(data.tanggal_cetak_akad)
-                    .tz("Asia/Jakarta")
-                    .format("DD-MMMM-YYYY")}
+                    .locale("id")
+                    .format("DD MMMM YYYY")}
                 </Text>
                 <View
                   style={{

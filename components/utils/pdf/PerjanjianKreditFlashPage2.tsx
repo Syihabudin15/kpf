@@ -1,6 +1,22 @@
 import { DataDataPengajuan } from "../Interfaces";
 import { Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import moment from "moment";
+moment.updateLocale("id", {
+  months: [
+    "January",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ],
+});
 import { stylePdf } from "./stylePdf";
 
 export default function PerjanjianKreditFlashPage2({
@@ -312,7 +328,10 @@ export default function PerjanjianKreditFlashPage2({
             }}
           >
             <Text>
-              Bandung, {moment(data.tanggal_cetak_akad).format("DD-MMMM-YYYY")}
+              Bandung,{" "}
+              {moment(data.tanggal_cetak_akad)
+                .locale("id")
+                .format("DD MMMM YYYY")}
             </Text>
           </View>
           <View

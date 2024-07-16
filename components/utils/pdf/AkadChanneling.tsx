@@ -1,11 +1,27 @@
 import { DataDataPengajuan } from "../Interfaces";
 import { Image, Page, Text, View } from "@react-pdf/renderer";
-import moment from "moment-timezone";
+import moment from "moment";
 import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling } from "./pdfUtil";
 import { stylePdf } from "./stylePdf";
 const angkaTerbilang = require("angka-menjadi-terbilang");
+moment.updateLocale("id", {
+  months: [
+    "January",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ],
+});
 
 export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
   const byAdmin =
@@ -356,11 +372,13 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               </View>
               <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
                 <Text style={{ width: 20 }}>2.2</Text>
-                <Text style={{ width: 100 }}>Angsuran</Text>
+                <Text style={{ width: 100, fontWeight: "bold" }}>Angsuran</Text>
                 <Text style={{ width: 20 }}>:</Text>
                 <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                  <Text style={{ width: 50 }}>Rp.</Text>
-                  <Text>{formatNumber(angsuranBulanan)} / Bulan</Text>
+                  <Text style={{ width: 50, fontWeight: "bold" }}>Rp.</Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {formatNumber(angsuranBulanan)} / Bulan
+                  </Text>
                 </View>
               </View>
               {data.Bank.kode !== "BPR SIP" && (
@@ -1511,8 +1529,8 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 <Text style={{ fontWeight: "bold" }}>
                   Bandung,{" "}
                   {moment(data.tanggal_cetak_akad)
-                    .tz("Asia/Jakarta")
-                    .format("DD-MMMM-YYYY")}
+                    .locale("id")
+                    .format("DD MMMM YYYY")}
                 </Text>
                 <View
                   style={{

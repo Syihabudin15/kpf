@@ -9,7 +9,6 @@ import Logout from "@/components/views/Logout";
 import MobileMenuVer2 from "@/components/utils/menu/MobileMenuVer2";
 import NotifVer2 from "@/components/utils/menu/NotifVer2";
 import MenuWrapper from "@/components/utils/menu/MenuWrapper";
-import moment from "moment-timezone";
 
 export default async function UserLayout({
   children,
