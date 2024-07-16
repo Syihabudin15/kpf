@@ -312,7 +312,7 @@ export default function PerjanjianKreditFlashPage2({
             }}
           >
             <Text>
-              Bandung, {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}
+              Bandung, {moment(data.tanggal_cetak_akad).format("DD-MMMM-YYYY")}
             </Text>
           </View>
           <View

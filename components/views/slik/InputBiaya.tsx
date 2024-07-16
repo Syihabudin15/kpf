@@ -1079,7 +1079,7 @@ export default function InputPembiayaan({
                 </div>
                 <div className="flex justify-between items-center border-b pb-1">
                   <div>
-                    <div className="font-semibold text-sm">Maretrai</div>
+                    <div className="font-semibold text-sm">Materai</div>
                     <div className="text-xs">Biaya materai</div>
                   </div>
                   <div className="border rounded w-20 md:w-32 py-1 px-2 text-center">

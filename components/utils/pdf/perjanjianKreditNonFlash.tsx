@@ -1,6 +1,6 @@
 import { DataDataPengajuan } from "../Interfaces";
 import { Image, Page, Text, View } from "@react-pdf/renderer";
-import moment from "moment";
+import moment from "moment-timezone";
 import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling } from "./pdfUtil";
@@ -1375,10 +1375,9 @@ export default function PerjanjianKreditNonFlash({
                   Mengenai perjanjian ini dan segala akibat serta pelaksanaannya
                   kedua belah pihak menerangkan telah memilih tempat kedudukan
                   hukum yang tetap dan umum di Kantor Panitera Pengadilan Negeri
-                  Bandung, demikian dengan tidak mengurangi hak dari BANK
-                  untuk memohon gugatan atau pelaksanaan eksekusi dari
-                  perjanjian ini melalui Peradilan lainnya dalam wilayah
-                  Republik Indonesia.
+                  Bandung, demikian dengan tidak mengurangi hak dari BANK untuk
+                  memohon gugatan atau pelaksanaan eksekusi dari perjanjian ini
+                  melalui Peradilan lainnya dalam wilayah Republik Indonesia.
                 </Text>
               </View>
               {/* Pasal 10 */}
@@ -1452,7 +1451,12 @@ export default function PerjanjianKreditNonFlash({
               </View>
               {/* Pasal 10 */}
               <View style={{ marginTop: 20 }}>
-                <Text style={{ fontWeight: "bold" }}>Jakarta,</Text>
+                <Text style={{ fontWeight: "bold" }}>
+                  Jakarta,{" "}
+                  {moment(data.tanggal_cetak_akad)
+                    .tz("Asia/Jakarta")
+                    .format("DD-MMMM-YYYY")}
+                </Text>
                 <View
                   style={{
                     display: "flex",

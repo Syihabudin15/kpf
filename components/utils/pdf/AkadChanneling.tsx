@@ -1,6 +1,6 @@
 import { DataDataPengajuan } from "../Interfaces";
 import { Image, Page, Text, View } from "@react-pdf/renderer";
-import moment from "moment";
+import moment from "moment-timezone";
 import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling } from "./pdfUtil";
@@ -1508,7 +1508,12 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               </View>
               {/* Pasal 10 */}
               <View style={{ marginTop: 20 }}>
-                <Text style={{ fontWeight: "bold" }}>Bandung,</Text>
+                <Text style={{ fontWeight: "bold" }}>
+                  Bandung,{" "}
+                  {moment(data.tanggal_cetak_akad)
+                    .tz("Asia/Jakarta")
+                    .format("DD-MMMM-YYYY")}
+                </Text>
                 <View
                   style={{
                     display: "flex",

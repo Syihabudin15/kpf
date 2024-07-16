@@ -9,6 +9,7 @@ import Logout from "@/components/views/Logout";
 import MobileMenuVer2 from "@/components/utils/menu/MobileMenuVer2";
 import NotifVer2 from "@/components/utils/menu/NotifVer2";
 import MenuWrapper from "@/components/utils/menu/MenuWrapper";
+import moment from "moment-timezone";
 
 export default async function UserLayout({
   children,
@@ -69,7 +70,7 @@ export default async function UserLayout({
         </div>
       </div>
       <div style={{ flex: 10 }} className="flex gap-2 p-2">
-        <MenuWrapper user={user}/>
+        <MenuWrapper user={user} />
         {/* <div style={{ flex: 0.6 }} className="hidden md:block">
           <div className="flex flex-col gap-2">
             <div
@@ -134,7 +135,7 @@ export default async function UserLayout({
       >
         <div className="flex gap-2">
           <span>
-            Copyright {new Date().getFullYear()} <CopyrightCircleOutlined />
+            Copyright {new Date().getFullYear()} <CopyrightCircleOutlined />{" "}
           </span>{" "}
           <span>|</span>
           <Link href={"/dashboard"} className="text-blue-500">
