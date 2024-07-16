@@ -1,6 +1,8 @@
+"use client";
 import { flagging } from "@prisma/client";
 import { Input, Table, TableProps } from "antd";
 import { useEffect, useState } from "react";
+import CetakFlagging from "./CetakFlagging";
 
 export default function Flagging() {
   const [name, setName] = useState<string>();
@@ -35,6 +37,9 @@ export default function Flagging() {
         <div className="pembiayaan">
           <Input.Search onChange={(e) => setName(e.target.value)} />
         </div>
+        <div className="pembiayaan">
+          <CetakFlagging data={data || []} />
+        </div>
       </div>
       <div>
         <Table
@@ -59,6 +64,23 @@ export default function Flagging() {
 }
 
 const columns: TableProps<flagging>["columns"] = [
+  {
+    title: "No",
+    key: "no",
+    dataIndex: "no",
+    className: "text-center",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    width: 50,
+    render(value, record, index) {
+      return <>{index + 1}</>;
+    },
+  },
   {
     title: "NOTAS",
     key: "notas",
@@ -175,20 +197,6 @@ const columns: TableProps<flagging>["columns"] = [
     title: "TANGGAL LAHIR JANDA DUDA YP",
     key: "tgllahir_jandadudayp",
     dataIndex: "tgllahir_jandadudayp",
-    className: "text-center",
-    onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    width: 150,
-  },
-  {
-    title: "PENERBIT SKEP",
-    key: "penerbitskep",
-    dataIndex: "penerbitskep",
     className: "text-center",
     onHeaderCell: (text, record) => {
       return {

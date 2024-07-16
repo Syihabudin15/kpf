@@ -160,7 +160,7 @@ model Bank {
   email             String?
   is_active         Boolean  @default(true)
   created_at        DateTime @default(now())
-  pembulatan        Int @default(1)
+  pembulatan        Int      @default(1)
 
   products          Produk[]
   User              User[]
@@ -751,7 +751,7 @@ model PelunasanDebitur {
 }
 
 model flagging {
-  id                   Int       @id @default(autoincrement())
+  id                   Int     @id @default(autoincrement())
   status_peserta       String  @db.VarChar(10)
   notas                String  @db.VarChar(20)
   kantor_cabang        String  @db.VarChar(20)
@@ -769,7 +769,7 @@ model flagging {
   stsdapem             String  @db.VarChar(50)
   tgllahir_penerima    String  @db.VarChar(10)
   tgllahir_jandadudayp String  @db.VarChar(10)
-  nodosir              BigInt
+  nodosir              String?
   tglskep              String? @db.VarChar(10)
   tmtpens              String  @db.VarChar(10)
   nudapem              String? @db.VarChar(10)

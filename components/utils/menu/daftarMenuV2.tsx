@@ -418,6 +418,12 @@ export const menusV2: Menus[] = [
     icon: <DiffOutlined />,
   },
   {
+    label: "Data Taspen",
+    url: "/flagging",
+    role: ["MASTER"],
+    icon: <DiffOutlined />,
+  },
+  {
     label: "Ganti Password",
     url: "/setting/ganti-password",
     role: "ALL",
