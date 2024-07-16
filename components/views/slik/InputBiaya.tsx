@@ -281,8 +281,14 @@ export default function InputPembiayaan({
     setSelectedBank(filterBank[0]);
     setBankOpt([{ label: filterBank[0].name, value: filterBank[0].id }]);
     if (filterBank[0]) {
-      let prov = (filterBank[0].by_provisi || 0) / 100;
-      setProvisi(formatNumber((inputTextToDecimal(plafond) * prov).toFixed(0)));
+      if ((filterBank[0].by_provisi || 0) < 100) {
+        let prov = (filterBank[0].by_provisi || 0) / 100;
+        setProvisi(
+          formatNumber((inputTextToDecimal(plafond) * prov).toFixed(0))
+        );
+      } else {
+        setProvisi(formatNumber((filterBank[0].by_provisi || 0).toString()));
+      }
     }
     const userAge =
       parseFloat(tanggalMasuk.tahunMasuk) +
@@ -487,10 +493,14 @@ export default function InputPembiayaan({
     if (plafond) {
       getAngsuran();
       const plaf = inputTextToDecimal(plafond);
-      if (selectedBank) {
-        let prov = (selectedBank.by_provisi || 0) / 100;
-        setProvisi(formatNumber((plaf * prov).toFixed(0)));
-      }
+      // if (selectedBank) {
+      //   if ((selectedBank.by_provisi || 0) < 100) {
+      //     let prov = (selectedBank.by_provisi || 0) / 100;
+      //     setProvisi(formatNumber((plaf * prov).toFixed(0)));
+      //   } else {
+      //     setProvisi(formatNumber((selectedBank.by_provisi || 0).toString()));
+      //   }
+      // }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
           setByMutasi("0");
@@ -650,6 +660,7 @@ export default function InputPembiayaan({
     by_tatalaksana,
     produkTidakSesuai,
     reffFee,
+    selectedBank,
   ]);
   useEffect(() => {
     setModalGajiBersih(false);
