@@ -360,7 +360,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 <Text style={{ width: 20 }}>:</Text>
                 <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
                   <Text style={{ width: 50 }}>Rp.</Text>
-                  <Text>{formatNumber(angsuranBank)} / Bulan</Text>
+                  <Text>{formatNumber(angsuranBulanan)} / Bulan</Text>
                 </View>
               </View>
               {data.Bank.kode !== "BPR SIP" && (
@@ -377,7 +377,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 </View>
               )}
 
-              <View
+              {/* <View
                 style={{
                   display: "flex",
                   gap: 5,
@@ -395,7 +395,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                     {formatNumber(angsuranBulanan)} / Bulan
                   </Text>
                 </View>
-              </View>
+              </View> */}
               <View
                 style={{
                   display: "flex",
@@ -403,7 +403,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   flexDirection: "row",
                 }}
               >
-                <Text style={{ width: 20 }}>2.5</Text>
+                <Text style={{ width: 20 }}>2.3</Text>
                 <Text style={{ width: 100, fontWeight: "bold" }}>
                   Tanggal Pembayaran
                 </Text>
@@ -423,7 +423,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   flexDirection: "row",
                 }}
               >
-                <Text style={{ width: 20 }}>2.6</Text>
+                <Text style={{ width: 20 }}>2.4</Text>
                 <Text style={{ width: 100, fontWeight: "bold" }}>
                   Suku Bunga {data.jenis_margin === "FLAT" ? "Flat" : "Efektif"}
                 </Text>
@@ -439,7 +439,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   flexDirection: "row",
                 }}
               >
-                <Text style={{ width: 20 }}>2.7</Text>
+                <Text style={{ width: 20 }}>2.5</Text>
                 <Text style={{ width: 100, fontWeight: "bold" }}>
                   Tujuan Penggunaan
                 </Text>
