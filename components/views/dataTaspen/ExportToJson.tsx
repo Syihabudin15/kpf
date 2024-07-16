@@ -219,6 +219,11 @@ export default function ExportToJson() {
 
 const columns: TableProps["columns"] = [
   {
+    title: "ID",
+    dataIndex: "ID",
+    key: "id",
+  },
+  {
     title: "Nama",
     dataIndex: "NAMA_PENERIMA",
     key: "nama",

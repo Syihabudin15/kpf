@@ -263,8 +263,14 @@ export default function Simulasi() {
     setSelectedProduk(filter[0]);
     setSelectedBank(filterBank[0]);
     if (filterBank[0]) {
-      let prov = (filterBank[0].by_provisi || 0) / 100;
-      setProvisi(formatNumber((inputTextToDecimal(plafond) * prov).toFixed(0)));
+      if ((filterBank[0].by_provisi || 0) < 100) {
+        let prov = (filterBank[0].by_provisi || 0) / 100;
+        setProvisi(
+          formatNumber((inputTextToDecimal(plafond) * prov).toFixed(0))
+        );
+      } else {
+        setProvisi(formatNumber((filterBank[0].by_provisi || 0).toFixed(0)));
+      }
     }
     const userAge =
       parseFloat(tanggalMasuk.tahunMasuk) +
@@ -486,10 +492,14 @@ export default function Simulasi() {
     if (plafond) {
       getAngsuran();
       const plaf = inputTextToDecimal(plafond);
-      // if (selectedBank) {
-      //   let prov = (selectedBank.by_provisi || 0) / 100;
-      //   setProvisi(formatNumber((plaf * prov).toFixed(0)));
-      // }
+      if (selectedBank && provisi === "0") {
+        if ((selectedBank.by_provisi || 0) < 100) {
+          let prov = (selectedBank.by_provisi || 0) / 100;
+          setProvisi(formatNumber((plaf * prov).toFixed(0)));
+        } else {
+          setProvisi(formatNumber((selectedBank.by_provisi || 0).toFixed(0)));
+        }
+      }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
           setByMutasi("0");
@@ -673,7 +683,6 @@ export default function Simulasi() {
     setShowModal(false);
     setLoading(false);
   };
-
 
   return (
     <section className="rounded border shadow bg-white">
@@ -1509,7 +1518,11 @@ export default function Simulasi() {
               <div
                 className={`flex justify-between py-0 border-b border-gray-200`}
               >
-                <div>{selectedBank && selectedBank.kode === "BPR SIP" ? "Biaya Layanan Kredit" : "Biaya Provisi"}</div>
+                <div>
+                  {selectedBank && selectedBank.kode === "BPR SIP"
+                    ? "Biaya Layanan Kredit"
+                    : "Biaya Provisi"}
+                </div>
                 <div className="text-right">
                   {provisi != "0" ? provisi : "0"}
                 </div>
