@@ -447,7 +447,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 </Text>
                 <Text style={{ width: 20 }}>:</Text>
                 <Text style={{ fontWeight: "bold" }}>
-                  {data.DataPembiayaan.mg_bunga} / Tahun
+                  {data.DataPembiayaan.mg_bunga}% / Tahun
                 </Text>
               </View>
               <View

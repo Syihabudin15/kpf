@@ -153,7 +153,7 @@ export default function FormEditPengajuan({
         : currData.DataPengajuanAlamat.provinsi_domisili,
       kode_pos_domisili: domisiliSama ? e.kode_pos : e.kode_pos_domisili,
       geo_location: e.geo_location,
-      alamat: e.alamat || null,
+      alamat: alamat || null,
       rt: e.rt || null,
       rw: e.rw || null,
       kelurahan: e.kelurahan || null,
@@ -211,7 +211,7 @@ export default function FormEditPengajuan({
     } else {
       setStatusKawinDisable(true);
     }
-    console.log(currData);
+    setAlamat(currData.DataPembiayaan.alamat);
     form.setFieldsValue({
       nama: currData.DataPembiayaan.name,
       nopen: currData.DataPembiayaan.nopen,
