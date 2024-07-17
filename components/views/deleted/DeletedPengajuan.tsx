@@ -1,9 +1,7 @@
 "use client";
-import { LoadingOutlined } from "@ant-design/icons";
 import { Input, Table, TableProps, DatePicker } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
 

@@ -36,7 +36,7 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                 <Text>No.</Text>
                 <Text>......</Text>
                 <Text>
-                  MK/{data.Bank.kode}/PP/{new Date().getMonth()}/
+                  MK/{data.Bank.kode}/PP/{new Date().getMonth() + 1}/
                   {new Date().getFullYear()}
                 </Text>
               </View>

@@ -97,6 +97,7 @@ const columns: TableProps<flagging>["columns"] = [
         },
       };
     },
+    fixed: window.innerWidth < 600 ? false : "left",
     width: 100,
   },
   {
@@ -112,6 +113,7 @@ const columns: TableProps<flagging>["columns"] = [
       };
     },
     width: 150,
+    fixed: window.innerWidth < 600 ? false : "left",
   },
   {
     title: "TANGGAL LAHIR",

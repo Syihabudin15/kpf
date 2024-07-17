@@ -11,30 +11,38 @@ export const GET = async (req: NextRequest) => {
   const skip = (page - 1) * pageSize;
   let result: flagging[] = [];
 
-  if (name) {
-    result = <any>await prisma.flagging.findMany({
-      where: {
-        OR: [
-          { nama_penerima: { contains: name } },
-          { notas: { contains: name } },
-          { alamat_cabang: { contains: name } },
-          { kantor_cabang: { contains: name } },
-          { alamatrumah: { contains: name } },
-        ],
-      },
-      skip: skip,
-      take: pageSize,
-    });
-  } else {
-    result = <any>await prisma.flagging.findMany({
-      skip: skip,
-      take: pageSize,
-    });
-  }
-  const total = await prisma.flagging.count();
+  try {
+    if (name) {
+      result = <any>await prisma.flagging.findMany({
+        where: {
+          OR: [
+            { nama_penerima: { contains: name } },
+            { notas: { contains: name } },
+            { alamat_cabang: { contains: name } },
+            { kantor_cabang: { contains: name } },
+            { alamatrumah: { contains: name } },
+          ],
+        },
+      });
+    } else {
+      result = <any>await prisma.flagging.findMany({
+        skip: skip,
+        take: pageSize,
+      });
+    }
+    const total = await prisma.flagging.count();
 
-  return NextResponse.json(
-    { data: result, total: name ? result.length : total },
-    { status: 200 }
-  );
+    return NextResponse.json(
+      { data: result, total: name ? result.length : total },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      {
+        message: "Server error",
+      },
+      { status: 500 }
+    );
+  }
 };

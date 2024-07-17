@@ -48,6 +48,10 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
     ),
     data.DataPembiayaan.pembulatan
   ).toString();
+  const angsuranPokok = ceiling(
+    data.DataPembiayaan.plafond / data.DataPembiayaan.tenor,
+    data.DataPembiayaan.pembulatan
+  ).toString();
   const angsuranBank = ceiling(
     parseInt(
       getAngsuranPerBulan(
@@ -209,8 +213,8 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       <Text style={{ width: 20 }}>:</Text>
                       <Text style={{ width: 300 }}>
                         {data.DataPengajuanAlamat.alamat}{" "}
-                        {data.DataPengajuanAlamat.rt}
-                        {data.DataPengajuanAlamat.rw}/,{" "}
+                        {data.DataPengajuanAlamat.rt}/
+                        {data.DataPengajuanAlamat.rw},{" "}
                         {data.DataPengajuanAlamat.kelurahan}{" "}
                         {data.DataPengajuanAlamat.kecamatan},{" "}
                         {data.DataPengajuanAlamat.kota}{" "}
@@ -310,7 +314,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 <Text>
                   BANK dengan ini menyetujui memberikan suatu kredit kepada
                   DEBITUR dan DEBITUR menyetujui untuk menerima fasilitas kredit
-                  yang disebut Kredit Channeling dengan Plafond Kredit sebesar
+                  yang disebut Kredit Channeling dengan Plafond Kredit sebesar{" "}
                   <Text style={{ fontWeight: "bold" }}>
                     Rp. {formatNumber(data.DataPembiayaan.plafond.toFixed(0))} (
                     {angkaTerbilang(data.DataPembiayaan.plafond)
@@ -322,7 +326,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                           .concat(word.substr(1));
                       })
                       .join(" ")}{" "}
-                    Rupiah)
+                    Rupiah).
                   </Text>
                 </Text>
               </View>
@@ -338,11 +342,142 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 <Text>Pasal 2</Text>
                 <Text>TUJUAN PENGGUNAAN & JANGKA WAKTU</Text>
               </View>
+              {/* <View>
+                <Text>
+                  Bahwa perjanjian ini berlaku unutk masa{" "}
+                  {data.DataPembiayaan.tenor} (
+                  {angkaTerbilang(data.DataPembiayaan.tenor)
+                    .split(" ")
+                    .map(function (word: string) {
+                      return word
+                        .charAt(0)
+                        .toUpperCase()
+                        .concat(word.substr(1));
+                    })
+                    .join(" ")}
+                  ) bulan, terhitung sejak ditandatanganinya perjanjian ini
+                  tanggal {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}{" "}
+                  dan akan berkhir pada tanggal{" "}
+                  {"25-" +
+                    moment(data.tanggal_cetak_akad)
+                      .add(data.DataPembiayaan.tenor, "M")
+                      .format("MM-YYYY")}
+                </Text>
+                <Text>
+                  Bahwa untuk jumlah pinjaman tersebut akan dikenakan bunga
+                  pinjaman kepada debitur dan harus dibayar oleh debitur sebesar{" "}
+                  {data.DataPembiayaan.mg_bunga}% Eff (
+                  {angkaTerbilang(data.DataPembiayaan.mg_bunga)
+                    .split(" ")
+                    .map(function (word: string) {
+                      return word
+                        .charAt(0)
+                        .toUpperCase()
+                        .concat(word.substr(1));
+                    })
+                    .join(" ")}{" "}
+                  Persen) untuk {data.DataPembiayaan.tenor} (
+                  {angkaTerbilang(data.DataPembiayaan.tenor)
+                    .split(" ")
+                    .map(function (word: string) {
+                      return word
+                        .charAt(0)
+                        .toUpperCase()
+                        .concat(word.substr(1));
+                    })
+                    .join(" ")}
+                  ) bulan dari jumlah nominal pinjaman menurut perjanjian ini
+                  yang dihitung secara eff sehingga jumlah seluruh pinjaman yang
+                  harus dibayar kembali oleh debitur kepada Bank menjadi sebesar
+                  Rp. {formatNumber(data.DataPembiayaan.plafond.toFixed(0))} (
+                  {angkaTerbilang(data.DataPembiayaan.plafond)
+                    .split(" ")
+                    .map(function (word: string) {
+                      return word
+                        .charAt(0)
+                        .toUpperCase()
+                        .concat(word.substr(1));
+                    })
+                    .join(" ")}{" "}
+                  Rupiah). Bahwa besarnya suku bunga tersebut diatas
+                  sewaktu-waktu dapat dirubah oleh pihak Bank.
+                </Text>
+                <Text>
+                  Bahwa pembayaran kembali pinjaman ini akan dilakukan oleh
+                  DEBITUR kepada BANK dalam {data.DataPembiayaan.tenor}(
+                  {angkaTerbilang(data.DataPembiayaan.tenor)
+                    .split(" ")
+                    .map(function (word: string) {
+                      return word
+                        .charAt(0)
+                        .toUpperCase()
+                        .concat(word.substr(1));
+                    })
+                    .join(" ")}
+                  ) kali angsuran dengan jumlah masing-masing angsuran sebesar
+                  Rp. {formatNumber(angsuranBulanan)} (
+                  {angkaTerbilang(parseInt(angsuranBulanan))
+                    .split(" ")
+                    .map(function (word: string) {
+                      return word
+                        .charAt(0)
+                        .toUpperCase()
+                        .concat(word.substr(1));
+                    })
+                    .join(" ")}{" "}
+                  Rupiah) yang terdiri dari pokok pinjaman berikut bunganya dan
+                  telah disetujui oleh kedua belah pihak bahwa masing-masing
+                  angsuran akan dibulatkan keatas lima ribu rupiah terdekat.
+                  Dimana pembulatan tersebut diperhitungkan sebagai bunga.
+                </Text>
+              </View> */}
+              {/* <View>
+                <Text>
+                  Bahwa perjanjian ini berlaku unutk masa{" "}
+                  {data.DataPembiayaan.tenor} (
+                  {angkaTerbilang(data.DataPembiayaan.tenor)
+                    .split(" ")
+                    .map(function (word: string) {
+                      return word
+                        .charAt(0)
+                        .toUpperCase()
+                        .concat(word.substr(1));
+                    })
+                    .join(" ")}
+                  ) bulan, terhitung sejak ditandatanganinya perjanjian ini
+                  tanggal ................... dan akan berkhir pada tanggal
+                  ...................
+                </Text>
+                <Text style={{ marginTop: 7, marginBottom: 7 }}>
+                  Bahwa untuk jumlah pinjaman tersebut akan dikenakan bunga
+                  pinjaman kepada debitur dan harus dibayar oleh debitur sebesar{" "}
+                  ........... % Eff ( ............................. Persen)
+                  untuk ............ ( ..................... ) bulan dari jumlah
+                  nominal pinjaman menurut perjanjian ini yang dihitung secara
+                  eff sehingga jumlah seluruh pinjaman yang harus dibayar
+                  kembali oleh debitur kepada Bank menjadi sebesar Rp.
+                  .................... (..................................).
+                  Bahwa besarnya suku bunga tersebut diatas sewaktu-waktu dapat
+                  dirubah oleh pihak Bank.
+                </Text>
+                <Text>
+                  Bahwa pembayaran kembali pinjaman ini akan dilakukan oleh
+                  DEBITUR kepada BANK dalam ..............
+                  (...............................) kali angsuran dengan jumlah
+                  masing-masing angsuran sebesar Rp. ................
+                  (.................................) yang terdiri dari pokok
+                  pinjaman berikut bunganya dan telah disetujui oleh kedua belah
+                  pihak bahwa masing-masing angsuran akan dibulatkan keatas lima
+                  ribu rupiah terdekat. Dimana pembulatan tersebut
+                  diperhitungkan sebagai bunga.
+                </Text>
+              </View> */}
               <View
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   gap: 5,
+                  marginTop: 7,
                 }}
               >
                 <Text style={{ width: 20 }}>2.1</Text>
@@ -355,18 +490,17 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                     <Text style={{ fontWeight: "bold" }}>
                       {data.DataPembiayaan.tenor}
                     </Text>{" "}
-                    Bulan sejak{" "}
+                    Bulan sejak (
                     <Text style={{ fontWeight: "bold" }}>
-                      {moment(data.tanggal_cetak_akad)
-                        .add(1, "M")
-                        .format("DD-MM-YYYY")}{" "}
-                    </Text>
-                    sampai dengan{" "}
+                      {moment(data.tanggal_cetak_akad).format("DD/MM/YYYY")}
+                    </Text>{" "}
+                    -{" "}
                     <Text style={{ fontWeight: "bold" }}>
-                      {moment(data.tanggal_cetak_akad)
+                      {`25/${moment(data.tanggal_cetak_akad)
                         .add(data.DataPembiayaan.tenor, "M")
-                        .format("DD-MM-YYYY")}
+                        .format("MM/YYYY")}`}
                     </Text>
+                    )
                   </Text>
                 </View>
               </View>
@@ -394,44 +528,15 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   </View>
                 </View>
               )}
-
-              {/* <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>2.4</Text>
-                <Text style={{ width: 100, fontWeight: "bold" }}>
-                  Total Angsuran
-                </Text>
+              <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
+                <Text style={{ width: 20 }}>2.3</Text>
+                <Text style={{ width: 100, fontWeight: "bold" }}>GP</Text>
                 <Text style={{ width: 20 }}>:</Text>
                 <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                  <Text style={{ width: 50 }}>Rp.</Text>
-                  <Text style={{ fontWeight: "bold" }}>
-                    {formatNumber(angsuranBulanan)} / Bulan
-                  </Text>
-                </View>
-              </View> */}
-              <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>2.3</Text>
-                <Text style={{ width: 100, fontWeight: "bold" }}>
-                  Tanggal Pembayaran
-                </Text>
-                <Text style={{ width: 20 }}>:</Text>
-                <View style={{ fontWeight: "bold" }}>
-                  <Text>
-                    {moment(data.tanggal_cetak_akad)
-                      .add(1, "M")
-                      .format("DD-MM-YYYY")}
-                  </Text>
+                  <Text>1 Bulan</Text>
+                  {/* <Text style={{ width: 50, fontWeight: "bold" }}>
+                    {formatNumber(angsuranPokok)}
+                  </Text> */}
                 </View>
               </View>
               <View
@@ -442,6 +547,26 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 }}
               >
                 <Text style={{ width: 20 }}>2.4</Text>
+                <Text style={{ width: 100, fontWeight: "bold" }}>
+                  Tanggal Pembayaran
+                </Text>
+                <Text style={{ width: 20 }}>:</Text>
+                <View style={{ fontWeight: "bold" }}>
+                  <Text>
+                    {`25/${moment(data.tanggal_cetak_akad)
+                      .add(1, "M")
+                      .format("MM/YYYY")}`}
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  gap: 5,
+                  flexDirection: "row",
+                }}
+              >
+                <Text style={{ width: 20 }}>2.5</Text>
                 <Text style={{ width: 100, fontWeight: "bold" }}>
                   Suku Bunga {data.jenis_margin === "FLAT" ? "Flat" : "Efektif"}
                 </Text>
@@ -457,7 +582,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   flexDirection: "row",
                 }}
               >
-                <Text style={{ width: 20 }}>2.5</Text>
+                <Text style={{ width: 20 }}>2.6</Text>
                 <Text style={{ width: 100, fontWeight: "bold" }}>
                   Tujuan Penggunaan
                 </Text>
@@ -492,22 +617,6 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 }}
               >
                 <Text style={{ width: 20 }}>3.1</Text>
-                <Text>
-                  Untuk pembebanan angsuran,bunga, provisi, biaya-biaya, denda
-                  dan segala biaya lainnya yang terhutang berkenaan dengan
-                  pemberian kredit ini, DEBITUR memberi kuasa kepada BANK untuk
-                  mendebet rekening debitur yang ada pada BANK.
-                </Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  width: 470,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>3.2</Text>
                 <View>
                   <Text>
                     DEBITUR berjanji dan dengan ini mengikat diri untuk
@@ -724,7 +833,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 style={{
                   textAlign: "center",
                   fontWeight: "bold",
-                  marginTop: 10,
+                  marginTop: 15,
                   marginBottom: 3,
                   padding: "3px 0",
                 }}

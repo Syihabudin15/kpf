@@ -1593,7 +1593,7 @@ export default function PerjanjianKreditNonFlash({
                           margin: "0 auto",
                         }}
                       >
-                        Sumai / Istri / Ahli Waris*
+                        Suami / Istri / Ahli Waris*
                       </Text>
                     </View>
                   </View>
