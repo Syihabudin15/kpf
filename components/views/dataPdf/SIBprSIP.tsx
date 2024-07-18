@@ -405,8 +405,8 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     padding: 2,
                   }}
                 >
-                  <Text>Biaya </Text>
-                  <Text>Provisi (Rp)</Text>
+                  <Text>Biaya Layanan</Text>
+                  <Text>Kredit (Rp)</Text>
                 </View>
                 <View
                   style={{

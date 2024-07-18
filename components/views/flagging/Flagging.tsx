@@ -14,7 +14,7 @@ export default function Flagging() {
   const [data, setData] = useState<flagging[]>();
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [pageSize, setPageSize] = useState(50);
+  const [pageSize, setPageSize] = useState(200);
 
   const getData = async () => {
     setLoading(true);
