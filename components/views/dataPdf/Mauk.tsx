@@ -6,6 +6,7 @@ import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { Document, PDFViewer, Page, Text, View } from "@react-pdf/renderer";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 import { stylePdf } from "@/components/utils/pdf/stylePdf";
+import moment from "moment";
 
 export default function Mauk({ data }: { data: DataDataPengajuan }) {
   return (
@@ -124,6 +125,11 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                     <Text style={{ width: "10%" }}>:</Text>
                     <Text style={{ width: "50%" }}>{data.no_telepon}</Text>
                   </View>
+                  <View style={{ display: "flex", flexDirection: "row" }}>
+                    <Text style={{ width: "40%" }}>No KTP</Text>
+                    <Text style={{ width: "10%" }}>:</Text>
+                    <Text style={{ width: "50%" }}></Text>
+                  </View>
                 </View>
                 <View
                   style={{
@@ -240,7 +246,10 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                     <Text style={{ width: "10%" }}>:</Text>
                     <Text style={{ width: "50%" }}>
                       {data.DataPengajuanPasangan.tempat_lahir_pasangan},{" "}
-                      {data.DataPengajuanPasangan.tanggal_lahir_pasangan}
+                      {data.DataPengajuanPasangan.tanggal_lahir_pasangan &&
+                        moment(
+                          data.DataPengajuanPasangan.tanggal_lahir_pasangan
+                        ).format("DD-MM-YYYY")}
                     </Text>
                   </View>
                   <View style={{ display: "flex", flexDirection: "row" }}>

@@ -1,6 +1,7 @@
 "use client";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { stylePdf } from "@/components/utils/pdf/stylePdf";
 import {
   Document,
@@ -11,6 +12,7 @@ import {
   View,
 } from "@react-pdf/renderer";
 import moment from "moment";
+import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 
 export default function SIBprSip({ data }: { data: DataDataPencairan }) {
   let totalPlafond = 0;
@@ -21,6 +23,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
   let totalAdmin = 0;
   let totalRekening = 0;
   let totalProvisi = 0;
+  let totalAngsuran = 0;
 
   let tables = data.DataPengajuan.map((d, i) => {
     const admin =
@@ -34,6 +37,17 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
     totalDropping +=
       d.DataPembiayaan.plafond -
       (newAdmin + rekening + d.DataPembiayaan.by_provisi);
+    const angsuran = ceiling(
+      parseInt(
+        getAngsuranPerBulan(
+          d.DataPembiayaan.mg_bunga,
+          d.DataPembiayaan.tenor,
+          d.DataPembiayaan.plafond
+        )
+      ),
+      d.DataPembiayaan.pembulatan
+    );
+    totalAngsuran += angsuran;
     return [
       { data: i + 1, width: 40 },
       { data: d.DataPembiayaan.nopen, width: 80 },
@@ -42,6 +56,8 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
       { data: formatNumber(d.DataPembiayaan.plafond.toFixed(0)), width: 80 },
       { data: formatNumber(newAdmin.toFixed(0)), width: 80 },
       { data: formatNumber(d.DataPembiayaan.by_provisi.toFixed(0)), width: 80 },
+      { data: "1 Bulan", width: 80 },
+      { data: formatNumber(angsuran.toFixed(0)), width: 80 },
       {
         data: formatNumber(
           (
@@ -405,6 +421,37 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     padding: 2,
                   }}
                 >
+                  <Text>Bunga GP</Text>
+                </View>
+                <View
+                  style={{
+                    width: 80,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1.5,
+                    padding: 2,
+                  }}
+                >
+                  <Text>Angsuran</Text>
+                  <Text>Per Bulan</Text>
+                </View>
+                <View
+                  style={{
+                    width: 80,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1.5,
+                    padding: 2,
+                  }}
+                >
                   <Text>Dropping</Text>
                   <Text>Koperasi (Rp)</Text>
                 </View>
@@ -475,6 +522,26 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   }}
                 >
                   <Text>{formatNumber(totalProvisi.toFixed(0))}</Text>
+                </View>
+                <View
+                  style={{
+                    width: 80,
+                    padding: 2,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                  }}
+                >
+                  <Text></Text>
+                </View>
+                <View
+                  style={{
+                    width: 80,
+                    padding: 2,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                  }}
+                >
+                  <Text></Text>
                 </View>
                 <View
                   style={{
