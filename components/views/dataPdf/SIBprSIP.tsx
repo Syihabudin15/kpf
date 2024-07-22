@@ -62,10 +62,6 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
       },
       { data: "1 Bulan", width: 100 },
       {
-        data: formatNumber(angsuran.toFixed(0)),
-        width: 100,
-      },
-      {
         data: formatNumber(angs.toFixed(0)),
         width: 100,
       },
@@ -449,22 +445,6 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     padding: 2,
                   }}
                 >
-                  <Text>Angsuran</Text>
-                  <Text>Perbulan (Rp)</Text>
-                </View>
-                <View
-                  style={{
-                    width: 100,
-                    border: "1px solid #aaa",
-                    textAlign: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    lineHeight: 1.5,
-                    padding: 2,
-                  }}
-                >
                   <Text>Blokir</Text>
                   <Text>Angsuran (Rp)</Text>
                 </View>
@@ -551,16 +531,6 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   }}
                 >
                   <Text>{formatNumber(totalProvisi.toFixed(0))}</Text>
-                </View>
-                <View
-                  style={{
-                    width: 100,
-                    padding: 2,
-                    border: "1px solid #aaa",
-                    textAlign: "center",
-                  }}
-                >
-                  <Text></Text>
                 </View>
                 <View
                   style={{

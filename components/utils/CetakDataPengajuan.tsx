@@ -29,6 +29,7 @@ export default function CetakDataPengajuan({
             : "JAWA BARAT",
           NOPEN: d.DataPembiayaan.nopen,
           "NAMA PEMOHON": d.DataPembiayaan.name,
+          "NO TELEPON": d.no_telepon,
           "SUMBER DANA": d.Bank.kode,
           "PRODUK PEMBIAYAAN": d.DataPembiayaan.Produk.name,
           "JENIS PEMBIAYAAN": d.DataPembiayaan.jenis_pembiayaan_id
