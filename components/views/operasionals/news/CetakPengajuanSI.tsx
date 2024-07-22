@@ -85,7 +85,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "NO",
       dataIndex: "no",
       key: "no",
-      width: 50,
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -102,7 +102,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "NAMA BANK",
       dataIndex: "name",
       key: "name",
-      width: 200,
+      width: 300,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

@@ -34,9 +34,6 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
     totalAdmin += newAdmin;
     totalRekening += rekening;
     totalProvisi += d.DataPembiayaan.by_provisi;
-    totalDropping +=
-      d.DataPembiayaan.plafond -
-      (newAdmin + rekening + d.DataPembiayaan.by_provisi);
     const angsuran = ceiling(
       parseInt(
         getAngsuranPerBulan(
@@ -47,28 +44,39 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
       ),
       d.DataPembiayaan.pembulatan
     );
-    totalAngsuran += angsuran * d.DataPembiayaan.blokir;
+    let angs = angsuran * d.DataPembiayaan.blokir;
+    totalAngsuran += angs;
+    totalDropping +=
+      d.DataPembiayaan.plafond -
+      (newAdmin + rekening + d.DataPembiayaan.by_provisi + angs);
     return [
       { data: i + 1, width: 40 },
-      { data: d.DataPembiayaan.nopen, width: 80 },
+      { data: d.DataPembiayaan.nopen, width: 100 },
       { data: d.DataPembiayaan.name, width: 100 },
-      { data: d.DataPembiayaan.Produk.name, width: 80 },
-      { data: formatNumber(d.DataPembiayaan.plafond.toFixed(0)), width: 80 },
-      { data: formatNumber(newAdmin.toFixed(0)), width: 80 },
-      { data: formatNumber(d.DataPembiayaan.by_provisi.toFixed(0)), width: 80 },
-      { data: "1 Bulan", width: 80 },
+      { data: d.DataPembiayaan.Produk.name, width: 100 },
+      { data: formatNumber(d.DataPembiayaan.plafond.toFixed(0)), width: 100 },
+      { data: formatNumber(newAdmin.toFixed(0)), width: 100 },
       {
-        data: formatNumber((angsuran * d.DataPembiayaan.blokir).toFixed(0)),
-        width: 80,
+        data: formatNumber(d.DataPembiayaan.by_provisi.toFixed(0)),
+        width: 100,
+      },
+      { data: "1 Bulan", width: 100 },
+      {
+        data: formatNumber(angsuran.toFixed(0)),
+        width: 100,
+      },
+      {
+        data: formatNumber(angs.toFixed(0)),
+        width: 100,
       },
       {
         data: formatNumber(
           (
             d.DataPembiayaan.plafond -
-            (newAdmin + rekening + d.DataPembiayaan.by_provisi)
+            (newAdmin + rekening + d.DataPembiayaan.by_provisi + angs)
           ).toFixed(0)
         ),
-        width: 80,
+        width: 100,
       },
     ];
   });
@@ -255,13 +263,14 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
               </View>
             </View>
           </Page>
-          <Page size={"A4"} style={{ ...stylePdf.root, padding: 50 }}>
+          <Page size={"A4"} style={{ ...stylePdf.root, padding: 20 }}>
             <View
               style={{
                 display: "flex",
                 flexDirection: "row",
                 gap: 20,
                 alignItems: "center",
+                padding: 30,
               }}
             >
               <Image
@@ -279,6 +288,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 marginTop: 30,
                 lineHeight: 1.5,
                 fontWeight: "bold",
+                paddingLeft: 30,
               }}
             >
               <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
@@ -326,7 +336,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     border: "1px solid #aaa",
                     textAlign: "center",
                     display: "flex",
@@ -354,7 +364,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     border: "1px solid #aaa",
                     textAlign: "center",
                     display: "flex",
@@ -368,7 +378,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     border: "1px solid #aaa",
                     textAlign: "center",
                     display: "flex",
@@ -382,7 +392,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     border: "1px solid #aaa",
                     textAlign: "center",
                     display: "flex",
@@ -397,7 +407,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     border: "1px solid #aaa",
                     textAlign: "center",
                     display: "flex",
@@ -413,7 +423,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     border: "1px solid #aaa",
                     textAlign: "center",
                     display: "flex",
@@ -428,7 +438,23 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1.5,
+                    padding: 2,
+                  }}
+                >
+                  <Text>Angsuran</Text>
+                  <Text>Perbulan (Rp)</Text>
+                </View>
+                <View
+                  style={{
+                    width: 100,
                     border: "1px solid #aaa",
                     textAlign: "center",
                     display: "flex",
@@ -444,7 +470,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     border: "1px solid #aaa",
                     textAlign: "center",
                     display: "flex",
@@ -488,7 +514,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
               >
                 <View
                   style={{
-                    width: 300,
+                    width: 340,
                     padding: 2,
                     border: "1px solid #aaa",
                     textAlign: "center",
@@ -498,7 +524,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     padding: 2,
                     border: "1px solid #aaa",
                     textAlign: "center",
@@ -508,7 +534,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     padding: 2,
                     border: "1px solid #aaa",
                     textAlign: "center",
@@ -518,7 +544,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     padding: 2,
                     border: "1px solid #aaa",
                     textAlign: "center",
@@ -528,7 +554,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     padding: 2,
                     border: "1px solid #aaa",
                     textAlign: "center",
@@ -538,7 +564,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
                     padding: 2,
                     border: "1px solid #aaa",
                     textAlign: "center",
@@ -548,7 +574,17 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 80,
+                    width: 100,
+                    padding: 2,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                  }}
+                >
+                  <Text>{formatNumber(totalAngsuran.toFixed(0))}</Text>
+                </View>
+                <View
+                  style={{
+                    width: 100,
                     padding: 2,
                     border: "1px solid #aaa",
                     textAlign: "center",
