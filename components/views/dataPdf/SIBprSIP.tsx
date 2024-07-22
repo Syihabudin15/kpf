@@ -47,7 +47,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
       ),
       d.DataPembiayaan.pembulatan
     );
-    totalAngsuran += angsuran;
+    totalAngsuran += angsuran * d.DataPembiayaan.blokir;
     return [
       { data: i + 1, width: 40 },
       { data: d.DataPembiayaan.nopen, width: 80 },
@@ -57,7 +57,10 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
       { data: formatNumber(newAdmin.toFixed(0)), width: 80 },
       { data: formatNumber(d.DataPembiayaan.by_provisi.toFixed(0)), width: 80 },
       { data: "1 Bulan", width: 80 },
-      { data: formatNumber(angsuran.toFixed(0)), width: 80 },
+      {
+        data: formatNumber((angsuran * d.DataPembiayaan.blokir).toFixed(0)),
+        width: 80,
+      },
       {
         data: formatNumber(
           (
@@ -436,8 +439,8 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     padding: 2,
                   }}
                 >
-                  <Text>Angsuran</Text>
-                  <Text>Per Bulan</Text>
+                  <Text>Blokir</Text>
+                  <Text>Angsuran (Rp)</Text>
                 </View>
                 <View
                   style={{

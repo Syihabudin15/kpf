@@ -85,7 +85,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "NO",
       dataIndex: "no",
       key: "no",
-      width: 100,
+      width: 50,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -102,6 +102,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "NAMA BANK",
       dataIndex: "name",
       key: "name",
+      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -114,6 +115,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "JUMLAH END USER",
       dataIndex: "jumlah",
       key: "jumlah",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -169,6 +171,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "NAMA PEMOHON",
       dataIndex: "nama",
       key: "nama",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -185,6 +188,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk",
       key: "produk",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -200,6 +204,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "JENIS PEMBIAYAAN",
       dataIndex: "jenis",
       key: "jenis",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -221,6 +226,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "ADMIN BANK",
       dataIndex: "by_admin_bank",
       key: "by_admin_bank",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -246,6 +252,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "BUKA REKENING",
       dataIndex: "by_rekening",
       key: "by_rekening",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -264,6 +271,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
       title: "PLAFOND",
       dataIndex: "plafond",
       key: "plafond",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {

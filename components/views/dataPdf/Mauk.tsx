@@ -173,9 +173,7 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                               data.DataPembiayaan.plafond
                             )
                           ),
-                          parseInt(
-                            process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100"
-                          )
+                          data.DataPembiayaan.pembulatan || 0
                         ).toFixed(0)
                       )}
                     </Text>
@@ -237,9 +235,18 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                   <View style={{ display: "flex", flexDirection: "row" }}>
                     <Text style={{ width: "40%" }}>Alamat KTP</Text>
                     <Text style={{ width: "10%" }}>:</Text>
-                    <Text style={{ width: "50%" }}>
-                      {data.DataPengajuanPasangan.alamat_pasangan}
-                    </Text>
+                    {data.status_kawin === "KAWIN" && (
+                      <Text style={{ width: "50%" }}>
+                        {data.DataPengajuanAlamat.alamat_domisili}{" "}
+                        {data.DataPengajuanAlamat.rt_domisili}/
+                        {data.DataPengajuanAlamat.rw_domisili},{" "}
+                        {data.DataPengajuanAlamat.kelurahan_domisili}{" "}
+                        {data.DataPengajuanAlamat.kecamatan_domisili},{" "}
+                        {data.DataPengajuanAlamat.kota_domisili}{" "}
+                        {data.DataPengajuanAlamat.provinsi_domisili}{" "}
+                        {data.DataPengajuanAlamat.kode_pos_domisili}
+                      </Text>
+                    )}
                   </View>
                   <View style={{ display: "flex", flexDirection: "row" }}>
                     <Text style={{ width: "40%" }}>Tempat Tanggal Lahir</Text>

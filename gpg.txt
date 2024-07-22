@@ -1,12 +1,21 @@
+=> GITHUB
 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
+=> END GITHUB
 
+
+=> DB
 host:103.150.190.79
 username: kpfidb
 password : @Today1234
+ssh sipkpf@kpfi.co.id
+=> END DB
 
+=> SSH PROJECT
 ssh -i rizalmac.pem sipkpfi@103.127.97.143
 ssh sip@kpfi.co.id  
+=> END SSH PROJECT
 
+=> CPANEL
 jangan ampe ilang ya
 [WHM]
 https://103.150.190.79:2087/
@@ -16,3 +25,7 @@ password : @Today1234
 https://103.150.190.79:2083/
 user : adminkpfi
 password : @Today1234
+=> END CPANEL
+
+=> SSH LOCAL PHONE
+ssh root@192.168.43.1 -p 2022
