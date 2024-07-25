@@ -1074,7 +1074,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   flexDirection: "row",
                 }}
               >
-                <Text style={{ width: 20 }}>5.4</Text>
+                <Text style={{ width: 20 }}>5.5</Text>
                 <View>
                   <Text>
                     DEBITUR wajib membayar premi-premi dan lain-lain biaya
@@ -1427,7 +1427,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   flexDirection: "row",
                 }}
               >
-                <Text style={{ width: 20 }}>8.4</Text>
+                <Text style={{ width: 20 }}>8.5</Text>
                 <View>
                   <Text>
                     Perjanjian ini telah disesuaikan dengan ketentuan peraturan
@@ -1624,7 +1624,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   flexDirection: "row",
                 }}
               >
-                <Text style={{ width: 20 }}>11.2</Text>
+                <Text style={{ width: 20 }}>11.3</Text>
                 <View>
                   <Text>
                     Setiap Addendum dari Perjanjian Kredit ini merupakan satu
