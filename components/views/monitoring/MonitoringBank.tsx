@@ -104,7 +104,7 @@ export default function MonitoringBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        const currPage = (page - 1) * 20;
+        const currPage = (page - 1) * pageSize;
         return <>{currPage + (index + 1)}</>;
       },
     },

@@ -1,7 +1,6 @@
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
-import { daysInMonth } from "@/components/utils/inputUtils";
 import { getServerSession } from "next-auth";
 import moment from "moment-timezone";
 export const dynamic = "force-dynamic";
@@ -39,7 +38,7 @@ export const GET = async (req: NextRequest) => {
       where: {
         AND: [
           { is_active: true },
-          { status_verifikasi: "SETUJU" },
+          // { status_verifikasi: "SETUJU" },
           { bankId: user.bank_id },
           {
             DataPembiayaan: {
@@ -84,7 +83,7 @@ export const GET = async (req: NextRequest) => {
       where: {
         AND: [
           { is_active: true },
-          { status_verifikasi: "SETUJU" },
+          // { status_verifikasi: "SETUJU" },
           { bankId: user.bank_id },
           {
             DataPembiayaan: {
@@ -134,7 +133,7 @@ export const GET = async (req: NextRequest) => {
       AND: [
         { DataPembiayaan: { is_active: true } },
         { is_active: true },
-        { status_verifikasi: "SETUJU" },
+        // { status_verifikasi: "SETUJU" },
         { bankId: user.bank_id },
         {
           DataPembiayaan: {

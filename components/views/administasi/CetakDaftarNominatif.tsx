@@ -87,37 +87,75 @@ export default function CetakDaftarNominatif({
         totalPencairan += pencairan;
         totalProvisi += provisi;
 
-        return {
-          NO: ind + 1,
-          "AREA PELAYANAN": d.User.UnitCabang.UnitPelayanan.name,
-          "UNIT PELAYANAN": d.User.UnitCabang.name,
-          NOPEN: d.DataPembiayaan.nopen,
-          "NO SK PENSIUN": d.nomor_sk_pensiun,
-          "NAMA PEMOHON": d.nama,
-          "MITRA BANK": d.DataPembiayaan.Refferal.name,
-          "SUMBER DANA": d.Bank.name,
-          TENOR: d.DataPembiayaan.tenor,
-          PLAFOND: d.DataPembiayaan.plafond,
-          "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD-MM-YYYY"),
-          "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format("DD-MM-YYYY"),
-          "TANGGAL LUNAS": moment(d.tanggal_cetak_akad)
-            .add(d.DataPembiayaan.tenor, "M")
-            .format("DD-MM-YYYY"),
-          "MARGIN BUNGA": d.DataPembiayaan.mg_bunga,
-          "ADMIN BANK": adminBank,
-          "ADMIN MITRA": admin,
-          "PENCADANGAN PUSAT": cadangan,
-          TATALAKSANA: tatalaksana,
-          "PREMI ASURANSI": asuransi,
-          "DATA INFORMASI": informasi,
-          "PEMBUKAAN TABUNGAN": tabungan,
-          "BIAYA MATERAI": materai,
-          "BIAYA MUTASI": mutasi,
-          "BIAYA PROVISI": provisi,
-          "BLOKIR ANGSURAN": blokir,
-          "NOMINAL TAKE OVER": takeOver,
-          PENCAIRAN: pencairan,
-        };
+        if (d.Bank.kode === "BPR SIP") {
+          return {
+            NO: ind + 1,
+            "AREA PELAYANAN": d.User.UnitCabang.UnitPelayanan.name,
+            "UNIT PELAYANAN": d.User.UnitCabang.name,
+            NOPEN: d.DataPembiayaan.nopen,
+            "NO SK PENSIUN": d.nomor_sk_pensiun,
+            "NAMA PEMOHON": d.nama,
+            "MITRA BANK": d.DataPembiayaan.Refferal.name,
+            "SUMBER DANA": d.Bank.name,
+            TENOR: d.DataPembiayaan.tenor,
+            PLAFOND: d.DataPembiayaan.plafond,
+            "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD-MM-YYYY"),
+            "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format(
+              "DD-MM-YYYY"
+            ),
+            "TANGGAL LUNAS": moment(d.tanggal_cetak_akad)
+              .add(d.DataPembiayaan.tenor, "M")
+              .format("DD-MM-YYYY"),
+            "MARGIN BUNGA": d.DataPembiayaan.mg_bunga,
+            "ADMIN BANK": adminBank,
+            "ADMIN MITRA": admin,
+            "PENCADANGAN PUSAT": cadangan,
+            TATALAKSANA: tatalaksana,
+            "PREMI ASURANSI": asuransi,
+            "DATA INFORMASI": informasi,
+            "PEMBUKAAN TABUNGAN": tabungan,
+            "BIAYA MATERAI": materai,
+            "BIAYA MUTASI": mutasi,
+            "BIAYA LAYANAN KREDIT": provisi,
+            "BLOKIR ANGSURAN": blokir,
+            "NOMINAL TAKE OVER": takeOver,
+            PENCAIRAN: pencairan,
+          };
+        } else {
+          return {
+            NO: ind + 1,
+            "AREA PELAYANAN": d.User.UnitCabang.UnitPelayanan.name,
+            "UNIT PELAYANAN": d.User.UnitCabang.name,
+            NOPEN: d.DataPembiayaan.nopen,
+            "NO SK PENSIUN": d.nomor_sk_pensiun,
+            "NAMA PEMOHON": d.nama,
+            "MITRA BANK": d.DataPembiayaan.Refferal.name,
+            "SUMBER DANA": d.Bank.name,
+            TENOR: d.DataPembiayaan.tenor,
+            PLAFOND: d.DataPembiayaan.plafond,
+            "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD-MM-YYYY"),
+            "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format(
+              "DD-MM-YYYY"
+            ),
+            "TANGGAL LUNAS": moment(d.tanggal_cetak_akad)
+              .add(d.DataPembiayaan.tenor, "M")
+              .format("DD-MM-YYYY"),
+            "MARGIN BUNGA": d.DataPembiayaan.mg_bunga,
+            "ADMIN BANK": adminBank,
+            "ADMIN MITRA": admin,
+            "PENCADANGAN PUSAT": cadangan,
+            TATALAKSANA: tatalaksana,
+            "PREMI ASURANSI": asuransi,
+            "DATA INFORMASI": informasi,
+            "PEMBUKAAN TABUNGAN": tabungan,
+            "BIAYA MATERAI": materai,
+            "BIAYA MUTASI": mutasi,
+            "BIAYA PROVISI": provisi,
+            "BLOKIR ANGSURAN": blokir,
+            "NOMINAL TAKE OVER": takeOver,
+            PENCAIRAN: pencairan,
+          };
+        }
       });
       newData.push({
         NO: "TOTAL",

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { getServerSession } from "next-auth";
-import { daysInMonth } from "@/components/utils/inputUtils";
 import {
   DataDataPengajuan,
   DataTableEntryData,

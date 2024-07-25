@@ -351,13 +351,29 @@ export const menusV2: Menus[] = [
   {
     label: "Laporan Administrasi",
     url: "/laporan-administrasi",
-    role: ["MASTER", "BISNIS", "OPERASIONAL", "VERIFIKASI", "KEUANGAN", "BANK"],
+    role: [
+      "MASTER",
+      "BISNIS",
+      "OPERASIONAL",
+      "VERIFIKASI",
+      "KEUANGAN",
+      "BANK",
+      "APPROVAL",
+    ],
     icon: <DiffOutlined />,
     child: [
       {
         label: "Daftar Nominatif",
         url: "/laporan-administrasi/daftar-nominatif",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL", "VERIFIKASI"],
+        role: [
+          "MASTER",
+          "BISNIS",
+          "KEUANGAN",
+          "OPERASIONAL",
+          "VERIFIKASI",
+          "BANK",
+          "APPROVAL",
+        ],
         icon: <DiffOutlined />,
       },
       {

@@ -2,37 +2,53 @@
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import { DatePicker, Input, Table, TableProps } from "antd";
+import { DatePicker, Input, Select, Table, TableProps } from "antd";
 import moment from "moment";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 import { useEffect, useState } from "react";
 import CetakDaftarNominatif from "./CetakDaftarNominatif";
+import { Bank, User } from "@prisma/client";
+const { RangePicker } = DatePicker;
 
-export default function DaftarNominatif() {
+export default function DaftarNominatif({
+  user,
+  banks,
+}: {
+  user: User;
+  banks: Bank[];
+}) {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [year, setYear] = useState<string>();
   const [nama, setNama] = useState<string>();
   const [loading, setLoading] = useState(false);
+  const [pageSize, setPageSize] = useState(50);
+  const [from, setFrom] = useState<string>();
+  const [to, setTo] = useState<string>();
+  const [selectedBank, setSelectedBank] = useState<string>();
 
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
       `/api/administrasi/daftar-nominatif?page=${page}${
-        nama ? "&name=" + nama : ""
-      }${year ? "&year=" + year : ""}`
+        pageSize ? "&pageSize=" + pageSize : ""
+      }${nama ? "&name=" + nama : ""}${from ? "&from=" + from : ""}${
+        to ? "&to=" + to : ""
+      }`
     );
     const { data, total } = await res.json();
     setTotal(total);
     setData(data);
+    if (selectedBank) {
+      setData(data.filter((d: DataDataPengajuan) => d.bankId === selectedBank));
+    }
     setLoading(false);
   };
   useEffect(() => {
     (async () => {
       await getData();
     })();
-  }, [nama, page, year]);
+  }, [nama, page, from, to, pageSize, selectedBank]);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
@@ -49,7 +65,9 @@ export default function DaftarNominatif() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{(page - 1) * 20 + (index + 1)}</>;
+        const currPage = (page - 1) * pageSize;
+
+        return <>{currPage + (index + 1)}</>;
       },
     },
     {
@@ -618,14 +636,29 @@ export default function DaftarNominatif() {
   return (
     <div>
       <div className="flex gap-5 my-1 mx-1">
-        <DatePicker
-          picker="year"
-          onChange={(date, dateString) => setYear(dateString as string)}
+        <RangePicker
+          onChange={(_, info) => {
+            setFrom(info && info[0]);
+            setTo(info && info[1]);
+          }}
         />
         <Input.Search
           style={{ width: 170 }}
           onChange={(e) => setNama(e.target.value)}
         />
+        {!user.bank_id && (
+          <Select
+            placeholder="SUMDAN"
+            options={banks.map((b) => {
+              return {
+                label: b.kode,
+                value: b.id,
+              };
+            })}
+            allowClear
+            onChange={(e) => setSelectedBank(e)}
+          />
+        )}
         <CetakDaftarNominatif data={data || []} />
       </div>
       <div className="px-2">
@@ -637,10 +670,12 @@ export default function DaftarNominatif() {
           loading={loading}
           scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           pagination={{
-            pageSize: 20,
+            pageSize: pageSize,
+            pageSizeOptions: [10, 20, 50, 100, 150, 200],
             total: total,
             onChange(page, pageSize) {
               setPage(page);
+              setPageSize(pageSize);
             },
           }}
           summary={(pageData) => {

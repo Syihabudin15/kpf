@@ -9,8 +9,9 @@ import {
 import { filterOption, formatNumber } from "@/components/utils/inputUtils";
 import { LoadingOutlined } from "@ant-design/icons";
 import { UnitPelayanan } from "@prisma/client";
-import { Select, Table, TableProps } from "antd";
+import { DatePicker, Select, Table, TableProps } from "antd";
 import { useEffect, useState } from "react";
+const { RangePicker } = DatePicker;
 
 export default function DataBisnisArea() {
   const [dataOk, setDataOk] = useState<DataTableEntryData[]>();
@@ -19,9 +20,11 @@ export default function DataBisnisArea() {
   const [options, setOptions] = useState<Options[]>();
   const [loading, setLoading] = useState(false);
   const [areaName, setAreaName] = useState<string>();
+  const [from, setFrom] = useState<string>();
+  const [to, setTo] = useState<string>();
 
   const getUP = async () => {
-    const res = await fetch("/api/area/up");
+    const res = await fetch(`/api/area/up`);
     const { data } = await res.json();
     const options: Options[] = data.map((d: UnitPelayanan) => {
       return { label: d.name, value: d.id };
@@ -34,7 +37,11 @@ export default function DataBisnisArea() {
     return data[0].id;
   };
   const getData = async (id?: string) => {
-    let res = await fetch("/api/bisnis/area?area=" + (id ? id : area));
+    let res = await fetch(
+      `/api/bisnis/area?area=${id ? id : area}${from ? "&from=" + from : ""}${
+        to ? "&to=" + to : ""
+      }`
+    );
     const { dataOK, dataPending } = await res.json();
     const filter = options?.filter((e) => e.value === area);
     setAreaName(filter ? filter[0].label : "");
@@ -63,11 +70,17 @@ export default function DataBisnisArea() {
       await getData(area);
       setLoading(false);
     })();
-  }, [area]);
+  }, [area, from, to]);
 
   return (
     <div className="p-2">
-      <div className="my-1">
+      <div className="flex gap-5 my-1 mx-1">
+        <RangePicker
+          onChange={(_, info) => {
+            setFrom(info && info[0]);
+            setTo(info && info[1]);
+          }}
+        />
         <Select
           options={options}
           showSearch
@@ -125,6 +138,36 @@ export default function DataBisnisArea() {
               );
             },
           }}
+          summary={(pageData) => {
+            let totalNOA = 0;
+            let totalPlafond = 0;
+
+            pageData.forEach((pd) => {
+              pd.User.forEach((us) => {
+                totalNOA += us.DataPengajuan.length;
+                us.DataPengajuan.forEach((usp) => {
+                  totalPlafond += usp.DataPembiayaan.plafond;
+                });
+              });
+            });
+
+            return (
+              <Table.Summary.Row className="bg-blue-500 text-white text-center">
+                <Table.Summary.Cell index={1}>
+                  <>SUMMARY</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={2}>
+                  {pageData.length}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={3} className="text-black">
+                  {totalNOA}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={4}>
+                  {formatNumber(totalPlafond.toFixed(0))}
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            );
+          }}
         />
       </div>
       <div>
@@ -170,6 +213,36 @@ export default function DataBisnisArea() {
               );
             },
           }}
+          summary={(pageData) => {
+            let totalNOA = 0;
+            let totalPlafond = 0;
+
+            pageData.forEach((pd) => {
+              pd.User.forEach((us) => {
+                totalNOA += us.DataPengajuan.length;
+                us.DataPengajuan.forEach((usp) => {
+                  totalPlafond += usp.DataPembiayaan.plafond;
+                });
+              });
+            });
+
+            return (
+              <Table.Summary.Row className="bg-blue-500 text-white text-center">
+                <Table.Summary.Cell index={1}>
+                  <>SUMMARY</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={2}>
+                  {pageData.length}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={3} className="text-black">
+                  {totalNOA}
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={4}>
+                  {formatNumber(totalPlafond.toFixed(0))}
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            );
+          }}
         />
       </div>
     </div>
@@ -189,7 +262,7 @@ const columns: TableProps<DataTableEntryData>["columns"] = [
       };
     },
     className: "text-center",
-    width: 250,
+    width: 200,
     render(value, record, index) {
       return <>{record.name}</>;
     },
@@ -254,6 +327,7 @@ const columnsExpandUser: TableProps<DataUser>["columns"] = [
     },
     className: "text-center",
     dataIndex: "nama_marketing",
+    width: 200,
     render(value, record, index) {
       return <>{record.first_name + " " + record.last_name}</>;
     },
@@ -304,6 +378,7 @@ const columnsExpandPengajuan: TableProps<DataTypePengajuan>["columns"] = [
     title: "PEMOHON",
     key: "nama_pemohon",
     dataIndex: "nama_pemohon",
+    width: 200,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
@@ -320,6 +395,7 @@ const columnsExpandPengajuan: TableProps<DataTypePengajuan>["columns"] = [
     title: "NOPEN",
     key: "nopen",
     dataIndex: "nopen",
+    width: 150,
     onHeaderCell: (text, record) => {
       return {
         ["style"]: {
