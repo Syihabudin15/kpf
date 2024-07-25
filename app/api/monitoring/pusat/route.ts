@@ -136,8 +136,11 @@ export const GET = async (req: NextRequest) => {
       ],
     },
   });
+  const banks = await prisma.bank.findMany({
+    where: { is_active: true },
+  });
   return NextResponse.json(
-    { data: result, total: name ? result.length : total },
+    { data: result, total: name ? result.length : total, banks },
     { status: 200 }
   );
 };

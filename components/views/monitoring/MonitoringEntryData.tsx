@@ -194,7 +194,7 @@ export default function MonitoringEntryData() {
     (async () => {
       await getData();
     })();
-  }, [from, to, pageSize, nameOrNopen, page]);
+  }, [from, to, pageSize, nameOrNopen, page, pencairan, group]);
 
   const handleDelete = async () => {
     setLoading(true);

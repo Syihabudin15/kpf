@@ -157,12 +157,12 @@ export default function EditBiaya({
     (async () => {
       const res = await fetch("/api/master/bank");
       const result = await res.json();
-      const filetered = result.result.filter(
-        (bi: any) => bi.id === currData.bankId
-      );
-      setBanks(filetered);
+      // const filetered = result.result.filter(
+      //   (bi: any) => bi.id === currData.bankId
+      // );
+      setBanks(result.result);
       const dataBankTmp: Produk[] = [];
-      const convertToData = filetered.map((e: DataBank) => {
+      const convertToData = result.result.map((e: DataBank) => {
         return {
           label: e.name,
           options: e.products.map((p: Produk) => {
@@ -271,8 +271,8 @@ export default function EditBiaya({
   };
   const handleProduk = (e: string) => {
     SetTidakSesuai(false);
-    const filter = dataBank.filter((p) => p.id == e.split("/")[1]);
-    const filterBank = banks.filter((d) => d.id == e.split("/")[0]);
+    const filter = dataBank.filter((p) => p.id == e);
+    const filterBank = banks.filter((d) => d.id == e);
     setSelectedProduk(filter[0]);
     setSelectedBank(filterBank[0]);
     if (filterBank[0]) {
@@ -545,16 +545,16 @@ export default function EditBiaya({
     if (blokir) {
       bppPelunasan();
     }
-    if (selectedProduk && selectedProduk?.name == "Flash Sisa Gaji") {
-      const tatalaksana = inputTextToDecimal(plafond) * 0.03;
-      setTatalaksana(formatNumber(tatalaksana.toFixed(0).toString()));
-    } else if (selectedProduk && selectedProduk?.name != "Flash Sisa Gaji") {
-      if (selectedBank) {
-        setTatalaksana(formatNumber(selectedBank.by_tatalaksana.toString()));
-      }
-    } else {
-      setTatalaksana("0");
-    }
+    // if (selectedProduk && selectedProduk?.name == "Flash Sisa Gaji") {
+    //   const tatalaksana = inputTextToDecimal(plafond) * 0.03;
+    //   setTatalaksana(formatNumber(tatalaksana.toFixed(0).toString()));
+    // } else if (selectedProduk && selectedProduk?.name != "Flash Sisa Gaji") {
+    //   if (selectedBank) {
+    //     setTatalaksana(formatNumber(selectedBank.by_tatalaksana.toString()));
+    //   }
+    // } else {
+    //   setTatalaksana("0");
+    // }
     getanggalLunas();
     if (
       inputTextToDecimal(pelunasan) > inputTextToDecimal(kotor) ||
@@ -1120,7 +1120,15 @@ export default function EditBiaya({
                     <div className="text-xs">Biaya tatalaksana</div>
                   </div>
                   <div className="border rounded w-20 md:w-32 py-1 px-2 text-center">
-                    {by_tatalaksana || 0}
+                    <Input
+                      className="text-center"
+                      onChange={(e) =>
+                        setTatalaksana(formatNumber(e.target.value || "0"))
+                      }
+                      value={by_tatalaksana}
+                      // disabled={disable}
+                      style={{ backgroundColor: "white", color: "black" }}
+                    />
                   </div>
                 </div>
                 <div className="flex justify-between items-center border-b pb-1">
@@ -1201,7 +1209,7 @@ export default function EditBiaya({
                         setProvisi(formatNumber(e.target.value || "0"))
                       }
                       value={provisi}
-                      disabled={disable}
+                      // disabled={disable}
                       style={{ backgroundColor: "white", color: "black" }}
                     />
                   </div>

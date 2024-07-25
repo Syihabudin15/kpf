@@ -87,7 +87,7 @@ export default function MonitoringBank() {
     (async () => {
       await getData();
     })();
-  }, [from, to, nameOrNopen, page, pageSize]);
+  }, [from, to, nameOrNopen, page, pageSize, pencairan]);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {

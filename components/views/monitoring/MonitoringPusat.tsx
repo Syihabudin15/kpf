@@ -15,7 +15,6 @@ import {
   message,
   Typography,
   Select,
-  Button,
 } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -29,7 +28,7 @@ import {
   Options,
   UP,
 } from "@/components/utils/Interfaces";
-import { Refferal, User } from "@prisma/client";
+import { Bank, Refferal, User } from "@prisma/client";
 import CetakDataPengajuan from "@/components/utils/CetakDataPengajuan";
 const { Paragraph } = Typography;
 const { RangePicker } = DatePicker;
@@ -67,7 +66,6 @@ export default function MonitoringPusat() {
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
-  // const [year, setYear] = useState<string>(moment().format("YYYY-MM"));
   const [from, setFrom] = useState<string>();
   const [to, setTo] = useState<string>();
   const [nameOrNopen, setNameOrNopen] = useState<string>();
@@ -85,6 +83,9 @@ export default function MonitoringPusat() {
   const [modalEdit, setModalEdit] = useState(false);
   const [group, setGroup] = useState<string>();
   const [pencairan, setPencairan] = useState<string>();
+  const [groupBank, setGroupBank] =
+    useState<{ value: string; label: string }[]>();
+  const [selectedBank, setSelectedBank] = useState<string>();
 
   useEffect(() => {
     (async () => {
@@ -134,7 +135,16 @@ export default function MonitoringPusat() {
         nameOrNopen ? "&name=" + nameOrNopen : ""
       }${from ? "&from=" + from : ""}${to ? "&to=" + to : ""}`
     );
-    const { data, total } = await res.json();
+    const { data, total, banks } = await res.json();
+    const newBank =
+      banks &&
+      banks.map((b: Bank) => {
+        return {
+          label: b.kode,
+          value: b.id,
+        };
+      });
+    setGroupBank(newBank);
     let currData = data;
     if (group === "EXPRESS") {
       currData =
@@ -185,6 +195,12 @@ export default function MonitoringPusat() {
           (d: DataDataPengajuan) => d.status_pencairan === "BATAL"
         );
     }
+    if (selectedBank) {
+      currData =
+        currData &&
+        currData.filter((d: DataDataPengajuan) => d.bankId === selectedBank);
+    }
+
     setData(
       currData.map((d: DataDataPengajuan) => {
         return { ...d, key: d.id };
@@ -198,7 +214,7 @@ export default function MonitoringPusat() {
     (async () => {
       await getData();
     })();
-  }, [nameOrNopen, page, pageSize, group, pencairan, from, to]);
+  }, [nameOrNopen, page, pageSize, group, pencairan, from, to, selectedBank]);
 
   const handleDelete = async () => {
     setLoading(true);
@@ -1014,44 +1030,46 @@ export default function MonitoringPusat() {
 
   return (
     <div className="px-2">
-      <div className="flex gap-5 my-1 mx-1 flex-wrap">
+      <div className="flex gap-2 my-1 mx-1 md:flex-wrap overflow-x-auto">
         <RangePicker
           onChange={(_, info) => {
             setFrom(info && info[0]);
             setTo(info && info[1]);
           }}
+          size="small"
         />
-        {/* <DatePicker
-          picker="month"
-          onChange={(date, dateString) => setYear(dateString as string)}
-        /> */}
         <Input.Search
-          style={{ width: 170 }}
+          style={{ width: 150 }}
           onChange={(e) => setNameOrNopen(e.target.value)}
         />
         <Select
-          style={{ width: 150 }}
+          style={{ width: 130 }}
           options={[
             { label: "EXPRESS", value: "EXPRESS" },
             { label: "REGULER", value: "REGULER" },
           ]}
-          // defaultValue={"ALL"}
           placeholder="GROUP"
           onChange={(e) => setGroup(e)}
           allowClear
         />
         <Select
-          style={{ width: 150 }}
+          style={{ width: 130 }}
           options={[
             { label: "ANTRI", value: "ANTRI" },
             { label: "PROSES", value: "PROSES" },
             { label: "CAIR", value: "CAIR" },
             { label: "BATAL", value: "BATAL" },
           ]}
-          // defaultValue={"ALL"}
           placeholder="PENCAIRAN"
           allowClear
           onChange={(e) => setPencairan(e)}
+        />
+        <Select
+          style={{ width: 150 }}
+          options={groupBank}
+          placeholder="SUMDAN"
+          allowClear
+          onChange={(e) => setSelectedBank(e)}
         />
         <CetakDataPengajuan data={data || []} />
       </div>
