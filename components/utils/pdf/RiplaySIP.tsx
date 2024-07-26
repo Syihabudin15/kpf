@@ -50,10 +50,10 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
               flexDirection: "row",
               justifyContent: "center",
               borderBottom: "1px solid #aaa",
-              paddingBottom: 20,
+              paddingBottom: 10,
             }}
           >
-            <Text style={{ fontWeight: "bold", fontSize: 14 }}>
+            <Text style={{ fontWeight: "bold", fontSize: 12 }}>
               RINGKASAN INFORMASI PRODUK DAN LAYANAN (RIPLAY)
             </Text>
           </View>
@@ -63,7 +63,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
               flexDirection: "row",
               justifyContent: "space-between",
               gap: 30,
-              marginTop: 10,
+              marginTop: 5,
             }}
           >
             <View
@@ -113,7 +113,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
               </View>
             </View>
           </View>
-          <View style={{ marginTop: 10, marginBottom: 10, lineHeight: 1.3 }}>
+          <View style={{ marginTop: 5, marginBottom: 5, lineHeight: 1.3 }}>
             <Text>
               Kredit Pensiunan adalah pinjaman kepada pensiunan PNS , pensiunan
               TNI. Pensiunan PORLI yang pembayaran dana pensiunya melalui Pos
@@ -129,8 +129,8 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 backgroundColor: "#929292",
-                paddingTop: 5,
-                paddingBottom: 5,
+                paddingTop: 2,
+                paddingBottom: 2,
                 fontWeight: "bold",
               }}
             >
@@ -142,8 +142,8 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                gap: 20,
-                padding: 5,
+                gap: 10,
+                padding: 2,
               }}
             >
               <View
@@ -152,7 +152,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                   border: "1px solid #aaa",
                   display: "flex",
                   flexDirection: "column",
-                  gap: 3,
+                  gap: 2,
                   padding: 5,
                 }}
               >
@@ -250,7 +250,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                   }}
                 >
                   <Text style={{ width: 150 }}>Biaya Administrasi</Text>
-                  <Text style={{ width: 20 }}>
+                  <Text style={{ width: 30 }}>
                     {data.DataPembiayaan.by_admin +
                       data.DataPembiayaan.by_admin_bank +
                       data.DataPembiayaan.by_lainnya}
@@ -387,7 +387,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                   border: "1px solid #aaa",
                   display: "flex",
                   flexDirection: "column",
-                  gap: 3,
+                  gap: 2,
                   padding: 5,
                 }}
               >
@@ -495,7 +495,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                 padding: 5,
                 display: "flex",
                 flexDirection: "column",
-                gap: 3,
+                gap: 2,
               }}
             >
               <View
@@ -569,26 +569,30 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                gap: 20,
-                padding: 5,
+                gap: 10,
+                padding: 2,
               }}
             >
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, border: "1px solid #aaa" }}>
                 <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "center",
                     backgroundColor: "#929292",
-                    paddingTop: 5,
-                    paddingBottom: 5,
+                    padding: 2,
                     fontWeight: "bold",
                   }}
                 >
                   <Text style={{ color: "white" }}>MANFAAT</Text>
                 </View>
                 <View
-                  style={{ display: "flex", flexDirection: "column", gap: 3 }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    padding: 2,
+                  }}
                 >
                   <View
                     style={{
@@ -599,7 +603,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                     }}
                   >
                     <Text style={{ width: 10 }}>1. </Text>
-                    <Text>
+                    <Text style={{ width: 230 }}>
                       Memenuhi kebutuhan Pensiunan baik untuk kebutuhan berbagai
                       macam kebutuhan baik primer maupun sekunder.
                     </Text>
@@ -613,7 +617,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                     }}
                   >
                     <Text style={{ width: 10 }}>2. </Text>
-                    <Text>
+                    <Text style={{ width: 230 }}>
                       Peminjam dilindungi oleh asuransi jiwa sehingga jika
                       debitur meninggal maka sisa kewajiban di Bank BPR SIP
                       dilunasi perusahaan asuransi selama dokumen pengajuan
@@ -629,29 +633,33 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                     }}
                   >
                     <Text style={{ width: 10 }}>3. </Text>
-                    <Text>
+                    <Text style={{ width: 230 }}>
                       dapat menentukan jangka waktu pelunasan sesuai dengan
                       kemampuan Anda.
                     </Text>
                   </View>
                 </View>
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, border: "1px solid #aaa" }}>
                 <View
                   style={{
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "center",
                     backgroundColor: "#929292",
-                    paddingTop: 5,
-                    paddingBottom: 5,
+                    padding: 2,
                     fontWeight: "bold",
                   }}
                 >
                   <Text style={{ color: "white" }}>RESIKO</Text>
                 </View>
                 <View
-                  style={{ display: "flex", flexDirection: "column", gap: 3 }}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                    padding: 2,
+                  }}
                 >
                   <View
                     style={{
@@ -662,7 +670,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                     }}
                   >
                     <Text style={{ width: 10 }}>1. </Text>
-                    <Text>
+                    <Text style={{ width: 230 }}>
                       Peminjam yang melakukan pelunasan kredit sebelum jatuh
                       tempo kredit akan dikenakan penalty yang dihitung dari
                       jumlah yang dilunasi.
@@ -677,7 +685,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                     }}
                   >
                     <Text style={{ width: 10 }}>2. </Text>
-                    <Text>
+                    <Text style={{ width: 230 }}>
                       Tambahan biaya yang muncul apabila kredit anda macet
                       (dikenakan biaya penagihan) maupun pelunasan kredit yang
                       dipercepat.
@@ -692,7 +700,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                     }}
                   >
                     <Text style={{ width: 10 }}>3. </Text>
-                    <Text>
+                    <Text style={{ width: 230 }}>
                       Tercatatnya riwayat kredit Anda pada Sistem Layanan
                       Informasi Keuangan (SLIK) ketika Anda menunggak
                       pembayaran.
@@ -702,8 +710,587 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
               </View>
             </View>
             {/* END MANFAAT & RESIKO */}
+            {/* SYARAT & TATACARA */}
+            <View style={{ margin: 2, border: "1px solid #aaa" }}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  backgroundColor: "#929292",
+                  padding: 2,
+                  fontWeight: "bold",
+                }}
+              >
+                <Text style={{ color: "white" }}>Persyaratan dan Tatacara</Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 10,
+                }}
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 3,
+                    padding: 2,
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>1.</Text>
+                    <Text>Mengisi form Pinjaman</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>2.</Text>
+                    <Text>
+                      Fc KTP calon debitur dan pasangan yang masih berlaku
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>3.</Text>
+                    <Text>Foto copy Kartu Keluarga (KK) calon Debitur</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>4.</Text>
+                    <Text>Foto copy Surat Nikah / Cerai/Kematian</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>5.</Text>
+                    <Text>
+                      Surat pernyataan beda nama ( PMI ) jika beda nama
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>6.</Text>
+                    <Text>
+                      FC pernyataan belum menikah / jika janda atau duda
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>7.</Text>
+                    <Text>
+                      Foto copy identitas pensiunan ( KARIB / TASPEN )
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>8.</Text>
+                    <Text>Kartu penerima pensiun ( untuk ASABRI )</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 3,
+                    padding: 2,
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>9.</Text>
+                    <Text>Asli / copy tanda penerima gaji terakhir</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>10.</Text>
+                    <Text>Fc NPWP untuk pinjaman diatas Rp. 50.000.000, -</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>11.</Text>
+                    <Text>
+                      Foto atau gambar bergerak nasabah sedang berjalan
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}></Text>
+                    <Text></Text>
+                  </View>
+                  <View
+                    style={{
+                      border: "1px solid #aaa",
+                      padding: 3,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 3,
+                    }}
+                  >
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 5,
+                        textAlign: "justify",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <Text>
+                        Anda dapat menyampaikan pertanyaan dan pengaduan melalui
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 5,
+                        textAlign: "justify",
+                      }}
+                    >
+                      <Text style={{ width: 150 }}>Telepon</Text>
+                      <Text>022-4206626</Text>
+                    </View>
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 5,
+                        textAlign: "justify",
+                      }}
+                    >
+                      <Text style={{ width: 150 }}>Email</Text>
+                      <Text>bprsip@yahoo.com</Text>
+                    </View>
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 5,
+                        textAlign: "justify",
+                      }}
+                    >
+                      <Text style={{ width: 150 }}>Whatsapp</Text>
+                      <Text>'081399127856</Text>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            {/* END SYARAT & TATACARA */}
+            {/* SIMULASI */}
+            <View style={{ margin: 2, border: "1px solid #aaa" }}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  backgroundColor: "#929292",
+                  padding: 2,
+                  fontWeight: "bold",
+                }}
+              >
+                <Text style={{ color: "white" }}>Simulasi</Text>
+              </View>
+              <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+                <View
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                    Pelunasan Dipercepat
+                  </Text>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                    }}
+                  >
+                    <Text style={{ width: 150 }}>Sisa pokok</Text>
+                    <Text style={{ width: 20 }}></Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                    }}
+                  >
+                    <Text style={{ width: 150 }}>Penalty</Text>
+                    <Text style={{ width: 20 }}></Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      height: 10,
+                    }}
+                  >
+                    <Text style={{ width: 150 }}></Text>
+                    <Text style={{ width: 20 }}></Text>
+                    <Text style={{ width: 100 }}></Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                    Denda angsuran 0,3% per hari setelah 3 hari
+                  </Text>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                    }}
+                  >
+                    <Text style={{ width: 120 }}>Cicilan per bulan </Text>
+                    <Text style={{ width: 50 }}></Text>
+                    <Text style={{ textAlign: "right" }}>
+                      {formatNumber(angsuran.toFixed(0))}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                    }}
+                  >
+                    <Text style={{ width: 120 }}>Terlambat 5 hari </Text>
+                    <Text style={{ width: 50 }}>5</Text>
+                    <Text style={{ textAlign: "right" }}>
+                      {formatNumber((angsuran * (0.3 / 100) * 5).toFixed(0))}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            {/* ENDSIMULASI */}
+            {/* INFO TAMBAHAN */}
+            <View style={{ margin: 2, border: "1px solid #aaa" }}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  backgroundColor: "#929292",
+                  padding: 2,
+                  fontWeight: "bold",
+                }}
+              >
+                <Text style={{ color: "white" }}>Informasi Tambahan</Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 10,
+                  padding: 3,
+                }}
+              >
+                <View
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>1.</Text>
+                    <Text style={{ width: 230 }}>
+                      Bunga efektif adalah suku bunga yang bersifat menurun
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>2.</Text>
+                    <Text style={{ width: 230 }}>
+                      Anda akan menerima penawaran produk lain dari pihak ketiga
+                      apabila menyetujui untuk membagikan data pribadi ( setuju
+                      / Tidak )
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>3.</Text>
+                    <Text style={{ width: 230 }}>
+                      tidak terdapat Refund ( pengembalian ) asuransi untuk
+                      pelunasan di percepat
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>4.</Text>
+                    <Text style={{ width: 230 }}>
+                      Pengembalian dokumen agunan pada hari yang sama saat
+                      pelunasan
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>5.</Text>
+                    <Text style={{ width: 230 }}>
+                      Debitur wajib memberikan informasi dan atau data yang
+                      benar sesuai kondisi yang sesungguhnya
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>6.</Text>
+                    <Text style={{ width: 230 }}>
+                      Calon debitur di beri kesempatan untuk memahami klausula
+                      perjanjian selama dua hari
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2,
+                  }}
+                >
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <Text>Disclaimer (penting untuk dibaca):</Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>1.</Text>
+                    <Text style={{ width: 230 }}>
+                      Anda telah membaca, menerima penjelasan, dan memahami
+                      produk kredit pensiunan sesuai Ringkasan Informasi Produk
+                      dan Layanan
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>2.</Text>
+                    <Text style={{ width: 230 }}>
+                      Ringkasan Informasi Produk dan Layanan ini bukan merupakan
+                      bagian dari perjanjian kredit
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>3.</Text>
+                    <Text style={{ width: 230 }}>
+                      Anda wajib untuk tetap membaca, memahami, dan
+                      menandatangani perjanjian kredit
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>4.</Text>
+                    <Text style={{ width: 230 }}>
+                      Informasi yang tercakup dalam Ringkasan Informasi Produk
+                      dan Layanan ini berlaku sejak tanggal cetak dokumen sampai
+                      dengan
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 5,
+                      textAlign: "justify",
+                    }}
+                  >
+                    <Text style={{ width: 10 }}>5.</Text>
+                    <Text style={{ width: 230 }}>
+                      Anda harus membaca dengan teliti Ringkasan Informasi
+                      Produk dan Layanan ini sebelum menyetujui pembukaan
+                      rekening pinjaman dan berhak bertanya kepada pegawai Bank
+                      atas semua hal terkait Ringkasan Informasi Produk dan
+                      Layanan ini
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            {/* END INFO TAMBAHAN */}
           </View>
           {/* END BIAYA */}
+          <View style={{ textAlign: "right", marginRight: 100 }}>
+            <Text>Bandung,...</Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              textAlign: "center",
+              paddingLeft: 30,
+              paddingRight: 30,
+            }}
+          >
+            <View>
+              <Text>Pegawai / petugas yang menjelaskan</Text>
+              <Text style={{ marginTop: 50 }}>
+                BPR SIP Berizin dan diawasi oleh OJK
+              </Text>
+            </View>
+            <View>
+              <Text>Konsumen</Text>
+              <Text style={{ marginTop: 50 }}>{data.nama}</Text>
+            </View>
+          </View>
         </Page>
       </Document>
     </PDFViewer>

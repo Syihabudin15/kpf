@@ -5,8 +5,9 @@ import {
   CloudUploadOutlined,
   FileFilled,
   LoadingOutlined,
+  PrinterOutlined,
 } from "@ant-design/icons";
-import { Input, Table, TableProps } from "antd";
+import { Input, Modal, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -29,6 +30,10 @@ const ViewBerkasPengajuan = dynamic(
     loading: () => <LoadingOutlined />,
   }
 );
+const RiplaySIP = dynamic(() => import("@/components/utils/pdf/RiplaySIP"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 
 export default function DokumenPengajuanMitra() {
   const [name, setName] = useState<string>();
@@ -40,6 +45,7 @@ export default function DokumenPengajuanMitra() {
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [openUpload, setOpenUpload] = useState(false);
   const [selectedUpload, setSelectedUpload] = useState<DataDataPengajuan>();
+  const [openRiplay, setOpenRiplay] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -360,6 +366,38 @@ export default function DokumenPengajuanMitra() {
           },
         },
       ],
+    },
+    {
+      title: "RIPLAY",
+      key: "riplay",
+      dataIndex: "riplay",
+      width: 100,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      render(value, record, index) {
+        return (
+          <div
+            className={`flex justify-center ${
+              record.Bank.kode !== "BPR SIP" ? "hidden" : ""
+            }`}
+          >
+            <button
+              className="py-1 px-2 rounded shadow border"
+              onClick={() => {
+                setSelected(record);
+                setOpenRiplay(true);
+              }}
+            >
+              <PrinterOutlined />
+            </button>
+          </div>
+        );
+      },
     },
     {
       title: "BERKAS PELUNASAN",
@@ -1006,6 +1044,20 @@ export default function DokumenPengajuanMitra() {
           setOpen={setOpenUpload}
           setSelected={setSelectedUpload}
         />
+      )}
+      {selected && (
+        <Modal
+          open={openRiplay}
+          onCancel={() => setOpenRiplay(!openRiplay)}
+          width={"95vw"}
+          style={{ top: 20 }}
+          footer={[]}
+          title={`RIPLAY ${selected.nama}`}
+        >
+          <div style={{ height: "80vh" }}>
+            <RiplaySIP data={selected} />
+          </div>
+        </Modal>
       )}
     </div>
   );

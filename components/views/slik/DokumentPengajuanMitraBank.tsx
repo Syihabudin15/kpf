@@ -360,7 +360,11 @@ export default function DokumenPengajuanMitraBank() {
       },
       render(value, record, index) {
         return (
-          <div className="flex justify-center">
+          <div
+            className={`flex justify-center ${
+              record.Bank.kode !== "BPR SIP" ? "hidden" : ""
+            }`}
+          >
             <button
               className="py-1 px-2 rounded shadow border"
               onClick={() => {
