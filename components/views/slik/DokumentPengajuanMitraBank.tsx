@@ -2,8 +2,12 @@
 
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { FileFilled, LoadingOutlined } from "@ant-design/icons";
-import { DatePicker, Input, Table, TableProps } from "antd";
+import {
+  FileFilled,
+  LoadingOutlined,
+  PrinterOutlined,
+} from "@ant-design/icons";
+import { DatePicker, Input, Modal, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -19,6 +23,10 @@ const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+const RiplaySIP = dynamic(() => import("@/components/utils/pdf/RiplaySIP"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 
 export default function DokumenPengajuanMitraBank() {
   const [name, setName] = useState<string>();
@@ -29,6 +37,7 @@ export default function DokumenPengajuanMitraBank() {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [open, setOpen] = useState(false);
+  const [openRiplay, setOpenRiplay] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -336,6 +345,34 @@ export default function DokumenPengajuanMitraBank() {
           },
         },
       ],
+    },
+    {
+      title: "RIPLAY",
+      key: "riplay",
+      dataIndex: "riplay",
+      width: 100,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      render(value, record, index) {
+        return (
+          <div className="flex justify-center">
+            <button
+              className="py-1 px-2 rounded shadow border"
+              onClick={() => {
+                setSelected(record);
+                setOpenRiplay(true);
+              }}
+            >
+              <PrinterOutlined />
+            </button>
+          </div>
+        );
+      },
     },
     {
       title: "BERKAS PELUNASAN",
@@ -978,6 +1015,20 @@ export default function DokumenPengajuanMitraBank() {
           open={open}
           setOpen={setOpen}
         />
+      )}
+      {selected && (
+        <Modal
+          open={openRiplay}
+          onCancel={() => setOpenRiplay(!openRiplay)}
+          width={"95vw"}
+          style={{ top: 20 }}
+          footer={[]}
+          title={`RIPLAY ${selected.nama}`}
+        >
+          <div style={{ height: "80vh" }}>
+            <RiplaySIP data={selected} />
+          </div>
+        </Modal>
       )}
     </div>
   );
