@@ -140,7 +140,10 @@ export const GET = async (req: NextRequest) => {
           is_active: true,
           status_slik: "ANTRI",
           bankId: banks[i].id,
-          DataPembiayaan: { Produk: { name: "Flash Sisa Gaji" } },
+          DataPembiayaan: {
+            Produk: { name: "Flash Sisa Gaji" },
+            is_active: true,
+          },
         },
       }),
       verifikasi: await prisma.dataPengajuan.count({
@@ -148,7 +151,10 @@ export const GET = async (req: NextRequest) => {
           is_active: true,
           status_verifikasi: "ANTRI",
           bankId: banks[i].id,
-          DataPembiayaan: { Produk: { name: "Flash Sisa Gaji" } },
+          DataPembiayaan: {
+            Produk: { name: "Flash Sisa Gaji" },
+            is_active: true,
+          },
         },
       }),
       approval: await prisma.dataPengajuan.count({
@@ -156,7 +162,10 @@ export const GET = async (req: NextRequest) => {
           is_active: true,
           status_approval: "ANTRI",
           bankId: banks[i].id,
-          DataPembiayaan: { Produk: { name: "Flash Sisa Gaji" } },
+          DataPembiayaan: {
+            Produk: { name: "Flash Sisa Gaji" },
+            is_active: true,
+          },
         },
       }),
       pengajuan_dropping: [
@@ -165,7 +174,10 @@ export const GET = async (req: NextRequest) => {
             is_active: true,
             status_approval: "ANTRI",
             bankId: banks[i].id,
-            DataPembiayaan: { Produk: { name: "Flash Sisa Gaji" } },
+            DataPembiayaan: {
+              Produk: { name: "Flash Sisa Gaji" },
+              is_active: true,
+            },
           },
         }),
         0,
@@ -178,6 +190,9 @@ export const GET = async (req: NextRequest) => {
       where: {
         is_active: true,
         status_approval: "ANTRI",
+        DataPembiayaan: {
+          is_active: true,
+        },
         bankId: banks[i].id,
       },
       include: {
@@ -191,6 +206,9 @@ export const GET = async (req: NextRequest) => {
         is_active: true,
         status_approval: "SETUJU",
         status_pencairan: "PROSES",
+        DataPembiayaan: {
+          is_active: true,
+        },
         bankId: banks[i].id,
       },
       include: {

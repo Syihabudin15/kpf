@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { getServerSession } from "next-auth";
 import { AngsuranPengajuan } from "@/components/utils/Interfaces";
+import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
@@ -112,7 +114,44 @@ const handleMaster = async (skip: number, name: string | null) => {
       tanggal_pelunasan: null,
     },
   });
-  return { result, total: name ? name.length : total };
+  const mapping = result.map((r) => {
+    const angsuran = ceiling(
+      parseInt(
+        getAngsuranPerBulan(
+          r.DataPengajuan.DataPembiayaan.mg_bunga,
+          r.DataPengajuan.DataPembiayaan.tenor,
+          r.DataPengajuan.DataPembiayaan.plafond
+        )
+      ),
+      r.DataPengajuan.DataPembiayaan.pembulatan
+    );
+    const angBank = ceiling(
+      parseInt(
+        getAngsuranPerBulan(
+          r.DataPengajuan.DataPembiayaan.margin_bank,
+          r.DataPengajuan.DataPembiayaan.tenor,
+          r.DataPengajuan.DataPembiayaan.plafond
+        )
+      ),
+      r.DataPengajuan.DataPembiayaan.pembulatan
+    );
+    return {
+      id: r.id,
+      angsuran: angsuran,
+      angsuran_ke: r.angsuran_ke,
+      pokok: r.pokok,
+      margin: r.margin,
+      status: r.status,
+      tanggal_bayar: r.tanggal_bayar,
+      tanggal_pelunasan: r.tanggal_pelunasan,
+      sisa: r.sisa,
+      dataPengajuanId: r.dataPengajuanId,
+      margin_bank: angBank,
+      margin_koperasi: r.angsuran - angBank,
+      DataPengajuan: r.DataPengajuan,
+    };
+  });
+  return { result: mapping, total: name ? name.length : total };
 };
 
 const handleBank = async (
@@ -205,5 +244,42 @@ const handleBank = async (
       },
     },
   });
-  return { result, total: name ? name.length : total };
+  const mapping = result.map((r) => {
+    const angsuran = ceiling(
+      parseInt(
+        getAngsuranPerBulan(
+          r.DataPengajuan.DataPembiayaan.mg_bunga,
+          r.DataPengajuan.DataPembiayaan.tenor,
+          r.DataPengajuan.DataPembiayaan.plafond
+        )
+      ),
+      r.DataPengajuan.DataPembiayaan.pembulatan
+    );
+    const angBank = ceiling(
+      parseInt(
+        getAngsuranPerBulan(
+          r.DataPengajuan.DataPembiayaan.margin_bank,
+          r.DataPengajuan.DataPembiayaan.tenor,
+          r.DataPengajuan.DataPembiayaan.plafond
+        )
+      ),
+      r.DataPengajuan.DataPembiayaan.pembulatan
+    );
+    return {
+      id: r.id,
+      angsuran: angsuran,
+      angsuran_ke: r.angsuran_ke,
+      pokok: r.pokok,
+      margin: r.margin,
+      status: r.status,
+      tanggal_bayar: r.tanggal_bayar,
+      tanggal_pelunasan: r.tanggal_pelunasan,
+      sisa: r.sisa,
+      dataPengajuanId: r.dataPengajuanId,
+      margin_bank: angBank,
+      margin_koperasi: r.angsuran - angBank,
+      DataPengajuan: r.DataPengajuan,
+    };
+  });
+  return { result: mapping, total: name ? name.length : total };
 };

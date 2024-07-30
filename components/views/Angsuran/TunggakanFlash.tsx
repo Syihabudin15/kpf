@@ -178,7 +178,6 @@ export default function TuggakanFlash() {
     {
       title: "ANGSURAN",
       dataIndex: "angsuran",
-      width: 150,
       key: "angsuran",
       onHeaderCell: (text, record) => {
         return {
@@ -187,10 +186,61 @@ export default function TuggakanFlash() {
           },
         };
       },
-      className: "text-center",
-      render(value, record, index) {
-        return <>{formatNumber(record.angsuran.toFixed(0))}</>;
-      },
+      children: [
+        {
+          title: "ANGSURAN PERBULAN",
+          dataIndex: "angsuranbulan",
+          key: "angsuranbulan",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return <>{formatNumber(record.angsuran.toFixed(0))}</>;
+          },
+        },
+        {
+          title: "ANGSURAN BANK",
+          dataIndex: "angsuranbank",
+          key: "angsuranbank",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return <>{formatNumber(record.margin_bank.toFixed(0))}</>;
+          },
+        },
+        {
+          title: "ANGSURAN KOPERASI",
+          dataIndex: "angsurankpf",
+          key: "angsurankpf",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return (
+              <>{formatNumber((record.margin_koperasi || 0).toFixed(0))}</>
+            );
+          },
+        },
+      ],
     },
     {
       title: "SISA PLAFOND",

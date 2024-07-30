@@ -945,7 +945,7 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
                       }}
                     >
                       <Text style={{ width: 150 }}>Whatsapp</Text>
-                      <Text>'081399127856</Text>
+                      <Text>081399127856</Text>
                     </View>
                   </View>
                 </View>

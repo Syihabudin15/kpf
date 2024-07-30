@@ -1,13 +1,17 @@
 "use client";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
-import { formatNumber } from "@/components/utils/inputUtils";
+import { formatNumber, getUsiaMasuk } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { DatePicker, Input, Select, Table, TableProps } from "antd";
 import moment from "moment";
-import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
+import {
+  DateDiffUsiaMasuk,
+  getAngsuranPerBulan,
+} from "../simulasi/simulasiUtil";
 import { useEffect, useState } from "react";
 import CetakDaftarNominatif from "./CetakDaftarNominatif";
 import { Bank, User } from "@prisma/client";
+import { AsuransiRate } from "@/components/utils/AsuransiRate";
 const { RangePicker } = DatePicker;
 
 export default function DaftarNominatif({
@@ -143,7 +147,7 @@ export default function DaftarNominatif({
       dataIndex: "nama_pemohon",
       key: "nama_pemohon",
       width: 200,
-      // fixed: window.innerWidth < 600 ? false : "left",
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -300,7 +304,7 @@ export default function DaftarNominatif({
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{record.DataPembiayaan.mg_bunga}</>;
+        return <>{record.DataPembiayaan.mg_bunga} %</>;
       },
     },
     {
@@ -401,10 +405,9 @@ export default function DaftarNominatif({
       },
     },
     {
-      title: "PREMI ASURANSI",
-      dataIndex: "premi_asuransi",
-      key: "premi_asuransi",
-      width: 150,
+      title: "ASURANSI",
+      dataIndex: "asuransi",
+      key: "asuransi",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -412,19 +415,82 @@ export default function DaftarNominatif({
           },
         };
       },
-      className: "text-center",
-      render(value, record, index) {
-        return (
-          <>
-            {formatNumber(
-              (
-                record.DataPembiayaan.plafond *
-                (record.DataPembiayaan.by_asuransi / 100)
-              ).toFixed(0)
-            )}
-          </>
-        );
-      },
+      children: [
+        {
+          title: "ASURANSI (%)",
+          dataIndex: "asuransi_prc",
+          key: "asuransi_prc",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return <>{record.DataPembiayaan.by_asuransi} %</>;
+          },
+        },
+        {
+          title: "PREMI ASURANSI",
+          dataIndex: "premi_asuransi",
+          key: "premi_asuransi",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return (
+              <>
+                {formatNumber(
+                  (
+                    record.DataPembiayaan.plafond *
+                    (record.DataPembiayaan.by_asuransi / 100)
+                  ).toFixed(0)
+                )}
+              </>
+            );
+          },
+        },
+        {
+          title: "SELISIH ASURANSI",
+          dataIndex: "selisih_asuransi",
+          key: "selisih_asuransi",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            const { tahun } = getUsiaMasuk(
+              record.DataPembiayaan.tanggal_lahir,
+              (record.tanggal_cetak_akad || moment()).toString()
+            );
+            const asRate = AsuransiRate.filter(
+              (a) => a.usia == Math.floor(parseInt(tahun))
+            );
+            const perc = record.DataPembiayaan.by_asuransi / 1000;
+            return (
+              <>
+                {formatNumber(
+                  (record.DataPembiayaan.plafond * perc).toFixed(0)
+                )}
+              </>
+            );
+          },
+        },
+      ],
     },
     {
       title: "DATA INFORMASI",
@@ -523,6 +589,111 @@ export default function DaftarNominatif({
       },
     },
     {
+      title: "ANGSURAN",
+      dataIndex: "angsuran",
+      key: "angsuran",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      children: [
+        {
+          title: "ANGSURAN PERBULAN",
+          dataIndex: "angsuranbulan",
+          key: "angsuranbulan",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            const angsuran = ceiling(
+              parseInt(
+                getAngsuranPerBulan(
+                  record.DataPembiayaan.mg_bunga,
+                  record.DataPembiayaan.tenor,
+                  record.DataPembiayaan.plafond
+                )
+              ),
+              record.DataPembiayaan.pembulatan
+            );
+            return <>{formatNumber(angsuran.toFixed(0))}</>;
+          },
+        },
+        {
+          title: "ANGSURAN BANK",
+          dataIndex: "angsuranbank",
+          key: "angsuranbank",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            const angsuran = ceiling(
+              parseInt(
+                getAngsuranPerBulan(
+                  record.DataPembiayaan.margin_bank,
+                  record.DataPembiayaan.tenor,
+                  record.DataPembiayaan.plafond
+                )
+              ),
+              record.DataPembiayaan.pembulatan
+            );
+            return <>{formatNumber(angsuran.toFixed(0))}</>;
+          },
+        },
+        {
+          title: "ANGSURAN KPF",
+          dataIndex: "selisih",
+          key: "selisih",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            const angsuran = ceiling(
+              parseInt(
+                getAngsuranPerBulan(
+                  record.DataPembiayaan.mg_bunga,
+                  record.DataPembiayaan.tenor,
+                  record.DataPembiayaan.plafond
+                )
+              ),
+              record.DataPembiayaan.pembulatan
+            );
+            const angsuranBank = ceiling(
+              parseInt(
+                getAngsuranPerBulan(
+                  record.DataPembiayaan.margin_bank,
+                  record.DataPembiayaan.tenor,
+                  record.DataPembiayaan.plafond
+                )
+              ),
+              record.DataPembiayaan.pembulatan
+            );
+            return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
+          },
+        },
+      ],
+    },
+    {
       title: "BLOKIR ANGSURAN",
       dataIndex: "blokir",
       key: "blokir",
@@ -544,7 +715,7 @@ export default function DaftarNominatif({
               record.DataPembiayaan.plafond
             )
           ),
-          parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
+          record.DataPembiayaan.pembulatan
         );
         return (
           <>
@@ -692,6 +863,10 @@ export default function DaftarNominatif({
             let blokir = 0;
             let takeover = 0;
             let provisi = 0;
+            let selisihAngsuran = 0;
+            let selisihAsuransi = 0;
+            let totalAngsuran = 0;
+            let totalAngsuranBank = 0;
             pageData.forEach((pd, ind) => {
               plafon += pd.DataPembiayaan.plafond;
               adminBank +=
@@ -722,6 +897,19 @@ export default function DaftarNominatif({
                 ),
                 pd.DataPembiayaan.pembulatan
               );
+              const angsuranBank = ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    pd.DataPembiayaan.margin_bank,
+                    pd.DataPembiayaan.tenor,
+                    pd.DataPembiayaan.plafond
+                  )
+                ),
+                pd.DataPembiayaan.pembulatan
+              );
+              totalAngsuran += angsuran;
+              totalAngsuranBank += angsuranBank;
+              selisihAngsuran += angsuran - angsuranBank;
               blokir += pd.DataPembiayaan.blokir * angsuran;
               takeover += pd.DataPembiayaan.pelunasan + pd.DataPembiayaan.bpp;
             });
@@ -796,30 +984,45 @@ export default function DaftarNominatif({
                   <>{formatNumber(tatalaksana.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={19} className="text-center">
-                  <>{formatNumber(asuransi.toFixed(0))}</>
+                  <>%</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={20} className="text-center">
-                  <>{formatNumber(dataInformasi.toFixed(0))}</>
+                  <>{formatNumber(asuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={21} className="text-center">
-                  <>{formatNumber(tabungan.toFixed(0))}</>
+                  <>{formatNumber(selisihAsuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={22} className="text-center">
-                  <>{formatNumber(materai.toFixed(0))}</>
+                  <>{formatNumber(dataInformasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={23} className="text-center">
-                  <>{formatNumber(mutasi.toFixed(0))}</>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell index={23} className="text-center">
-                  <>{formatNumber(provisi.toFixed(0))}</>
+                  <>{formatNumber(tabungan.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={24} className="text-center">
-                  <>{formatNumber(blokir.toFixed(0))}</>
+                  <>{formatNumber(materai.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={25} className="text-center">
-                  <>{formatNumber(takeover.toFixed(0))}</>
+                  <>{formatNumber(mutasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={26} className="text-center">
+                  <>{formatNumber(provisi.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={27} className="text-center">
+                  <>{formatNumber(totalAngsuran.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={28} className="text-center">
+                  <>{formatNumber(totalAngsuranBank.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={29} className="text-center">
+                  <>{formatNumber(selisihAngsuran.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={30} className="text-center">
+                  <>{formatNumber(blokir.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={31} className="text-center">
+                  <>{formatNumber(takeover.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={32} className="text-center">
                   <>{formatNumber(pencairan.toFixed(0))}</>
                 </Table.Summary.Cell>
               </Table.Summary.Row>

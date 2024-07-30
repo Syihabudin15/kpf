@@ -145,6 +145,7 @@ export interface DataCost extends Cost {
 }
 
 export interface AngsuranPengajuan extends JadwalAngsuran {
+  margin_koperasi?: number;
   DataPengajuan: DataTypePengajuan;
 }
 

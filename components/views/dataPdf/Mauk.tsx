@@ -9,6 +9,28 @@ import { stylePdf } from "@/components/utils/pdf/stylePdf";
 import moment from "moment";
 
 export default function Mauk({ data }: { data: DataDataPengajuan }) {
+  const angsuranBulanan = ceiling(
+    parseInt(
+      getAngsuranPerBulan(
+        data.DataPembiayaan.mg_bunga,
+        data.DataPembiayaan.tenor,
+        data.DataPembiayaan.plafond
+      )
+    ),
+    data.DataPembiayaan.pembulatan
+  );
+  const angsuranBank = ceiling(
+    parseInt(
+      getAngsuranPerBulan(
+        data.DataPembiayaan.margin_bank || 0,
+        data.DataPembiayaan.tenor,
+        data.DataPembiayaan.plafond
+      )
+    ),
+    data.DataPembiayaan.pembulatan
+  );
+
+  const colfee = angsuranBulanan - angsuranBank;
   return (
     <PDFViewer className="w-full h-full">
       <Document
@@ -163,19 +185,14 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                     </Text>
                     <Text style={{ width: "10%" }}>:</Text>
                     <Text style={{ width: "50%" }}>
-                      Rp.{" "}
-                      {formatNumber(
-                        ceiling(
-                          parseInt(
-                            getAngsuranPerBulan(
-                              data.Bank.margin_bank || 0,
-                              data.DataPembiayaan.tenor,
-                              data.DataPembiayaan.plafond
-                            )
-                          ),
-                          data.DataPembiayaan.pembulatan || 0
-                        ).toFixed(0)
-                      )}
+                      Rp. {formatNumber(angsuranBank.toFixed(0))}
+                    </Text>
+                  </View>
+                  <View style={{ display: "flex", flexDirection: "row" }}>
+                    <Text style={{ width: "40%" }}>Fee Collection KPF</Text>
+                    <Text style={{ width: "10%" }}>:</Text>
+                    <Text style={{ width: "50%" }}>
+                      Rp. {formatNumber(colfee.toFixed(0))}
                     </Text>
                   </View>
                 </View>
