@@ -60,7 +60,10 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
         data: formatNumber(d.DataPembiayaan.by_provisi.toFixed(0)),
         width: 100,
       },
-      { data: "1 Bulan", width: 100 },
+      {
+        data: moment(d.tanggal_cetak_akad).date() < 25 ? "1 Bulan" : "0 Bulan",
+        width: 100,
+      },
       {
         data: formatNumber(angs.toFixed(0)),
         width: 100,

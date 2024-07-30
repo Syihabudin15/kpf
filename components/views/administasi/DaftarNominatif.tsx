@@ -430,7 +430,17 @@ export default function DaftarNominatif({
           },
           className: "text-center",
           render(value, record, index) {
-            return <>{record.DataPembiayaan.by_asuransi} %</>;
+            return (
+              <>
+                ({record.DataPembiayaan.by_asuransi} %){" "}
+                {formatNumber(
+                  (
+                    record.DataPembiayaan.plafond *
+                    (record.DataPembiayaan.by_asuransi / 100)
+                  ).toFixed(0)
+                )}
+              </>
+            );
           },
         },
         {
@@ -447,13 +457,20 @@ export default function DaftarNominatif({
           },
           className: "text-center",
           render(value, record, index) {
+            const { tahun } = getUsiaMasuk(
+              record.DataPembiayaan.tanggal_lahir,
+              (record.tanggal_cetak_akad || moment()).toString()
+            );
+            const asRate = AsuransiRate.filter(
+              (a) => a.usia == Math.floor(parseInt(tahun))
+            );
+
+            const ind = Math.floor(record.DataPembiayaan.tenor / 12);
+            const rate = asRate ? asRate[0].jk[ind - 1] : 0;
             return (
               <>
                 {formatNumber(
-                  (
-                    record.DataPembiayaan.plafond *
-                    (record.DataPembiayaan.by_asuransi / 100)
-                  ).toFixed(0)
+                  ((record.DataPembiayaan.plafond * rate) / 1000).toFixed(0)
                 )}
               </>
             );
@@ -480,14 +497,14 @@ export default function DaftarNominatif({
             const asRate = AsuransiRate.filter(
               (a) => a.usia == Math.floor(parseInt(tahun))
             );
-            const perc = record.DataPembiayaan.by_asuransi / 1000;
-            return (
-              <>
-                {formatNumber(
-                  (record.DataPembiayaan.plafond * perc).toFixed(0)
-                )}
-              </>
-            );
+
+            const ind = Math.floor(record.DataPembiayaan.tenor / 12);
+            const rate = asRate ? asRate[0].jk[ind - 1] : 0;
+            const premi = (record.DataPembiayaan.plafond * rate) / 1000;
+            const asur =
+              record.DataPembiayaan.plafond *
+              (record.DataPembiayaan.by_asuransi / 100);
+            return <>{formatNumber((asur - premi).toFixed(0))}</>;
           },
         },
       ],
@@ -864,9 +881,10 @@ export default function DaftarNominatif({
             let takeover = 0;
             let provisi = 0;
             let selisihAngsuran = 0;
-            let selisihAsuransi = 0;
+            let premiAsuransi = 0;
             let totalAngsuran = 0;
             let totalAngsuranBank = 0;
+            let selisihAsuransi = 0;
             pageData.forEach((pd, ind) => {
               plafon += pd.DataPembiayaan.plafond;
               adminBank +=
@@ -887,6 +905,22 @@ export default function DaftarNominatif({
               materai += pd.DataPembiayaan.by_materai;
               mutasi += pd.DataPembiayaan.by_mutasi;
               provisi += pd.DataPembiayaan.by_provisi;
+              const { tahun } = getUsiaMasuk(
+                pd.DataPembiayaan.tanggal_lahir,
+                (pd.tanggal_cetak_akad || moment()).toString()
+              );
+              const asRate = AsuransiRate.filter(
+                (a) => a.usia == Math.floor(parseInt(tahun))
+              );
+
+              const indRate = Math.floor(pd.DataPembiayaan.tenor / 12);
+              const rate = asRate ? asRate[0].jk[indRate - 1] : 0;
+              const premAsuransi = (pd.DataPembiayaan.plafond * rate) / 1000;
+              const asur =
+                pd.DataPembiayaan.plafond *
+                (pd.DataPembiayaan.by_asuransi / 100);
+              premiAsuransi += premAsuransi;
+              selisihAsuransi += asur - premAsuransi;
               const angsuran = ceiling(
                 parseInt(
                   getAngsuranPerBulan(
@@ -984,10 +1018,10 @@ export default function DaftarNominatif({
                   <>{formatNumber(tatalaksana.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={19} className="text-center">
-                  <>%</>
+                  <>{formatNumber(asuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={20} className="text-center">
-                  <>{formatNumber(asuransi.toFixed(0))}</>
+                  <>{formatNumber(premiAsuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={21} className="text-center">
                   <>{formatNumber(selisihAsuransi.toFixed(0))}</>
