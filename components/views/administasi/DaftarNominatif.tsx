@@ -459,37 +459,6 @@ export default function DaftarNominatif({
             );
           },
         },
-        {
-          title: "SELISIH ASURANSI",
-          dataIndex: "selisih_asuransi",
-          key: "selisih_asuransi",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            const { tahun } = getUsiaMasuk(
-              record.DataPembiayaan.tanggal_lahir,
-              (record.tanggal_cetak_akad || moment()).toString()
-            );
-            const asRate = AsuransiRate.filter(
-              (a) => a.usia == Math.floor(parseInt(tahun))
-            );
-            const perc = record.DataPembiayaan.by_asuransi / 1000;
-            return (
-              <>
-                {formatNumber(
-                  (record.DataPembiayaan.plafond * perc).toFixed(0)
-                )}
-              </>
-            );
-          },
-        },
       ],
     },
     {
@@ -592,6 +561,7 @@ export default function DaftarNominatif({
       title: "ANGSURAN",
       dataIndex: "angsuran",
       key: "angsuran",
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -599,99 +569,21 @@ export default function DaftarNominatif({
           },
         };
       },
-      children: [
-        {
-          title: "ANGSURAN PERBULAN",
-          dataIndex: "angsuranbulan",
-          key: "angsuranbulan",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPembiayaan.mg_bunga,
-                  record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPembiayaan.pembulatan
-            );
-            return <>{formatNumber(angsuran.toFixed(0))}</>;
-          },
-        },
-        {
-          title: "ANGSURAN BANK",
-          dataIndex: "angsuranbank",
-          key: "angsuranbank",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPembiayaan.margin_bank,
-                  record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPembiayaan.pembulatan
-            );
-            return <>{formatNumber(angsuran.toFixed(0))}</>;
-          },
-        },
-        {
-          title: "ANGSURAN KPF",
-          dataIndex: "selisih",
-          key: "selisih",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-              },
-            };
-          },
-          className: "text-center",
-          render(value, record, index) {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPembiayaan.mg_bunga,
-                  record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPembiayaan.pembulatan
-            );
-            const angsuranBank = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPembiayaan.margin_bank,
-                  record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPembiayaan.pembulatan
-            );
-            return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
-          },
-        },
-      ],
+
+      className: "text-center",
+      render(value, record, index) {
+        const angsuran = ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              record.DataPembiayaan.mg_bunga,
+              record.DataPembiayaan.tenor,
+              record.DataPembiayaan.plafond
+            )
+          ),
+          record.DataPembiayaan.pembulatan
+        );
+        return <>{formatNumber(angsuran.toFixed(0))}</>;
+      },
     },
     {
       title: "BLOKIR ANGSURAN",
@@ -719,7 +611,6 @@ export default function DaftarNominatif({
         );
         return (
           <>
-            {/* {record.DataPembiayaan.blokir}x |{" "} */}
             {formatNumber((angsuran * record.DataPembiayaan.blokir).toFixed(0))}
           </>
         );
@@ -989,9 +880,6 @@ export default function DaftarNominatif({
                 <Table.Summary.Cell index={20} className="text-center">
                   <>{formatNumber(asuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={21} className="text-center">
-                  <>{formatNumber(selisihAsuransi.toFixed(0))}</>
-                </Table.Summary.Cell>
                 <Table.Summary.Cell index={22} className="text-center">
                   <>{formatNumber(dataInformasi.toFixed(0))}</>
                 </Table.Summary.Cell>
@@ -1009,12 +897,6 @@ export default function DaftarNominatif({
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={27} className="text-center">
                   <>{formatNumber(totalAngsuran.toFixed(0))}</>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell index={28} className="text-center">
-                  <>{formatNumber(totalAngsuranBank.toFixed(0))}</>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell index={29} className="text-center">
-                  <>{formatNumber(selisihAngsuran.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={30} className="text-center">
                   <>{formatNumber(blokir.toFixed(0))}</>
