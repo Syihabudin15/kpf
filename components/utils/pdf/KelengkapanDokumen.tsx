@@ -4,6 +4,7 @@ import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling } from "./pdfUtil";
 import { DataDataPengajuan } from "../Interfaces";
+import { useEffect } from "react";
 
 export default function KelengkapanDokumen({
   data,
@@ -225,6 +226,237 @@ export default function KelengkapanDokumen({
       { data: "", width: 40 },
     ],
   ];
+  const bodiesBds = [
+    [
+      { data: "1", width: 30 },
+      { data: "KTP Pemohon", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "2", width: 30 },
+      { data: "KTP Suami Istri", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "3", width: 30 },
+      { data: "Kartu Keluarga Pemohon", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "4", width: 30 },
+      { data: "KTP NPWP (untuk pembiayaan > Rp. 50 Jt)", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "5", width: 30 },
+      { data: "Perjanjian Kredit halaman 1, 2 dan 3", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "6", width: 30 },
+      { data: `Jadwal Angsuran untuk ${data.Bank.kode}`, width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "7", width: 30 },
+      { data: "Surat Pernyataan DSR 70%", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "8", width: 30 },
+      { data: "Surat Pernyataan dan Kesanggupan", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "9", width: 30 },
+      { data: "KARIP/Buku ASABRI", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "10", width: 30 },
+      {
+        data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 BulanTerakhir",
+        width: 120,
+      },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "11", width: 30 },
+      {
+        data: "Analisa Perhitungan/Simulasi",
+        width: 120,
+      },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "12", width: 30 },
+      {
+        data: "Form Permohonan Pembiayaan Pensiun",
+        width: 120,
+      },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "13", width: 30 },
+      {
+        data: "Surat Keterangan dan Pernyataan Perihal Kesehatan dan Domisili Debitur",
+        width: 120,
+      },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "14", width: 30 },
+      {
+        data: "Surat Keterangan dan Pernyataan Perihal Perbedaan Identitas",
+        width: 120,
+      },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "15", width: 30 },
+      {
+        data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia",
+        width: 120,
+      },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "16", width: 30 },
+      {
+        data: "Tanda Terima Uang Oleh Nasabah",
+        width: 120,
+      },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+  ];
   const bodyDoc = [
     [
       { data: "1", width: 30 },
@@ -275,6 +507,7 @@ export default function KelengkapanDokumen({
       { data: "", width: 93 },
     ],
   ];
+
   return (
     <Page size={"A4"} style={stylePdf.root}>
       <View
@@ -560,23 +793,47 @@ export default function KelengkapanDokumen({
           </View>
         </View>
         <View>
-          {bodies.map((body, ind) => (
-            <View key={ind} style={{ display: "flex", flexDirection: "row" }}>
-              {body.map((value, index) => (
-                <Text
-                  key={index}
-                  style={{
-                    width: value.width,
-                    border: "1px solid #aaa",
-                    padding: 1,
-                    textAlign: index == 1 ? "left" : "center",
-                  }}
+          {data.Bank.kode === "BPR BDS"
+            ? bodiesBds.map((body, ind) => (
+                <View
+                  key={ind}
+                  style={{ display: "flex", flexDirection: "row" }}
                 >
-                  {value.data}
-                </Text>
+                  {body.map((value, index) => (
+                    <Text
+                      key={index}
+                      style={{
+                        width: value.width,
+                        border: "1px solid #aaa",
+                        padding: 1,
+                        textAlign: index == 1 ? "left" : "center",
+                      }}
+                    >
+                      {value.data}
+                    </Text>
+                  ))}
+                </View>
+              ))
+            : bodies.map((body, ind) => (
+                <View
+                  key={ind}
+                  style={{ display: "flex", flexDirection: "row" }}
+                >
+                  {body.map((value, index) => (
+                    <Text
+                      key={index}
+                      style={{
+                        width: value.width,
+                        border: "1px solid #aaa",
+                        padding: 1,
+                        textAlign: index == 1 ? "left" : "center",
+                      }}
+                    >
+                      {value.data}
+                    </Text>
+                  ))}
+                </View>
               ))}
-            </View>
-          ))}
         </View>
       </View>
       <View style={{ marginTop: 20 }}>

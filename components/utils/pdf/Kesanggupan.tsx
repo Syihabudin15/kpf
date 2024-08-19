@@ -468,7 +468,18 @@ export default function Kesanggupan({
         }}
       >
         <Text style={{ textAlign: "center" }}>Yang membuat pernyataan</Text>
-        <View style={{ height: 80 }}></View>
+        <View
+          style={{
+            height: 80,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text>materai</Text>
+          <Text>Rp. 10.000</Text>
+        </View>
         <View
           style={{
             fontWeight: "bold",

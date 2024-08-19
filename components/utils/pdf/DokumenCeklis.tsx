@@ -53,6 +53,7 @@ export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
       { data: "", width: 93 },
     ],
   ];
+
   const sekat2 = [
     [
       { data: "1", width: 30 },

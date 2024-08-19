@@ -15,6 +15,7 @@ import PerjanjianKreditFlashPage2 from "@/components/utils/pdf/PerjanjianKreditF
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import AnalisaPerhitungan from "@/components/utils/pdf/AnalisaPerhitungan";
 import AkadChanneling from "@/components/utils/pdf/AkadChanneling";
+import TandaTerimaDebitur from "@/components/utils/pdf/TandaTerimaDebitur";
 
 export default function Akad({
   data,
@@ -56,6 +57,7 @@ export default function Akad({
           <Kesanggupan data={data} isFor="DEBITUR" />
           <Kesanggupan data={data} isFor={"KREDITUR"} />
           <TandaTerima data={data} />
+          {data.Bank.kode === "BPR BDS" && <TandaTerimaDebitur data={data} />}
           <KelengkapanDokumen data={data} />
           <DokumenCeklis data={data} />
         </Document>

@@ -48,7 +48,11 @@ export default function DokumenPengajuanMitraBank() {
     );
     const { data, total } = await res.json();
     setTotal(total);
-    setData(data);
+    setData(
+      data.map((d: DataDataPengajuan) => {
+        return { ...d, key: d.id };
+      })
+    );
     setLoading(false);
   };
   useEffect(() => {
@@ -316,6 +320,7 @@ export default function DokumenPengajuanMitraBank() {
                   type: "application/pdf",
                   title: `BERKAS AKAD ${record.DataPembiayaan.name}`,
                 }}
+                key={"akad" + record.id}
               />
             );
           },
@@ -404,6 +409,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "application/pdf",
                     title: `BERKAS PELUNASAN ${record.DataPembiayaan.name}`,
                   }}
+                  key={"pelunasan" + record.id}
                 />
               </>
             );
@@ -461,6 +467,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "application/pdf",
                     title: `BERKAS JAMINAN ${record.DataPembiayaan.name}`,
                   }}
+                  key={"jaminan" + record.id}
                 />
               </>
             );
@@ -518,6 +525,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "application/pdf",
                     title: `BUKU REKENING ${record.DataPembiayaan.name}`,
                   }}
+                  key={"rekening" + record.id}
                 />
               </>
             );
@@ -609,6 +617,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "application/pdf",
                     title: `BERKAS MUTASI ${record.DataPembiayaan.name}`,
                   }}
+                  key={"mutasi" + record.id}
                 />
               </>
             );
@@ -666,6 +675,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "application/pdf",
                     title: `BERKAS FLAGGING ${record.DataPembiayaan.name}`,
                   }}
+                  key={"flagging" + record.id}
                 />
               </>
             );
@@ -723,6 +733,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "application/pdf",
                     title: `BUKTI CAIR ${record.DataPembiayaan.name}`,
                   }}
+                  key={"bukti_cair" + record.id}
                 />
               </>
             );
@@ -780,6 +791,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "video/mp4",
                     title: `VIDEO CAIR ${record.DataPembiayaan.name}`,
                   }}
+                  key={"video-cair1" + record.id}
                 />
               </>
             );
@@ -837,6 +849,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "video/mp4",
                     title: `VIDEO CAIR 2 ${record.DataPembiayaan.name}`,
                   }}
+                  key={"video-cair2" + record.id}
                 />
               </>
             );
@@ -894,6 +907,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "video/mp4",
                     title: `VIDEO CAIR 3 ${record.DataPembiayaan.name}`,
                   }}
+                  key={"video-cair3" + record.id}
                 />
               </>
             );
@@ -951,6 +965,7 @@ export default function DokumenPengajuanMitraBank() {
                     type: "application/pdf",
                     title: `BERKAS EPOTPEN ${record.DataPembiayaan.name}`,
                   }}
+                  key={"epotpen" + record.id}
                 />
               </>
             );
