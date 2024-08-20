@@ -38,11 +38,12 @@ export default function DokumenPengajuanMitraBank() {
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [open, setOpen] = useState(false);
   const [openRiplay, setOpenRiplay] = useState(false);
+  const [pageSize, setPageSize] = useState(20);
 
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/slik/riwayat-pencairan-mitra?page=${page}${
+      `/api/slik/riwayat-pencairan-mitra?page=${page}&pageSize=${pageSize}${
         name ? "&name=" + name : ""
       }${year ? "&year=" + year : ""}`
     );
@@ -59,7 +60,7 @@ export default function DokumenPengajuanMitraBank() {
     (async () => {
       await getData();
     })();
-  }, [page, name, year]);
+  }, [page, name, year, pageSize]);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
@@ -76,7 +77,7 @@ export default function DokumenPengajuanMitraBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        const currPage = (page - 1) * 20;
+        const currPage = (page - 1) * pageSize;
         return <>{currPage + (index + 1)}</>;
       },
     },
@@ -1001,7 +1002,7 @@ export default function DokumenPengajuanMitraBank() {
     <div>
       <div className="flex gap-5 my-1 mx-1">
         <DatePicker
-          picker="year"
+          picker="month"
           onChange={(date, dateString) => setYear(dateString as string)}
         />
         <Input.Search
@@ -1018,10 +1019,11 @@ export default function DokumenPengajuanMitraBank() {
           bordered
           loading={loading}
           pagination={{
-            pageSize: 20,
+            pageSize: pageSize,
             total: total,
             onChange(page, pageSize) {
               setPage(page);
+              setPageSize(pageSize);
             },
           }}
         />

@@ -46,16 +46,19 @@ export default function DokumenPengajuanMitra() {
   const [openUpload, setOpenUpload] = useState(false);
   const [selectedUpload, setSelectedUpload] = useState<DataDataPengajuan>();
   const [openRiplay, setOpenRiplay] = useState(false);
+  const [pageSize, setPageSize] = useState(0);
 
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/ops/pengajuan-mitra?page=${page}${name ? "&name=" + name : ""}`
+      `/api/ops/pengajuan-mitra?page=${page}&pageSize=${pageSize || 20}${
+        name ? "&name=" + name : ""
+      }`
     );
     const { data, total } = await res.json();
     setData(
-      data.map((d: any, ind: number) => {
-        return { ...d, key: ind };
+      data.map((d: DataDataPengajuan) => {
+        return { ...d, key: d.id };
       })
     );
     setTotal(total);
@@ -65,7 +68,7 @@ export default function DokumenPengajuanMitra() {
     (async () => {
       await getData();
     })();
-  }, [name, page]);
+  }, [name, page, pageSize]);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
@@ -82,7 +85,7 @@ export default function DokumenPengajuanMitra() {
       width: 50,
       className: "text-center",
       render(value, record, index) {
-        const currPage = (page - 1) * 20;
+        const currPage = (page - 1) * pageSize;
         return <>{currPage + (index + 1)}</>;
       },
     },
@@ -337,6 +340,7 @@ export default function DokumenPengajuanMitra() {
                   type: "application/pdf",
                   title: `BERKAS AKAD ${record.DataPembiayaan.name}`,
                 }}
+                key={"akad" + record.id}
               />
             );
           },
@@ -425,6 +429,7 @@ export default function DokumenPengajuanMitra() {
                     type: "application/pdf",
                     title: `BERKAS PELUNASAN ${record.DataPembiayaan.name}`,
                   }}
+                  key={"pelunasan" + record.id}
                 />
               </>
             );
@@ -482,6 +487,7 @@ export default function DokumenPengajuanMitra() {
                     type: "application/pdf",
                     title: `BERKAS JAMINAN ${record.DataPembiayaan.name}`,
                   }}
+                  key={"jaminan" + record.id}
                 />
               </>
             );
@@ -539,6 +545,7 @@ export default function DokumenPengajuanMitra() {
                     type: "application/pdf",
                     title: `BUKU REKENING ${record.DataPembiayaan.name}`,
                   }}
+                  key={"rekening" + record.id}
                 />
               </>
             );
@@ -630,6 +637,7 @@ export default function DokumenPengajuanMitra() {
                     type: "application/pdf",
                     title: `BERKAS MUTASI ${record.DataPembiayaan.name}`,
                   }}
+                  key={"mutasi" + record.id}
                 />
               </>
             );
@@ -687,6 +695,7 @@ export default function DokumenPengajuanMitra() {
                     type: "application/pdf",
                     title: `BERKAS FLAGGING ${record.DataPembiayaan.name}`,
                   }}
+                  key={"flagging" + record.id}
                 />
               </>
             );
@@ -744,6 +753,7 @@ export default function DokumenPengajuanMitra() {
                     type: "application/pdf",
                     title: `BUKTI CAIR ${record.DataPembiayaan.name}`,
                   }}
+                  key={"bukticair" + record.id}
                 />
               </>
             );
@@ -801,6 +811,7 @@ export default function DokumenPengajuanMitra() {
                     type: "video/mp4",
                     title: `VIDEO CAIR ${record.DataPembiayaan.name}`,
                   }}
+                  key={"videocair1" + record.id}
                 />
               </>
             );
@@ -858,6 +869,7 @@ export default function DokumenPengajuanMitra() {
                     type: "video/mp4",
                     title: `VIDEO CAIR 2 ${record.DataPembiayaan.name}`,
                   }}
+                  key={"videocair2" + record.id}
                 />
               </>
             );
@@ -915,6 +927,7 @@ export default function DokumenPengajuanMitra() {
                     type: "video/mp4",
                     title: `VIDEO CAIR 3 ${record.DataPembiayaan.name}`,
                   }}
+                  key={"videocair3" + record.id}
                 />
               </>
             );
@@ -972,6 +985,7 @@ export default function DokumenPengajuanMitra() {
                     type: "application/pdf",
                     title: `BERKAS EPOTPEN ${record.DataPembiayaan.name}`,
                   }}
+                  key={"epotpen" + record.id}
                 />
               </>
             );
@@ -1020,10 +1034,11 @@ export default function DokumenPengajuanMitra() {
         dataSource={data}
         loading={loading}
         pagination={{
-          pageSize: 20,
+          pageSize: pageSize,
           total: total,
           onChange(page, pageSize) {
             setPage(page);
+            setPageSize(pageSize);
           },
         }}
       />

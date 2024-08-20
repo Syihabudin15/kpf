@@ -3,13 +3,18 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { daysInMonth } from "@/components/utils/inputUtils";
+import moment from "moment";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
+  const pageSize: number = parseInt(
+    req.nextUrl.searchParams.get("pageSize") || "20"
+  );
   const name = req.nextUrl.searchParams.get("name");
-  const year = req.nextUrl.searchParams.get("year") || new Date().getFullYear();
-  const skip = (page - 1) * 20;
+  const year =
+    req.nextUrl.searchParams.get("year") || moment().format("YYYY-MM");
+  const skip = (page - 1) * pageSize;
   const session = await getServerSession();
   const user = await prisma.user.findFirst({
     where: {
@@ -77,7 +82,7 @@ export const GET = async (req: NextRequest) => {
         PenyerahanJaminan: true,
       },
       skip: skip,
-      take: 20,
+      take: pageSize,
     });
   } else {
     result = <any>await prisma.dataPengajuan.findMany({
@@ -86,9 +91,9 @@ export const GET = async (req: NextRequest) => {
         status_approval: "SETUJU",
         DataPembiayaan: {
           created_at: {
-            gte: new Date(`${year}-01-01`),
+            gte: new Date(`${year}-01`),
             lte: new Date(
-              `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
+              `${year}-${daysInMonth(12, parseInt(year.toString()))}`
             ),
           },
         },
@@ -138,7 +143,7 @@ export const GET = async (req: NextRequest) => {
         PenyerahanJaminan: true,
       },
       skip: skip,
-      take: 20,
+      take: pageSize,
       orderBy: { tanggal_approval: "desc" },
     });
   }
@@ -149,9 +154,9 @@ export const GET = async (req: NextRequest) => {
       status_approval: "SETUJU",
       DataPembiayaan: {
         created_at: {
-          gte: new Date(`${year}-01-01`),
+          gte: new Date(`${year}-01`),
           lte: new Date(
-            `${year}-12-${daysInMonth(12, parseInt(year.toString()))}`
+            `${year}-${daysInMonth(12, parseInt(year.toString()))}`
           ),
         },
       },

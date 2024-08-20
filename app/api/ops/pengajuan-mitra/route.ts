@@ -5,8 +5,11 @@ export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
+  const pageSize: number = parseInt(
+    req.nextUrl.searchParams.get("pageSize") || "20"
+  );
   const name = req.nextUrl.searchParams.get("name");
-  const skip = (page - 1) * 20;
+  const skip = (page - 1) * pageSize;
 
   let result: DataDataPengajuan[] = [];
   if (name) {
@@ -50,7 +53,7 @@ export const GET = async (req: NextRequest) => {
         DataPengajuanPasangan: true,
       },
       skip: skip,
-      take: 20,
+      take: pageSize,
     });
   } else {
     result = <any>await prisma.dataPengajuan.findMany({
@@ -83,7 +86,7 @@ export const GET = async (req: NextRequest) => {
         DataPengajuanPasangan: true,
       },
       skip: skip,
-      take: 20,
+      take: pageSize,
       orderBy: { tanggal_approval: "desc" },
     });
   }
