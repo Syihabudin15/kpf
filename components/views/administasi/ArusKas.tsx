@@ -39,7 +39,11 @@ export default function ArusKas({
     );
     const { data, total } = await res.json();
     setTotal(total);
-    setData(data);
+    setData(
+      data.map((e: DataDataPengajuan) => {
+        return { ...e, key: e.id };
+      })
+    );
     if (selectedBank) {
       setData(data.filter((d: DataDataPengajuan) => d.bankId === selectedBank));
     }
@@ -663,7 +667,9 @@ export default function ArusKas({
                   record.DataPembiayaan.plafond
                 )
               ),
-              record.DataPembiayaan.pembulatan
+              record.Bank.kode === "BPR SIP"
+                ? 1
+                : record.DataPembiayaan.pembulatan
             );
             return <>{formatNumber(angsuran.toFixed(0))}</>;
           },
@@ -700,7 +706,9 @@ export default function ArusKas({
                   record.DataPembiayaan.plafond
                 )
               ),
-              record.DataPembiayaan.pembulatan
+              record.Bank.kode === "BPR SIP"
+                ? 1
+                : record.DataPembiayaan.pembulatan
             );
             return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
           },
@@ -936,7 +944,7 @@ export default function ArusKas({
                     pd.DataPembiayaan.plafond
                   )
                 ),
-                pd.DataPembiayaan.pembulatan
+                pd.Bank.kode === "BPR SIP" ? 1 : pd.DataPembiayaan.pembulatan
               );
               totalAngsuran += angsuran;
               totalAngsuranBank += angsuranBank;
