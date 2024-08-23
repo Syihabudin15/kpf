@@ -377,6 +377,12 @@ export const menusV2: Menus[] = [
         icon: <DiffOutlined />,
       },
       {
+        label: "Arus Kas",
+        url: "/laporan-administrasi/arus-kas",
+        role: ["MASTER"],
+        icon: <DiffOutlined />,
+      },
+      {
         label: "Daftar Outstanding Aktif",
         url: "/laporan-administrasi/outstanding-aktif",
         role: [

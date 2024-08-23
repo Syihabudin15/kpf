@@ -2,10 +2,14 @@ import moment from "moment";
 
 export function formatNumber(n: string) {
   // format number 1000000 to 1,234,567
-  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  if (parseInt(n) < 0) {
+    return `-${n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+  } else {
+    return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 }
 export function formatNumberTitik(n: string) {
-  // format number 1000000 to 1,234,567
+  // format number 1000000 to 1.234.567
   return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 export function inputTextToDecimal(stringValue: string) {

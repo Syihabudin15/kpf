@@ -71,13 +71,16 @@ export const POST = async (req: NextRequest) => {
     );
   try {
     const result = await prisma.$transaction(async (tx) => {
+      const find = await prisma.dataPengajuan.findFirst({
+        where: { id: data.pengajuans[0] },
+      });
       const createPencairan = await tx.dataPencairan.create({
         data: {
           tanggal_cetak: data.tanggal_cetak
             ? new Date(data.tanggal_cetak)
             : new Date(),
           nomor_surat: data.nomor_surat,
-          bankId: data.id,
+          bankId: find?.bankId,
         },
       });
       for (let i = 0; i < data.pengajuans.length; i++) {

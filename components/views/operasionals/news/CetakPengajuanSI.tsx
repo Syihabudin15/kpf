@@ -24,11 +24,9 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
   const [loading, setLoading] = useState(false);
   const [modalCetak, setModalCetak] = useState(false);
   const [selectedRow, setSelectedRow] = useState<React.Key[]>([]);
-  const [selectedDatas, setSelectedDatas] = useState<BankWithDataPengajuan[]>(
-    []
-  );
   const [tanggalSI, setTanggalSI] = useState<string>();
   const [nomorSurat, setNomorSurat] = useState<string>();
+  const [ids, setIds] = useState<string[]>([]);
   const ntf = useContext(notifContext);
 
   const getData = async () => {
@@ -50,22 +48,14 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
 
   // Handle Cetak Berkas SI
   const handleCetak = async (e: any) => {
-    if (selectedDatas && selectedDatas[0].DataPengajuan.length == 0) {
-      return;
-    }
-    let dataPengajuanIds: string[] = [];
-    selectedDatas[0].DataPengajuan.forEach((p) => {
-      dataPengajuanIds.push(p.id);
-    });
     setLoading(true);
     const res = await fetch("/api/ops/si-pencairan", {
       method: "POST",
       headers: { "Content-Type": "Application/json" },
       body: JSON.stringify({
         nomor_surat: nomorSurat,
-        id: selectedDatas[0].id,
         tanggal_cetak: tanggalSI || new Date(),
-        pengajuans: dataPengajuanIds,
+        pengajuans: ids,
       }),
     });
     const result = await res.json();
@@ -298,7 +288,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
         <button
           className="bg-green-500 hover:bg-green-600 text-white text-xs px-2 py-2 rounded shadow"
           onClick={() => {
-            if (selectedDatas.length == 0) {
+            if (!ids) {
               return message.error("Mohon pilih satu data!");
             }
             setModalCetak(true);
@@ -314,17 +304,6 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
         bordered
         scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
         loading={loading}
-        rowSelection={{
-          selectedRowKeys: selectedRow,
-          onChange(selectedRowKeys, selectedRows, info) {
-            if (selectedRows.length > 1) {
-              message.error("Hanya dapat memilih satu data!");
-              return;
-            }
-            setSelectedRow(selectedRowKeys);
-            setSelectedDatas(selectedRows);
-          },
-        }}
         expandable={{
           expandedRowRender: (record) => {
             return (
@@ -335,8 +314,30 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
                 })}
                 bordered
                 size="small"
-                // scroll={{ x: 1000 }}
                 pagination={false}
+                rowSelection={{
+                  selectedRowKeys: selectedRow,
+                  onChange(selectedRowKeys, selectedRows, info) {
+                    setSelectedRow(selectedRowKeys);
+                    if (selectedRows) {
+                      let bankId = selectedRows[0].bankId;
+                      selectedRows.forEach((e) => {
+                        if (e.bankId !== bankId) {
+                          Modal.error({
+                            title: "Error",
+                            content: "Mohon pilih sumber dana yang sama!",
+                            closable: true,
+                            footer: [],
+                          });
+                          return;
+                        }
+                      });
+                      setIds(selectedRows.map((a) => a.id));
+                    } else {
+                      setIds([]);
+                    }
+                  },
+                }}
               />
             );
           },
@@ -350,9 +351,6 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
         footer={[]}
       >
         <div>
-          <div className="font-bold bg-orange-500 text-white text-center my-2 py-2">
-            {selectedDatas.length > 0 && selectedDatas[0].name}
-          </div>
           <Form labelCol={{ span: 6 }} onFinish={handleCetak}>
             <Form.Item label="Tanggal Cetak" required>
               <DatePicker
@@ -382,11 +380,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
             </Form.Item>
             <Form.Item label="End User" required>
               <Input
-                value={
-                  selectedDatas.length > 0
-                    ? selectedDatas[0].DataPengajuan.length
-                    : 0
-                }
+                value={ids.length}
                 required
                 disabled
                 style={{ backgroundColor: "white", color: "black" }}
