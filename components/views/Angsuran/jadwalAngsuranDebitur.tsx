@@ -1,16 +1,20 @@
 "use client";
-import { AngsuranDebitur } from "@/components/utils/Interfaces";
+import {
+  AngsuranDebitur,
+  JadwalAngsuranDebitur as JDANGS,
+} from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import {
   CheckCircleOutlined,
   LoadingOutlined,
   MinusCircleOutlined,
 } from "@ant-design/icons";
-import { JadwalAngsuran } from "@prisma/client";
 import { Spin, Table, TableProps, message } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 
 const CetakExcelAngsuranDebitur = dynamic(
   () => import("@/components/views/Angsuran/CetakExcelAngsuranDebitur"),
@@ -37,7 +41,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
       const res = await fetch(`/api/angsuran?id=${id}`);
       const result = await res.json();
       result.data.JadwalAngsuran.sort(
-        (a: JadwalAngsuran, b: JadwalAngsuran) => a.angsuran_ke - b.angsuran_ke
+        (a: JDANGS, b: JDANGS) => a.angsuran_ke - b.angsuran_ke
       );
       setData(result.data);
     } catch (err) {
@@ -86,7 +90,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
     await getData();
   };
 
-  const columns: TableProps<JadwalAngsuran>["columns"] = [
+  const columns: TableProps<JDANGS>["columns"] = [
     {
       title: "NO",
       dataIndex: "angsuran_ke",
@@ -120,9 +124,8 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
     },
     {
       title: "ANGSURAN",
-      dataIndex: "angsuran",
       key: "angsuran",
-      width: 150,
+      dataIndex: "angsuran",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -130,10 +133,95 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
           },
         };
       },
-      className: "text-center",
-      render(value, record, index) {
-        return <>{formatNumber(record.angsuran.toFixed(0))}</>;
-      },
+      children: [
+        {
+          title: "ANGSURAN",
+          dataIndex: "angsuran_perbulan",
+          key: "angsuran_perbulan",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            return <>{formatNumber(record.angsuran.toFixed(0))}</>;
+          },
+        },
+        {
+          title: "ANGSURAN BANK",
+          dataIndex: "angsuran_bank",
+          key: "angsuran_bank",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            const angsuran = ceiling(
+              parseInt(
+                getAngsuranPerBulan(
+                  record.DataPengajuan.DataPembiayaan.margin_bank,
+                  record.DataPengajuan.DataPembiayaan.tenor,
+                  record.DataPengajuan.DataPembiayaan.plafond
+                )
+              ),
+              record.DataPengajuan.Bank.kode === "BPR SIP"
+                ? 0
+                : record.DataPengajuan.DataPembiayaan.pembulatan
+            );
+            return <>{formatNumber(angsuran.toFixed(0))}</>;
+          },
+        },
+        {
+          title: "SELISIH",
+          dataIndex: "selisih",
+          key: "selisih",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          render(value, record, index) {
+            const angsuran = ceiling(
+              parseInt(
+                getAngsuranPerBulan(
+                  record.DataPengajuan.DataPembiayaan.mg_bunga,
+                  record.DataPengajuan.DataPembiayaan.tenor,
+                  record.DataPengajuan.DataPembiayaan.plafond
+                )
+              ),
+              record.DataPengajuan.Bank.kode === "BPR SIP"
+                ? 0
+                : record.DataPengajuan.DataPembiayaan.pembulatan
+            );
+            const angsuranBank = ceiling(
+              parseInt(
+                getAngsuranPerBulan(
+                  record.DataPengajuan.DataPembiayaan.margin_bank,
+                  record.DataPengajuan.DataPembiayaan.tenor,
+                  record.DataPengajuan.DataPembiayaan.plafond
+                )
+              ),
+              record.DataPengajuan.Bank.kode === "BPR SIP"
+                ? 0
+                : record.DataPengajuan.DataPembiayaan.pembulatan
+            );
+            return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
+          },
+        },
+      ],
     },
     {
       title: "POKOK",

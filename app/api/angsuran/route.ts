@@ -7,7 +7,16 @@ export const GET = async (req: NextRequest) => {
     const result = await prisma.dataPengajuan.findFirst({
       where: { id: id },
       include: {
-        JadwalAngsuran: true,
+        JadwalAngsuran: {
+          include: {
+            DataPengajuan: {
+              include: {
+                DataPembiayaan: true,
+                Bank: true,
+              },
+            },
+          },
+        },
         DataPembiayaan: {
           include: {
             Produk: true,
