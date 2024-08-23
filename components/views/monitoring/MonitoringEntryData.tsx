@@ -188,6 +188,7 @@ export default function MonitoringEntryData() {
     );
     setTotal(total);
     setLoading(false);
+    setSelectedData(undefined);
   };
 
   useEffect(() => {
@@ -229,7 +230,7 @@ export default function MonitoringEntryData() {
       },
       className: "text-center",
       render(value, record, index) {
-        const currPage = (page - 1) * 20;
+        const currPage = (page - 1) * pageSize;
         return <>{currPage + (index + 1)}</>;
       },
     },
@@ -442,6 +443,7 @@ export default function MonitoringEntryData() {
                   type: "application/pdf",
                   title: `Berkas Akad ${record.nomor_akad}`,
                 }}
+                key={"akad" + record.id}
               />
             );
           },
@@ -959,6 +961,7 @@ export default function MonitoringEntryData() {
             setFrom(info && info[0]);
             setTo(info && info[1]);
           }}
+          width={170}
         />
         {/* <DatePicker
           picker="month"
@@ -1006,8 +1009,9 @@ export default function MonitoringEntryData() {
             pageSize: pageSize,
             pageSizeOptions: [10, 20, 50, 100, 150, 200],
             total,
-            onChange(page, setPageSize) {
+            onChange(page, pageSize) {
               setPage(page);
+              setPageSize(pageSize);
             },
           }}
         />
@@ -1037,6 +1041,7 @@ export default function MonitoringEntryData() {
           allowForm={true}
           open={open}
           setOpen={setOpen}
+          key={selectedData.id || ""}
         />
       )}
       {selectedData && (
@@ -1050,6 +1055,7 @@ export default function MonitoringEntryData() {
           provinsi={provinsi || []}
           open={modalEdit}
           setOpen={setModalEdit}
+          key={selectedData.id || ""}
         />
       )}
     </div>

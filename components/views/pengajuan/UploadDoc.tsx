@@ -104,7 +104,7 @@ export default function UploadDoc({
     const { onSuccess, onError, file, onProgress } = options;
 
     try {
-      setBerkasSlik({ fileName: "", progres: 1 });
+      setBerkasSlik({ fileName: "", progres: 0 });
       const base64 = await getBase64(file);
       const res = await axios.post(
         "/api/slik/berkas/slik",
@@ -119,20 +119,15 @@ export default function UploadDoc({
           onUploadProgress: (event: any) => {
             const percent = Math.floor((event.loaded / event.total) * 100);
             setBerkasSlik({ fileName: "", progres: percent });
-            if (percent === 100) {
-              setBerkasSlik({ fileName: "", progres: 100 });
-            }
             onProgress({ percent: (event.loaded / event.total) * 100 });
           },
         }
       );
 
-      onSuccess("done");
       setBerkasSlik((prev) => {
         return {
           ...prev,
           fileName: res.data.url,
-          progres: 100,
         };
       });
     } catch (err) {
@@ -146,7 +141,7 @@ export default function UploadDoc({
     const { onSuccess, onError, file, onProgress } = options;
 
     try {
-      setBerkasPengajuan({ fileName: "", progres: 1 });
+      setBerkasPengajuan({ fileName: "", progres: 0 });
       const base64 = await getBase64(file);
       const res = await axios.post(
         "/api/slik/berkas/pengajuan",
@@ -161,20 +156,15 @@ export default function UploadDoc({
           onUploadProgress: (event: any) => {
             const percent = Math.floor((event.loaded / event.total) * 100);
             setBerkasPengajuan({ fileName: "", progres: percent });
-            if (percent === 100) {
-              setBerkasPengajuan({ fileName: "", progres: 100 });
-            }
             onProgress({ percent: (event.loaded / event.total) * 100 });
           },
         }
       );
 
-      onSuccess("done");
       setBerkasPengajuan((prev) => {
         return {
           ...prev,
           fileName: res.data.url,
-          progres: 100,
         };
       });
     } catch (err) {
@@ -188,7 +178,7 @@ export default function UploadDoc({
     const { onSuccess, onError, file, onProgress } = options;
 
     try {
-      setBerkasIDPB({ fileName: "", progres: 1 });
+      setBerkasIDPB({ fileName: "", progres: 0 });
       const base64 = await getBase64(file);
       const res = await axios.post(
         "/api/slik/berkas/idpb",
@@ -203,20 +193,15 @@ export default function UploadDoc({
           onUploadProgress: (event: any) => {
             const percent = Math.floor((event.loaded / event.total) * 100);
             setBerkasIDPB({ fileName: "", progres: percent });
-            if (percent === 100) {
-              setBerkasIDPB({ fileName: "", progres: 100 });
-            }
             onProgress({ percent: (event.loaded / event.total) * 100 });
           },
         }
       );
 
-      onSuccess("done");
       setBerkasIDPB((prev) => {
         return {
           ...prev,
           fileName: res.data.url,
-          progres: 100,
         };
       });
     } catch (err) {
@@ -230,7 +215,7 @@ export default function UploadDoc({
     const { onSuccess, onError, file, onProgress } = options;
 
     try {
-      setBerkasFlagging({ fileName: "", progres: 1 });
+      setBerkasFlagging({ fileName: "", progres: 0 });
       const base64 = await getBase64(file);
       const res = await axios.post(
         "/api/slik/berkas/flagging",
@@ -245,20 +230,15 @@ export default function UploadDoc({
           onUploadProgress: (event: any) => {
             const percent = Math.floor((event.loaded / event.total) * 100);
             setBerkasFlagging({ fileName: "", progres: percent });
-            if (percent === 100) {
-              setBerkasFlagging({ fileName: "", progres: 100 });
-            }
             onProgress({ percent: (event.loaded / event.total) * 100 });
           },
         }
       );
 
-      onSuccess("done");
       setBerkasFlagging((prev) => {
         return {
           ...prev,
           fileName: res.data.url,
-          progres: 100,
         };
       });
     } catch (err) {
@@ -272,7 +252,7 @@ export default function UploadDoc({
     const { onSuccess, onError, file, onProgress } = options;
 
     try {
-      setBerkasWawancara({ fileName: "", progres: 1 });
+      setBerkasWawancara({ fileName: "", progres: 0 });
       const base64 = await getBase64(file);
       const res = await axios.post(
         "/api/slik/berkas/wawancara",
@@ -287,20 +267,15 @@ export default function UploadDoc({
           onUploadProgress: (event: any) => {
             const percent = Math.floor((event.loaded / event.total) * 100);
             setBerkasWawancara({ fileName: "", progres: percent });
-            if (percent == 100) {
-              setBerkasWawancara({ fileName: "", progres: 100 });
-            }
             onProgress({ percent: (event.loaded / event.total) * 100 });
           },
         }
       );
 
-      onSuccess("done");
       setBerkasWawancara((prev) => {
         return {
           ...prev,
           fileName: res.data.url,
-          progres: 100,
         };
       });
     } catch (err) {
@@ -329,20 +304,15 @@ export default function UploadDoc({
           onUploadProgress: (event: any) => {
             const percent = Math.floor((event.loaded / event.total) * 100);
             setBerkasAsuransi({ fileName: "", progres: percent });
-            if (percent === 100) {
-              setBerkasAsuransi({ fileName: "", progres: 100 });
-            }
             onProgress({ percent: (event.loaded / event.total) * 100 });
           },
         }
       );
 
-      onSuccess("done");
       setBerkasAsuransi((prev) => {
         return {
           ...prev,
           fileName: res.data.url,
-          progres: 100,
         };
       });
     } catch (err) {

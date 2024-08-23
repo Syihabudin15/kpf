@@ -60,7 +60,6 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
           PLAFON: d.DataPembiayaan.plafond,
           TENOR: d.DataPembiayaan.tenor,
           MARGIN: d.DataPembiayaan.mg_bunga,
-          "ANGSURAN PERBULAN": angsuran,
           [`ADMIN ${d.Bank.kode}`]: adminBank,
           [`ADMIN MITRA`]: adminKoperasi,
           [`PENCADANGAN PUSAT`]: cadangan,
@@ -74,6 +73,7 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
           "BIAYA MUTASI": d.DataPembiayaan.by_mutasi,
           "BIAYA PROVISI": d.DataPembiayaan.by_provisi,
           "BUNGA BERJALAN": 0,
+          "ANGSURAN PERBULAN": angsuran,
           "POTONGAN DIMUKA": d.DataPembiayaan.blokir,
           "ANGSURAN DIMUKA": blokir,
           "TAKE OVER": d.DataPembiayaan.pelunasan + d.DataPembiayaan.bpp,
@@ -94,7 +94,6 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
           "NO SK": d.nomor_sk_pensiun,
           MARKETING: d.User.first_name + " " + d.User.last_name,
           "AGENT FRONTING": d.agent_fronting,
-          "KODE REFFERAL": d.DataPembiayaan.Refferal.kode,
           "AREA PELAYANAN": d.User.UnitCabang.UnitPelayanan.name,
         };
       });

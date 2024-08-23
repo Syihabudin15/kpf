@@ -67,7 +67,7 @@ export default function EditPengajuan({
               items={[
                 {
                   label: "Edit Pengajuan",
-                  key: "edit-pengajuan",
+                  key: "edit-pengajuan" + data.id,
                   children: (
                     <FormEditPengajuan
                       setOpen={setOpen}
@@ -78,6 +78,7 @@ export default function EditPengajuan({
                       upOpt={upOpt}
                       refferalOpt={refferalOpt}
                       provinsi={provinsi}
+                      key={data.id || ""}
                     />
                   ),
                 },
@@ -105,6 +106,7 @@ export default function EditPengajuan({
                     <ViewBerkas
                       currUrl={data.BerkasPengajuan.berkas_slik || ""}
                       currType="application/pdf"
+                      key={"slik" + data.id}
                     />
                   ),
                 },
@@ -115,6 +117,7 @@ export default function EditPengajuan({
                     <ViewBerkas
                       currUrl={data.BerkasPengajuan.berkas_pengajuan || ""}
                       currType="application/pdf"
+                      key={"pengajuan" + data.id}
                     />
                   ),
                 },
@@ -125,6 +128,7 @@ export default function EditPengajuan({
                     <ViewBerkas
                       currUrl={data.BerkasPengajuan.video_asuransi || ""}
                       currType="video/mp4"
+                      key={"asuransi" + data.id}
                     />
                   ),
                 },
@@ -135,6 +139,7 @@ export default function EditPengajuan({
                     <ViewBerkas
                       currUrl={data.BerkasPengajuan.video_wawancara || ""}
                       currType="video/mp4"
+                      key={"Wawancara" + data.id}
                     />
                   ),
                 },

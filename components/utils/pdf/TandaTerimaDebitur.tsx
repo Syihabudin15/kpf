@@ -1,12 +1,49 @@
 import { DataDataPengajuan } from "../Interfaces";
 import { Image, Page, Text, View } from "@react-pdf/renderer";
 import { stylePdf } from "./stylePdf";
+import { formatNumber } from "../inputUtils";
+import { ceiling } from "./pdfUtil";
+import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
+const angkaTerbilang = require("angka-menjadi-terbilang");
 
 export default function TandaTerimaDebitur({
   data,
 }: {
   data: DataDataPengajuan;
 }) {
+  const admin =
+    data.DataPembiayaan.plafond *
+    ((data.DataPembiayaan.by_admin +
+      data.DataPembiayaan.by_admin_bank +
+      data.DataPembiayaan.by_lainnya) /
+      100);
+  const asuransi =
+    data.DataPembiayaan.plafond * (data.DataPembiayaan.by_asuransi / 100);
+  const angsuran = ceiling(
+    parseInt(
+      getAngsuranPerBulan(
+        data.DataPembiayaan.mg_bunga,
+        data.DataPembiayaan.tenor,
+        data.DataPembiayaan.plafond
+      )
+    ),
+    data.DataPembiayaan.pembulatan
+  );
+  const blokir = data.DataPembiayaan.blokir * angsuran;
+
+  const kotor =
+    data.DataPembiayaan.plafond -
+    (admin +
+      asuransi +
+      data.DataPembiayaan.by_tatalaksana +
+      data.DataPembiayaan.by_materai +
+      data.DataPembiayaan.by_buka_rekening +
+      data.DataPembiayaan.by_mutasi +
+      data.DataPembiayaan.by_epotpen +
+      data.DataPembiayaan.by_flagging +
+      data.DataPembiayaan.by_provisi);
+  const bersih =
+    kotor - (data.DataPembiayaan.bpp + data.DataPembiayaan.pelunasan);
   return (
     <Page size={"A4"} style={stylePdf.root}>
       <View
@@ -36,22 +73,23 @@ export default function TandaTerimaDebitur({
         <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
           <Text style={{ width: 50 }}>Nama</Text>
           <Text style={{ width: 20 }}>:</Text>
-          <Text>....................................</Text>
+          <Text>{data.nama}</Text>
         </View>
         <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
           <Text style={{ width: 50 }}>Pekerjaan</Text>
           <Text style={{ width: 20 }}>:</Text>
-          <Text>....................................</Text>
+          <Text>{data.pekerjaan_sekarang}</Text>
         </View>
         <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
           <Text style={{ width: 50 }}>Alamat</Text>
           <Text style={{ width: 20 }}>:</Text>
-          <Text>....................................</Text>
-        </View>
-        <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
-          <Text style={{ width: 50 }}></Text>
-          <Text style={{ width: 20 }}></Text>
-          <Text>....................................</Text>
+          <Text style={{ width: 200, lineHeight: 2 }}>
+            {data.DataPengajuanAlamat.alamat} {data.DataPengajuanAlamat.rt}/
+            {data.DataPengajuanAlamat.rw}, {data.DataPengajuanAlamat.kelurahan}{" "}
+            {data.DataPengajuanAlamat.kecamatan},{" "}
+            {data.DataPengajuanAlamat.kota} {data.DataPengajuanAlamat.provinsi}{" "}
+            {data.DataPengajuanAlamat.kode_pos}
+          </Text>
         </View>
       </View>
       <View style={{ marginTop: 30, lineHeight: 2 }}>
@@ -59,8 +97,14 @@ export default function TandaTerimaDebitur({
         <Text>
           Bahwa saya telah menerima uang dari PT. BPR Bina Dana Swadaya sejumlah{" "}
           <Text style={{ fontWeight: "bold" }}>
-            Rp. ...................................
-            (...........................................................................)
+            Rp. {formatNumber(bersih.toFixed(0))} (
+            {angkaTerbilang(bersih)
+              .split(" ")
+              .map(function (word: string) {
+                return word.charAt(0).toUpperCase().concat(word.substr(1));
+              })
+              .join(" ")}{" "}
+            Rupiah)
           </Text>
         </Text>
         <Text>

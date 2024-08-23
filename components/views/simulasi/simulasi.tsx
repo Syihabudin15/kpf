@@ -1417,6 +1417,15 @@ export default function Simulasi() {
                   {selectedProduk ? selectedProduk?.name : "-"}
                 </div>
               </div>
+              <div
+                className="flex justify-between sm:py-0 border-b border-gray-200 font-bold"
+                style={{ padding: "2.5px 0" }}
+              >
+                <div>Sumber Dana</div>
+                <div className="text-right">
+                  {selectedBank ? selectedBank.name : "-"}
+                </div>
+              </div>
               {selectedBank && selectedBank.kode === "BPR SIP" && (
                 <div
                   className="flex justify-between sm:py-0 border-b border-gray-200"

@@ -795,6 +795,7 @@ export default function MonitoringBank() {
           allowForm={true}
           open={open}
           setOpen={setOpen}
+          key={selected.id || ""}
         />
       )}
     </div>

@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from "react";
 import CetakDaftarNominatif from "./CetakDaftarNominatif";
 import { Bank, User } from "@prisma/client";
-import { AsuransiRate } from "@/components/utils/AsuransiRate";
 const { RangePicker } = DatePicker;
 
 export default function DaftarNominatif({

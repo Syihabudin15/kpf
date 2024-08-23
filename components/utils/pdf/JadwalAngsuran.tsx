@@ -28,6 +28,8 @@ export default function JadwalAngsuran({
       angsuran: formatNumber(angs.angsuran),
       pokok: formatNumber(angs.pokok),
       margin: formatNumber(angs.margin),
+      // margin_bank: formatNumber(angs.margin_bank),
+      // collfee: formatNumber(angs.collfee),
       sisa: formatNumber(angs.sisa),
     };
   });
@@ -198,5 +200,11 @@ const headerAngsuran: TablePdfHeaders[] = [
   { title: "Angsuran", dataIndex: "angsuran", style: { textAlign: "center" } },
   { title: "Pokok", dataIndex: "pokok", style: { textAlign: "center" } },
   { title: "Margin", dataIndex: "margin", style: { textAlign: "center" } },
+  // {
+  //   title: "Margin Bank",
+  //   dataIndex: "margin_bank",
+  //   style: { textAlign: "center" },
+  // },
+  // { title: "Collfee", dataIndex: "collfee", style: { textAlign: "center" } },
   { title: "Sisa Pokok", dataIndex: "sisa", style: { textAlign: "center" } },
 ];

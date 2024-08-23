@@ -58,7 +58,7 @@ export default function CetakAkad({ data }: { data: DataDataPengajuan }) {
       data.jenis_margin = e.jenis_margin;
       data.DataPembiayaan.mg_bunga = parseFloat(e.mg_bunga);
 
-      const getAngsuran =  generateTableAngsuran(data);
+      const getAngsuran = generateTableAngsuran(data);
       setAngsurans(getAngsuran);
       const angsSave = await fetch("/api/angsuran", {
         method: "POST",
@@ -69,9 +69,9 @@ export default function CetakAkad({ data }: { data: DataDataPengajuan }) {
         }),
       });
       console.log(getAngsuran);
-      if(!angsSave.ok){
-        const {msg, data} = await angsSave.json();
-        console.log({msg, data});
+      if (!angsSave.ok) {
+        const { msg, data } = await angsSave.json();
+        console.log({ msg, data });
         setLoading(false);
         return message.error("Gagal menyimpan data angsuran!");
       }

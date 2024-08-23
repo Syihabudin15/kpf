@@ -122,7 +122,9 @@ const handleMaster = async (skip: number, name: string | null) => {
           r.DataPengajuan.DataPembiayaan.plafond
         )
       ),
-      r.DataPengajuan.DataPembiayaan.pembulatan
+      r.DataPengajuan.Bank.kode === "BPR SIP"
+        ? 0
+        : r.DataPengajuan.DataPembiayaan.pembulatan
     );
     const angBank = ceiling(
       parseInt(
@@ -132,7 +134,9 @@ const handleMaster = async (skip: number, name: string | null) => {
           r.DataPengajuan.DataPembiayaan.plafond
         )
       ),
-      r.DataPengajuan.DataPembiayaan.pembulatan
+      r.DataPengajuan.Bank.kode === "BPR SIP"
+        ? 0
+        : r.DataPengajuan.DataPembiayaan.pembulatan
     );
     return {
       id: r.id,
@@ -159,7 +163,6 @@ const handleBank = async (
   name: string | null
 ) => {
   let result: AngsuranPengajuan[] = [];
-  const dateTime = new Date();
 
   if (name) {
     result = <any>await prisma.jadwalAngsuran.findMany({
@@ -253,7 +256,9 @@ const handleBank = async (
           r.DataPengajuan.DataPembiayaan.plafond
         )
       ),
-      r.DataPengajuan.DataPembiayaan.pembulatan
+      r.DataPengajuan.Bank.kode === "BPR SIP"
+        ? 0
+        : r.DataPengajuan.DataPembiayaan.pembulatan
     );
     const angBank = ceiling(
       parseInt(
@@ -263,7 +268,9 @@ const handleBank = async (
           r.DataPengajuan.DataPembiayaan.plafond
         )
       ),
-      r.DataPengajuan.DataPembiayaan.pembulatan
+      r.DataPengajuan.Bank.kode === "BPR SIP"
+        ? 0
+        : r.DataPengajuan.DataPembiayaan.pembulatan
     );
     return {
       id: r.id,

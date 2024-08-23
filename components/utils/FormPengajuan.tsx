@@ -1282,7 +1282,16 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Blokir Angsuran" name={"blokir_angsuran"}>
+              <Form.Item
+                label="Blokir Angsuran"
+                name={"jumlah_blokir_angsuran"}
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Blokir Angsuran (Rp)" name={"blokir_angsuran"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}

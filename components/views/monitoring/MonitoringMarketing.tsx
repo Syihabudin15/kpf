@@ -39,6 +39,7 @@ export default function MonitoringMarketing() {
     setData(data);
     setTotal(total);
     setLoading(false);
+    setSelected(undefined);
   };
 
   useEffect(() => {

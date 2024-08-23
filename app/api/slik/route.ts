@@ -180,23 +180,23 @@ export const POST = async (req: NextRequest) => {
     );
   data.DataPembiayaan.user_id = findUser.id;
   try {
-    const findPengajuan = await prisma.dataPengajuan.findFirst({
-      where: {
-        AND: [
-          { DataPembiayaan: { nopen: data.DataPembiayaan.nopen } },
-          { is_active: true, status_lunas: false },
-        ],
-      },
-    });
+    // const findPengajuan = await prisma.dataPengajuan.findFirst({
+    //   where: {
+    //     AND: [
+    //       { DataPembiayaan: { nopen: data.DataPembiayaan.nopen } },
+    //       { is_active: true, status_lunas: false },
+    //     ],
+    //   },
+    // });
 
-    if (findPengajuan && data.DataPembiayaan.jenis_pembiayaan_id) {
-      return NextResponse.json(
-        {
-          msg: "Nopen ini masih memiliki pinjaman di KPF!",
-        },
-        { status: 400, statusText: "BAD REQUEST" }
-      );
-    }
+    // if (findPengajuan && data.DataPembiayaan.jenis_pembiayaan_id) {
+    //   return NextResponse.json(
+    //     {
+    //       msg: "Nopen ini masih memiliki pinjaman di KPF!",
+    //     },
+    //     { status: 400, statusText: "BAD REQUEST" }
+    //   );
+    // }
     data.DataPembiayaan.is_simulasi = false;
 
     const find = await prisma.dataTaspen.findFirst({

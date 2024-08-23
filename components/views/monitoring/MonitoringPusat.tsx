@@ -208,6 +208,7 @@ export default function MonitoringPusat() {
     );
     setTotal(total);
     setLoading(false);
+    setSelected(undefined);
   };
 
   useEffect(() => {
@@ -249,7 +250,7 @@ export default function MonitoringPusat() {
       },
       className: "text-center",
       render(value, record, index) {
-        const currPage = (page - 1) * 20;
+        const currPage = (page - 1) * pageSize;
         return <>{currPage + (index + 1)}</>;
       },
     },
@@ -465,6 +466,7 @@ export default function MonitoringPusat() {
                     type: "application/pdf",
                     title: `BERKAS AKAD ${record.DataPembiayaan.name}`,
                   }}
+                  key={"akad" + record.id}
                 />
               </>
             );
@@ -1037,6 +1039,7 @@ export default function MonitoringPusat() {
             setTo(info && info[1]);
           }}
           size="small"
+          width={170}
         />
         <Input.Search
           style={{ width: 150 }}
@@ -1120,6 +1123,7 @@ export default function MonitoringPusat() {
           allowForm={true}
           open={open}
           setOpen={setOpen}
+          key={selected.id || ""}
         />
       )}
       {selected && (
@@ -1133,6 +1137,7 @@ export default function MonitoringPusat() {
           provinsi={provinsi || []}
           open={modalEdit}
           setOpen={setModalEdit}
+          key={selected.id || ""}
         />
       )}
     </div>

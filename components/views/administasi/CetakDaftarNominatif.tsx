@@ -31,6 +31,7 @@ export default function CetakDaftarNominatif({
       let totalTakeOver = 0;
       let totalPencairan = 0;
       let totalProvisi = 0;
+      let totalAngsuran = 0;
 
       const newData: any[] = data.map((d: DataDataPengajuan, ind: number) => {
         const plafond = d.DataPembiayaan.plafond;
@@ -86,6 +87,7 @@ export default function CetakDaftarNominatif({
         totalTakeOver += takeOver;
         totalPencairan += pencairan;
         totalProvisi += provisi;
+        totalAngsuran += angsuran;
 
         if (d.Bank.kode === "BPR SIP") {
           return {
@@ -117,6 +119,7 @@ export default function CetakDaftarNominatif({
             "BIAYA MATERAI": materai,
             "BIAYA MUTASI": mutasi,
             "BIAYA LAYANAN KREDIT": provisi,
+            "ANGSURAN PERBULAN": angsuran,
             "BLOKIR ANGSURAN": blokir,
             "NOMINAL TAKE OVER": takeOver,
             PENCAIRAN: pencairan,
@@ -152,6 +155,7 @@ export default function CetakDaftarNominatif({
             "BIAYA MATERAI": materai,
             "BIAYA MUTASI": mutasi,
             "BIAYA PROVISI": provisi,
+            "ANGSURAN PERBULAN": angsuran,
             "BLOKIR ANGSURAN": blokir,
             "NOMINAL TAKE OVER": takeOver,
             PENCAIRAN: pencairan,
@@ -184,6 +188,7 @@ export default function CetakDaftarNominatif({
         "BIAYA MATERAI": totalMaterai,
         "BIAYA MUTASI": totalMutasi,
         "BIAYA PROVISI": totalProvisi,
+        "ANGSURAN PERBULAN": totalAngsuran,
         "BLOKIR ANGSURAN": totalBlokir,
         "NOMINAL TAKE OVER": totalTakeOver,
         PENCAIRAN: totalPencairan,
