@@ -27,6 +27,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
   const [tanggalSI, setTanggalSI] = useState<string>();
   const [nomorSurat, setNomorSurat] = useState<string>();
   const [ids, setIds] = useState<string[]>([]);
+  const [bankName, setBankName] = useState<string>("");
   const ntf = useContext(notifContext);
 
   const getData = async () => {
@@ -321,6 +322,7 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
                     setSelectedRow(selectedRowKeys);
                     if (selectedRows) {
                       let bankId = selectedRows[0].bankId;
+                      setBankName(selectedRows[0].Bank.kode || "");
                       selectedRows.forEach((e) => {
                         if (e.bankId !== bankId) {
                           Modal.error({
@@ -354,7 +356,6 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
           <Form labelCol={{ span: 6 }} onFinish={handleCetak}>
             <Form.Item label="Tanggal Cetak" required>
               <DatePicker
-                // type="date"
                 required
                 format="DD/MM/YYYY"
                 onChange={(date: any, dateString: any) => {
@@ -367,7 +368,9 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
                     split[0],
                   ]).format("YYYY-MM-DD");
                   setTanggalSI(result);
-                  setNomorSurat(`/KPF-OPS/${moment(result).format("MMYYYY")}`);
+                  setNomorSurat(
+                    `/KPF-OPS/${bankName}/${moment(result).format("MMYYYY")}`
+                  );
                 }}
               />
             </Form.Item>

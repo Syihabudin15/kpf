@@ -1523,9 +1523,7 @@ export default function Simulasi() {
                     ? "Biaya Layanan Kredit"
                     : "Biaya Provisi"}
                 </div>
-                <div className="text-right">
-                  {provisi != "0" ? provisi : "0"}
-                </div>
+                <div className="text-right">{provisi || "0"}</div>
               </div>
               <div
                 className={`flex justify-between py-0 border-b border-gray-200`}

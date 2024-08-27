@@ -173,9 +173,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
                   record.DataPengajuan.DataPembiayaan.plafond
                 )
               ),
-              record.DataPengajuan.Bank.kode === "BPR SIP"
-                ? 1
-                : record.DataPengajuan.DataPembiayaan.pembulatan
+              record.DataPengajuan.DataPembiayaan.pembulatan
             );
             return <>{formatNumber(angsuran.toFixed(0))}</>;
           },
@@ -212,9 +210,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
                   record.DataPengajuan.DataPembiayaan.plafond
                 )
               ),
-              record.DataPengajuan.Bank.kode === "BPR SIP"
-                ? 1
-                : record.DataPengajuan.DataPembiayaan.pembulatan
+              record.DataPengajuan.DataPembiayaan.pembulatan
             );
             return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
           },

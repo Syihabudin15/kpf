@@ -667,9 +667,7 @@ export default function ArusKas({
                   record.DataPembiayaan.plafond
                 )
               ),
-              record.Bank.kode === "BPR SIP"
-                ? 1
-                : record.DataPembiayaan.pembulatan
+              record.DataPembiayaan.pembulatan
             );
             return <>{formatNumber(angsuran.toFixed(0))}</>;
           },
@@ -706,9 +704,7 @@ export default function ArusKas({
                   record.DataPembiayaan.plafond
                 )
               ),
-              record.Bank.kode === "BPR SIP"
-                ? 1
-                : record.DataPembiayaan.pembulatan
+              record.DataPembiayaan.pembulatan
             );
             return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
           },
@@ -944,7 +940,7 @@ export default function ArusKas({
                     pd.DataPembiayaan.plafond
                   )
                 ),
-                pd.Bank.kode === "BPR SIP" ? 1 : pd.DataPembiayaan.pembulatan
+                pd.DataPembiayaan.pembulatan
               );
               totalAngsuran += angsuran;
               totalAngsuranBank += angsuranBank;
