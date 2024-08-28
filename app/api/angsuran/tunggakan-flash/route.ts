@@ -122,9 +122,7 @@ const handleMaster = async (skip: number, name: string | null) => {
           r.DataPengajuan.DataPembiayaan.plafond
         )
       ),
-      r.DataPengajuan.Bank.kode === "BPR SIP"
-        ? 0
-        : r.DataPengajuan.DataPembiayaan.pembulatan
+      r.DataPengajuan.DataPembiayaan.pembulatan
     );
     const angBank = ceiling(
       parseInt(
@@ -134,9 +132,7 @@ const handleMaster = async (skip: number, name: string | null) => {
           r.DataPengajuan.DataPembiayaan.plafond
         )
       ),
-      r.DataPengajuan.Bank.kode === "BPR SIP"
-        ? 0
-        : r.DataPengajuan.DataPembiayaan.pembulatan
+      r.DataPengajuan.DataPembiayaan.pembulatan
     );
     return {
       id: r.id,
@@ -256,9 +252,7 @@ const handleBank = async (
           r.DataPengajuan.DataPembiayaan.plafond
         )
       ),
-      r.DataPengajuan.Bank.kode === "BPR SIP"
-        ? 0
-        : r.DataPengajuan.DataPembiayaan.pembulatan
+      r.DataPengajuan.DataPembiayaan.pembulatan
     );
     const angBank = ceiling(
       parseInt(
@@ -268,9 +262,7 @@ const handleBank = async (
           r.DataPengajuan.DataPembiayaan.plafond
         )
       ),
-      r.DataPengajuan.Bank.kode === "BPR SIP"
-        ? 0
-        : r.DataPengajuan.DataPembiayaan.pembulatan
+      r.DataPengajuan.DataPembiayaan.pembulatan
     );
     return {
       id: r.id,
