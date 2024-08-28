@@ -4,6 +4,7 @@ import {
   Cabang,
   DataDataPengajuan,
   DataDataTaspen,
+  IUser,
   Options,
   UP,
 } from "@/components/utils/Interfaces";
@@ -37,7 +38,7 @@ export default function InputSlik() {
   const [loading, setLoading] = useState(false);
   const [up, setUp] = useState<BankOpt[]>();
   const [cabang, setCabang] = useState<Cabang[]>();
-  const [marketing, setMarketing] = useState<User[]>();
+  const [marketing, setMarketing] = useState<IUser[]>();
   const [refferal, setRefferal] = useState<Options[]>();
   const [dataTaspen, setDataTaspen] = useState<DataDataTaspen[]>();
   const [provinsi, setProvinsi] = useState<Options[]>();
@@ -84,7 +85,7 @@ export default function InputSlik() {
 
       const resUp = await fetch("/api/master/unit/pelayanan");
       const { result } = await resUp.json();
-      const marketing: User[] = [];
+      const marketing: IUser[] = [];
       const cabangFull: Cabang[] = [];
       const up: UP[] = result;
       const upOpt: BankOpt[] = up.map((up) => {
@@ -95,9 +96,9 @@ export default function InputSlik() {
               marketing.push(u);
             }
           });
-          return { label: c.name, value: c.id };
+          return { label: c.name, value: c.name };
         });
-        return { label: up.name, value: up.id, options: cabang };
+        return { label: up.name, value: up.name, options: cabang };
       });
       setMarketing(marketing);
       setCabang(cabangFull);
@@ -314,7 +315,9 @@ export default function InputSlik() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{record.User.UnitCabang.name}</>;
+        return (
+          <>{record.area_pelayanan_berkas || record.User.UnitCabang.name}</>
+        );
       },
     },
     {

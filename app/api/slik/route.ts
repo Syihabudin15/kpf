@@ -476,6 +476,7 @@ export const POST = async (req: NextRequest) => {
                 no_telepon: data.no_telepon,
                 tanggal_sk_pensiun: data.tanggal_sk_pensiun,
                 alamat_pekerjaan: data.alamat_pekerjaan,
+                area_pelayanan_berkas: data.area_pelayanan_berkas,
               },
             })
           : await tx.dataPengajuan.create({
@@ -519,6 +520,7 @@ export const POST = async (req: NextRequest) => {
                 no_telepon: data.no_telepon,
                 tanggal_sk_pensiun: data.tanggal_sk_pensiun,
                 alamat_pekerjaan: data.alamat_pekerjaan,
+                area_pelayanan_berkas: data.area_pelayanan_berkas,
               },
             });
 
@@ -664,6 +666,7 @@ export const PUT = async (req: NextRequest) => {
           nama: data.nama ? data.nama : findPengajuan?.nama,
           nama_skep: data.nama ? data.nama_skep : findPengajuan?.nama_skep,
           kode_jiwa: data.kode_jiwa ? data.kode_jiwa : findPengajuan?.kode_jiwa,
+          area_pelayanan_berkas: data.area_pelayanan_berkas,
         },
       });
 

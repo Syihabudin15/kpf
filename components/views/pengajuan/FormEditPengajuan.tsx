@@ -187,6 +187,7 @@ export default function FormEditPengajuan({
     e.bankId = currData.bankId;
     e.jenis_margin = jenisMargin;
     pembiayaan.name = e.nama;
+    e.area_pelayanan_berkas = e.unit_pelayanan;
 
     const res = await fetch("/api/slik", {
       method: "PUT",
@@ -285,6 +286,7 @@ export default function FormEditPengajuan({
       status_pkwt: currData.User.status_pkwt,
       agent_fronting: currData.agent_fronting,
       masa_ktp: moment(currData.masa_ktp).format("YYYY-MM-DD"),
+      unit_pelayanan: currData.area_pelayanan_berkas,
     });
   }, [currData]);
 
@@ -930,7 +932,12 @@ export default function FormEditPengajuan({
               >
                 <Select
                   options={upOpt}
-                  onChange={(e) => handleChangeUP(e)}
+                  onChange={(e) => {
+                    const cabang = fullCabang?.filter((ca) => ca.name == e);
+                    form.setFieldsValue({
+                      area_pelayanan: cabang && cabang[0].unit,
+                    });
+                  }}
                   defaultValue={currData.User.UnitCabang.name}
                   showSearch
                   filterOption={filterOption}

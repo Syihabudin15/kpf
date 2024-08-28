@@ -104,7 +104,9 @@ export default function DaftarNominatif({
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{record.User.UnitCabang.name}</>;
+        return (
+          <>{record.User.UnitCabang.name || record.User.UnitCabang.name}</>
+        );
       },
     },
     {

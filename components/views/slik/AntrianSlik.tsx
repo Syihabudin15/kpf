@@ -195,7 +195,9 @@ export default function AntrianSlik() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{record.User.UnitCabang.name}</>;
+        return (
+          <>{record.area_pelayanan_berkas || record.User.UnitCabang.name}</>
+        );
       },
     },
     {

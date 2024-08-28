@@ -4,6 +4,7 @@ import {
   BankOpt,
   Cabang,
   DataDataTaspen,
+  IUser,
   Options,
 } from "@/components/utils/Interfaces";
 import { LoadingOutlined, PlusCircleOutlined } from "@ant-design/icons";
@@ -12,7 +13,6 @@ import {
   BerkasPengajuan,
   DataPembiayaan,
   StatusKawin,
-  User,
 } from "@prisma/client";
 import {
   Checkbox,
@@ -29,7 +29,6 @@ import InputPembiayaan from "./InputBiaya";
 import UploadDoc from "../pengajuan/UploadDoc";
 import { filterOption } from "@/components/utils/inputUtils";
 import moment from "moment";
-
 export default function InputForm({
   getData,
   fullCabang,
@@ -41,7 +40,7 @@ export default function InputForm({
 }: {
   getData: Function;
   fullCabang: Cabang[];
-  fullUser: User[];
+  fullUser: IUser[];
   upOpt: BankOpt[];
   refferalOpt: Options[];
   taspens: DataDataTaspen[];
@@ -50,7 +49,6 @@ export default function InputForm({
   const [open, setOpen] = useState(false);
   const [pembiayaan, setPembiayaan] = useState<DataPembiayaan>();
   const [bankOption, setBankOption] = useState<BankOpt[]>();
-  const [userOpt, setUserOpt] = useState<Options[]>();
   const [selectedBank, setSelectedBank] = useState<Bank>();
   const [berkas, setBerkas] = useState<BerkasPengajuan>();
   const [nama, setNama] = useState<string>();
@@ -67,17 +65,17 @@ export default function InputForm({
   const [kabupaten, setKabupaten] = useState<Options[]>([]);
   const [kabupatenDomisili, setKabupatenDomisili] = useState<Options[]>([]);
 
-  const handleChangeUP = (e: string) => {
-    const cabang = fullCabang?.filter((ca) => ca.id == e);
-    const user = fullUser?.filter((u) => u.unit_cabang_id == e);
-    const fixUserOpt: Options[] = user?.map((user) => {
-      return { label: user.first_name + " " + user.last_name, value: user.id };
-    }) as any;
-    setUserOpt(fixUserOpt);
-    form.setFieldsValue({
-      area_pelayanan: cabang && cabang[0].unit,
-    });
-  };
+  // const handleChangeUP = (e: string) => {
+  //   const cabang = fullCabang?.filter((ca) => ca.id == e);
+  //   const user = fullUser?.filter((u) => u.unit_cabang_id == e);
+  //   const fixUserOpt: Options[] = user?.map((user) => {
+  //     return { label: user.first_name + " " + user.last_name, value: user.id };
+  //   }) as any;
+  //   setUserOpt(fixUserOpt);
+  //   form.setFieldsValue({
+  //     area_pelayanan: cabang && cabang[0].unit,
+  //   });
+  // };
 
   const handleChangeUser = (e: string) => {
     const user = fullUser?.filter((u) => u.id == e);
@@ -201,6 +199,7 @@ export default function InputForm({
     e.tanggal_sk_pensiun = moment(e.tanggal_sk_pensiun).toISOString();
     e.masa_ktp = moment(e.masa_ktp).toISOString();
     e.tmt_pensiun = moment(e.tmt_pensiun).toISOString();
+    e.area_pelayanan_berkas = e.unit_pelayanan;
 
     const res = await fetch("/api/slik", {
       method: "POST",
@@ -1167,7 +1166,13 @@ export default function InputForm({
                   <Select
                     showSearch
                     options={upOpt}
-                    onChange={(e) => handleChangeUP(e)}
+                    onChange={(e) => {
+                      const cabang = fullCabang?.filter((ca) => ca.name == e);
+                      console.log(e);
+                      form.setFieldsValue({
+                        area_pelayanan: cabang && cabang[0].unit,
+                      });
+                    }}
                     filterOption={filterOption}
                   />
                 </Form.Item>
@@ -1191,7 +1196,12 @@ export default function InputForm({
                 >
                   <Select
                     showSearch
-                    options={userOpt}
+                    options={fullUser.map((e) => {
+                      return {
+                        label: `${e.first_name} ${e.last_name} (${e.UnitCabang.name})`,
+                        value: e.id,
+                      };
+                    })}
                     onChange={(e) => handleChangeUser(e)}
                     filterOption={filterOption}
                   />

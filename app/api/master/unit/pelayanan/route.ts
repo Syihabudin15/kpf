@@ -14,7 +14,9 @@ export const GET = async (req: NextRequest) => {
     const skip = (parseInt(page.toString()) - 1) * 20;
     const find: UnitPelayanan[] = await prisma.unitPelayanan.findMany({
       where: { is_active: false },
-      include: { UnitCabang: { include: { User: true } } },
+      include: {
+        UnitCabang: { include: { User: { include: { UnitCabang: true } } } },
+      },
       take: 20,
       skip,
     });
@@ -31,6 +33,9 @@ export const GET = async (req: NextRequest) => {
           include: {
             User: {
               where: { status_active: true },
+              include: {
+                UnitCabang: true,
+              },
             },
           },
         },
@@ -45,7 +50,12 @@ export const GET = async (req: NextRequest) => {
       include: {
         UnitCabang: {
           where: { is_active: true },
-          include: { User: { where: { status_active: true } } },
+          include: {
+            User: {
+              where: { status_active: true },
+              include: { UnitCabang: true },
+            },
+          },
         },
       },
     });

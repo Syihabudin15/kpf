@@ -68,7 +68,7 @@ export interface DataDataTaspen extends DataTaspen {
 }
 
 export interface Cabang extends UnitCabang {
-  User: User[];
+  User: IUser[];
   unit: string;
 }
 export interface UP extends UnitPelayanan {
@@ -167,3 +167,7 @@ export interface DataPelunasan extends PelunasanDebitur {
 }
 
 export type UploadType = "image" | "video" | "raw" | "auto" | undefined;
+
+export interface IUser extends User {
+  UnitCabang: UnitCabang;
+}

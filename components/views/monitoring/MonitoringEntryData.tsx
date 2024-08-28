@@ -108,7 +108,7 @@ export default function MonitoringEntryData() {
           c.User.forEach((u) => marketing.push(u));
           return { label: c.name, value: c.id };
         });
-        return { label: up.name, value: up.id, options: cabang };
+        return { label: up.name, value: up.name, options: cabang };
       });
       setMarketing(marketing);
       setCabang(cabangFull);
@@ -301,7 +301,9 @@ export default function MonitoringEntryData() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{record.User.UnitCabang.name}</>;
+        return (
+          <>{record.area_pelayanan_berkas || record.User.UnitCabang.name}</>
+        );
       },
     },
     {

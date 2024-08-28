@@ -106,7 +106,9 @@ export default function ArusKas({
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{record.User.UnitCabang.name}</>;
+        return (
+          <>{record.User.UnitCabang.name || record.User.UnitCabang.name}</>
+        );
       },
     },
     {
