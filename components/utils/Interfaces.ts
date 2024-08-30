@@ -22,6 +22,8 @@ import {
   JadwalAngsuran,
   Cost,
   PelunasanDebitur,
+  Transaction,
+  GiroBank,
 } from "@prisma/client";
 
 export interface DataDataTaspen extends DataTaspen {
@@ -170,4 +172,9 @@ export type UploadType = "image" | "video" | "raw" | "auto" | undefined;
 
 export interface IUser extends User {
   UnitCabang: UnitCabang;
+}
+
+export interface GiroPos extends GiroBank {
+  balance: number | 0;
+  Transaction: Transaction[];
 }

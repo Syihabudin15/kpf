@@ -213,6 +213,9 @@ export default function FormEditPengajuan({
       setStatusKawinDisable(true);
     }
     setAlamat(currData.DataPembiayaan.alamat);
+    const filte = fullCabang.filter(
+      (e) => e.unit === currData.area_pelayanan_berkas
+    );
     form.setFieldsValue({
       nama: currData.DataPembiayaan.name,
       nopen: currData.DataPembiayaan.nopen,
@@ -281,7 +284,9 @@ export default function FormEditPengajuan({
       tmt_pensiun: moment(currData.tmt_pensiun).format("YYYY-MM-DD"),
       tujuan_penggunaan1: currData.tujuan_penggunaan1,
       tujuan_penggunaan2: currData.tujuan_penggunaan2,
-      area_pelayanan: currData.User.UnitCabang.UnitPelayanan.name,
+      area_pelayanan: filte
+        ? filte[0].unit
+        : currData.User.UnitCabang.UnitPelayanan.name,
       posisi: currData.User.posisi,
       status_pkwt: currData.User.status_pkwt,
       agent_fronting: currData.agent_fronting,

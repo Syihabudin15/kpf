@@ -460,12 +460,12 @@ export default function ArusKas({
           },
           className: "text-center",
           render(value, record, index) {
-            const { tahun } = getUsiaMasuk(
+            const { tahun, bulan } = getUsiaMasuk(
               record.DataPembiayaan.tanggal_lahir,
               (record.tanggal_cetak_akad || moment()).toString()
             );
             const asRate = AsuransiRate.filter(
-              (a) => a.usia == Math.floor(parseInt(tahun))
+              (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`))
             );
 
             const ind = Math.floor(record.DataPembiayaan.tenor / 12);
@@ -493,21 +493,25 @@ export default function ArusKas({
           },
           className: "text-center",
           render(value, record, index) {
-            const { tahun } = getUsiaMasuk(
+            const { tahun, bulan } = getUsiaMasuk(
               record.DataPembiayaan.tanggal_lahir,
               (record.tanggal_cetak_akad || moment()).toString()
             );
             const asRate = AsuransiRate.filter(
-              (a) => a.usia == Math.floor(parseInt(tahun))
+              (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`))
             );
 
             const ind = Math.floor(record.DataPembiayaan.tenor / 12);
             const rate = asRate ? asRate[0].jk[ind - 1] : 0;
-            const premi = (record.DataPembiayaan.plafond * rate) / 1000;
+            const premi = record.DataPembiayaan.plafond * (rate / 1000);
             const asur =
               record.DataPembiayaan.plafond *
               (record.DataPembiayaan.by_asuransi / 100);
-            return <>{formatNumber((asur - premi).toFixed(0))}</>;
+            return (
+              <div onClick={() => console.log({ asRate, tahun })}>
+                {formatNumber((asur - premi).toFixed(0))}
+              </div>
+            );
           },
         },
       ],
@@ -822,6 +826,31 @@ export default function ArusKas({
         return <>{formatNumber(bersih.toFixed(0))}</>;
       },
     },
+    {
+      title: "DROPPING",
+      dataIndex: "dropping",
+      key: "dropping",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        const by_adminBank =
+          record.DataPembiayaan.plafond *
+          (record.DataPembiayaan.by_admin_bank / 100);
+        const biaya =
+          by_adminBank +
+          record.DataPembiayaan.by_provisi +
+          record.DataPembiayaan.by_buka_rekening;
+        const bersih = record.DataPembiayaan.plafond - biaya;
+        return <>{formatNumber(bersih.toFixed(0))}</>;
+      },
+    },
   ];
 
   return (
@@ -888,6 +917,8 @@ export default function ArusKas({
             let totalAngsuran = 0;
             let totalAngsuranBank = 0;
             let selisihAsuransi = 0;
+            let totalDropping = 0;
+
             pageData.forEach((pd, ind) => {
               plafon += pd.DataPembiayaan.plafond;
               adminBank +=
@@ -908,12 +939,12 @@ export default function ArusKas({
               materai += pd.DataPembiayaan.by_materai;
               mutasi += pd.DataPembiayaan.by_mutasi;
               provisi += pd.DataPembiayaan.by_provisi;
-              const { tahun } = getUsiaMasuk(
+              const { tahun, bulan } = getUsiaMasuk(
                 pd.DataPembiayaan.tanggal_lahir,
                 (pd.tanggal_cetak_akad || moment()).toString()
               );
               const asRate = AsuransiRate.filter(
-                (a) => a.usia == Math.floor(parseInt(tahun))
+                (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`))
               );
 
               const indRate = Math.floor(pd.DataPembiayaan.tenor / 12);
@@ -949,6 +980,13 @@ export default function ArusKas({
               selisihAngsuran += angsuran - angsuranBank;
               blokir += pd.DataPembiayaan.blokir * angsuran;
               takeover += pd.DataPembiayaan.pelunasan + pd.DataPembiayaan.bpp;
+
+              totalDropping +=
+                pd.DataPembiayaan.plafond -
+                (pd.DataPembiayaan.by_provisi +
+                  pd.DataPembiayaan.by_buka_rekening +
+                  pd.DataPembiayaan.plafond *
+                    (pd.DataPembiayaan.by_admin_bank / 100));
             });
             const pencairan =
               plafon -
@@ -1061,6 +1099,9 @@ export default function ArusKas({
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={32} className="text-center">
                   <>{formatNumber(pencairan.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={33} className="text-center">
+                  <>{formatNumber(totalDropping.toFixed(0))}</>
                 </Table.Summary.Cell>
               </Table.Summary.Row>
             );

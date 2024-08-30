@@ -815,3 +815,28 @@ model flagging {
   akhir_flagging       String? @db.VarChar(10)
   mitra_flagging       String? @db.VarChar(60)
 }
+
+model GiroBank {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  slug        String        @unique
+  description String        @db.Text
+  Transaction Transaction[]
+}
+
+enum TransactionType {
+  MASUK
+  KELUAR
+}
+
+model Transaction {
+  id          String          @id @default(uuid())
+  type        TransactionType
+  nominal     Int             @default(0)
+  description String          @db.Text
+  created_at  DateTime        @default(now())
+  updated_at  DateTime?
+
+  GiroBank   GiroBank @relation(fields: [giroBankId], references: [id])
+  giroBankId String
+}
