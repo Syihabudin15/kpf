@@ -66,19 +66,19 @@ export default function FormEditPengajuan({
   const [kabupaten, setKabupaten] = useState<Options[]>([]);
   const [kabupatenDomisili, setKabupatenDomisili] = useState<Options[]>([]);
 
-  const handleChangeUP = (e: string) => {
-    const cabang = fullCabang?.filter((ca) => ca.id == e);
-    const user = fullUser?.filter(
-      (u) => u.unit_cabang_id == e && u.role == "MARKETING"
-    );
-    const fixUserOpt: Options[] = user?.map((user) => {
-      return { label: user.first_name + " " + user.last_name, value: user.id };
-    }) as any;
-    setUserOpt(fixUserOpt);
-    form.setFieldsValue({
-      area_pelayanan: cabang && cabang[0].unit,
-    });
-  };
+  // const handleChangeUP = (e: string) => {
+  //   const cabang = fullCabang?.filter((ca) => ca.id == e);
+  //   const user = fullUser?.filter(
+  //     (u) => u.unit_cabang_id == e && u.role == "MARKETING"
+  //   );
+  //   const fixUserOpt: Options[] = user?.map((user) => {
+  //     return { label: user.first_name + " " + user.last_name, value: user.id };
+  //   }) as any;
+  //   setUserOpt(fixUserOpt);
+  //   form.setFieldsValue({
+  //     area_pelayanan: cabang && cabang[0].unit ? cabang[0].unit : "PUSAT",
+  //   });
+  // };
 
   const handleChangeUser = (e: string) => {
     const user = fullUser?.filter((u) => u.id == e);
@@ -213,6 +213,7 @@ export default function FormEditPengajuan({
       setStatusKawinDisable(true);
     }
     setAlamat(currData.DataPembiayaan.alamat);
+
     const filte = fullCabang.filter(
       (e) => e.unit === currData.area_pelayanan_berkas
     );
@@ -284,9 +285,10 @@ export default function FormEditPengajuan({
       tmt_pensiun: moment(currData.tmt_pensiun).format("YYYY-MM-DD"),
       tujuan_penggunaan1: currData.tujuan_penggunaan1,
       tujuan_penggunaan2: currData.tujuan_penggunaan2,
-      area_pelayanan: filte
-        ? filte[0].unit
-        : currData.User.UnitCabang.UnitPelayanan.name,
+      area_pelayanan:
+        filte.length > 0
+          ? filte[0].unit
+          : currData.User.UnitCabang.UnitPelayanan.name,
       posisi: currData.User.posisi,
       status_pkwt: currData.User.status_pkwt,
       agent_fronting: currData.agent_fronting,
@@ -954,7 +956,7 @@ export default function FormEditPengajuan({
                 required
                 className="w-full md:flex-1"
               >
-                <Input />
+                <Input disabled />
               </Form.Item>
             </div>
             <Divider className="divider-input">Data AO</Divider>

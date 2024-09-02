@@ -109,7 +109,7 @@ export default function MonitoringPusat() {
       const up: UP[] = result;
       const upOpt: BankOpt[] = up.map((up) => {
         const cabang: Options[] = up.UnitCabang.map((c) => {
-          cabangFull.push({ ...c, unit: up.kode_area });
+          cabangFull.push({ ...c, unit: up.name });
           c.User.forEach((u) => marketing.push(u));
           return { label: c.name, value: c.name };
         });

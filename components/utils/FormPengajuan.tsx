@@ -1489,9 +1489,14 @@ export default function TabsForm({
       sisa_gaji: formatNumber(
         ((data?.DataPembiayaan.gaji_bersih || 0) - angs).toString()
       ),
-      unit_pelayanan: data?.User.UnitCabang.UnitPelayanan.name || "",
+      unit_pelayanan:
+        data.area_pelayanan_berkas || data?.User.UnitCabang.UnitPelayanan.name,
       marketing:
-        (data?.User.first_name || "") + " " + (data?.User.last_name || ""),
+        (data?.User.first_name || "") +
+        " " +
+        (data?.User.last_name || "") +
+        " " +
+        `(${data.User.unit_cabang_id ? data.User.UnitCabang.name : "PUSAT"})`,
       fronting: data?.agent_fronting || "",
       sumber_dana: data?.Bank.name || "",
       golongan: data.golongan || "",
@@ -1565,7 +1570,7 @@ export default function TabsForm({
       penerbit_sk: data?.penerbit_sk,
       jenis_pensiun: data?.jenis_pensiun,
       posisi: data?.User.posisi,
-      unit_cabang: data?.User.UnitCabang.name,
+      unit_cabang: data?.User.UnitCabang.UnitPelayanan.name,
       status_pkwt: data?.User.status_pkwt,
       pembiayaan_sebelumnya: data?.DataPembiayaan.pembiayaan_sebelumnya,
       no_rekening: data?.DataPembiayaan.no_rekening,

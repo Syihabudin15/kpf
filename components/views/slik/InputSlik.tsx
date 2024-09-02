@@ -90,7 +90,7 @@ export default function InputSlik() {
       const up: UP[] = result;
       const upOpt: BankOpt[] = up.map((up) => {
         const cabang: Options[] = up.UnitCabang.map((c) => {
-          cabangFull.push({ ...c, unit: up.kode_area });
+          cabangFull.push({ ...c, unit: up.name });
           c.User.forEach((u) => {
             if (u.role === "MARKETING") {
               marketing.push(u);
