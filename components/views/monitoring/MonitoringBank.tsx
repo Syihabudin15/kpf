@@ -29,7 +29,6 @@ export default function MonitoringBank() {
   const [pageSize, setPageSize] = useState<number>(50);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
-  const [expand, setExpand] = useState(false);
   const [pencairan, setPencairan] = useState<string>();
 
   const getData = async () => {
@@ -443,8 +442,6 @@ export default function MonitoringBank() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_slik}
@@ -472,8 +469,6 @@ export default function MonitoringBank() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_verifikasi}
@@ -501,8 +496,6 @@ export default function MonitoringBank() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_approval}

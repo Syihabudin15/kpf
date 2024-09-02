@@ -26,7 +26,6 @@ export default function MonitoringMarketing() {
   const [page, setPage] = useState<number>(1);
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [open, setOpen] = useState(false);
-  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -379,8 +378,6 @@ export default function MonitoringMarketing() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_slik}
@@ -408,8 +405,6 @@ export default function MonitoringMarketing() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_verifikasi}
@@ -437,8 +432,6 @@ export default function MonitoringMarketing() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_approval}

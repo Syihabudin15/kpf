@@ -24,7 +24,6 @@ export default function RiwayatVerifikasi() {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
-  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -215,8 +214,6 @@ export default function RiwayatVerifikasi() {
             ellipsis={{
               rows: 2,
               expandable: "collapsible",
-              expanded: expand,
-              onExpand: (_, info) => setExpand(info.expanded),
             }}
           >
             {record.keterangan_verifikasi}

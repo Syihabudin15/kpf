@@ -79,7 +79,6 @@ export default function MonitoringPusat() {
   const [refferal, setRefferal] = useState<Options[]>();
   const [provinsi, setProvinsi] = useState<Options[]>();
   const [open, setOpen] = useState(false);
-  const [expand, setExpand] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [group, setGroup] = useState<string>();
   const [pencairan, setPencairan] = useState<string>();
@@ -684,8 +683,6 @@ export default function MonitoringPusat() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_slik}
@@ -713,8 +710,6 @@ export default function MonitoringPusat() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_verifikasi}
@@ -742,8 +737,6 @@ export default function MonitoringPusat() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_approval}

@@ -1,5 +1,6 @@
 "use client";
 
+import { formatNumber } from "@/components/utils/inputUtils";
 import { GiroPos } from "@/components/utils/Interfaces";
 import { EyeOutlined, FormOutlined, PlusOutlined } from "@ant-design/icons";
 import {
@@ -116,7 +117,7 @@ export default function GiroPost() {
         };
       },
       render(value, record, index) {
-        return <>{record.balance}</>;
+        return <>{formatNumber(record.balance.toFixed(0))}</>;
       },
     },
 

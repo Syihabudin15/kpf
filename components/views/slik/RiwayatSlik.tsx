@@ -26,7 +26,6 @@ export default function RiwayatSlik() {
   const [total, setTotal] = useState(0);
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [open, setOpen] = useState(false);
-  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -211,8 +210,6 @@ export default function RiwayatSlik() {
             ellipsis={{
               rows: 2,
               expandable: "collapsible",
-              expanded: expand,
-              onExpand: (_, info) => setExpand(info.expanded),
             }}
           >
             {record.keterangan_slik}

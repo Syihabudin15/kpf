@@ -23,7 +23,6 @@ export default function AntrianApproval() {
   const [total, setTotal] = useState(0);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
-  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -245,8 +244,6 @@ export default function AntrianApproval() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_slik}
@@ -365,8 +362,6 @@ export default function AntrianApproval() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_verifikasi}

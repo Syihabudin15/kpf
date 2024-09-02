@@ -24,7 +24,6 @@ export default function RiwayatKomite() {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
-  const [expand, setExpand] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -286,8 +285,6 @@ export default function RiwayatKomite() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_slik}
@@ -409,8 +406,6 @@ export default function RiwayatKomite() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_verifikasi}
@@ -531,8 +526,6 @@ export default function RiwayatKomite() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_approval}

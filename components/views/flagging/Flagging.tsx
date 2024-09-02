@@ -4,6 +4,7 @@ import { Input, Table, TableProps } from "antd";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
+
 const CetakFlagging = dynamic(
   () => import("@/components/views/flagging/CetakFlagging"),
   { ssr: false, loading: () => <LoadingOutlined /> }

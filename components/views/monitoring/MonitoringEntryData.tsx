@@ -78,7 +78,6 @@ export default function MonitoringEntryData() {
   const [open, setOpen] = useState(false);
   const [selectedData, setSelectedData] = useState<DataDataPengajuan>();
   const [modalEdit, setModalEdit] = useState(false);
-  const [expand, setExpand] = useState(false);
   const [group, setGroup] = useState<string>();
   const [pencairan, setPencairan] = useState<string>();
 
@@ -627,8 +626,6 @@ export default function MonitoringEntryData() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_slik}
@@ -656,8 +653,6 @@ export default function MonitoringEntryData() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_verifikasi}
@@ -685,8 +680,6 @@ export default function MonitoringEntryData() {
                 ellipsis={{
                   rows: 2,
                   expandable: "collapsible",
-                  expanded: expand,
-                  onExpand: (_, info) => setExpand(info.expanded),
                 }}
               >
                 {record.keterangan_approval}
