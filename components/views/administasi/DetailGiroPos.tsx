@@ -3,10 +3,11 @@
 import {
   BankOutlined,
   LoadingOutlined,
+  PlusCircleOutlined,
   WalletOutlined,
 } from "@ant-design/icons";
 import { Transaction } from "@prisma/client";
-import { DatePicker, Spin } from "antd";
+import { DatePicker, Select, Spin, Table, TableProps } from "antd";
 import { useEffect, useState } from "react";
 const { RangePicker } = DatePicker;
 
@@ -39,6 +40,34 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
       await getData();
     })();
   }, []);
+
+  const columns: TableProps<Transaction>["columns"] = [
+    {
+      title: "NO",
+      key: "no",
+      dataIndex: "no",
+    },
+    {
+      title: "TIPE TRANSAKSI",
+      key: "type",
+      dataIndex: "type",
+    },
+    {
+      title: "NOMINAL TRANSAKSI",
+      key: "nominal",
+      dataIndex: "nominal",
+    },
+    {
+      title: "TANGGAL",
+      key: "tanggal",
+      dataIndex: "tanggal",
+    },
+    {
+      title: "KETERANGAN",
+      key: "keterangan",
+      dataIndex: "keterangan",
+    },
+  ];
   return (
     <Spin spinning={loading}>
       {err ? (
@@ -46,7 +75,7 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
           <p>Error Not Data Found</p>
         </div>
       ) : (
-        <div>
+        <div className="bg-white">
           <div className="flex justify-between gap-5">
             <div className="flex-1 bg-blue-500 text-white p-3 rounded shadow">
               <div style={{ fontSize: 100 }} className="flex justify-center">
@@ -79,10 +108,22 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
             </div>
           </div>
           <div className="mt-1">
-            <div>
+            <div className="flex gap-2">
+              <button className="bg-green-500 hover:bg-green-600 text-white rounded shadow text-xs py-1 px-2">
+                <PlusCircleOutlined /> Baru
+              </button>
               <RangePicker />
+              <Select
+                placeholder="TIPE TRANSAKSI"
+                options={[
+                  { label: "MASUK", value: "MASUK" },
+                  { label: "KELUAR", value: "KELUAR" },
+                ]}
+              />
             </div>
-            <span>{slug}</span>
+            <div className="mt-1">
+              <Table size="small" columns={columns} bordered />
+            </div>
           </div>
         </div>
       )}

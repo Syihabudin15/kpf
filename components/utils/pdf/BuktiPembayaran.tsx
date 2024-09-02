@@ -369,7 +369,9 @@ export default function BuktiPembayaran({
               <View
                 style={{ width: 150, borderBottom: "1px solid #aaa" }}
               ></View>
-              <Text style={{ height: 10 }}>Kepala Operasional</Text>
+              <Text style={{ height: 10 }}>
+                {process.env.NEXT_PUBLIC_APP_JABATAN}
+              </Text>
             </View>
           </View>
         </View>

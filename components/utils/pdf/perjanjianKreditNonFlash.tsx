@@ -133,7 +133,10 @@ export default function PerjanjianKreditNonFlash({
                 >
                   <Text style={{ width: 100 }}>Nama</Text>
                   <Text style={{ width: 20 }}>:</Text>
-                  <Text>{data.Bank.direktur || "Lodewijk HF Lantang"}</Text>
+                  <Text>
+                    {process.env.NEXT_PUBLIC_APP_DIREKTUR ||
+                      "Lodewijk HF Lantang"}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -146,7 +149,7 @@ export default function PerjanjianKreditNonFlash({
                 >
                   <Text style={{ width: 100 }}>Jabatan</Text>
                   <Text style={{ width: 20 }}>:</Text>
-                  <Text>Direktur Utama</Text>
+                  <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
                 </View>
                 <View
                   style={{

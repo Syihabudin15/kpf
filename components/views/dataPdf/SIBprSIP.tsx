@@ -255,7 +255,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>
-                <Text>Kepala Operasional</Text>
+                <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
               </View>
             </View>
           </Page>
@@ -595,7 +595,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
-                  <Text>Kepala Operasional</Text>
+                  <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
                 </View>
               </View>
               <View

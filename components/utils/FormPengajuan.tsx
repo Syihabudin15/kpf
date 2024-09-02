@@ -1489,8 +1489,7 @@ export default function TabsForm({
       sisa_gaji: formatNumber(
         ((data?.DataPembiayaan.gaji_bersih || 0) - angs).toString()
       ),
-      unit_pelayanan:
-        data.area_pelayanan_berkas || data?.User.UnitCabang.UnitPelayanan.name,
+      unit_pelayanan: data.area_pelayanan_berkas || data?.User.UnitCabang.name,
       marketing:
         (data?.User.first_name || "") +
         " " +
