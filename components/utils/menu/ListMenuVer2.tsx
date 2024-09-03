@@ -6,7 +6,11 @@ import { Menus, menusV2 } from "./daftarMenuV2";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { BankOutlined } from "@ant-design/icons";
+import {
+  BankOutlined,
+  MoneyCollectFilled,
+  MoneyCollectOutlined,
+} from "@ant-design/icons";
 import { GiroPos } from "../Interfaces";
 
 export default function ListMenuVer2({
@@ -45,6 +49,18 @@ export default function ListMenuVer2({
             role: ["MASTER"],
             icon: <BankOutlined />,
           });
+        });
+        dataMenu.child.push({
+          label: "Laba Rugi",
+          url: `/laporan-administrasi/laba-rugi`,
+          role: ["MASTER"],
+          icon: <MoneyCollectOutlined />,
+        });
+        dataMenu.child.push({
+          label: "Laba Bersih",
+          url: `/laporan-administrasi/laba-bersih`,
+          role: ["MASTER"],
+          icon: <MoneyCollectFilled />,
         });
         menusV2.push(dataMenu);
       }

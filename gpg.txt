@@ -66,3 +66,12 @@ DATABASE_URL="mysql://root:@localhost:3306/kpfdatabases"
 # Captcha
 CAPTCHA_SITE_KEY=6Ldoq6MpAAAAAB_Ewiq0iZWG4fSEgQiTtlTqCDvV
 CAPTCHA_SECRET_KEY=6Ldoq6MpAAAAAKqPOXVofoqsQZjadUSJCULy5TNF
+
+# BIZNET
+https://portal.biznetgio.com/user/login 
+
+username : wgerizal@gmail.com
+password : @Today1234
+
+#Kategori Pengeluaran
+MATERAI, TERIMA BERSIH, FEE PENCAIRAN, IDPB & SKPP, MUTASI, TRANSPORTASI

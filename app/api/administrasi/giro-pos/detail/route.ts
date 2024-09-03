@@ -11,6 +11,7 @@ export const GET = async (req: NextRequest) => {
     include: {
       Transaction: {
         orderBy: { created_at: "desc" },
+        include: { OutcomeCategory: true },
       },
     },
   });
@@ -37,6 +38,7 @@ export const POST = async (req: NextRequest) => {
         created_at: new Date(data.created_at),
         type: data.type,
         giroBankId: find.id,
+        outcomeCategoryId: data.category,
       },
     });
     return NextResponse.json(

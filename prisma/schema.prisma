@@ -820,7 +820,7 @@ model GiroBank {
   id          String        @id @default(uuid())
   name        String        @unique
   slug        String        @unique
-  description String        @db.Text
+  description String?       @db.Text
   Transaction Transaction[]
 }
 
@@ -833,10 +833,21 @@ model Transaction {
   id          String          @id @default(uuid())
   type        TransactionType
   nominal     Int             @default(0)
-  description String          @db.Text
+  description String?         @db.Text
   created_at  DateTime        @default(now())
   updated_at  DateTime?
 
-  GiroBank   GiroBank @relation(fields: [giroBankId], references: [id])
-  giroBankId String
+  GiroBank          GiroBank         @relation(fields: [giroBankId], references: [id])
+  giroBankId        String
+  OutcomeCategory   OutcomeCategory? @relation(fields: [outcomeCategoryId], references: [id])
+  outcomeCategoryId String?
+}
+
+model OutcomeCategory {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  is_active   Boolean @default(true)
+
+  Transaction Transaction[]
 }

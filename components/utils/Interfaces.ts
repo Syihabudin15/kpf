@@ -24,6 +24,7 @@ import {
   PelunasanDebitur,
   Transaction,
   GiroBank,
+  OutcomeCategory,
 } from "@prisma/client";
 
 export interface DataDataTaspen extends DataTaspen {
@@ -176,5 +177,9 @@ export interface IUser extends User {
 
 export interface GiroPos extends GiroBank {
   balance: number | 0;
-  Transaction: Transaction[];
+  Transaction: ITransaction[];
+}
+
+export interface ITransaction extends Transaction {
+  OutcomeCategory: OutcomeCategory;
 }

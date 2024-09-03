@@ -1,14 +1,14 @@
 "use client";
 
 import { formatNumber } from "@/components/utils/inputUtils";
-import { GiroPos } from "@/components/utils/Interfaces";
+import { GiroPos, ITransaction } from "@/components/utils/Interfaces";
 import {
   BankOutlined,
   LoadingOutlined,
   PlusCircleOutlined,
   WalletOutlined,
 } from "@ant-design/icons";
-import { Transaction, TransactionType } from "@prisma/client";
+import { OutcomeCategory } from "@prisma/client";
 import {
   DatePicker,
   Form,
@@ -23,23 +23,26 @@ import {
 } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
-const { RangePicker } = DatePicker;
 const { Paragraph } = Typography;
+const { RangePicker } = DatePicker;
 
 export default function DetailGiroPos({ slug }: { slug: string }) {
   const [bankName, setBankName] = useState<string>();
   const [balance, setBalance] = useState(0);
   const [balanceIn, setBalanceIn] = useState(0);
   const [balanceOut, setBalanceOut] = useState(0);
-  const [trxIn, setIn] = useState<Transaction[]>([]);
-  const [trxOut, setOut] = useState<Transaction[]>([]);
+  const [trxIn, setIn] = useState<ITransaction[]>([]);
+  const [trxOut, setOut] = useState<ITransaction[]>([]);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState(false);
   const [from, setFrom] = useState<string>();
   const [to, setTo] = useState<string>();
   const [addModal, setAddModal] = useState(false);
   const [form] = Form.useForm();
-  const [transactions, setTransaction] = useState<Transaction[]>([]);
+  const [categories, setCategories] = useState<OutcomeCategory[]>([]);
+  const [modalCategory, setModalCategory] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>();
+  const [myTransaction, setMyTransaction] = useState<ITransaction[]>();
 
   const getData = async () => {
     setLoading(true);
@@ -49,9 +52,68 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
     }
     setErr(false);
     const { data }: { data: GiroPos } = await res.json();
-    setTransaction(data.Transaction);
-    const transIn = data.Transaction.filter((e) => e.type === "MASUK");
-    const transOut = data.Transaction.filter((e) => e.type === "KELUAR");
+    let transIn: ITransaction[] = [];
+    let transOut: ITransaction[] = [];
+    let allTransaction: ITransaction[] = [];
+
+    if (selectedCategory) {
+      if (from && to) {
+        transIn = data.Transaction.filter(
+          (e) =>
+            e.type === "MASUK" &&
+            e.outcomeCategoryId === selectedCategory &&
+            new Date(e.created_at) > new Date(from) &&
+            new Date(e.created_at) < new Date(to)
+        );
+        transOut = data.Transaction.filter(
+          (e) =>
+            e.type === "KELUAR" &&
+            e.outcomeCategoryId === selectedCategory &&
+            new Date(e.created_at) > new Date(from) &&
+            new Date(e.created_at) < new Date(to)
+        );
+        allTransaction = data.Transaction.filter(
+          (e) =>
+            e.outcomeCategoryId === selectedCategory &&
+            new Date(e.created_at) > new Date(from) &&
+            new Date(e.created_at) < new Date(to)
+        );
+      } else {
+        transIn = data.Transaction.filter(
+          (e) => e.type === "MASUK" && e.outcomeCategoryId === selectedCategory
+        );
+        transOut = data.Transaction.filter(
+          (e) => e.type === "KELUAR" && e.outcomeCategoryId === selectedCategory
+        );
+        allTransaction = data.Transaction.filter(
+          (e) => e.outcomeCategoryId === selectedCategory
+        );
+      }
+    } else {
+      if (from && to) {
+        transIn = data.Transaction.filter(
+          (e) =>
+            e.type === "MASUK" &&
+            new Date(e.created_at) > new Date(from) &&
+            new Date(e.created_at) < new Date(to)
+        );
+        transOut = data.Transaction.filter(
+          (e) =>
+            e.type === "KELUAR" &&
+            new Date(e.created_at) > new Date(from) &&
+            new Date(e.created_at) < new Date(to)
+        );
+        allTransaction = data.Transaction.filter(
+          (e) =>
+            new Date(e.created_at) > new Date(from) &&
+            new Date(e.created_at) < new Date(to)
+        );
+      } else {
+        transIn = data.Transaction.filter((e) => e.type === "MASUK");
+        transOut = data.Transaction.filter((e) => e.type === "KELUAR");
+        allTransaction = data.Transaction;
+      }
+    }
 
     let tempBalance = 0;
     let danaIn = 0;
@@ -72,15 +134,20 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
     setOut(transOut);
     setBalanceIn(danaIn);
     setBalanceOut(danaOut);
+    setMyTransaction(allTransaction);
+    const resCategory = await fetch(`/api/administrasi/giro-pos/kategori`);
+    const dataCategory = await resCategory.json();
+    setCategories(dataCategory.data);
     setLoading(false);
   };
+
   useEffect(() => {
     (async () => {
       await getData();
     })();
-  }, []);
+  }, [selectedCategory, from, to]);
 
-  const columns: TableProps<Transaction>["columns"] = [
+  const columns: TableProps<ITransaction>["columns"] = [
     {
       title: "NO",
       key: "no",
@@ -205,7 +272,7 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
       });
     }
     Modal.success({
-      title: <span className="text-green-500">We have an error</span>,
+      title: <span className="text-green-500">Success</span>,
       content: <div>{result.msg}</div>,
       closable: true,
       footer: [],
@@ -213,6 +280,35 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
     setAddModal(false);
     await getData();
     return setLoading(false);
+  };
+  const handleAddCategory = async (e: {
+    name: string;
+    description: string | null;
+  }) => {
+    setLoading(true);
+    const res = await fetch("/api/administrasi/giro-pos/kategori", {
+      method: "POST",
+      headers: { "Content-type": "Application/json" },
+      body: JSON.stringify(e),
+    });
+    const result = await res.json();
+    if (!res.ok) {
+      return Modal.error({
+        title: <span className="text-red-500">We have an error</span>,
+        content: <span>{result.msg}</span>,
+        closable: true,
+        footer: [],
+      });
+    }
+    Modal.success({
+      title: <span className="text-green-500">Success</span>,
+      content: <span>{result.msg}</span>,
+      closable: true,
+      footer: [],
+    });
+    await getData();
+    setLoading(false);
+    return setModalCategory(false);
   };
   return (
     <Spin spinning={loading}>
@@ -270,12 +366,35 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
           <div className="mt-1 bg-white p-1">
             <div className="flex gap-2">
               <button
-                className="bg-green-500 hover:bg-green-600 text-white rounded shadow text-xs py-1 px-2"
+                className="bg-green-500 hover:bg-green-600 text-white rounded shadow text-xs py-0 px-2"
                 onClick={() => setAddModal(true)}
               >
                 <PlusCircleOutlined /> Baru
               </button>
-              <RangePicker />
+              <RangePicker
+                onChange={(_, info) => {
+                  setFrom(info && info[0]);
+                  setTo(info && info[1]);
+                }}
+              />
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded shadow text-xs py-0 px-2"
+                onClick={() => setModalCategory(true)}
+              >
+                <PlusCircleOutlined /> Kategori Baru
+              </button>
+              <Select
+                options={
+                  categories &&
+                  categories.map((e) => {
+                    return { label: e.name, value: e.id };
+                  })
+                }
+                onChange={(e) => setSelectedCategory(e)}
+                placeholder="Select category"
+                allowClear
+                style={{ width: 170 }}
+              />
             </div>
             <div className="mt-1">
               <Tabs
@@ -289,13 +408,15 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
                           columns={columns}
                           size="small"
                           bordered
-                          dataSource={transactions}
+                          dataSource={myTransaction}
                         />
                       </>
                     ),
                   },
                   {
-                    label: "TRANSAKSI MASUK",
+                    label: (
+                      <span className="text-green-500">TRANSAKSI MASUK</span>
+                    ),
                     key: "transaksi_masuk",
                     children: (
                       <>
@@ -309,7 +430,9 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
                     ),
                   },
                   {
-                    label: "TRANSAKSI KELUAR",
+                    label: (
+                      <span className="text-red-500">TRANSAKSI KELUAR</span>
+                    ),
                     key: "transaksi_keluar",
                     children: (
                       <>
@@ -354,6 +477,21 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
             />
           </Form.Item>
           <Form.Item
+            label="Kategori"
+            name={"category"}
+            rules={[{ required: true }]}
+            hasFeedback
+          >
+            <Select
+              options={
+                categories &&
+                categories.map((e) => {
+                  return { label: e.name, value: e.id };
+                })
+              }
+            />
+          </Form.Item>
+          <Form.Item
             label="Nominal"
             name={"nominal"}
             rules={[{ required: true }]}
@@ -367,11 +505,7 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
               }}
             />
           </Form.Item>
-          <Form.Item
-            label="Keterangan"
-            name={"description"}
-            rules={[{ required: true }]}
-          >
+          <Form.Item label="Keterangan" name={"description"}>
             <Input.TextArea />
           </Form.Item>
           <Form.Item
@@ -379,10 +513,42 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
             label="Tanggal"
             name={"created_at"}
           >
-            <Input type="date" />
+            <Input type="date" defaultValue={moment().format("YYYY/MM/DD")} />
           </Form.Item>
           <Form.Item hidden label="Slug" name={"slug"}>
             <Input value={slug} />
+          </Form.Item>
+          <Form.Item className="flex justify-end mt-3">
+            <button
+              type="submit"
+              className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded shadow"
+            >
+              Simpan
+            </button>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        open={modalCategory}
+        onCancel={() => setModalCategory(false)}
+        title="Tambah Kategori"
+        footer={[]}
+      >
+        <Form
+          labelCol={{ span: 7 }}
+          onFinish={handleAddCategory}
+          className="mt-4"
+        >
+          <Form.Item
+            name={"name"}
+            label="Nama"
+            rules={[{ required: true }]}
+            required
+          >
+            <Input placeholder="Nama" />
+          </Form.Item>
+          <Form.Item name={"description"} label="Keterangan">
+            <Input.TextArea placeholder="Keterangan" />
           </Form.Item>
           <Form.Item className="flex justify-end mt-3">
             <button
