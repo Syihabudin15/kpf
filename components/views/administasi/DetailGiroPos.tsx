@@ -166,6 +166,25 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
       },
     },
     {
+      title: "KATEGORI",
+      key: "category",
+      dataIndex: "category",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      width: 80,
+      render(value, record, index) {
+        return (
+          <div>{record.outcomeCategoryId && record.OutcomeCategory.name}</div>
+        );
+      },
+    },
+    {
       title: "TIPE TRANSAKSI",
       key: "type",
       dataIndex: "type",
@@ -178,7 +197,7 @@ export default function DetailGiroPos({ slug }: { slug: string }) {
       },
       className: "text-center",
 
-      width: 100,
+      width: 80,
       render(value, record, index) {
         return (
           <div
