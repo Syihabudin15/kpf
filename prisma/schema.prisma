@@ -866,7 +866,7 @@ model Blog {
   id          String    @id @default(uuid())
   title       String
   slug        String    @unique
-  image       String    @default("/blog/blog.webp")
+  image       String    @default("/blog/blog.jpg")
   description String
   body        String    @db.LongText
   view        Int       @default(0)
@@ -875,7 +875,7 @@ model Blog {
   is_active   Boolean   @default(true)
   created_at  DateTime  @default(now())
   updated_at  DateTime?
-  keyword     String    @default("kpf blog")
+  keyword     String    @default("kpf artikel")
 
   Category       BlogCategory @relation(fields: [blogCategoryId], references: [id])
   blogCategoryId String
