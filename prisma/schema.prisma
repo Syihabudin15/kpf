@@ -851,3 +851,32 @@ model OutcomeCategory {
 
   Transaction Transaction[]
 }
+
+model BlogCategory {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  slug        String  @unique
+  description String?
+  image       String  @default("/category/category.jpg")
+  Blog        Blog[]
+  is_active   Boolean @default(true)
+}
+
+model Blog {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  image       String    @default("/blog/blog.webp")
+  description String
+  body        String    @db.LongText
+  view        Int       @default(0)
+  like        Int       @default(0)
+  dislike     Int       @default(0)
+  is_active   Boolean   @default(true)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime?
+  keyword     String    @default("kpf blog")
+
+  Category       BlogCategory @relation(fields: [blogCategoryId], references: [id])
+  blogCategoryId String
+}

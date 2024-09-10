@@ -1,0 +1,31 @@
+const next = require("next");
+const express = require("express");
+const cors = require("cors");
+
+const port = parseInt(process.env.PORT || "5000", 10);
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev });
+const handle = app.getRequestHandler();
+
+app.prepare().then(() => {
+  const server = express();
+  server.use(
+    cors({
+      origin: "*",
+    })
+  );
+  server.use("/category", express.static(__dirname + "/storage/category"));
+  server.use("/blog", express.static(__dirname + "/storage/blog"));
+
+  server.all("*", (req, res) => {
+    return handle(req, res);
+  });
+  try {
+    server.listen(port, (err) => {
+      if (err) throw err;
+      console.log(`> Ready on http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});

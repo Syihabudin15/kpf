@@ -25,6 +25,8 @@ import {
   Transaction,
   GiroBank,
   OutcomeCategory,
+  BlogCategory,
+  Blog,
 } from "@prisma/client";
 
 export interface DataDataTaspen extends DataTaspen {
@@ -182,4 +184,12 @@ export interface GiroPos extends GiroBank {
 
 export interface ITransaction extends Transaction {
   OutcomeCategory: OutcomeCategory;
+}
+
+export interface DataCategory extends BlogCategory {
+  Blog: Blog[];
+}
+
+export interface DataBlog extends Blog {
+  Category: DataCategory;
 }

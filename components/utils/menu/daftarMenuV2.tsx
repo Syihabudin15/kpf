@@ -521,4 +521,10 @@ export const menusV2: Menus[] = [
       },
     ],
   },
+  {
+    label: "Artikel",
+    url: "/artikel",
+    role: "MASTER",
+    icon: <BookOutlined />,
+  },
 ];

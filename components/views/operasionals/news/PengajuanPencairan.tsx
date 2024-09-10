@@ -224,6 +224,30 @@ export default function PengajuanPencairan() {
       ],
     },
     {
+      title: "BUKTI TRANSFER",
+      key: "bukti_transfer",
+      dataIndex: "bukti_transfer",
+      width: 100,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      render(value, record, index) {
+        return (
+          <ModalBerkas
+            data={{
+              type: "application/pdf",
+              url: record.bukti_transfer || "",
+              title: `BUKTI TRANSFER ${record.nomor_surat}`,
+            }}
+          />
+        );
+      },
+    },
+    {
       title: "NOMINATIF",
       key: "nominatif",
       dataIndex: "nominatif",
