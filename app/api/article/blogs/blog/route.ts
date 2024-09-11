@@ -6,7 +6,14 @@ export const GET = async (req: NextRequest) => {
   if (!slug) {
     return NextResponse.json(
       { msg: "Tidak ada artikel yang dipilih!" },
-      { status: 404 }
+      {
+        status: 404,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      }
     );
   }
   try {
@@ -17,7 +24,14 @@ export const GET = async (req: NextRequest) => {
     if (!result) {
       return NextResponse.json(
         { msg: "Data tidak ditemukan" },
-        { status: 404 }
+        {
+          status: 404,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          },
+        }
       );
     } else {
       await prisma.blog.update({
@@ -28,11 +42,28 @@ export const GET = async (req: NextRequest) => {
       });
       result.view = result.view + 1;
     }
-    return NextResponse.json({ data: result }, { status: 200 });
+    return NextResponse.json(
+      { data: result },
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      }
+    );
   } catch (err) {
     console.log(err);
     return NextResponse.json(
-      { msg: "Internal server error!" },
+      {
+        msg: "Internal server error!",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      },
       { status: 500 }
     );
   }

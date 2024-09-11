@@ -10,7 +10,14 @@ export const POST = async (req: NextRequest) => {
     if (!find) {
       return NextResponse.json(
         { msg: "Data tidak ditemukan!" },
-        { status: 404 }
+        {
+          status: 404,
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+          },
+        }
       );
     }
     if (data.action === "like") {
@@ -30,13 +37,27 @@ export const POST = async (req: NextRequest) => {
     }
     return NextResponse.json(
       { msg: "Terima kasih telah memberi review kepada kami" },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      }
     );
   } catch (err) {
     console.log(err);
     return NextResponse.json(
       { msg: "Internal server error!" },
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      }
     );
   }
 };

@@ -27,9 +27,6 @@ user : adminkpfi
 password : @Today1234
 => END CPANEL
 
-=> SSH LOCAL PHONE
-ssh root@192.168.43.1 -p 2022
-
 
 # Authentication
 NEXT_PUBLIC_APP_NAME="KPF"

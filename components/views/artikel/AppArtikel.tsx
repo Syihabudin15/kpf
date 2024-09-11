@@ -235,7 +235,7 @@ export default function AppArtikel() {
       <div>
         {data &&
           data.map((e, i) => (
-            <div>
+            <div key={i}>
               <div
                 className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 text-white font-bold italic p-2 text-xs text-center flex gap-3 justify-center items-center`}
               >
