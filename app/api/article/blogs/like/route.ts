@@ -12,11 +12,6 @@ export const POST = async (req: NextRequest) => {
         { msg: "Data tidak ditemukan!" },
         {
           status: 404,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-          },
         }
       );
     }
@@ -39,11 +34,6 @@ export const POST = async (req: NextRequest) => {
       { msg: "Terima kasih telah memberi review kepada kami" },
       {
         status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        },
       }
     );
   } catch (err) {
@@ -52,11 +42,6 @@ export const POST = async (req: NextRequest) => {
       { msg: "Internal server error!" },
       {
         status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        },
       }
     );
   }

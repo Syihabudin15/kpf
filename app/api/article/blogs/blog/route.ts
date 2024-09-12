@@ -8,11 +8,6 @@ export const GET = async (req: NextRequest) => {
       { msg: "Tidak ada artikel yang dipilih!" },
       {
         status: 404,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        },
       }
     );
   }
@@ -26,11 +21,6 @@ export const GET = async (req: NextRequest) => {
         { msg: "Data tidak ditemukan" },
         {
           status: 404,
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization",
-          },
         }
       );
     } else {
@@ -46,11 +36,6 @@ export const GET = async (req: NextRequest) => {
       { data: result },
       {
         status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        },
       }
     );
   } catch (err) {
@@ -58,11 +43,6 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json(
       {
         msg: "Internal server error!",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        },
       },
       { status: 500 }
     );
