@@ -102,6 +102,7 @@ export default function InputPembiayaan({
   const [byAdminBank, setByAdminBank] = useState<string>("0");
   const [byLainnya, setByLainnya] = useState<string>("0");
   const [modalGajiBersih, setModalGajiBersih] = useState(false);
+  const [modalGaji, setModalGaji] = useState(false);
 
   const hitungUlang = (type: string) => {
     if (type == "all") {
@@ -665,18 +666,23 @@ export default function InputPembiayaan({
   ]);
   useEffect(() => {
     setModalGajiBersih(false);
+    setModalGaji(false);
+    if (inputTextToDecimal(gajiBersih) < 200000) {
+      setModalGaji(true);
+    }
     if (
       jumlahGajiBersih !== "0" &&
       angsuranBulan !== "0" &&
       selectedProduk &&
       selectedProduk.name === "Flash Sisa Gaji" &&
-      inputTextToDecimal(jumlahGajiBersih) <= 250000
+      inputTextToDecimal(jumlahGajiBersih) < 100000
     ) {
       setModalGajiBersih(true);
     } else {
       setModalGajiBersih(false);
     }
   }, [jumlahGajiBersih]);
+
   return (
     <section>
       <div className="bg-orange-500 p-2 rounded">
@@ -1297,12 +1303,26 @@ export default function InputPembiayaan({
         open={modalGajiBersih}
         onCancel={() => setModalGajiBersih(false)}
         onOk={() => setModalGajiBersih(false)}
-        title="Keterangan Gaji Bersih"
+        title="Keterangan Sisa Gaji"
       >
         <div className="text-red-600 p-5">
           <p>
-            Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 250.000
+            Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000
           </p>
+          <p>
+            Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi
+            persyaratan!
+          </p>
+        </div>
+      </Modal>
+      <Modal
+        open={modalGaji}
+        onCancel={() => setModalGaji(false)}
+        onOk={() => setModalGaji(false)}
+        title="Keterangan Gaji Bersih"
+      >
+        <div className="text-red-600 p-5">
+          <p>Minimun gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 200.000</p>
           <p>
             Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi
             persyaratan!

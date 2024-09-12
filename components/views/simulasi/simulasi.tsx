@@ -13,7 +13,6 @@ import {
 import { Bank, JenisPembiayaan, Produk } from "@prisma/client";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { getAngsuranPerBulan } from "./simulasiUtil";
-import html2canvas from "html2canvas";
 const { PV, PMT, EDATE } = require("@formulajs/formulajs");
 const moment = require("moment-timezone");
 
@@ -89,6 +88,7 @@ export default function Simulasi() {
   const [alamat, setAlamat] = useState<string>();
   const [requiredModal, setRequiredModal] = useState(false);
   const [gajiBersihModal, setGajiBersihModal] = useState(false);
+  const [modalGaji, setModalGaji] = useState(false);
 
   const hitungUlang = (type: string) => {
     if (type == "all") {
@@ -610,12 +610,16 @@ export default function Simulasi() {
 
   useEffect(() => {
     setGajiBersihModal(false);
+    setModalGaji(false);
+    if (inputTextToDecimal(gajiBersih) < 200000) {
+      setModalGaji(true);
+    }
     if (
       jumlahGajiBersih !== "0" &&
       angsuranBulan !== "0" &&
       selectedProduk &&
       selectedProduk.name === "Flash Sisa Gaji" &&
-      inputTextToDecimal(jumlahGajiBersih) <= 250000
+      inputTextToDecimal(jumlahGajiBersih) < 100000
     ) {
       setGajiBersihModal(true);
     } else {
@@ -1692,8 +1696,22 @@ export default function Simulasi() {
       >
         <div className="text-red-600 p-5">
           <p>
-            Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 250.000
+            Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000
           </p>
+          <p>
+            Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi
+            persyaratan!
+          </p>
+        </div>
+      </Modal>
+      <Modal
+        open={modalGaji}
+        onCancel={() => setModalGaji(false)}
+        onOk={() => setModalGaji(false)}
+        title="Keterangan Gaji Bersih"
+      >
+        <div className="text-red-600 p-5">
+          <p>Minimun gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 200.000</p>
           <p>
             Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi
             persyaratan!

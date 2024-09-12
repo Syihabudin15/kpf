@@ -181,6 +181,9 @@ input:where(
 .tabs-mobile {
   display: none;
 }
+#new-simulation .ant-form-item {
+  margin-bottom: 5px;
+}
 @media only screen and (max-width: 760px) {
   .tabs-windows {
     display: none;

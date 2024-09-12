@@ -193,3 +193,7 @@ export interface DataCategory extends BlogCategory {
 export interface DataBlog extends Blog {
   Category: DataCategory;
 }
+
+export interface DataBankWithProduk extends Bank {
+  products: Produk[];
+}
