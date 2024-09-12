@@ -495,9 +495,9 @@ export default function Simulasi() {
       if (selectedBank && provisi === "0") {
         if ((selectedBank.by_provisi || 0) < 100) {
           let prov = (selectedBank.by_provisi || 0) / 100;
-          setProvisi(formatNumber((plaf * prov).toFixed(0)));
+          setProvisi(formatNumber((plaf * prov).toString()));
         } else {
-          setProvisi(formatNumber((selectedBank.by_provisi || 0).toFixed(0)));
+          setProvisi(formatNumber((selectedBank.by_provisi || 0).toString()));
         }
       }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
@@ -605,6 +605,7 @@ export default function Simulasi() {
     by_tatalaksana,
     produkTidakSesuai,
     jumlahGajiBersih,
+    tanggalLahir,
   ]);
 
   useEffect(() => {
@@ -614,7 +615,7 @@ export default function Simulasi() {
       angsuranBulan !== "0" &&
       selectedProduk &&
       selectedProduk.name === "Flash Sisa Gaji" &&
-      inputTextToDecimal(jumlahGajiBersih) <= 100000
+      inputTextToDecimal(jumlahGajiBersih) <= 250000
     ) {
       setGajiBersihModal(true);
     } else {
@@ -839,6 +840,7 @@ export default function Simulasi() {
                       id="produk-pembiayaan"
                       onChange={(e) => handleProduk(e)}
                       style={{ backgroundColor: "white", color: "black" }}
+                      showSearch
                     />
                     {produkTidakSesuai && (
                       <div className="text-red-500 text-xs italic">
@@ -1690,7 +1692,7 @@ export default function Simulasi() {
       >
         <div className="text-red-600 p-5">
           <p>
-            Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000
+            Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 250.000
           </p>
           <p>
             Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi

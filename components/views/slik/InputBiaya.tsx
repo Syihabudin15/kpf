@@ -284,7 +284,7 @@ export default function InputPembiayaan({
       if ((filterBank[0].by_provisi || 0) < 100) {
         let prov = (filterBank[0].by_provisi || 0) / 100;
         setProvisi(
-          formatNumber((inputTextToDecimal(plafond) * prov).toFixed(0))
+          formatNumber((inputTextToDecimal(plafond) * prov).toString())
         );
       } else {
         setProvisi(formatNumber((filterBank[0].by_provisi || 0).toString()));
@@ -496,7 +496,7 @@ export default function InputPembiayaan({
       if (selectedBank && provisi === "0") {
         if ((selectedBank.by_provisi || 0) < 100) {
           let prov = (selectedBank.by_provisi || 0) / 100;
-          setProvisi(formatNumber((plaf * prov).toFixed(0)));
+          setProvisi(formatNumber((plaf * prov).toString()));
         } else {
           setProvisi(formatNumber((selectedBank.by_provisi || 0).toString()));
         }
@@ -661,6 +661,7 @@ export default function InputPembiayaan({
     produkTidakSesuai,
     reffFee,
     selectedBank,
+    tanggalLahir,
   ]);
   useEffect(() => {
     setModalGajiBersih(false);
@@ -669,7 +670,7 @@ export default function InputPembiayaan({
       angsuranBulan !== "0" &&
       selectedProduk &&
       selectedProduk.name === "Flash Sisa Gaji" &&
-      inputTextToDecimal(jumlahGajiBersih) <= 100000
+      inputTextToDecimal(jumlahGajiBersih) <= 250000
     ) {
       setModalGajiBersih(true);
     } else {
@@ -849,6 +850,7 @@ export default function InputPembiayaan({
                       id="produk-pembiayaan"
                       onChange={(e) => handleProduk(e)}
                       style={{ backgroundColor: "white", color: "black" }}
+                      showSearch
                     />
                     {produkTidakSesuai && (
                       <div className="text-red-500 text-xs italic">
@@ -1299,7 +1301,7 @@ export default function InputPembiayaan({
       >
         <div className="text-red-600 p-5">
           <p>
-            Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000
+            Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 250.000
           </p>
           <p>
             Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi

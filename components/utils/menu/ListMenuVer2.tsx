@@ -56,12 +56,6 @@ export default function ListMenuVer2({
           role: ["MASTER"],
           icon: <MoneyCollectOutlined />,
         });
-        dataMenu.child.push({
-          label: "Laba Bersih",
-          url: `/laporan-administrasi/laba-bersih`,
-          role: ["MASTER"],
-          icon: <MoneyCollectFilled />,
-        });
         menusV2.push(dataMenu);
       }
 

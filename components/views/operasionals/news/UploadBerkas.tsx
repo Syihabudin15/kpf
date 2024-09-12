@@ -102,11 +102,13 @@ export default function UploadBerkas({
           }`]: new Date().toISOString(),
         };
       });
+      setProgress(100);
       setCurrUrl(res.data.url);
       setLoading(false);
     } catch (err) {
       console.log(err);
       message.error("Upload Failed!");
+      setProgress(0);
       setLoading(false);
     }
   };

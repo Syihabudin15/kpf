@@ -77,6 +77,7 @@ export const generateTableAngsuran = (data: DataDataPengajuan) => {
     );
     result = tables;
   } else {
+    console.log(data);
     const tables = angsuranAnuitas(
       data.DataPembiayaan.tenor,
       data.DataPembiayaan.plafond,
@@ -87,6 +88,7 @@ export const generateTableAngsuran = (data: DataDataPengajuan) => {
       data.id,
       data.DataPembiayaan.pembulatan
     );
+
     result = tables;
   }
 
@@ -201,6 +203,59 @@ const angsuranFlatToInterest = (
   return table;
 };
 
+// export const angsuranAnuitas = (
+//   tenor: number,
+//   plafond: number,
+//   bungaKoperasi: number,
+//   bungaBank: number,
+//   tanggal: string,
+//   pengajuanId: string,
+//   pembulatan: number
+// ) => {
+//   let table: any[] = [];
+//   let montly_rate = bungaKoperasi / 12 / 100;
+
+//   let monthly_installment =
+//     (plafond * montly_rate) / (1 - Math.pow(1 + montly_rate, -tenor));
+//   let rounded_installment = ceiling(monthly_installment, pembulatan);
+
+//   for (let i = 0; i <= tenor; i++) {
+//     if (i === 0) {
+//       table.push({
+//         angsuran_ke: i,
+//         tanggal_bayar: moment(tanggal).add(i, "M").format("YYYY-MM-DD"),
+//         angsuran: "0",
+//         angsuran_bank: "0",
+//         pokok: "0",
+//         margin: "0",
+//         sisa: plafond.toFixed(0),
+//         dataPengajuannId: pengajuanId,
+//       });
+//     } else {
+//       let interest = rounded(plafond * montly_rate, 0);
+//       let principal = rounded_installment - interest;
+//       let total = plafond - principal;
+
+//       plafond -= principal;
+//       if (total < 0) {
+//         interest += Math.abs(total);
+//         principal -= Math.abs(total);
+//         total = 0; // Set sisa pokok menjadi nol
+//       }
+//       table.push({
+//         angsuran_ke: i,
+//         tanggal_bayar: moment(tanggal).add(i, "M").format("YYYY-MM-DD"),
+//         angsuran: rounded_installment.toFixed(0),
+//         angsuran_bank: rounded_installment.toFixed(0),
+//         pokok: principal.toFixed(0),
+//         margin: interest.toFixed(0),
+//         sisa: total.toFixed(0),
+//         dataPengajuannId: pengajuanId,
+//       });
+//     }
+//   }
+//   return table;
+// };
 export const angsuranAnuitas = (
   tenor: number,
   plafond: number,
@@ -212,22 +267,26 @@ export const angsuranAnuitas = (
 ) => {
   let table: any[] = [];
 
-  const angsuran = ceiling(
-    parseInt(getAngsuranPerBulan(bungaKoperasi, tenor, plafond)),
-    pembulatan
-  );
-  const angsuranBank = ceiling(
+  // const angsuran = ceiling(
+  //   parseInt(getAngsuranPerBulan(bungaKoperasi, tenor, plafond)),
+  //   pembulatan
+  // );
+  // const angsuranBank = ceiling(
+  //   parseInt(getAngsuranPerBulan(bungaBank, tenor, plafond)),
+  //   pembulatan
+  // );
+  // const colfee = angsuran - angsuranBank;
+  // let total = plafond;
+
+  let montly_rate = bungaKoperasi / 12 / 100;
+
+  let monthly_installment =
+    (plafond * montly_rate) / (1 - Math.pow(1 + montly_rate, -tenor));
+  let rounded_installment = ceiling(monthly_installment, pembulatan);
+  let angsuranBank = ceiling(
     parseInt(getAngsuranPerBulan(bungaBank, tenor, plafond)),
     pembulatan
   );
-  const colfee = angsuran - angsuranBank;
-  let total = plafond;
-
-  // let montly_rate = bungaKoperasi / 12 / 100;
-
-  // let monthly_installment =
-  //   (plafond * montly_rate) / (1 - Math.pow(1 + montly_rate, -tenor));
-  // let rounded_installment = ceiling(monthly_installment, pembulatan);
 
   for (let i = 0; i <= tenor; i++) {
     if (i === 0) {
@@ -243,29 +302,29 @@ export const angsuranAnuitas = (
         dataPengajuanId: pengajuanId,
       });
     } else {
-      // let interest = rounded(plafond * montly_rate, 0);
-      // let principal = rounded_installment - interest;
-      // let total = plafond - principal;
+      let interest = rounded(plafond * montly_rate, 0);
+      let principal = rounded_installment - interest;
+      let total = plafond - principal;
 
-      // plafond -= principal;
-      // if (total < 0) {
-      //   interest += Math.abs(total);
-      //   principal -= Math.abs(total);
-      //   total = 0; // Set sisa pokok menjadi nol
-      // }
-      const margin = parseInt(
-        getAngsuranPerBulan(bungaKoperasi / 12, tenor, total)
-      );
-      const pokok = angsuran - margin;
-      total -= pokok;
+      plafond -= principal;
+      if (total < 0) {
+        interest += Math.abs(total);
+        principal -= Math.abs(total);
+        total = 0; // Set sisa pokok menjadi nol
+      }
+      // const margin = parseInt(
+      //   getAngsuranPerBulan(bungaKoperasi / 12, tenor, total)
+      // );
+      // const pokok = angsuran - margin;
+      // total -= pokok;
       table.push({
         angsuran_ke: i,
-        angsuran: angsuran.toFixed(0),
-        pokok: pokok.toFixed(0),
-        margin: margin.toFixed(0),
+        angsuran: rounded_installment.toFixed(0),
+        pokok: principal.toFixed(0),
+        margin: (rounded_installment - principal).toFixed(0),
         margin_bank: angsuranBank.toFixed(0),
         tanggal_bayar: moment(tanggal).add(i, "M").format("YYYY-MM-DD"),
-        collfee: colfee.toFixed(0),
+        collfee: (rounded_installment - angsuranBank).toFixed(0),
         sisa: total.toFixed(0),
         dataPengajuanId: pengajuanId,
       });

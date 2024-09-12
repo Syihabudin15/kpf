@@ -1,10 +1,11 @@
 => GITHUB
 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
+https://github.com/Syihabudin15/kpf.git
 => END GITHUB
 
 
 => DB
-host:103.150.190.79
+host:103.150.190.79 
 username: kpfidb
 password : @Today1234
 ssh sipkpf@kpfi.co.id

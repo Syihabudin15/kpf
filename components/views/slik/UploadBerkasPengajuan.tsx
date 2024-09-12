@@ -66,9 +66,9 @@ export default function UploadBerkas({
             setProgress(1);
             const percent = Math.floor((event.loaded / event.total) * 100);
             setProgress(percent);
-            // if (percent === 100) {
-            //   setProgress(100);
-            // }
+            if (percent === 100) {
+              setProgress(100);
+            }
             onProgress({ percent: (event.loaded / event.total) * 100 });
           },
         }
@@ -79,11 +79,19 @@ export default function UploadBerkas({
           [pathName]: res.data.url,
         };
       });
+      setProgress(100);
       setCurrUrl(res.data.url);
       setLoading(false);
     } catch (err) {
       console.log(err);
       message.error("Upload Failed!");
+      setProgress(0);
+      setUrl((prev: any) => {
+        return {
+          ...prev,
+          [pathName]: null,
+        };
+      });
       setLoading(false);
     }
   };
