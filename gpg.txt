@@ -71,5 +71,3 @@ https://portal.biznetgio.com/user/login
 username : wgerizal@gmail.com
 password : @Today1234
 
-#Kategori Pengeluaran
-MATERAI, TERIMA BERSIH, FEE PENCAIRAN, IDPB & SKPP, MUTASI, TRANSPORTASI

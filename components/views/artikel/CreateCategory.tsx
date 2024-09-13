@@ -37,7 +37,7 @@ export default function CreateCategory({
     setLoading(true);
     try {
       const res = await fetch("/api/article", {
-        method: "POST",
+        method: data ? "PUT" : "POST",
         headers: { "Content-type": "Application/json" },
         body: JSON.stringify({
           name: e.name,

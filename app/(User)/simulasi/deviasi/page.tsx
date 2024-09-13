@@ -15,5 +15,9 @@ const NewSimulation = dynamic(
 );
 
 export default async function page() {
-  return <NewSimulation />;
+  return (
+    <>
+      <NewSimulation />
+    </>
+  );
 }

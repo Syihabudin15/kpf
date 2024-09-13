@@ -114,6 +114,23 @@ export function getUsiaMasuk(tgl_lahir: string, tgl_akad: string) {
   };
   return result;
 }
+export function newGetUsiaMasuk(tgl_lahir: Date, tgl_akad: Date) {
+  const date1 = moment(tgl_akad);
+  const date2 = moment(tgl_lahir);
+
+  const year = date1.diff(date2, "year");
+  date2.add(year, "years");
+  const month = date1.diff(date2, "months");
+  date2.add(month, "months");
+  const day = date1.diff(date2, "days");
+
+  const result = {
+    tahun: year.toString(),
+    bulan: month.toString(),
+    hari: day.toString(),
+  };
+  return result;
+}
 
 export function daysInMonth(month: number, year: number) {
   return new Date(year, month, 0).getDate();

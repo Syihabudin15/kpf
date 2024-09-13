@@ -611,7 +611,10 @@ export default function Simulasi() {
   useEffect(() => {
     setGajiBersihModal(false);
     setModalGaji(false);
-    if (inputTextToDecimal(gajiBersih) < 200000) {
+    if (
+      inputTextToDecimal(gajiBersih) != 0 &&
+      inputTextToDecimal(gajiBersih) < 200000
+    ) {
       setModalGaji(true);
     }
     if (
@@ -1027,8 +1030,20 @@ export default function Simulasi() {
                   </tr>
                   <tr className="flex justify-between border-b border-gray-300 items-center py-2">
                     <td>
-                      <div className="font-semibold text-sm">Buka Rekening</div>
-                      <div className="text-xs">Biaya buka rekening</div>
+                      <div className="font-semibold text-sm">
+                        {jenisDisable &&
+                        selectedBank &&
+                        selectedBank.kode === "KPF"
+                          ? "Tabungan Anggota"
+                          : "Buka Rekening"}
+                      </div>
+                      <div className="text-xs">
+                        {jenisDisable &&
+                        selectedBank &&
+                        selectedBank.kode === "KPF"
+                          ? "Biaya tabungan anggota"
+                          : "Biaya buka rekening"}
+                      </div>
                     </td>
                     <td></td>
                     <td className="pembiayaan-simulasi">

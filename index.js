@@ -9,17 +9,6 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
-  server.use(
-    cors({
-      origin: [
-        "http://localhost:5173",
-        "https://kpfi.co.id",
-        "https://www.kpfi.co.id",
-      ],
-      allowedHeaders: ["Content-Type", "Accept"],
-      methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    })
-  );
   server.use("/category", express.static(__dirname + "/storage/category"));
   server.use("/blog", express.static(__dirname + "/storage/blog"));
 
