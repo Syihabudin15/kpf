@@ -1,6 +1,5 @@
 const next = require("next");
 const express = require("express");
-const cors = require("cors");
 
 const port = parseInt(process.env.PORT || "5000", 10);
 const dev = process.env.NODE_ENV !== "production";

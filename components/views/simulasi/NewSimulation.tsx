@@ -1,25 +1,68 @@
 "use client";
-import { formatNumber, newGetUsiaMasuk } from "@/components/utils/inputUtils";
-import { DataBankWithProduk } from "@/components/utils/Interfaces";
+import {
+  formatNumber,
+  inputTextToDecimal,
+  newGetUsiaMasuk,
+} from "@/components/utils/inputUtils";
+import {
+  DataBankWithProduk,
+  ITempBank,
+  ITempProduk,
+} from "@/components/utils/Interfaces";
 import {
   EyeFilled,
   InfoCircleFilled,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { Bank, JenisPembiayaan, Produk } from "@prisma/client";
+import { JenisPembiayaan } from "@prisma/client";
 import { Form, Input, Modal, Select } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 
 export default function NewSimulation() {
-  const [form] = Form.useForm();
   const [hideBank, setHideBank] = useState(false);
   const [dataBank, setDataBank] = useState<DataBankWithProduk[]>([]);
   const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isDisable, setIsDisable] = useState(true);
+  const [isDisable, setIsDisable] = useState(false);
   const [open, setOpen] = useState(false);
   const [produkSesuai, setProdukSesuai] = useState<string[]>();
+  const [labelTabungan, setLabelTabungan] = useState("Buka Rekening");
+  const [bank, setBank] = useState<ITempBank>({
+    id: "",
+    name: "",
+    kode: "",
+    by_admin: 0,
+    by_admin_bank: 0,
+    by_lainnya: 0,
+    by_tatalaksana: 0,
+    by_materai: 0,
+    by_buka_rekening: 0,
+    by_angsuran: 95,
+    by_flagging: 0,
+    by_epotpen: 0,
+    by_provisi: 0,
+    margin_bank: 0,
+    is_syariah: false,
+    is_flash: false,
+    pembulatan: 0,
+  });
+  const [prduk, setPrduk] = useState<ITempProduk>({
+    id: "",
+    name: "",
+    by_asuransi: 0,
+    mg_bunga: 0,
+    min_age: 0,
+    max_age: 0,
+    max_usia_lunas: 0,
+    max_tenor: 0,
+    max_plafon: 0,
+    gaji_bersih: 0,
+    tenor: 0,
+    plafond: 0,
+  });
+  const [form] = Form.useForm();
+  const formWatch = Form.useWatch([], form);
 
   const getData = async () => {
     setLoading(true);
@@ -39,48 +82,52 @@ export default function NewSimulation() {
     })();
   }, []);
 
-  const handleChange = (e: any, path?: string, value?: string) => {
-    if (!e.tanggal_lahir) {
+  useEffect(() => {
+    if (!formWatch.tanggal_lahir) {
       return setIsDisable(true);
     }
     setIsDisable(false);
-    const { tahun, bulan, hari } = newGetUsiaMasuk(e.tanggal_lahir, new Date());
-    form.setFieldsValue({ tahun, bulan, hari });
-    const available: string[] = [];
-    dataBank.forEach((b) => {
-      b.products.forEach((p) => {
-        if (
-          p.min_age <= parseFloat(`${tahun}.${bulan}`) &&
-          p.max_age <= parseFloat(`${tahun}.${bulan}`)
-        ) {
-          available.push(p.name);
-        }
-      });
-    });
-    setProdukSesuai(available);
 
-    let produk: Produk;
-    let bank: Bank;
-    let jenis: JenisPembiayaan;
+    // let administrasi =
+    //   inputTextToDecimal(form.getFieldValue("plafond") || "0") *
+    //   ((bank.by_admin + (bank.by_admin_bank || 0)) / 100);
+    // let asuransi =
+    //   inputTextToDecimal(form.getFieldValue("plafond") || "0") *
+    //   (prduk.by_asuransi / 100);
+    // let tatalaksanaExpres = bank.by_tatalaksana;
+    // let tatalaksanaReguller =
+    //   inputTextToDecimal(form.getFieldValue("plafond") || "0") * (3 / 100);
+    // let provisi = 0;
+    // if ((bank.by_provisi || 0) > 100) {
+    //   provisi = bank.by_provisi || 0;
+    // } else {
+    //   provisi =
+    //     inputTextToDecimal(form.getFieldValue("plafond") || "0") *
+    //     ((bank.by_provisi || 0) / 100);
+    // }
 
-    // Biaya-Biaya
-    // End Biaya-Biaya
-
-    if (path && value) {
-      form.setFieldValue(path, value);
-      if (path === "produk_pembiayaan") {
-        dataBank.forEach((b) => {
-          const findProduk = b.products.filter((prod) => prod.id === value);
-          if (findProduk) {
-            produk = findProduk[0];
-            bank = b;
-          }
-        });
-      } else {
-        jenis = dataJenis.filter((j) => j.id === value)[0];
-      }
-    }
-  };
+    // form.setFieldsValue({
+    //   tahun,
+    //   bulan,
+    //   hari,
+    //   gaji_bersih: formatNumber(formWatch.gaji_bersih || "0"),
+    //   sumber_dana: bank.name,
+    //   admin_bank: bank.by_admin_bank,
+    //   admin_koperasi: bank.by_admin,
+    //   administrasi: formatNumber(administrasi.toFixed(0)),
+    //   input_asuransi: prduk.by_asuransi,
+    //   asuransi: formatNumber(asuransi.toFixed(0)),
+    //   tatalaksana:
+    //     prduk.name === "Flash Sisa Gaji"
+    //       ? formatNumber(tatalaksanaExpres.toFixed(0))
+    //       : formatNumber(tatalaksanaReguller.toFixed(0)),
+    //   buka_rekening: formatNumber(bank.by_buka_rekening.toFixed(0)),
+    //   materai: formatNumber(bank.by_materai.toFixed(0)),
+    //   flagging: formatNumber(bank.by_flagging.toFixed(0)),
+    //   epotpen: formatNumber(bank.by_epotpen.toFixed(0)),
+    //   provisi: formatNumber(provisi.toFixed(0)),
+    // });
+  }, [formWatch]);
 
   return (
     <div className="rounded border shadow bg-white" id="new-simulation">
@@ -90,12 +137,7 @@ export default function NewSimulation() {
         </h1>
         <p className="text-gray-200 text-xs">Analisa Perhitungan</p>
       </div>
-      <Form
-        layout="vertical"
-        className="my-2 md:flex gap-3"
-        form={form}
-        onChange={(e) => handleChange(form.getFieldsValue())}
-      >
+      <Form layout="vertical" className="my-2 md:flex gap-3" form={form}>
         <div className="flex-1 p-1">
           <Form.Item label="Tanggal Simulasi" name={"tanggal_simulasi"}>
             <Input
@@ -125,7 +167,31 @@ export default function NewSimulation() {
               name={"tanggal_lahir"}
               className="flex-1"
             >
-              <Input type="date" placeholder="DD-MM-YYYY" />
+              <Input
+                type="date"
+                placeholder="DD-MM-YYYY"
+                onChange={(e) => {
+                  const { tahun, bulan, hari } = newGetUsiaMasuk(
+                    new Date(e.target.value),
+                    new Date()
+                  );
+                  let tempProduk: string[] = [];
+                  dataBank.forEach((b) => {
+                    b.products.forEach((p) => {
+                      if (
+                        p.min_age <= parseInt(tahun) &&
+                        p.max_age >= parseInt(tahun)
+                      ) {
+                        tempProduk.push(p.name);
+                      }
+                    });
+                  });
+                  form.setFieldsValue({ tahun, bulan, hari });
+                  setProdukSesuai(
+                    tempProduk.filter((e, i, o) => o.indexOf(e) === i)
+                  );
+                }}
+              />
             </Form.Item>
             <div className="flex-1">
               <p className="pb-1">Usia Saat ini</p>
@@ -163,14 +229,17 @@ export default function NewSimulation() {
               <Input
                 defaultValue={0}
                 placeholder="0"
-                onBlur={(e) => {
-                  form.setFieldValue(
-                    "gaji_bersih",
-                    formatNumber(e.target.value)
-                  );
-                  return;
-                }}
                 disabled={isDisable}
+                onChange={(e) =>
+                  setPrduk((prev) => {
+                    const temp = formatNumber(e.target.value);
+                    const result = inputTextToDecimal(temp);
+                    return {
+                      ...prev,
+                      gaji_bersih: result,
+                    };
+                  })
+                }
               />
             </Form.Item>
             <Form.Item
@@ -184,9 +253,6 @@ export default function NewSimulation() {
                 })}
                 showSearch
                 placeholder="Pilih Jenis"
-                onChange={(e) =>
-                  handleChange(form.getFieldsValue(), "jenis_pembiayaan", e)
-                }
                 disabled={isDisable}
               />
             </Form.Item>
@@ -220,9 +286,51 @@ export default function NewSimulation() {
                 disabled={isDisable}
                 showSearch
                 placeholder="Pilih Produk"
-                onChange={(e) =>
-                  handleChange(form.getFieldsValue(), "produk_pembiayaan", e)
-                }
+                onChange={(e) => {
+                  dataBank.forEach((b) => {
+                    const tempProduk = b.products.filter((p) => p.id === e);
+                    if (tempProduk.length !== 0) {
+                      setPrduk((prev) => {
+                        return {
+                          ...prev,
+                          id: tempProduk[0].id,
+                          name: tempProduk[0].name,
+                          by_asuransi: tempProduk[0].by_asuransi,
+                          mg_bunga: tempProduk[0].mg_bunga,
+                          min_age: tempProduk[0].min_age,
+                          max_age: tempProduk[0].max_age,
+                          max_usia_lunas: tempProduk[0].max_usia_lunas,
+                          max_tenor: tempProduk[0].max_tenor,
+                          max_plafon: tempProduk[0].max_plafon,
+                        };
+                      });
+                      if (b.id === tempProduk[0].bank_id) {
+                        setBank((prev) => {
+                          return {
+                            ...prev,
+                            id: b.id,
+                            name: b.name,
+                            kode: b.kode || "BPR",
+                            by_admin: b.by_admin,
+                            by_admin_bank: b.by_admin_bank || 0,
+                            by_lainnya: b.by_lainnya || 0,
+                            by_tatalaksana: b.by_tatalaksana,
+                            by_materai: b.by_materai,
+                            by_buka_rekening: b.by_buka_rekening,
+                            by_angsuran: b.by_angsuran,
+                            by_flagging: b.by_flagging,
+                            by_epotpen: b.by_epotpen,
+                            by_provisi: b.by_provisi || 0,
+                            margin_bank: b.margin_bank || 0,
+                            is_syariah: false,
+                            is_flash: false,
+                            pembulatan: 0,
+                          };
+                        });
+                      }
+                    }
+                  });
+                }}
               />
             </Form.Item>
             <Form.Item
@@ -270,11 +378,17 @@ export default function NewSimulation() {
               <Input
                 defaultValue={0}
                 placeholder="0"
-                onBlur={(e) => {
-                  form.setFieldValue("plafond", formatNumber(e.target.value));
-                  return;
-                }}
                 disabled={isDisable}
+                onChange={(e) =>
+                  setPrduk((prev) => {
+                    const temp = formatNumber(e.target.value);
+                    const result = inputTextToDecimal(temp);
+                    return {
+                      ...prev,
+                      gaji_bersih: result,
+                    };
+                  })
+                }
               />
             </Form.Item>
             <Form.Item
@@ -292,7 +406,12 @@ export default function NewSimulation() {
           </div>
           <div className="flex gap-3">
             <Form.Item label="Angsuran" name={"angsuran"} className="flex-1">
-              <Input defaultValue={0} placeholder="0" disabled />
+              <Input
+                defaultValue={0}
+                placeholder="0"
+                disabled
+                style={{ backgroundColor: "white", color: "black" }}
+              />
             </Form.Item>
             <Form.Item
               label="Max Angsuran"
@@ -315,13 +434,14 @@ export default function NewSimulation() {
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Administrasi</div>
-            <div className="w-28 flex gap-2">
+            <div className="w-36 flex gap-2">
               <Form.Item name={"admin_koperasi"}>
                 <Input
                   type="number"
                   placeholder="kpf"
                   defaultValue={0}
                   disabled={isDisable}
+                  suffix={"%"}
                 />
               </Form.Item>
               <Form.Item name={"admin_bank"}>
@@ -330,6 +450,7 @@ export default function NewSimulation() {
                   placeholder="mitra"
                   defaultValue={0}
                   disabled={isDisable}
+                  suffix={"%"}
                 />
               </Form.Item>
             </div>
@@ -344,13 +465,16 @@ export default function NewSimulation() {
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Asuransi</div>
-            <div className="w-28">
-              <Input
-                type="number"
-                placeholder="0"
-                defaultValue={0}
-                disabled={isDisable}
-              />
+            <div className="w-36 ">
+              <Form.Item name={"input_asuransi"}>
+                <Input
+                  type="number"
+                  placeholder="0"
+                  defaultValue={0}
+                  disabled={isDisable}
+                  suffix={"%"}
+                />
+              </Form.Item>
             </div>
             <Form.Item name={"asuransi"} className="flex-1">
               <Input
@@ -363,69 +487,32 @@ export default function NewSimulation() {
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Tatalaksana</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"tatalaksana"} className="flex-1">
-              <Input
-                placeholder="0"
-                defaultValue={0}
-                onBlur={(e) => {
-                  form.setFieldValue(
-                    "tatalaksana",
-                    formatNumber(e.target.value)
-                  );
-                  return;
-                }}
-                disabled={isDisable}
-              />
+              <Input placeholder="0" defaultValue={0} disabled={isDisable} />
             </Form.Item>
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-            <div className="font-semibold flex-1">Buka Rekening</div>
-            <div className="w-28"></div>
+            <div className="font-semibold flex-1">{labelTabungan}</div>
+            <div className="w-36 "></div>
             <Form.Item name={"buka_rekening"} className="flex-1">
-              <Input
-                placeholder="0"
-                defaultValue={0}
-                onBlur={(e) => {
-                  form.setFieldValue(
-                    "buka_rekening",
-                    formatNumber(e.target.value)
-                  );
-                  return;
-                }}
-                disabled={isDisable}
-              />
+              <Input placeholder="0" defaultValue={0} disabled={isDisable} />
             </Form.Item>
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Materai</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"materai"} className="flex-1">
-              <Input
-                placeholder="0"
-                defaultValue={0}
-                onBlur={(e) => {
-                  form.setFieldValue("materai", formatNumber(e.target.value));
-                  return;
-                }}
-                disabled={isDisable}
-              />
+              <Input placeholder="0" defaultValue={0} disabled={isDisable} />
             </Form.Item>
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Data Informasi</div>
-            <div className="w-28">
+            <div className="w-36 ">
               <Form.Item name={"flagging"} className="flex-1">
                 <Input
                   placeholder="flagging"
                   defaultValue={0}
-                  onBlur={(e) => {
-                    form.setFieldValue(
-                      "flagging",
-                      formatNumber(e.target.value)
-                    );
-                    return;
-                  }}
                   disabled={isDisable}
                 />
               </Form.Item>
@@ -434,17 +521,13 @@ export default function NewSimulation() {
               <Input
                 placeholder="epotpen"
                 defaultValue={0}
-                onBlur={(e) => {
-                  form.setFieldValue("epotpen", formatNumber(e.target.value));
-                  return;
-                }}
                 disabled={isDisable}
               />
             </Form.Item>
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Mutasi</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"mutasi"} className="flex-1">
               <Input
                 placeholder="0"
@@ -456,22 +539,14 @@ export default function NewSimulation() {
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Provisi</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"provisi"} className="flex-1">
-              <Input
-                placeholder="0"
-                defaultValue={0}
-                onBlur={(e) => {
-                  form.setFieldValue("provisi", formatNumber(e.target.value));
-                  return;
-                }}
-                disabled={isDisable}
-              />
+              <Input placeholder="0" defaultValue={0} disabled={isDisable} />
             </Form.Item>
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Blokir Angsuran</div>
-            <div className="w-28">
+            <div className="w-36 ">
               <Form.Item name={"blokir"} className="flex-1">
                 <Input
                   placeholder="0"
@@ -492,7 +567,7 @@ export default function NewSimulation() {
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Terima Kotor</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"kotor"} className="flex-1">
               <Input
                 placeholder="0"
@@ -504,37 +579,21 @@ export default function NewSimulation() {
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">BPP</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"bpp"} className="flex-1">
-              <Input
-                placeholder="0"
-                defaultValue={0}
-                onBlur={(e) => {
-                  form.setFieldValue("bpp", formatNumber(e.target.value));
-                  return;
-                }}
-                disabled={isDisable}
-              />
+              <Input placeholder="0" defaultValue={0} disabled={isDisable} />
             </Form.Item>
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Pelunasan</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"pelunasan"} className="flex-1">
-              <Input
-                placeholder="0"
-                defaultValue={0}
-                onBlur={(e) => {
-                  form.setFieldValue("pelunasan", formatNumber(e.target.value));
-                  return;
-                }}
-                disabled={isDisable}
-              />
+              <Input placeholder="0" defaultValue={0} disabled={isDisable} />
             </Form.Item>
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Terima Bersih</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"bersih"} className="flex-1">
               <Input
                 placeholder="0"
@@ -546,7 +605,7 @@ export default function NewSimulation() {
           </div>
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Sisa Gaji</div>
-            <div className="w-28"></div>
+            <div className="w-36 "></div>
             <Form.Item name={"sisa_gaji"} className="flex-1">
               <Input
                 placeholder="0"

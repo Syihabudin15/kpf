@@ -136,6 +136,7 @@ export default function MasterDashboard() {
                 series={pie.series}
                 type="donut"
                 key={"master-donut"}
+                width={"100%"}
               />
             ) : (
               <LoadingOutlined />

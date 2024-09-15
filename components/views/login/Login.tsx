@@ -17,7 +17,6 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
   const [loading, setLoading] = useState(false);
   const notif = useContext(notifContext);
   const [stateTry, setStateTry] = useState<number>(0);
-  const [cap, setCap] = useState(false);
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -36,11 +35,6 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
       return;
     }
     setLoading(true);
-    if (!cap) {
-      setFeed("Mohon validasi captcha");
-      setLoading(false);
-      return;
-    }
     const result = await signIn("credentials", {
       username: e.username.toLowerCase(),
       password: e.password,
@@ -88,19 +82,7 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
                 <Form.Item label="Password" name={"password"}>
                   <Input.Password required onChange={() => setFeed("")} />
                 </Form.Item>
-                <Form.Item
-                  required
-                  className="flex justify-center"
-                  style={{
-                    overflowX: "hidden",
-                  }}
-                >
-                  <ReCAPTCHA
-                    sitekey="6Ldoq6MpAAAAAB_Ewiq0iZWG4fSEgQiTtlTqCDvV"
-                    onChange={(e) => e && setCap(true)}
-                    onErrored={() => setCap(false)}
-                  />
-                </Form.Item>
+                <div className="mt-20"></div>
                 {feed && (
                   <p
                     className="italic text-red-600 mb-2"

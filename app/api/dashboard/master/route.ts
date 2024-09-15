@@ -49,7 +49,7 @@ export const GET = async (req: NextRequest) => {
 
   const date = new Date();
   for (let i = 0; i < banks.length; i++) {
-    let bankName = banks[i].name;
+    let bankName = banks[i].kode ? banks[i].kode : banks[i].name;
     let series: number[] = [];
     for (let j = 0; j < date.getMonth() + 1; j++) {
       months.push(moment(`${date.getFullYear()}-${j + 1}-01`).format("MMM"));
@@ -80,7 +80,7 @@ export const GET = async (req: NextRequest) => {
       find.forEach((res) => (temp += res.DataPembiayaan.plafond));
       series.push(temp);
     }
-    line.push({ name: bankName, data: series });
+    line.push({ name: bankName || "", data: series });
   }
   let antri = 0;
   let transfer = 0;

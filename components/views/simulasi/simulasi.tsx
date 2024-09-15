@@ -1519,7 +1519,11 @@ export default function Simulasi() {
               <div
                 className={`flex justify-between py-0 border-b border-gray-200`}
               >
-                <div>Biaya Buka Rekening</div>
+                <div>
+                  {jenisDisable && selectedBank && selectedBank.kode === "KPF"
+                    ? "Biaya tabungan anggota"
+                    : "Biaya buka rekening"}
+                </div>
                 <div className="text-right">
                   {selectedBank
                     ? formatNumber(selectedBank.by_buka_rekening.toString())

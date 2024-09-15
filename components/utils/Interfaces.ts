@@ -197,3 +197,37 @@ export interface DataBlog extends Blog {
 export interface DataBankWithProduk extends Bank {
   products: Produk[];
 }
+
+export interface ITempBank {
+  id: string;
+  name: string;
+  kode: string;
+  by_admin: number;
+  by_admin_bank: number;
+  by_lainnya: number;
+  by_tatalaksana: number;
+  by_materai: number;
+  by_buka_rekening: number;
+  by_angsuran: number;
+  by_flagging: number;
+  by_epotpen: number;
+  by_provisi: number;
+  margin_bank: number;
+  is_syariah: boolean;
+  is_flash: boolean;
+  pembulatan: number;
+}
+export interface ITempProduk {
+  id: string;
+  name: string;
+  by_asuransi: number;
+  mg_bunga: number;
+  min_age: number;
+  max_age: number;
+  max_usia_lunas: number;
+  max_tenor: number;
+  max_plafon: number;
+  gaji_bersih: number;
+  tenor: number;
+  plafond: number;
+}

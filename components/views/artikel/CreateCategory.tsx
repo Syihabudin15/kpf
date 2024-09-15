@@ -71,6 +71,42 @@ export default function CreateCategory({
     setCurrExt(file.type.split("/")[1]);
     return isJpgOrPng;
   };
+  const handleUpdate = async (options: any) => {
+    setLoading(true);
+    const { onSuccess, onError, file, onProgress } = options;
+    const base64 = await getBase64(file);
+
+    try {
+      const res = await axios.put(
+        "/api/article/upload/category",
+        {
+          file: base64,
+          dir: "category",
+          ext: currExt,
+          id: data ? data.id : "",
+        },
+        {
+          headers: { "Content-Type": "Application/json" },
+          onUploadProgress: (event: any) => {
+            const percent = Math.floor((event.loaded / event.total) * 100);
+            setCurrImg({ filename: "", progress: percent });
+            if (percent === 100) {
+              setCurrImg({ filename: "", progress: 100 });
+            }
+            onProgress({ percent: (event.loaded / event.total) * 100 });
+          },
+        }
+      );
+      console.log(res.data.url);
+      setCurrImg({ filename: res.data.url, progress: 100 });
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      message.error("Upload gagal. coba lagi!");
+      setCurrImg({ filename: "", progress: 0 });
+      setLoading(false);
+    }
+  };
   const handleUpload = async (options: any) => {
     setLoading(true);
     const { onSuccess, onError, file, onProgress } = options;
@@ -125,6 +161,7 @@ export default function CreateCategory({
   useEffect(() => {
     if (data) {
       setCurrImg({ filename: data.image, progress: 100 });
+      setCurrExt(data.image.split(".")[1]);
     }
   }, []);
 
@@ -152,7 +189,10 @@ export default function CreateCategory({
         footer={[]}
       >
         <div className="my-3">
-          <Form onFinish={handleSubmit} labelCol={{ span: 5 }}>
+          <Form
+            onFinish={data ? handleUpdate : handleSubmit}
+            labelCol={{ span: 5 }}
+          >
             <Form.Item label="Name" name={"name"}>
               <Input defaultValue={data?.name} />
             </Form.Item>
@@ -189,6 +229,7 @@ export default function CreateCategory({
                         type="primary"
                         loading={loading}
                         onClick={() => handleDelete()}
+                        htmlType="button"
                       ></Button>
                     </div>
                   ) : (
