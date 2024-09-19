@@ -44,6 +44,7 @@ export default function CreateCategory({
           slug: e.name.replace(" ", "-").toLowerCase(),
           image: currImg.filename,
           description: e.description,
+          id: data ? data.id : "",
         }),
       });
       if (!res.ok) {
@@ -189,10 +190,7 @@ export default function CreateCategory({
         footer={[]}
       >
         <div className="my-3">
-          <Form
-            onFinish={data ? handleUpdate : handleSubmit}
-            labelCol={{ span: 5 }}
-          >
+          <Form onFinish={handleSubmit} labelCol={{ span: 5 }}>
             <Form.Item label="Name" name={"name"}>
               <Input defaultValue={data?.name} />
             </Form.Item>
@@ -207,7 +205,9 @@ export default function CreateCategory({
                   beforeUpload={beforeUploadPDF}
                   accept={"image/jpg,image/png,image/jpeg"}
                   multiple={false}
-                  customRequest={(options) => handleUpload(options)}
+                  customRequest={(options) =>
+                    data ? handleUpdate(options) : handleUpload(options)
+                  }
                   showUploadList={false}
                 >
                   <button

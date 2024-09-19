@@ -213,8 +213,6 @@ export interface ITempBank {
   by_epotpen: number;
   by_provisi: number;
   margin_bank: number;
-  is_syariah: boolean;
-  is_flash: boolean;
   pembulatan: number;
 }
 export interface ITempProduk {
@@ -227,7 +225,26 @@ export interface ITempProduk {
   max_usia_lunas: number;
   max_tenor: number;
   max_plafon: number;
+}
+export interface IDapem {
+  tanggal_simulasi: Date;
+  nama_pemohon: string;
+  nopen: string;
+  alamat: string;
+  tanggal_lahir: Date | null;
+  tahun: number;
+  bulan: number;
+  hari: number;
   gaji_bersih: number;
   tenor: number;
   plafond: number;
+  angsuran: number;
+  provisi: number;
+  blokir: number;
+  terima_kotor: number;
+  bpp: number;
+  pelunasan: number;
+  terima_bersih: number;
+  sisa_gaji: number;
+  is_flash: boolean;
 }

@@ -129,7 +129,7 @@ export default function MasterDashboard() {
               <LoadingOutlined />
             )}
           </div>
-          <div className="bg-white p-1 rounded shadow" style={{ flex: 0.8 }}>
+          <div className={`bg-white p-1 rounded shadow`} style={{ flex: 0.8 }}>
             {pie ? (
               <ReactApexChart
                 options={pie.options}
@@ -137,6 +137,7 @@ export default function MasterDashboard() {
                 type="donut"
                 key={"master-donut"}
                 width={"100%"}
+                height={"300px"}
               />
             ) : (
               <LoadingOutlined />

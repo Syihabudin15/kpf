@@ -15,6 +15,7 @@ import {
   message,
   Typography,
   Select,
+  Tooltip,
 } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -303,7 +304,15 @@ export default function MonitoringPusat() {
       fixed: window.innerWidth < 600 ? false : "left",
       width: 150,
       render(value, record, index) {
-        return <>{record.DataPembiayaan.name}</>;
+        return (
+          <>
+            <Tooltip
+              title={`Admin : ${record.DataPembiayaan.User.first_name} ${record.DataPembiayaan.User.first_name}`}
+            >
+              {record.DataPembiayaan.name}
+            </Tooltip>
+          </>
+        );
       },
     },
     {

@@ -494,14 +494,14 @@ export default function InputPembiayaan({
     if (plafond) {
       getAngsuran();
       const plaf = inputTextToDecimal(plafond);
-      if (selectedBank && provisi === "0") {
-        if ((selectedBank.by_provisi || 0) < 100) {
-          let prov = (selectedBank.by_provisi || 0) / 100;
-          setProvisi(formatNumber((plaf * prov).toString()));
-        } else {
-          setProvisi(formatNumber((selectedBank.by_provisi || 0).toString()));
-        }
-      }
+      // if (selectedBank && provisi === "0") {
+      //   if ((selectedBank.by_provisi || 0) < 100) {
+      //     let prov = (selectedBank.by_provisi || 0) / 100;
+      //     setProvisi(formatNumber((plaf * prov).toString()));
+      //   } else {
+      //     setProvisi(formatNumber((selectedBank.by_provisi || 0).toString()));
+      //   }
+      // }
       if (selectedProduk && selectedProduk.name !== "Flash Sisa Gaji") {
         if (!selectedJenis) {
           setByMutasi("0");

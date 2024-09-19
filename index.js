@@ -10,6 +10,8 @@ app.prepare().then(() => {
   const server = express();
   server.use("/category", express.static(__dirname + "/storage/category"));
   server.use("/blog", express.static(__dirname + "/storage/blog"));
+  server.use("/mutasi", express.static(__dirname + "/storage/mutasi"));
+  server.use("/flagging", express.static(__dirname + "/storage/flagging"));
 
   server.all("*", (req, res) => {
     return handle(req, res);

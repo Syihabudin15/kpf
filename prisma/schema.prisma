@@ -381,8 +381,15 @@ model DataPengajuanKeluarga {
   DataPengajuan               DataPengajuan[]
 }
 
+enum StatusMutasiFlagging {
+  SELESAI
+  PROSESS
+  GAGAL
+  BELUM_PROSESS
+}
+
 model BerkasPengajuan {
-  id                     String          @id @default(uuid())
+  id                     String               @id @default(uuid())
   berkas_slik            String?
   berkas_pengajuan       String?
   berkas_idpb            String?
@@ -416,6 +423,8 @@ model BerkasPengajuan {
   epotpen                String?
   tanggal_epotpen        DateTime?
   DataPengajuan          DataPengajuan[]
+  status_mutasi          StatusMutasiFlagging @default(BELUM_PROSESS)
+  status_flagging        StatusMutasiFlagging @default(BELUM_PROSESS)
 }
 
 model PenyerahanBerkas {

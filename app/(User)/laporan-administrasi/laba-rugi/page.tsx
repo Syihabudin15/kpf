@@ -16,7 +16,7 @@ const LabaRugi = dynamic(
 );
 
 export default async function page() {
-  handleRoute("/laporan-administasi/laba-rugi");
+  // handleRoute("/laporan-administasi/laba-rugi");
   return (
     <div className="bg-white shadow">
       <div

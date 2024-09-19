@@ -522,6 +522,12 @@ export const menusV2: Menus[] = [
     ],
   },
   {
+    label: "Mutasi & Flagging",
+    url: "/mutasi-flagging",
+    role: ["MASTER", "BISNIS", "PEMBERKASAN"],
+    icon: <BookOutlined />,
+  },
+  {
     label: "Artikel",
     url: "/artikel",
     role: "MASTER",

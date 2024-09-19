@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE `berkaspengajuan` ADD COLUMN `status_flagging` ENUM('SELESAI', 'PROSESS', 'GAGAL', 'BELUM_PROSESS') NOT NULL DEFAULT 'BELUM_PROSESS',
+    ADD COLUMN `status_mutasi` ENUM('SELESAI', 'PROSESS', 'GAGAL', 'BELUM_PROSESS') NOT NULL DEFAULT 'BELUM_PROSESS';
+
+-- AlterTable
+ALTER TABLE `blog` MODIFY `image` VARCHAR(191) NOT NULL DEFAULT '/blog/blog.jpg',
+    MODIFY `keyword` VARCHAR(191) NOT NULL DEFAULT 'kpf artikel';
