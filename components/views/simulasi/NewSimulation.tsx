@@ -430,6 +430,7 @@ export default function NewSimulation() {
                 showSearch
                 placeholder="Pilih Produk"
                 onChange={(e) => {
+                  setCurrProvisi(undefined);
                   for (let i = 0; i < dataBank.length; i++) {
                     for (let j = 0; j < dataBank[i].products.length; j++) {
                       const temp = dataBank[i].products.filter(

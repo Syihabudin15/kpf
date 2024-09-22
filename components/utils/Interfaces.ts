@@ -248,3 +248,12 @@ export interface IDapem {
   sisa_gaji: number;
   is_flash: boolean;
 }
+
+export interface IDapemSlik extends IDapem {
+  juru_bayar_asal: string | undefined | null;
+  juru_bayar_tujuan: string | undefined | null;
+  pembiayaan_sebelumnya: string | undefined | null;
+  nama_bank: string | undefined | null;
+  no_rekening: string | undefined | null;
+  tempat_lahir: string;
+}

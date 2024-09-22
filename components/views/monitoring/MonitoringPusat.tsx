@@ -307,7 +307,7 @@ export default function MonitoringPusat() {
         return (
           <>
             <Tooltip
-              title={`Admin : ${record.DataPembiayaan.User.first_name} ${record.DataPembiayaan.User.first_name}`}
+              title={`Admin : ${record.DataPembiayaan.User.first_name} ${record.DataPembiayaan.User.last_name}`}
             >
               {record.DataPembiayaan.name}
             </Tooltip>

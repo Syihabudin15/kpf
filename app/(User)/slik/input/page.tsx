@@ -6,10 +6,13 @@ export const metadata: Metadata = {
   title: "Input Pengajuan",
 };
 
-const InputSlik = dynamic(() => import("@/components/views/slik/InputSlik"), {
-  ssr: false,
-  loading: () => <LoadingOutlined />,
-});
+const NewInputSlik = dynamic(
+  () => import("@/components/views/slik/NewInputSlik"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
 
 export default async function page() {
   return (
@@ -21,7 +24,7 @@ export default async function page() {
           INPUT PENGAJUAN PINJAMAN
         </h1>
       </div>
-      <InputSlik />
+      <NewInputSlik />
     </section>
   );
 }

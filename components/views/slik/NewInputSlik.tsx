@@ -14,12 +14,8 @@ import { DatePicker, Input, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { Refferal, User } from "@prisma/client";
-
-const InputForm = dynamic(() => import("@/components/views/slik/InputForm"), {
-  ssr: false,
-  loading: () => <LoadingOutlined />,
-});
+import { Refferal } from "@prisma/client";
+import NewInputBiaya from "./NewInputBiaya";
 
 const ViewBerkasPengajuan = dynamic(
   () => import("@/components/utils/ViewBerkasPengajuan"),
@@ -29,7 +25,7 @@ const ViewBerkasPengajuan = dynamic(
   }
 );
 
-export default function InputSlik() {
+export default function NewInputSlik() {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [page, setPage] = useState(1);
   const [name, setName] = useState<string>();
@@ -92,9 +88,7 @@ export default function InputSlik() {
         const cabang: Options[] = up.UnitCabang.map((c) => {
           cabangFull.push({ ...c, unit: up.name });
           c.User.forEach((u) => {
-            // if (u.role === "MARKETING") {
             marketing.push(u);
-            // }
           });
           return { label: c.name, value: c.name };
         });
@@ -369,15 +363,7 @@ export default function InputSlik() {
   return (
     <section className="px-2">
       <div className="flex gap-5 my-1 mx-1 flex-wrap">
-        <InputForm
-          getData={getData}
-          fullCabang={cabang || []}
-          fullUser={marketing || []}
-          upOpt={up || []}
-          refferalOpt={refferal || []}
-          taspens={dataTaspen || []}
-          provinsi={provinsi || []}
-        />
+        <NewInputBiaya />
         <DatePicker
           picker="year"
           onChange={(date, dateString) => setYear(dateString as string)}
