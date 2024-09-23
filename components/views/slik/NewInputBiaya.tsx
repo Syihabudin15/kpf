@@ -94,6 +94,8 @@ export default function NewInputBiaya() {
     nama_bank: null,
     no_rekening: null,
     tempat_lahir: "",
+    tanggal_lunas: "",
+    usia_lunas: "",
   });
 
   const [form] = Form.useForm();

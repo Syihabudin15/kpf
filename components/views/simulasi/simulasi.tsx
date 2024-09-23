@@ -337,6 +337,17 @@ export default function Simulasi() {
       setKotor("0");
       return;
     }
+    if (selectedBank && selectedBank.by_provisi) {
+      if (selectedBank.by_provisi > 100) {
+        setProvisi(formatNumber(selectedBank.by_provisi.toFixed(0)));
+      } else {
+        setProvisi(
+          formatNumber(
+            (inputTextToDecimal(e) * (selectedBank.by_provisi / 100)).toFixed(0)
+          )
+        );
+      }
+    }
     setPlafondMsg("");
   };
   const getAngsuran = () => {
@@ -997,9 +1008,9 @@ export default function Simulasi() {
                     <td className="pembiayaan-simulasi">
                       <Form.Item className="w-full md:w-36">
                         <Input
-                          disabled
                           placeholder="0"
                           data-hitung="simulasi-ulang"
+                          disabled
                           value={by_tatalaksana != "0" ? by_tatalaksana : "0"}
                           style={{ backgroundColor: "white", color: "black" }}
                         />
@@ -1051,8 +1062,8 @@ export default function Simulasi() {
                       <Form.Item className="w-full md:w-36">
                         <Input
                           style={{ backgroundColor: "white", color: "black" }}
-                          disabled
                           placeholder="0"
+                          disabled
                           data-hitung="simulasi-ulang"
                           value={formatNumber(
                             tanggalMasuk.tahunMasuk != "0" && selectedBank

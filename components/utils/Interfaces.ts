@@ -247,6 +247,8 @@ export interface IDapem {
   terima_bersih: number;
   sisa_gaji: number;
   is_flash: boolean;
+  tanggal_lunas: string;
+  usia_lunas: string;
 }
 
 export interface IDapemSlik extends IDapem {

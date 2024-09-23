@@ -75,7 +75,16 @@ export default function ModalMutasiFlagging({
         footer={[]}
       >
         <Form labelCol={{ span: 6 }} className="my-3" onFinish={handleFinish}>
-          <Form.Item label="Tanggal Mutasi" name={"tanggal_mutasi"}>
+          <Form.Item
+            label="Tanggal Mutasi"
+            name={"tanggal_mutasi"}
+            hidden={
+              data.DataPembiayaan.jenis_pembiayaan_id &&
+              data.DataPembiayaan.JenisPembiayaan.by_mutasi > 0
+                ? false
+                : true
+            }
+          >
             <Input
               type="date"
               defaultValue={moment(data.BerkasPengajuan.tanggal_mutasi).format(
@@ -83,7 +92,16 @@ export default function ModalMutasiFlagging({
               )}
             />
           </Form.Item>
-          <Form.Item label="Status Mutasi" name={"status_mutasi"}>
+          <Form.Item
+            label="Status Mutasi"
+            name={"status_mutasi"}
+            hidden={
+              data.DataPembiayaan.jenis_pembiayaan_id &&
+              data.DataPembiayaan.JenisPembiayaan.by_mutasi > 0
+                ? false
+                : true
+            }
+          >
             <Select
               options={[
                 { label: "PROSES", value: "PROSESS" },

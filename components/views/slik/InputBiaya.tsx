@@ -454,6 +454,7 @@ export default function InputPembiayaan({
     getMaxPlafond();
     setTenorMsg("");
     setPlafondMsg("");
+    setModalGaji(false);
 
     if (!plafond || plafond == "0") {
       setKotor("0");

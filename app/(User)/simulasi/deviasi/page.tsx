@@ -17,7 +17,7 @@ const NewSimulation = dynamic(
 export default async function page() {
   return (
     <>
-      <NewSimulation />
+      <NewSimulation is_deviasi={true} />
     </>
   );
 }

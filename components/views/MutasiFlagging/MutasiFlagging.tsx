@@ -205,7 +205,16 @@ export default function MutasiFlagging() {
           width: 150,
           render(value, record, index) {
             return (
-              <div className="text-white">
+              <div
+                className="text-white"
+                style={{
+                  display:
+                    record.DataPembiayaan.jenis_pembiayaan_id &&
+                    record.DataPembiayaan.JenisPembiayaan.by_mutasi > 0
+                      ? "flex"
+                      : "none",
+                }}
+              >
                 {record.BerkasPengajuan.status_mutasi === "SELESAI" ? (
                   <div className="text-xs italic font-bold px-3 py-1 bg-green-500">
                     SELESAI

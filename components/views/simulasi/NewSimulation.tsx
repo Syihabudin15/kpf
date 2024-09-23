@@ -1,6 +1,7 @@
 "use client";
 import {
   formatNumber,
+  getUsiaTanggalLunas,
   inputTextToDecimal,
   newGetUsiaMasuk,
 } from "@/components/utils/inputUtils";
@@ -13,7 +14,7 @@ import {
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import {
   BulbFilled,
-  EyeFilled,
+  // EyeFilled,
   InfoCircleFilled,
   LoadingOutlined,
 } from "@ant-design/icons";
@@ -23,10 +24,9 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { getAngsuranPerBulan } from "./simulasiUtil";
 import Image from "next/image";
-const { PV, PMT, EDATE } = require("@formulajs/formulajs");
+const { PV } = require("@formulajs/formulajs");
 
-export default function NewSimulation() {
-  const [hideBank, setHideBank] = useState(false);
+export default function NewSimulation({ is_deviasi }: { is_deviasi: boolean }) {
   const [dataBank, setDataBank] = useState<DataBankWithProduk[]>([]);
   const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
   const [loading, setLoading] = useState(false);
@@ -90,6 +90,8 @@ export default function NewSimulation() {
     terima_bersih: 0,
     sisa_gaji: 0,
     is_flash: false,
+    tanggal_lunas: "",
+    usia_lunas: "",
   });
 
   const [form] = Form.useForm();
@@ -125,6 +127,10 @@ export default function NewSimulation() {
       (maxPlafond !== 0 && dapem.plafond > maxPlafond)
     ) {
       setShowMessage(true);
+      form.setFieldsValue({
+        tenor: 0,
+        plafond: 0,
+      });
       return;
     }
     let tmp = prduk.max_usia_lunas - dapem.tahun;
@@ -215,7 +221,19 @@ export default function NewSimulation() {
       bersih: formatNumber(terimaBersih.toFixed(0)),
       sisa_gaji: formatNumber((dapem.gaji_bersih - angsuran).toFixed(0)),
     });
-  }, [prduk, jenis, bank, dapem, formWatch, currProvisi]);
+    const { tanggalLunas, tahun, bulan, hari } = getUsiaTanggalLunas(
+      moment().format("YYYY-MM-DD"),
+      moment(dapem.tanggal_lahir).format("DD-MM-YYYY"),
+      dapem.tenor
+    );
+    setDapem((prev) => {
+      return {
+        ...prev,
+        tanggal_lunas: tanggalLunas,
+        usia_lunas: `${tahun} Tahun ${bulan} Bulan ${hari} Hari`,
+      };
+    });
+  }, [prduk, jenis, bank, dapem, currProvisi]);
 
   return (
     <div className="rounded border shadow bg-white" id="new-simulation">
@@ -279,11 +297,34 @@ export default function NewSimulation() {
               className="flex-1"
             >
               <Input
-                type="date"
-                placeholder="DD-MM-YYYY"
+                // type="date"
+                placeholder="dd-mm-yyyy"
                 onChange={(e) => {
+                  var ar = e.target.value.split("");
+                  const filter = ar.filter((e) => e == "-");
+                  if (ar.length > 2 && filter.length == 0) {
+                    ar.splice(2, 0, "-");
+                  }
+                  if (ar.length > 4 && filter.length == 1) {
+                    ar.splice(6, 0, "-");
+                  }
+                  form.setFieldValue("tanggal_lahir", ar.join(""));
+                  if (e.target.value.length < 10) return setIsDisable(true);
+                  setIsDisable(false);
+
+                  const date = e.target.value.split("-");
+                  if (
+                    parseInt(date[0]) > 31 ||
+                    parseInt(date[1]) > 12 ||
+                    parseInt(date[2]) >= new Date().getFullYear()
+                  ) {
+                    return setIsDisable(true);
+                  }
+                  const validDate = new Date(
+                    `${date[2]}/${parseInt(date[1])}/${date[0]}`
+                  );
                   const { tahun, bulan, hari } = newGetUsiaMasuk(
-                    new Date(e.target.value),
+                    validDate,
                     new Date()
                   );
                   let tempProduk: string[] = [];
@@ -300,7 +341,7 @@ export default function NewSimulation() {
                   setDapem((prev) => {
                     return {
                       ...prev,
-                      tanggal_lahir: new Date(e.target.value),
+                      tanggal_lahir: validDate,
                       tahun: parseInt(tahun),
                       bulan: parseInt(bulan),
                       hari: parseInt(hari),
@@ -510,10 +551,10 @@ export default function NewSimulation() {
               }
               name={"sumber_dana"}
               className="flex-1"
-              hidden={hideBank}
+              hidden={!is_deviasi}
             >
               <Input
-                suffix={<EyeFilled onClick={() => setHideBank(true)} />}
+                // suffix={<EyeFilled onClick={() => setHideBank(true)} />}
                 disabled={isDisable}
                 type="number"
                 onChange={(e) =>
@@ -675,7 +716,7 @@ export default function NewSimulation() {
           <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
             <div className="font-semibold flex-1">Administrasi</div>
             <div className="w-40 flex gap-2">
-              <Form.Item name={"admin_koperasi"}>
+              <Form.Item name={"admin_koperasi"} hidden={!is_deviasi}>
                 <Input
                   type="number"
                   placeholder="kpf"
@@ -692,7 +733,7 @@ export default function NewSimulation() {
                   }}
                 />
               </Form.Item>
-              <Form.Item name={"admin_bank"}>
+              <Form.Item name={"admin_bank"} hidden={!is_deviasi}>
                 <Input
                   type="number"
                   placeholder="mitra"
@@ -1046,15 +1087,11 @@ export default function NewSimulation() {
             </div>
             <div className="flex justify-between border-b border-gray-400 py-1 font-bold">
               <span>Usia Lunas</span>
-              <span className="text-right">
-                {dapem.tahun} Tahun {dapem.bulan} Bulan {dapem.hari} Hari
-              </span>
+              <span className="text-right">{dapem.usia_lunas}</span>
             </div>
             <div className="flex justify-between border-b border-gray-400  py-1 font-bold">
               <span>Tanggal Lunas</span>
-              <span className="text-right">
-                {dapem.tahun} Tahun {dapem.bulan} Bulan {dapem.hari} Hari
-              </span>
+              <span className="text-right">{dapem.tanggal_lunas}</span>
             </div>
             <div className="flex justify-between border-b border-gray-400  py-1 font-bold text-green-500">
               <span>Gaji Bersih</span>
