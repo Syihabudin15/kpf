@@ -524,7 +524,7 @@ export const menusV2: Menus[] = [
   {
     label: "Mutasi & Flagging",
     url: "/mutasi-flagging",
-    role: ["MASTER", "BISNIS", "PEMBERKASAN"],
+    role: ["MASTER", "BISNIS", "PEMBERKASAN", "OPERASIONAL"],
     icon: <BookOutlined />,
   },
   {
@@ -532,5 +532,11 @@ export const menusV2: Menus[] = [
     url: "/artikel",
     role: "MASTER",
     icon: <BookOutlined />,
+  },
+  {
+    label: "Cek Database",
+    url: "/cek-database",
+    role: ["MASTER", "VERIFIKASI", "ENTRY_DATA"],
+    icon: <DatabaseOutlined />,
   },
 ];

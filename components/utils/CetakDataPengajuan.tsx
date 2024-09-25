@@ -4,6 +4,8 @@ import * as XLSX from "xlsx";
 import { useState } from "react";
 import { message } from "antd";
 import moment from "moment";
+import { ceiling } from "./pdf/pdfUtil";
+import { getAngsuranPerBulan } from "../views/simulasi/simulasiUtil";
 
 export default function CetakDataPengajuan({
   data,
@@ -29,46 +31,57 @@ export default function CetakDataPengajuan({
             : "JAWA BARAT",
           NOPEN: d.DataPembiayaan.nopen,
           "NAMA PEMOHON": d.DataPembiayaan.name,
+          ALAMAT: `${d.DataPengajuanAlamat.alamat} ${d.DataPengajuanAlamat.rt}/${d.DataPengajuanAlamat.rw}, ${d.DataPengajuanAlamat.kelurahan} ${d.DataPengajuanAlamat.kecamatan} ${d.DataPengajuanAlamat.kota}`,
           "NO TELEPON": d.no_telepon,
           "SUMBER DANA": d.Bank.kode,
-          "PRODUK PEMBIAYAAN": d.DataPembiayaan.Produk.name,
-          "JENIS PEMBIAYAAN": d.DataPembiayaan.jenis_pembiayaan_id
-            ? d.DataPembiayaan.JenisPembiayaan.name
-            : "Sisa Gaji",
-          "MITRA BANK": d.DataPembiayaan.Refferal.name,
+          // "PRODUK PEMBIAYAAN": d.DataPembiayaan.Produk.name,
+          // "JENIS PEMBIAYAAN": d.DataPembiayaan.jenis_pembiayaan_id
+          //   ? d.DataPembiayaan.JenisPembiayaan.name
+          //   : "Sisa Gaji",
+          // "MITRA BANK": d.DataPembiayaan.Refferal.name,
           PLAFON: d.DataPembiayaan.plafond,
           TENOR: d.DataPembiayaan.tenor,
+          ANGSURAN: ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                d.DataPembiayaan.mg_bunga,
+                d.DataPembiayaan.tenor,
+                d.DataPembiayaan.plafond
+              )
+            ),
+            d.DataPembiayaan.pembulatan
+          ),
           MARKETING: d.User.first_name + " " + d.User.last_name,
-          "AGENT FRONTING": d.agent_fronting,
+          // "AGENT FRONTING": d.agent_fronting,
           "ADMIN INPUT":
             d.DataPembiayaan.User.first_name + d.DataPembiayaan.User.last_name,
-          "STATUS VERIFIKASI": d.status_verifikasi,
-          "KETERANGAN VERIFIKASI": d.keterangan_verifikasi,
-          "TANGGAL PROSES VERIFIKASI": d.tanggal_verifikasi
-            ? moment(d.tanggal_verifikasi).format("DD-MM-YYYY")
-            : "",
-          "STATUS SLIK": d.status_slik,
-          "KETERANGAN SLIK": d.keterangan_slik,
-          "TANGGAL PROSES SLIK": d.tanggal_slik
-            ? moment(d.tanggal_slik).format("DD-MM-YYYY")
-            : "",
-          "STATUS CHECKER": d.status_checker,
-          "KETERANGAN CHECKER": d.keterangan_checker,
-          "TANGGAL PROSES CHECKER": d.tanggal_checker
-            ? moment(d.tanggal_checker).format("DD-MM-YYYY")
-            : "",
-          "STATUS MAKER": d.status_maker,
-          "KETERANGAN MAKER": d.keterangan_maker,
-          "TANGGAL PROSES MAKER": d.tanggal_maker
-            ? moment(d.tanggal_maker).format("DD-MM-YYYY")
-            : "",
-          "STATUS APPROVAL": d.status_approval,
-          "KETERANGAN APPROVAL": d.keterangan_approval,
-          "TANGGAL PROSES APPROVAL": d.tanggal_approval
-            ? moment(d.tanggal_approval).format("DD-MM-YYYY")
-            : "",
+          // "STATUS VERIFIKASI": d.status_verifikasi,
+          // "KETERANGAN VERIFIKASI": d.keterangan_verifikasi,
+          // "TANGGAL PROSES VERIFIKASI": d.tanggal_verifikasi
+          //   ? moment(d.tanggal_verifikasi).format("DD-MM-YYYY")
+          //   : "",
+          // "STATUS SLIK": d.status_slik,
+          // "KETERANGAN SLIK": d.keterangan_slik,
+          // "TANGGAL PROSES SLIK": d.tanggal_slik
+          //   ? moment(d.tanggal_slik).format("DD-MM-YYYY")
+          //   : "",
+          // "STATUS CHECKER": d.status_checker,
+          // "KETERANGAN CHECKER": d.keterangan_checker,
+          // "TANGGAL PROSES CHECKER": d.tanggal_checker
+          //   ? moment(d.tanggal_checker).format("DD-MM-YYYY")
+          //   : "",
+          // "STATUS MAKER": d.status_maker,
+          // "KETERANGAN MAKER": d.keterangan_maker,
+          // "TANGGAL PROSES MAKER": d.tanggal_maker
+          //   ? moment(d.tanggal_maker).format("DD-MM-YYYY")
+          //   : "",
+          // "STATUS APPROVAL": d.status_approval,
+          // "KETERANGAN APPROVAL": d.keterangan_approval,
+          // "TANGGAL PROSES APPROVAL": d.tanggal_approval
+          //   ? moment(d.tanggal_approval).format("DD-MM-YYYY")
+          //   : "",
           "STATUS PENCAIRAN": d.status_pencairan,
-          "TANGGAL PROSES PENCAIRAN": d.tanggal_pencairan
+          "TANGGAL PENCAIRAN": d.tanggal_pencairan
             ? moment(d.tanggal_pencairan).format("DD-MM-YYYY")
             : "",
         };

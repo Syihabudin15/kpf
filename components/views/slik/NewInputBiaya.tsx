@@ -96,6 +96,9 @@ export default function NewInputBiaya() {
     tempat_lahir: "",
     tanggal_lunas: "",
     usia_lunas: "",
+    curr_max_tenor: 0,
+    curr_max_plafond: 0,
+    biaya_biaya: 0,
   });
 
   const [form] = Form.useForm();

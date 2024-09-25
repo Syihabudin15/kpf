@@ -92,6 +92,9 @@ export default function NewSimulation({ is_deviasi }: { is_deviasi: boolean }) {
     is_flash: false,
     tanggal_lunas: "",
     usia_lunas: "",
+    curr_max_plafond: 0,
+    curr_max_tenor: 0,
+    biaya_biaya: 0,
   });
 
   const [form] = Form.useForm();
@@ -1059,71 +1062,71 @@ export default function NewSimulation({ is_deviasi }: { is_deviasi: boolean }) {
             <div className="text-center flex-1 bg-green-500 font-bold py-2 text-white">
               <p>DATA PEMBIAYAAN</p>
             </div>
-            <div className="flex justify-between border-b border-gray-400 py-1">
+            <div className="flex justify-between border-b border-gray-300 py-1">
               <span>Tanggal Simulasi</span>
               <span className="text-right">
                 {moment(dapem.tanggal_simulasi).format("DD/MM/YYYY")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Nopen</span>
               <span className="text-right">{dapem.nopen}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Nama Pemohon</span>
               <span className="text-right">{dapem.nama_pemohon}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Tanggal Lahir</span>
               <span className="text-right">
                 {moment(dapem.tanggal_lahir).format("DD/MM/YYYY")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Usia Masuk</span>
               <span className="text-right">
                 {dapem.tahun} Tahun {dapem.bulan} Bulan {dapem.hari} Hari
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400 py-1 font-bold">
+            <div className="flex justify-between border-b border-gray-300 py-1 font-bold">
               <span>Usia Lunas</span>
               <span className="text-right">{dapem.usia_lunas}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1 font-bold">
+            <div className="flex justify-between border-b border-gray-300  py-1 font-bold">
               <span>Tanggal Lunas</span>
               <span className="text-right">{dapem.tanggal_lunas}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1 font-bold text-green-500">
+            <div className="flex justify-between border-b border-gray-300  py-1 font-bold text-green-500">
               <span>Gaji Bersih</span>
               <span className="text-right">
                 {formatNumber(dapem.gaji_bersih.toFixed(0))}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Produk Pembiayaan</span>
               <span className="text-right">{prduk.name}</span>
             </div>
             {bank.kode === "BPR SIP" && (
-              <div className="flex justify-between border-b border-gray-400  py-1">
+              <div className="flex justify-between border-b border-gray-300  py-1">
                 <span>Margin Bunga</span>
                 <span className="text-right">{prduk.mg_bunga} %</span>
               </div>
             )}
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Jenis Pembiayaan</span>
               <span className="text-right">{jenis.name}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Tenor</span>
               <span className="text-right">{dapem.tenor}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Plafond</span>
               <span className="text-right">
                 {formatNumber(dapem.plafond.toFixed(0))}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Angsuran</span>
               <span className="text-right">
                 {formatNumber(
@@ -1145,49 +1148,49 @@ export default function NewSimulation({ is_deviasi }: { is_deviasi: boolean }) {
             <div className="text-center flex-1 bg-green-500 font-bold py-2 text-white">
               <p>RINCIAN PEMBIAYAAN</p>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Biaya Administrasi</span>
               <span className="text-right">
                 {form.getFieldValue("administrasi")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Biaya Asuransi</span>
               <span className="text-right">
                 {form.getFieldValue("asuransi")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Biaya Tatalaksana</span>
               <span className="text-right">
                 {form.getFieldValue("tatalaksana")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Biaya {labelTabungan}</span>
               <span className="text-right">
                 {form.getFieldValue("buka_rekening")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Biaya Materai</span>
               <span className="text-right">
                 {form.getFieldValue("materai")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Biaya Data Informasi</span>
               <span className="text-right">
                 {formatNumber((bank.by_epotpen + bank.by_flagging).toFixed(0))}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Biaya Provisi</span>
               <span className="text-right">
                 {form.getFieldValue("provisi")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Blokir Angsuran</span>
               {dapem.blokir && (
                 <span>
@@ -1198,25 +1201,25 @@ export default function NewSimulation({ is_deviasi }: { is_deviasi: boolean }) {
                 {form.getFieldValue("jumlah_blokir")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Terima Kotor</span>
               <span className="text-right">{form.getFieldValue("kotor")}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>BPP</span>
               <span className="text-right">{form.getFieldValue("bpp")}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Pelunasan</span>
               <span className="text-right">
                 {form.getFieldValue("pelunasan")}
               </span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Terima Bersih</span>
               <span className="text-right">{form.getFieldValue("bersih")}</span>
             </div>
-            <div className="flex justify-between border-b border-gray-400  py-1">
+            <div className="flex justify-between border-b border-gray-300  py-1">
               <span>Sisa Gaji</span>
               <span className="text-right">
                 {form.getFieldValue("sisa_gaji")}

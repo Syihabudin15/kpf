@@ -249,6 +249,9 @@ export interface IDapem {
   is_flash: boolean;
   tanggal_lunas: string;
   usia_lunas: string;
+  curr_max_tenor: number;
+  curr_max_plafond: number;
+  biaya_biaya: number;
 }
 
 export interface IDapemSlik extends IDapem {
