@@ -1,37 +1,43 @@
 "use client";
 import {
   formatNumber,
+  getUsiaTanggalLunas,
   inputTextToDecimal,
-  newGetUsiaMasuk,
 } from "@/components/utils/inputUtils";
 import {
   DataBankWithProduk,
-  IDapem,
-  IDapemSlik,
+  InputDapem,
   ITempBank,
   ITempProduk,
 } from "@/components/utils/Interfaces";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import {
-  BulbFilled,
-  EyeFilled,
-  InfoCircleFilled,
-  PlusCircleOutlined,
-} from "@ant-design/icons";
 import { JenisPembiayaan } from "@prisma/client";
-import { Form, Input, Modal, Select, Tooltip } from "antd";
-import moment from "moment";
+import { Input, Modal, Select, Tooltip } from "antd";
 import { useEffect, useState } from "react";
-import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
-const { PV } = require("@formulajs/formulajs");
+import {
+  DateDiffUsiaMasuk,
+  getAngsuranPerBulan,
+  getMaxPlafond,
+  newGetMaxTenor,
+} from "@/components/views/simulasi/simulasiUtil";
 
-export default function NewInputBiaya() {
-  const [hideBank, setHideBank] = useState(false);
-  const [dataBank, setDataBank] = useState<DataBankWithProduk[]>([]);
-  const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
-  const [isDisable, setIsDisable] = useState(false);
-  const [produkSesuai, setProdukSesuai] = useState<string[]>();
-  const [labelTabungan, setLabelTabungan] = useState("Buka Rekening");
+export default function NewInputBiaya({
+  nama,
+  nopen,
+  alamat,
+  refferal,
+  setPembiayaan,
+  setJenisMargin,
+  setSelectedBank,
+}: {
+  nama: string;
+  nopen: string;
+  alamat: string;
+  refferal: { label: string; value: string }[];
+  setPembiayaan: Function;
+  setJenisMargin: Function;
+  setSelectedBank: Function;
+}) {
   const [bank, setBank] = useState<ITempBank>({
     id: "",
     name: "",
@@ -49,7 +55,7 @@ export default function NewInputBiaya() {
     margin_bank: 0,
     pembulatan: 0,
   });
-  const [prduk, setPrduk] = useState<ITempProduk>({
+  const [produk, setProduk] = useState<ITempProduk>({
     id: "",
     name: "",
     by_asuransi: 0,
@@ -67,45 +73,51 @@ export default function NewInputBiaya() {
     is_active: true,
     created_at: new Date(),
   });
-  const [dapem, setDapem] = useState<IDapemSlik>({
+  const [inputDapem, setInputDapem] = useState<InputDapem>({
     tanggal_simulasi: new Date(),
-    nama_pemohon: "",
-    nopen: "",
-    alamat: "",
     tanggal_lahir: null,
     tahun: 0,
     bulan: 0,
     hari: 0,
-    gaji_bersih: 0,
+    nama_pemohon: null,
+    nopen: null,
+    alamat: null,
+    gaji: 0,
     tenor: 0,
     plafond: 0,
-    angsuran: 0,
-    provisi: 0,
     blokir: 0,
-    terima_kotor: 0,
     bpp: 0,
     pelunasan: 0,
-    terima_bersih: 0,
-    sisa_gaji: 0,
-    is_flash: false,
-    juru_bayar_asal: null,
-    juru_bayar_tujuan: null,
-    pembiayaan_sebelumnya: null,
-    nama_bank: null,
-    no_rekening: null,
-    tempat_lahir: "",
+    result_tenor: 0,
+    result_plafond: 0,
+    angsuran: 0,
     tanggal_lunas: "",
     usia_lunas: "",
-    curr_max_tenor: 0,
-    curr_max_plafond: 0,
-    biaya_biaya: 0,
+    kotor: 0,
+    bersih: 0,
   });
-
-  const [form] = Form.useForm();
-  const formWatch = Form.useWatch([], form);
-  const [currProvisi, setCurrProvisi] = useState<number>();
-  const [showMessage, setShowMessage] = useState(false);
-  const [openInput, setOpenInput] = useState(false);
+  const [dataBank, setDataBank] = useState<DataBankWithProduk[]>([]);
+  const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
+  const [isDisable, setIsDisable] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [produkSesuai, setProdukSesuai] = useState<string[]>();
+  const [labelTabungan, setLabelTabungan] = useState("Buka Rekening");
+  const [tglSimulasi, setTglSimulasi] = useState("");
+  const [tgl, setTgl] = useState("");
+  const [modalErr, setModalErr] = useState("");
+  const [tempTatalaksana, setTempTatalaksana] = useState<number>();
+  const [tempProvisi, setTempProvisi] = useState<number>();
+  const [tambahan, setTambahan] = useState({
+    juru_bayar_asal: "",
+    juru_bayar_tujuan: "",
+    pembiayaan_sebelumnya: "",
+    nama_bank: "",
+    no_rekening: "",
+    refferal_id: "",
+    refferal_fee: 0,
+    tempat_lahir: "",
+    jenis_margin: "",
+  });
 
   useEffect(() => {
     (async () => {
@@ -120,919 +132,1023 @@ export default function NewInputBiaya() {
     })();
   }, []);
 
-  useEffect(() => {
-    if (!dapem.tanggal_lahir) return setIsDisable(true);
-    setIsDisable(false);
-    setShowMessage(false);
-    const maxTenor = parseInt(form.getFieldValue("max_tenor") || "0");
-    const maxPlafond = inputTextToDecimal(
-      form.getFieldValue("max_plafond") || "0"
-    );
-    if (
-      (maxTenor !== 0 && dapem.tenor > maxTenor) ||
-      (maxPlafond !== 0 && dapem.plafond > maxPlafond)
-    ) {
-      setShowMessage(true);
-      return;
+  const getTglDetail = (
+    tglmulai: string,
+    setTgl: Function,
+    tglakhir?: Date
+  ) => {
+    var ar = tglmulai.split("");
+    const filter = ar.filter((e) => e == "-");
+    if (ar.length > 2 && filter.length == 0) {
+      ar.splice(2, 0, "-");
     }
-    let tmp = prduk.max_usia_lunas - dapem.tahun;
-    const max_tenor =
-      dapem.tahun <= prduk.max_usia_lunas ? tmp * 12 - (dapem.bulan + 1) : 0;
-    let maxPlaf =
-      PV(
-        prduk.mg_bunga / 100 / 12,
-        dapem.tenor,
-        dapem.gaji_bersih * (bank.by_angsuran / 100),
-        0,
-        0
-      ) * -1;
+    if (ar.length > 4 && filter.length == 1) {
+      ar.splice(6, 0, "-");
+    }
+    setTgl(ar.join(""));
+    if (tglmulai.length < 10) return setIsDisable(true);
+    setIsDisable(false);
 
+    const date = tglmulai.split("-");
+    if (parseInt(date[0]) > 31 || parseInt(date[1]) > 12) {
+      return setIsDisable(true);
+    }
+    const validDate = new Date(`${date[2]}/${parseInt(date[1])}/${date[0]}`);
+    if (tglakhir) {
+      const { tahun, bulan, hari } = DateDiffUsiaMasuk(ar.join(""), tglakhir);
+      setInputDapem((prev) => {
+        return {
+          ...prev,
+          tanggal_lahir: validDate,
+          tahun: parseInt(tahun.toString()),
+          bulan: parseInt(bulan.toString()),
+          hari: parseInt(hari.toString()),
+        };
+      });
+      let tempProduk: string[] = [];
+      dataBank.forEach((b) => {
+        b.products.forEach((p) => {
+          if (
+            p.min_age <= parseInt(tahun.toString()) &&
+            p.max_age >= parseInt(tahun.toString())
+          ) {
+            tempProduk.push(p.name);
+          }
+        });
+      });
+      setProdukSesuai(tempProduk);
+      return { resTgl: validDate, tahun, bulan, hari };
+    } else {
+      setInputDapem((prev) => {
+        return {
+          ...prev,
+          tanggal_simulasi: validDate,
+        };
+      });
+    }
+    return { resTgl: validDate };
+  };
+
+  const resetData = () => {
+    setBank({
+      id: "",
+      name: "",
+      kode: "",
+      by_admin: 0,
+      by_admin_bank: 0,
+      by_lainnya: 0,
+      by_tatalaksana: 0,
+      by_materai: 0,
+      by_buka_rekening: 0,
+      by_angsuran: 95,
+      by_flagging: 0,
+      by_epotpen: 0,
+      by_provisi: 0,
+      margin_bank: 0,
+      pembulatan: 0,
+    });
+    setProduk({
+      id: "",
+      name: "",
+      by_asuransi: 0,
+      mg_bunga: 0,
+      min_age: 0,
+      max_age: 0,
+      max_usia_lunas: 0,
+      max_tenor: 0,
+      max_plafon: 0,
+    });
+    setJenis({
+      id: "",
+      name: "",
+      by_mutasi: 0,
+      is_active: true,
+      created_at: new Date(),
+    });
+  };
+
+  useEffect(() => {
+    const tglRes = getTglDetail(tglSimulasi, setTglSimulasi);
+
+    const tglMasuk = getTglDetail(
+      tgl,
+      setTgl,
+      tglRes ? tglRes.resTgl : inputDapem.tanggal_simulasi
+    );
+    const { tanggalLunas, tahun, bulan, hari } = getUsiaTanggalLunas(
+      tglRes
+        ? tglRes.resTgl.toString()
+        : inputDapem.tanggal_simulasi.toString(),
+      tgl,
+      inputDapem.tenor
+    );
+    const max_tenor = newGetMaxTenor(
+      produk.max_usia_lunas,
+      tglMasuk ? parseInt(tglMasuk.tahun?.toString() || "0") : inputDapem.tahun,
+      inputDapem.bulan
+    );
+    const max_plafond = getMaxPlafond(
+      produk.mg_bunga,
+      inputDapem.tenor,
+      inputDapem.gaji * (bank.by_angsuran / 100)
+    );
     const angsuran = ceiling(
-      parseInt(getAngsuranPerBulan(prduk.mg_bunga, dapem.tenor, dapem.plafond)),
+      parseInt(
+        getAngsuranPerBulan(
+          produk.mg_bunga,
+          inputDapem.tenor,
+          inputDapem.plafond
+        )
+      ),
       bank.pembulatan
     );
     const admin =
-      dapem.plafond *
-      ((bank.by_admin + bank.by_admin_bank + bank.by_lainnya) / 100);
-    const asuransi = dapem.plafond * (prduk.by_asuransi / 100);
-    const tatalaksana =
-      prduk.name !== "Flash Sisa Gaji"
-        ? bank.by_tatalaksana
-        : bank.by_tatalaksana > 100
-        ? bank.by_tatalaksana
-        : dapem.plafond * (3 / 100);
+      inputDapem.plafond * ((bank.by_admin + bank.by_admin_bank) / 100);
+    const asuransi = inputDapem.plafond * (produk.by_asuransi / 100);
+    const blokirAngsuran = inputDapem.blokir * angsuran;
 
-    const tempProvisi =
-      bank.by_provisi > 10
-        ? bank.by_provisi
-        : dapem.plafond * (bank.by_provisi / 100);
-
-    const provisi = currProvisi ? currProvisi : tempProvisi;
-
-    const jumlahBlokir = angsuran * dapem.blokir;
-
-    const terimaKotor =
-      dapem.plafond -
-      (admin +
-        asuransi +
-        tatalaksana +
-        bank.by_buka_rekening +
-        bank.by_materai +
-        bank.by_flagging +
-        bank.by_epotpen +
-        jenis.by_mutasi +
-        provisi +
-        jumlahBlokir);
-    const terimaBersih = terimaKotor - (dapem.bpp + dapem.pelunasan);
-
-    form.setFieldsValue({
-      tahun: dapem.tahun,
-      bulan: dapem.bulan,
-      hari: dapem.hari,
-      gaji_bersih: formatNumber(dapem.gaji_bersih.toFixed(0)),
-      sumber_dana: prduk.mg_bunga,
-      tenor: dapem.tenor,
-      max_tenor: max_tenor > prduk.max_tenor ? prduk.max_tenor : max_tenor,
-      plafond:
-        dapem.plafond > maxPlaf ? "0" : formatNumber(dapem.plafond.toFixed(0)),
-      max_plafond:
-        maxPlaf > prduk.max_plafon
-          ? formatNumber(prduk.max_plafon.toFixed(0))
-          : formatNumber(maxPlaf.toFixed(0)),
-      angsuran: formatNumber(angsuran.toString()),
-      max_angsuran: formatNumber(
-        (dapem.gaji_bersih * (bank.by_angsuran / 100)).toFixed(0)
-      ),
-      admin_bank: bank.by_admin_bank,
-      admin_koperasi: bank.by_admin,
-      administrasi: formatNumber(admin.toFixed(0)),
-      input_asuransi: prduk.by_asuransi,
-      asuransi: formatNumber(asuransi.toFixed(0)),
-      tatalaksana: formatNumber(tatalaksana.toString()),
-      buka_rekening: formatNumber(bank.by_buka_rekening.toFixed(0)),
-      materai: formatNumber(bank.by_materai.toFixed(0)),
-      epotpen: formatNumber(bank.by_epotpen.toFixed(0)),
-      flagging: formatNumber(bank.by_flagging.toFixed(0)),
-      mutasi: formatNumber(jenis.by_mutasi.toFixed(0)),
-      provisi: formatNumber(provisi.toFixed(0)),
-      blokir: dapem.blokir,
-      jumlah_blokir: formatNumber(jumlahBlokir.toFixed(0)),
-      kotor: formatNumber(terimaKotor.toFixed(0)),
-      bpp: formatNumber(dapem.bpp.toFixed(0)),
-      pelunasan: formatNumber(dapem.pelunasan.toFixed(0)),
-      bersih: formatNumber(terimaBersih.toFixed(0)),
-      sisa_gaji: formatNumber((dapem.gaji_bersih - angsuran).toFixed(0)),
+    const biayaAwal =
+      admin +
+      asuransi +
+      (tempTatalaksana || 0) +
+      bank.by_buka_rekening +
+      bank.by_materai +
+      bank.by_epotpen +
+      bank.by_flagging +
+      jenis.by_mutasi +
+      (tempProvisi || 0) +
+      blokirAngsuran;
+    const kotor = inputDapem.plafond - biayaAwal;
+    if (
+      inputDapem.gaji !== 0 &&
+      produk.name === "Flash Sisa Gaji" &&
+      inputDapem.gaji - angsuran < 100000
+    ) {
+      setModalErr(
+        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
+      );
+    }
+    return setInputDapem((prev) => {
+      return {
+        ...prev,
+        tanggal_lunas: tanggalLunas,
+        usia_lunas: `${tahun} Tahun ${bulan} Bulan ${hari} Hari`,
+        result_tenor:
+          max_tenor > produk.max_tenor ? produk.max_tenor : max_tenor,
+        result_plafond:
+          max_plafond > produk.max_plafon ? produk.max_plafon : max_plafond,
+        angsuran: angsuran,
+        kotor,
+        bersih: kotor - (inputDapem.bpp + inputDapem.pelunasan),
+      };
     });
-  }, [prduk, jenis, bank, dapem, formWatch, currProvisi]);
+  }, [
+    bank,
+    produk,
+    tgl,
+    tglSimulasi,
+    inputDapem.gaji,
+    inputDapem.tenor,
+    inputDapem.plafond,
+    inputDapem.blokir,
+    inputDapem.bpp,
+    inputDapem.pelunasan,
+    jenis.by_mutasi,
+    tempTatalaksana,
+  ]);
 
   return (
-    <div>
-      <button
-        className="bg-green-500 hover:bg-green-600 text-white py-2 px-3 text-center rounded shadow text-xs"
-        onClick={() => setOpenInput(true)}
-      >
-        Input <PlusCircleOutlined />
-      </button>
-      <Modal
-        open={openInput}
-        onCancel={() => setOpenInput(false)}
-        title="INPUT PENGAJUAN"
-        footer={[]}
-        width={"90vw"}
-      >
-        <div id="new-simulation">
-          <Form layout="vertical" className="my-2 md:flex gap-3" form={form}>
-            <div className="flex-1 p-1">
-              <div className="flex gap-3">
-                <Form.Item label="Nopen" name={"nopen"} className="flex-1">
-                  <Input
-                    onChange={(e) =>
-                      setDapem((prev) => {
-                        return { ...prev, nopen: e.target.value };
-                      })
-                    }
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Nama Lengkap"
-                  name={"nama"}
-                  className="flex-1"
-                >
-                  <Input
-                    onChange={(e) =>
-                      setDapem((prev) => {
-                        return { ...prev, nama_pemohon: e.target.value };
-                      })
-                    }
-                  />
-                </Form.Item>
-              </div>
-
-              <Form.Item label="Alamat" name={"alamat"}>
-                <Input.TextArea
-                  onChange={(e) =>
-                    setDapem((prev) => {
-                      return { ...prev, alamat: e.target.value };
-                    })
+    <div className="bg-white rounded text-sm">
+      <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
+        Data Pembiayaan
+      </div>
+      <div className="flex gap-3 flex-col p-2">
+        <div className="flex-1">
+          <div className="flex gap-3 my-2">
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Juru Bayar Asal</span>
+              <Input
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      juru_bayar_asal: e.target.value,
+                    };
+                  })
+                }
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Juru Bayar Tujuan</span>
+              <Input
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      juru_bayar_tujuan: e.target.value,
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 my-2">
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Pembiayaan Sebelumnya</span>
+              <Input
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      pembiayaan_sebelumnya: e.target.value,
+                    };
+                  })
+                }
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Nama Bank</span>
+              <Input
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      nama_bank: e.target.value,
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 my-2">
+            <div className="flex-1 flex flex-col gap-1">
+              <span>No Rekening</span>
+              <Input
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      no_rekening: e.target.value,
+                    };
+                  })
+                }
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Tempat Lahir</span>
+              <Input
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      tempat_lahir: e.target.value,
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 my-2">
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Tanggal Lahir</span>
+              <Input value={tgl} onChange={(e) => setTgl(e.target.value)} />
+            </div>
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Usia Masuk</span>
+              <div className="flex gap-1">
+                <Input
+                  disabled
+                  value={inputDapem.tahun}
+                  style={{ color: "black", backgroundColor: "white" }}
+                  suffix={
+                    <span className="text-xs italic hidden sm:block">
+                      Tahun
+                    </span>
                   }
-                ></Input.TextArea>
-              </Form.Item>
-              <div className="flex gap-3">
-                <Form.Item
-                  label="Juru Bayar Asal"
-                  name={"juru_bayar_asal"}
-                  className="flex-1"
-                >
-                  <Input
-                    onChange={(e) =>
-                      setDapem((prev) => {
-                        return { ...prev, nopen: e.target.value };
-                      })
-                    }
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Nama Lengkap"
-                  name={"nama"}
-                  className="flex-1"
-                >
-                  <Input
-                    onChange={(e) =>
-                      setDapem((prev) => {
-                        return { ...prev, nama_pemohon: e.target.value };
-                      })
-                    }
-                  />
-                </Form.Item>
+                />
+                <Input
+                  disabled
+                  style={{ color: "black", backgroundColor: "white" }}
+                  value={inputDapem.bulan}
+                  suffix={
+                    <span className="text-xs italic hidden sm:block">
+                      Bulan
+                    </span>
+                  }
+                />
+                <Input
+                  disabled
+                  style={{ color: "black", backgroundColor: "white" }}
+                  value={inputDapem.hari}
+                  suffix={
+                    <span className="text-xs italic hidden sm:block">Hari</span>
+                  }
+                />
               </div>
-              <div className="flex justify-between gap-3">
-                <Form.Item
-                  label="Tanggal Lahir"
-                  name={"tanggal_lahir"}
-                  className="flex-1"
-                >
-                  <Input
-                    type="date"
-                    placeholder="DD-MM-YYYY"
-                    onChange={(e) => {
-                      const { tahun, bulan, hari } = newGetUsiaMasuk(
-                        new Date(e.target.value),
-                        new Date()
-                      );
-                      let tempProduk: string[] = [];
-                      dataBank.forEach((b) => {
-                        b.products.forEach((p) => {
-                          if (
-                            p.min_age <= parseInt(tahun) &&
-                            p.max_age >= parseInt(tahun)
-                          ) {
-                            tempProduk.push(p.name);
-                          }
-                        });
-                      });
-                      setDapem((prev) => {
-                        return {
-                          ...prev,
-                          tanggal_lahir: new Date(e.target.value),
-                          tahun: parseInt(tahun),
-                          bulan: parseInt(bulan),
-                          hari: parseInt(hari),
-                        };
-                      });
-                      setProdukSesuai(tempProduk);
-                    }}
-                  />
-                </Form.Item>
-                <div className="flex-1">
-                  <p className="pb-1">Usia Saat ini</p>
-                  <div className="flex gap-2">
-                    <Form.Item name={"tahun"} className="flex-1">
-                      <Input
-                        placeholder="0"
-                        disabled
-                        style={{ backgroundColor: "white", color: "black" }}
-                      />
-                    </Form.Item>
-                    <Form.Item name={"bulan"} className="flex-1">
-                      <Input
-                        placeholder="0"
-                        disabled
-                        style={{ backgroundColor: "white", color: "black" }}
-                      />
-                    </Form.Item>
-                    <Form.Item name={"hari"} className="flex-1">
-                      <Input
-                        placeholder="0"
-                        disabled
-                        style={{ backgroundColor: "white", color: "black" }}
-                      />
-                    </Form.Item>
-                  </div>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <Form.Item
-                  label="Gaji Bersih"
-                  name={"gaji_bersih"}
-                  className="flex-1"
-                >
-                  <Input
-                    defaultValue={0}
-                    placeholder="0"
-                    disabled={isDisable}
-                    onChange={(e) =>
-                      setDapem((prev) => {
-                        return {
-                          ...prev,
-                          gaji_bersih: inputTextToDecimal(
-                            e.target.value || "0"
-                          ),
-                        };
-                      })
-                    }
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Jenis Pembiayaan"
-                  name={"jenis_pembiayaan"}
-                  className="flex-1"
-                >
-                  <Select
-                    options={dataJenis.map((e) => {
-                      return { label: e.name, value: e.id };
-                    })}
-                    showSearch
-                    placeholder="Pilih Jenis"
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      const tempJenis = dataJenis.filter((j) => j.id === e);
-                      if (tempJenis.length === 0)
-                        return Modal.error({
-                          title: (
-                            <span className="text-red-500 italic font-bold">
-                              Jenis pembiayaan tidak ditemukan!
-                            </span>
-                          ),
-                          footer: [],
-                          closable: true,
-                          content: (
-                            <div>
-                              <p>
-                                Mohon maaf jenis pembiayaan tidak ditemukan,
-                                mohon pilih ulang!
-                              </p>
-                            </div>
-                          ),
-                        });
-                      setJenis({
-                        id: tempJenis[0].id,
-                        name: tempJenis[0].name,
-                        by_mutasi: tempJenis[0].by_mutasi,
-                        is_active: true,
-                        created_at: new Date(),
-                      });
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex gap-3">
-                <Form.Item
-                  label="Produk Pembiayaan"
-                  name={"produk_pembiayaan"}
-                  className="flex-1"
-                >
-                  <Select
-                    options={dataBank.map((e) => {
+            </div>
+          </div>
+          <div className="flex gap-3 my-2">
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Gaji Bersih</span>
+              <Input
+                value={formatNumber(inputDapem.gaji.toFixed(0))}
+                disabled={isDisable}
+                onChange={(e) =>
+                  setInputDapem((prev) => {
+                    return {
+                      ...prev,
+                      gaji: inputTextToDecimal(e.target.value || "0"),
+                    };
+                  })
+                }
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Jenis Pembiayaan</span>
+              <Select
+                options={dataJenis.map((e) => {
+                  return { label: e.name, value: e.id };
+                })}
+                value={jenis.id}
+                showSearch
+                placeholder="Jenis Pembiayaan"
+                disabled={produk.name === "Flash Sisa Gaji" ? true : isDisable}
+                onChange={(e) => {
+                  const tempJenis = dataJenis.filter((j) => j.id === e);
+                  if (tempJenis.length > 0) {
+                    return setJenis({
+                      id: tempJenis[0].id,
+                      name: tempJenis[0].name,
+                      by_mutasi: tempJenis[0].by_mutasi,
+                      is_active: true,
+                      created_at: new Date(),
+                    });
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 my-2">
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Produk Pembiayaan</span>
+              <Select
+                options={dataBank.map((e) => {
+                  return {
+                    label: e.name,
+                    value: e.id,
+                    options: e.products.map((p) => {
                       return {
-                        label: e.name,
-                        value: e.id,
-                        options: e.products.map((p) => {
-                          return {
-                            label: (
-                              <div className="flex justify-between">
-                                <span>{p.name}</span>
-                                <span className="text-xs italic opacity-50">
-                                  ({e.kode})
-                                </span>
-                              </div>
-                            ),
-                            value: p.id,
-                          };
-                        }),
+                        label: (
+                          <div className="flex justify-between items-center">
+                            <span>{p.name}</span>
+                            <span className="text-xs italic opacity-50 text-blue-500">
+                              ({e.kode})
+                            </span>
+                          </div>
+                        ),
+                        value: p.id,
                       };
-                    })}
-                    disabled={isDisable}
-                    showSearch
-                    placeholder="Pilih Produk"
-                    onChange={(e) => {
-                      for (let i = 0; i < dataBank.length; i++) {
-                        for (let j = 0; j < dataBank[i].products.length; j++) {
-                          const temp = dataBank[i].products.filter(
-                            (p) => p.id === e
-                          );
-                          if (temp.length !== 0) {
-                            if (
+                    }),
+                  };
+                })}
+                value={produk.id}
+                disabled={isDisable}
+                showSearch
+                placeholder="Produk Pembiayaan"
+                onChange={(e) => {
+                  for (let i = 0; i < dataBank.length; i++) {
+                    for (let j = 0; j < dataBank[i].products.length; j++) {
+                      const temp = dataBank[i].products.filter(
+                        (p) => p.id === e
+                      );
+                      if (temp.length !== 0) {
+                        if (
+                          produkSesuai &&
+                          !produkSesuai.includes(temp[0].name)
+                        ) {
+                          resetData();
+                          return setModalErr(
+                            `Mohon maaf produk yang dipilih tidak sesuai dengan kriteria umur pemohon. Mohon pilih produk lain yang sesuai dengan umur pemohon: ${
                               produkSesuai &&
-                              !produkSesuai.includes(temp[0].name)
-                            ) {
-                              return Modal.error({
-                                title: (
-                                  <span className="text-red-500 italic font-bold">
-                                    Produk yang dipilih tidak sesuai!
-                                  </span>
-                                ),
-                                closable: true,
-                                footer: [],
-                                content: (
-                                  <div>
-                                    <p>
-                                      Mohon maaf produk yang dipilih tidak
-                                      sesuai dengan kriteria umur pemohon. Mohon
-                                      pilih produk lain yang sesuai dengan
-                                      kriteria pemohon.!
-                                    </p>
-                                  </div>
-                                ),
-                              });
-                            }
-                            setPrduk((prev) => {
-                              return {
-                                ...prev,
-                                id: temp[0].id,
-                                name: temp[0].name,
-                                by_asuransi: temp[0].by_asuransi,
-                                mg_bunga: temp[0].mg_bunga,
-                                min_age: temp[0].min_age,
-                                max_age: temp[0].max_age,
-                                max_usia_lunas: temp[0].max_usia_lunas,
-                                max_tenor: temp[0].max_tenor,
-                                max_plafon: temp[0].max_plafon,
-                              };
-                            });
-                            setBank((prev) => {
-                              return {
-                                ...prev,
-                                id: dataBank[i].id,
-                                name: dataBank[i].name,
-                                kode: dataBank[i].kode || "",
-                                by_admin: dataBank[i].by_admin || 0,
-                                by_admin_bank: dataBank[i].by_admin_bank || 0,
-                                by_lainnya: dataBank[i].by_lainnya || 0,
-                                by_tatalaksana: dataBank[i].by_tatalaksana || 0,
-                                by_materai: dataBank[i].by_materai || 0,
-                                by_buka_rekening:
-                                  dataBank[i].by_buka_rekening || 0,
-                                by_angsuran: dataBank[i].by_angsuran || 0,
-                                by_flagging: dataBank[i].by_flagging || 0,
-                                by_epotpen: dataBank[i].by_epotpen || 0,
-                                by_provisi: dataBank[i].by_provisi || 0,
-                                margin_bank: dataBank[i].margin_bank || 0,
-                                pembulatan: dataBank[i].pembulatan || 0,
-                              };
-                            });
-                            if (temp[0].name === "Flash Sisa Gaji") {
-                              setLabelTabungan("Tabungan Anggota");
-                            }
-                          }
+                              produkSesuai
+                                .filter((e, i, o) => o.indexOf(e) === i)
+                                .join(", ")
+                            }`
+                          );
+                        }
+                        setProduk((prev) => {
+                          return {
+                            // ...prev,
+                            id: temp[0].id,
+                            name: temp[0].name,
+                            by_asuransi: temp[0].by_asuransi,
+                            mg_bunga: temp[0].mg_bunga,
+                            min_age: temp[0].min_age,
+                            max_age: temp[0].max_age,
+                            max_usia_lunas: temp[0].max_usia_lunas,
+                            max_tenor: temp[0].max_tenor,
+                            max_plafon: temp[0].max_plafon,
+                          };
+                        });
+                        setBank((prev) => {
+                          return {
+                            // ...prev,
+                            id: dataBank[i].id,
+                            name: dataBank[i].name,
+                            kode: dataBank[i].kode || "",
+                            by_admin: dataBank[i].by_admin || 0,
+                            by_admin_bank: dataBank[i].by_admin_bank || 0,
+                            by_lainnya: dataBank[i].by_lainnya || 0,
+                            by_tatalaksana: dataBank[i].by_tatalaksana || 0,
+                            by_materai: dataBank[i].by_materai || 0,
+                            by_buka_rekening: dataBank[i].by_buka_rekening || 0,
+                            by_angsuran: dataBank[i].by_angsuran || 0,
+                            by_flagging: dataBank[i].by_flagging || 0,
+                            by_epotpen: dataBank[i].by_epotpen || 0,
+                            by_provisi: dataBank[i].by_provisi || 0,
+                            margin_bank: dataBank[i].margin_bank || 0,
+                            pembulatan: dataBank[i].pembulatan || 0,
+                          };
+                        });
+                        if (temp[0].name === "Flash Sisa Gaji") {
+                          setLabelTabungan("Tabungan Anggota");
+                          setTempTatalaksana(inputDapem.plafond * (3 / 100));
+                          setJenis((prev) => {
+                            return {
+                              ...prev,
+                              id: "",
+                              by_mutasi: 0,
+                            };
+                          });
+                        } else {
+                          setTempTatalaksana(bank.by_tatalaksana);
+                        }
+                        if ((dataBank[i].by_provisi || 0) > 100) {
+                          setTempProvisi(dataBank[i].by_provisi || 0);
+                        } else {
+                          setTempProvisi(
+                            inputDapem.plafond *
+                              ((dataBank[i].by_provisi || 0) / 100)
+                          );
                         }
                       }
-                    }}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label={
-                    <Tooltip title={bank.name}>
-                      Margin/Tahun {bank.kode}
-                    </Tooltip>
+                    }
                   }
-                  name={"sumber_dana"}
-                  className="flex-1"
-                  hidden={hideBank}
-                >
+                }}
+              />
+            </div>
+            <div className={`flex-1 flex flex-col gap-2`}>
+              <span>Margin Bunga</span>
+              <Input
+                value={produk.mg_bunga}
+                disabled={isDisable}
+                suffix="%"
+                type="number"
+                onChange={(e) =>
+                  setProduk((prev) => {
+                    return {
+                      ...prev,
+                      mg_bunga: parseFloat(e.target.value || "0"),
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="text-blue-500 italic text-xs">
+            {produkSesuai &&
+              produkSesuai.filter((e, i, o) => o.indexOf(e) === i).join(", ")}
+          </div>
+          <div className="flex gap-3 my-2">
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Refferal</span>
+              <Select
+                options={[
+                  { label: "Koperasi Pemasaran Fadillah", value: "kpf" },
+                ]}
+                disabled={isDisable}
+                placeholder="Refferal"
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      refferal_id: e,
+                    };
+                  })
+                }
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Refferal Fee</span>
+              <Input
+                type="number"
+                disabled={isDisable}
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      refferal_fee: parseInt(e.target.value),
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 my-2">
+            <div className="flex-1 flex flex-col gap-1">
+              <span>Jenis Margin</span>
+              <Select
+                options={[
+                  { label: "ANUITAS", value: "ANUITAS" },
+                  { label: "FLAT", value: "FLAT" },
+                ]}
+                disabled={isDisable}
+                placeholder="Jenis Margin"
+                onChange={(e) =>
+                  setTambahan((prev) => {
+                    return {
+                      ...prev,
+                      jenis_margin: e,
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="bg-orange-500 text-white p-2 rounded font-bold">
+            <span>Rekomendasi Pembiayaan</span>
+          </div>
+          <div className="flex gap-3 my-3">
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Tenor</span>
+              <Input
+                disabled={isDisable}
+                type="number"
+                status={
+                  inputDapem.tenor > inputDapem.result_tenor ? "error" : ""
+                }
+                value={inputDapem.tenor || 0}
+                onChange={(e) => {
+                  if (parseInt(e.target.value) > inputDapem.result_tenor) {
+                    setInputDapem((prev) => {
+                      return {
+                        ...prev,
+                        tenor: 0,
+                      };
+                    });
+                    return setModalErr(
+                      `Maaf tenor yang diinput tidak dapat melebihi maksimal tenor yang tersedia!`
+                    );
+                  }
+                  setInputDapem((prev) => {
+                    return {
+                      ...prev,
+                      tenor: parseInt(e.target.value),
+                    };
+                  });
+                }}
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Maks Tenor</span>
+              <Input
+                disabled
+                value={inputDapem.result_tenor}
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 my-3">
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Plafond</span>
+              <Input
+                disabled={isDisable}
+                status={
+                  inputDapem.plafond > inputDapem.result_plafond ? "error" : ""
+                }
+                value={formatNumber(inputDapem.plafond.toFixed(0))}
+                onChange={(e) => {
+                  if (
+                    inputTextToDecimal(e.target.value) >
+                    inputDapem.result_plafond
+                  ) {
+                    setInputDapem((prev) => {
+                      return {
+                        ...prev,
+                        plafond: 0,
+                      };
+                    });
+                    return setModalErr(
+                      `Maaf plafond yang diinput tidak dapat melebihi maksimal plafond yang tersedia!`
+                    );
+                  }
+                  if (produk.name === "Flash Sisa Gaji") {
+                    setTempTatalaksana(
+                      inputTextToDecimal(e.target.value) * (3 / 100)
+                    );
+                  } else {
+                    setTempTatalaksana(bank.by_tatalaksana);
+                  }
+                  if (bank.by_provisi > 100) {
+                    setTempProvisi(bank.by_provisi);
+                  } else {
+                    setTempProvisi(
+                      inputTextToDecimal(e.target.value || "0") *
+                        (bank.by_provisi / 100)
+                    );
+                  }
+                  return setInputDapem((prev) => {
+                    return {
+                      ...prev,
+                      plafond: inputTextToDecimal(e.target.value || "0"),
+                    };
+                  });
+                }}
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Maks Plafond</span>
+              <Input
+                disabled
+                value={formatNumber(inputDapem.result_plafond.toFixed(0))}
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+          <div className="flex gap-3 my-3">
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Angsuran</span>
+              <Input
+                disabled
+                value={formatNumber(inputDapem.angsuran.toFixed(0))}
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+            <div className="flex-1 flex flex-col gap-2">
+              <span>Maks Angsuran</span>
+              <Input
+                disabled
+                value={formatNumber(
+                  (inputDapem.gaji * (bank.by_angsuran / 100)).toFixed(0)
+                )}
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="flex-1">
+          <div className="bg-orange-500 text-white p-2 rounded font-bold">
+            <span>Keterangan Biaya</span>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Administrasi</span>
+            </div>
+            <div className="flex-1">
+              <div className={`flex gap-2`}>
+                <Tooltip title="Admin KPF">
                   <Input
-                    suffix={<EyeFilled onClick={() => setHideBank(true)} />}
-                    disabled={isDisable}
+                    value={bank.by_admin}
                     type="number"
+                    suffix={
+                      <span className="hidden sm:block opacity-80">%</span>
+                    }
+                    disabled={isDisable}
                     onChange={(e) =>
-                      setPrduk((prev) => {
+                      setBank((prev) => {
                         return {
                           ...prev,
-                          mg_bunga: parseInt(e.target.value) || 0,
+                          by_admin: parseInt(e.target.value),
                         };
                       })
                     }
-                    placeholder="Bunga tahunan"
                   />
-                </Form.Item>
-              </div>
-              {produkSesuai && produkSesuai.length !== 0 && (
-                <div className="italic, text-blue-500 text-xs">
-                  Tersedia :{" "}
-                  {produkSesuai &&
-                    produkSesuai
-                      .filter((e, i, o) => o.indexOf(e) === i)
-                      .join(", ")}
-                </div>
-              )}
-              <div className="p-2 bg-orange-500 text-gray-200 rounded font-bold">
-                <span>Rekomendasi Pembiayaan</span>
-              </div>
-              {showMessage && (
-                <div className="text-xs italic text-red-500">
-                  <span>
-                    <BulbFilled />
-                    Tenor atau Plafond yang diinput tidak bisa melebihi maksimal
-                    yang tersedia!
-                  </span>
-                </div>
-              )}
-              <div className="flex gap-3">
-                <Form.Item label="Tenor" name={"tenor"} className="flex-1">
+                </Tooltip>
+                <Tooltip title="Admin Bank">
                   <Input
-                    defaultValue={0}
-                    placeholder="0"
+                    value={bank.by_admin_bank}
                     type="number"
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      if (prduk.max_tenor < parseInt(e.target.value)) {
-                        Modal.error({
-                          title: (
-                            <span className="text-red-500 italic font-bold">
-                              Invalid tenor!
-                            </span>
-                          ),
-                          closable: true,
-                          footer: [],
-                          content: (
-                            <div>
-                              <p>
-                                Mohon maaf tenor yang diinput tidak dapat
-                                melebihi maksimal tenor produk yang dipilih:{" "}
-                                {prduk.max_tenor}
-                              </p>
-                            </div>
-                          ),
-                        });
-                      }
-                      setDapem((prev) => {
-                        return {
-                          ...prev,
-                          tenor: parseInt(e.target.value || "0"),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Tenor"
-                  name={"max_tenor"}
-                  className="flex-1"
-                >
-                  <Input
-                    style={{ color: "black", backgroundColor: "white" }}
-                    disabled
-                    defaultValue={0}
-                    placeholder="0"
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex gap-3">
-                <Form.Item label="Plafond" name={"plafond"} className="flex-1">
-                  <Input
-                    defaultValue={0}
-                    placeholder="0"
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      if (
-                        prduk.max_plafon <
-                        inputTextToDecimal(e.target.value || "0")
-                      ) {
-                        Modal.error({
-                          title: (
-                            <span className="text-red-500 italic font-bold">
-                              Invalid Plafond!
-                            </span>
-                          ),
-                          closable: true,
-                          footer: [],
-                          content: (
-                            <div>
-                              <p>
-                                Mohon maaf plafond yang diinput tidak dapat
-                                melebihi maksimal plafond produk yang dipilih:{" "}
-                                {formatNumber(prduk.max_plafon.toFixed(0))}
-                              </p>
-                            </div>
-                          ),
-                        });
-                      }
-                      setDapem((prev) => {
-                        return {
-                          ...prev,
-                          plafond: inputTextToDecimal(e.target.value),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Plafond"
-                  name={"max_plafond"}
-                  className="flex-1"
-                >
-                  <Input
-                    disabled
-                    defaultValue={0}
-                    placeholder="0"
-                    style={{ color: "black", backgroundColor: "white" }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex gap-3">
-                <Form.Item
-                  label="Angsuran"
-                  name={"angsuran"}
-                  className="flex-1"
-                >
-                  <Input
-                    defaultValue={0}
-                    placeholder="0"
-                    disabled
-                    style={{ backgroundColor: "white", color: "black" }}
-                  />
-                </Form.Item>
-                <Form.Item
-                  label="Max Angsuran"
-                  name={"max_angsuran"}
-                  className="flex-1"
-                >
-                  <Input
-                    disabled
-                    defaultValue={0}
-                    placeholder="0"
-                    style={{ color: "black", backgroundColor: "white" }}
-                  />
-                </Form.Item>
-              </div>
-            </div>
-            <div className="flex-1 border rounded">
-              <div className="flex justify-between p-2 bg-orange-500 text-gray-200 rounded font-bold">
-                <span>Keterangan Biaya</span>
-                <span>Nominal (Rp)</span>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Administrasi</div>
-                <div className="w-40 flex gap-2">
-                  <Form.Item name={"admin_koperasi"}>
-                    <Input
-                      type="number"
-                      placeholder="kpf"
-                      defaultValue={0}
-                      disabled={isDisable}
-                      suffix={"%"}
-                      onChange={(e) => {
-                        setBank((prev) => {
-                          return {
-                            ...prev,
-                            by_admin: parseFloat(e.target.value),
-                          };
-                        });
-                      }}
-                    />
-                  </Form.Item>
-                  <Form.Item name={"admin_bank"}>
-                    <Input
-                      type="number"
-                      placeholder="mitra"
-                      defaultValue={0}
-                      disabled={isDisable}
-                      suffix={"%"}
-                      onChange={(e) => {
-                        setBank((prev) => {
-                          return {
-                            ...prev,
-                            by_admin_bank: parseFloat(e.target.value),
-                          };
-                        });
-                      }}
-                    />
-                  </Form.Item>
-                </div>
-                <Form.Item name={"administrasi"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled
-                    style={{ backgroundColor: "white", color: "black" }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Asuransi</div>
-                <div className="w-40">
-                  <Form.Item name={"input_asuransi"}>
-                    <Input
-                      type="number"
-                      placeholder="0"
-                      defaultValue={0}
-                      disabled={isDisable}
-                      suffix={"%"}
-                      onChange={(e) => {
-                        setPrduk((prev) => {
-                          return {
-                            ...prev,
-                            by_asuransi: parseFloat(e.target.value),
-                          };
-                        });
-                      }}
-                    />
-                  </Form.Item>
-                </div>
-                <Form.Item name={"asuransi"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled
-                    style={{ backgroundColor: "white", color: "black" }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Tatalaksana</div>
-                <div className="w-40"></div>
-                <Form.Item name={"tatalaksana"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      setBank((prev) => {
-                        return {
-                          ...prev,
-                          by_tatalaksana: inputTextToDecimal(
-                            e.target.value || "0"
-                          ),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">{labelTabungan}</div>
-                <div className="w-40"></div>
-                <Form.Item name={"buka_rekening"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      setBank((prev) => {
-                        return {
-                          ...prev,
-                          by_buka_rekening: inputTextToDecimal(
-                            e.target.value || "0"
-                          ),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Materai</div>
-                <div className="w-40"></div>
-                <Form.Item name={"materai"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      setBank((prev) => {
-                        return {
-                          ...prev,
-                          by_materai: inputTextToDecimal(e.target.value || "0"),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Data Informasi</div>
-                <div className="w-40">
-                  <Form.Item name={"flagging"} className="flex-1">
-                    <Input
-                      placeholder="flagging"
-                      defaultValue={0}
-                      disabled={isDisable}
-                      onChange={(e) => {
-                        setBank((prev) => {
-                          return {
-                            ...prev,
-                            by_flagging: inputTextToDecimal(
-                              e.target.value || "0"
-                            ),
-                          };
-                        });
-                      }}
-                    />
-                  </Form.Item>
-                </div>
-                <Form.Item name={"epotpen"} className="flex-1">
-                  <Input
-                    placeholder="epotpen"
-                    defaultValue={0}
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      setBank((prev) => {
-                        return {
-                          ...prev,
-                          by_epotpen: inputTextToDecimal(e.target.value || "0"),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Mutasi</div>
-                <div className="w-40"></div>
-                <Form.Item name={"mutasi"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    style={{ backgroundColor: "white", color: "black" }}
-                    onChange={(e) => {
-                      setJenis((prev) => {
-                        return {
-                          ...prev,
-                          by_mutasi: inputTextToDecimal(e.target.value),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Provisi</div>
-                <div className="w-40"></div>
-                <Form.Item name={"provisi"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
+                    suffix={
+                      <span className="hidden sm:block opacity-80">%</span>
+                    }
                     disabled={isDisable}
                     onChange={(e) =>
-                      setCurrProvisi(inputTextToDecimal(e.target.value))
+                      setBank((prev) => {
+                        return {
+                          ...prev,
+                          by_admin_bank: parseInt(e.target.value),
+                        };
+                      })
                     }
                   />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Blokir Angsuran</div>
-                <div className="w-40">
-                  <Form.Item name={"blokir"} className="flex-1">
-                    <Input
-                      placeholder="0"
-                      defaultValue={0}
-                      type="number"
-                      disabled={isDisable}
-                      onChange={(e) => {
-                        setDapem((prev) => {
-                          return {
-                            ...prev,
-                            blokir: parseInt(e.target.value || "0"),
-                          };
-                        });
-                      }}
-                    />
-                  </Form.Item>
-                </div>
-                <Form.Item name={"jumlah_blokir"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled
-                    style={{ backgroundColor: "white", color: "black" }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Terima Kotor</div>
-                <div className="w-40"></div>
-                <Form.Item name={"kotor"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled
-                    style={{ backgroundColor: "white", color: "black" }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">BPP</div>
-                <div className="w-40"></div>
-                <Form.Item name={"bpp"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      setDapem((prev) => {
-                        return {
-                          ...prev,
-                          bpp: inputTextToDecimal(e.target.value || "0"),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Pelunasan</div>
-                <div className="w-40"></div>
-                <Form.Item name={"pelunasan"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled={isDisable}
-                    onChange={(e) => {
-                      setDapem((prev) => {
-                        return {
-                          ...prev,
-                          pelunasan: inputTextToDecimal(e.target.value || "0"),
-                        };
-                      });
-                    }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Terima Bersih</div>
-                <div className="w-40"></div>
-                <Form.Item name={"bersih"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled
-                    style={{ backgroundColor: "white", color: "black" }}
-                  />
-                </Form.Item>
-              </div>
-              <div className="flex justify-between border-b items-center pt-1 px-1 gap-2">
-                <div className="font-semibold flex-1">Sisa Gaji</div>
-                <div className="w-40"></div>
-                <Form.Item name={"sisa_gaji"} className="flex-1">
-                  <Input
-                    placeholder="0"
-                    defaultValue={0}
-                    disabled
-                    style={{ backgroundColor: "white", color: "black" }}
-                  />
-                </Form.Item>
+                </Tooltip>
               </div>
             </div>
-          </Form>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(
+                  (
+                    inputDapem.plafond *
+                    ((bank.by_admin + bank.by_admin_bank) / 100)
+                  ).toFixed(0)
+                )}
+                disabled
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Asuransi</span>
+            </div>
+            <div className="flex-1">
+              <div>
+                <Input
+                  value={produk.by_asuransi}
+                  type="number"
+                  suffix={<span className="hidden sm:block opacity-80">%</span>}
+                  disabled={isDisable}
+                  onChange={(e) =>
+                    setProduk((prev) => {
+                      return {
+                        ...prev,
+                        by_asuransi: parseInt(e.target.value),
+                      };
+                    })
+                  }
+                />
+              </div>
+            </div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(
+                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0)
+                )}
+                disabled
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Tatalaksana</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber((tempTatalaksana || 0).toFixed(0))}
+                disabled={isDisable}
+                style={{ color: "black", backgroundColor: "white" }}
+                onChange={(e) =>
+                  setTempTatalaksana(inputTextToDecimal(e.target.value || "0"))
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>{labelTabungan}</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(bank.by_buka_rekening.toFixed(0))}
+                disabled={isDisable}
+                style={{ color: "black", backgroundColor: "white" }}
+                onChange={(e) =>
+                  setBank((prev) => {
+                    return {
+                      ...prev,
+                      by_buka_rekening: inputTextToDecimal(
+                        e.target.value || "0"
+                      ),
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Materai</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(bank.by_materai.toFixed(0))}
+                disabled={isDisable}
+                style={{ color: "black", backgroundColor: "white" }}
+                onChange={(e) =>
+                  setBank((prev) => {
+                    return {
+                      ...prev,
+                      by_materai: inputTextToDecimal(e.target.value || "0"),
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Data Informasi</span>
+            </div>
+            <div className="flex-1">
+              <Tooltip title="Biaya Epotpen">
+                <Input
+                  value={formatNumber(bank.by_epotpen.toFixed(0))}
+                  disabled={isDisable}
+                  style={{ color: "black", backgroundColor: "white" }}
+                  onChange={(e) =>
+                    setBank((prev) => {
+                      return {
+                        ...prev,
+                        by_epotpen: inputTextToDecimal(e.target.value || "0"),
+                      };
+                    })
+                  }
+                />
+              </Tooltip>
+            </div>
+            <div className="flex-1">
+              <Tooltip title="Biaya Flagging">
+                <Input
+                  value={formatNumber(bank.by_flagging.toFixed(0))}
+                  disabled={isDisable}
+                  style={{ color: "black", backgroundColor: "white" }}
+                  onChange={(e) =>
+                    setBank((prev) => {
+                      return {
+                        ...prev,
+                        by_flagging: inputTextToDecimal(e.target.value || "0"),
+                      };
+                    })
+                  }
+                />
+              </Tooltip>
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Mutasi</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(jenis.by_mutasi.toFixed(0))}
+                disabled={isDisable}
+                style={{ color: "black", backgroundColor: "white" }}
+                onChange={(e) =>
+                  setJenis((prev) => {
+                    return {
+                      ...prev,
+                      by_mutasi: inputTextToDecimal(e.target.value || "0"),
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Provisi</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber((tempProvisi || 0).toFixed(0))}
+                disabled={isDisable}
+                style={{ color: "black", backgroundColor: "white" }}
+                onChange={(e) =>
+                  setTempProvisi(inputTextToDecimal(e.target.value || "0"))
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Blokir Angsuran</span>
+            </div>
+            <div className="flex-1">
+              <Input
+                value={inputDapem.blokir}
+                disabled={isDisable}
+                type="number"
+                prefix="x"
+                style={{ color: "black", backgroundColor: "white" }}
+                onChange={(e) =>
+                  setInputDapem((prev) => {
+                    return {
+                      ...prev,
+                      blokir: parseInt(e.target.value || "0"),
+                    };
+                  })
+                }
+              />
+            </div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(
+                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0)
+                )}
+                disabled
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Terima Kotor</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(inputDapem.kotor.toFixed(0))}
+                disabled
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold text-red-500">
+              <span>BPP</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(inputDapem.bpp.toFixed(0))}
+                disabled={isDisable}
+                style={{ color: "black", backgroundColor: "white" }}
+                onChange={(e) =>
+                  setInputDapem((prev) => {
+                    return {
+                      ...prev,
+                      bpp: inputTextToDecimal(e.target.value || "0"),
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Pelunasan</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(inputDapem.pelunasan.toFixed(0))}
+                disabled={isDisable}
+                style={{ color: "black", backgroundColor: "white" }}
+                onChange={(e) =>
+                  setInputDapem((prev) => {
+                    return {
+                      ...prev,
+                      pelunasan: inputTextToDecimal(e.target.value || "0"),
+                    };
+                  })
+                }
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Terima Bersih</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(inputDapem.bersih.toFixed(0))}
+                disabled
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-between items-center border-b border-gray-300 p-1">
+            <div className="flex-1 font-semibold">
+              <span>Sisa Gaji</span>
+            </div>
+            <div className="flex-1"></div>
+            <div className="flex-1">
+              <Input
+                value={formatNumber(
+                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0)
+                )}
+                disabled
+                style={{ color: "black", backgroundColor: "white" }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <Modal
+        open={modalErr ? true : false}
+        onCancel={() => setModalErr("")}
+        title={<span className="italic text-red-500">PERHATIAN</span>}
+        footer={[]}
+      >
+        <div className="italic text-red-500">
+          <p>{modalErr}</p>
         </div>
       </Modal>
     </div>

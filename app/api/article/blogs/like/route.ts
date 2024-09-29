@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 
-export const POST = async (req: NextRequest) => {
-  const data = await req.json();
+export const GET = async (req: NextRequest) => {
+  const id = req.nextUrl.searchParams.get("id");
+  const action = req.nextUrl.searchParams.get("action");
   try {
     const find = await prisma.blog.findFirst({
-      where: { id: data.id },
+      where: { id: id || "" },
     });
     if (!find) {
       return NextResponse.json(
@@ -15,16 +16,16 @@ export const POST = async (req: NextRequest) => {
         }
       );
     }
-    if (data.action === "like") {
+    if (action && action === "like") {
       await prisma.blog.update({
-        where: { id: data.id },
+        where: { id: find.id },
         data: {
           like: find.like + 1,
         },
       });
     } else {
       await prisma.blog.update({
-        where: { id: data.id },
+        where: { id: find.id },
         data: {
           dislike: find.like + 1,
         },

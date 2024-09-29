@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   title: "Simulasi",
 };
 
-const Simulasi = dynamic(
-  () => import("../../../components/views/simulasi/simulasi"),
+const FinalSimulasi = dynamic(
+  () => import("../../../components/views/simulasi/FinalSimulasi"),
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
@@ -15,5 +15,5 @@ const Simulasi = dynamic(
 );
 
 export default async function page() {
-  return <Simulasi />;
+  return <FinalSimulasi is_deviasi={false} />;
 }

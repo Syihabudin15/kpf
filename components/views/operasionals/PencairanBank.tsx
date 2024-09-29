@@ -1,7 +1,7 @@
 "use client";
 import { formatNumber, formatNumberTitik } from "@/components/utils/inputUtils";
 import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Input, Modal, Table, TableProps, message } from "antd";
+import { Input, Modal, Table, TableProps, Tooltip, message } from "antd";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
@@ -202,19 +202,25 @@ export default function PencairanBank() {
         };
       },
       render(value, record, index) {
+        let title: string[] = [];
+        record.DataPengajuan.forEach((e) => {
+          title.push(e.nama || "");
+        });
         return (
-          <div className="flex justify-center">
-            <button
-              onClick={() => handleProses(record.id)}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 px-3 text-center rounded shadow text-xs"
-              disabled={loading ? true : record.status ? true : false}
-              style={{
-                opacity: record.status ? 0.5 : 1,
-              }}
-            >
-              PROSES {loading && <LoadingOutlined />}
-            </button>
-          </div>
+          <Tooltip title={title && title.join(", ")}>
+            <div className="flex justify-center">
+              <button
+                onClick={() => handleProses(record.id)}
+                className="bg-green-500 hover:bg-green-600 text-white py-2 px-3 text-center rounded shadow text-xs"
+                disabled={loading ? true : record.status ? true : false}
+                style={{
+                  opacity: record.status ? 0.5 : 1,
+                }}
+              >
+                PROSES {loading && <LoadingOutlined />}
+              </button>
+            </div>
+          </Tooltip>
         );
       },
     },

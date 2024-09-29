@@ -29,6 +29,7 @@ import InputPembiayaan from "./InputBiaya";
 import UploadDoc from "../pengajuan/UploadDoc";
 import { filterOption } from "@/components/utils/inputUtils";
 import moment from "moment";
+import NewInputBiaya from "./NewInputBiaya";
 
 export default function InputForm({
   getData,
@@ -1150,6 +1151,15 @@ export default function InputForm({
                 setPembiayaan={setPembiayaan}
                 setJenisMargin={setJenisMargin}
               />
+              {/* <NewInputBiaya
+                nama={nama ? nama : ""}
+                nopen={nopen ? nopen : ""}
+                alamat={alamat ? alamat : ""}
+                refferal={refferalOpt ? refferalOpt : []}
+                setPembiayaan={setPembiayaan}
+                setJenisMargin={setJenisMargin}
+                setSelectedBank={setSelectedBank}
+              /> */}
               {/* End Pembiayaan */}
 
               <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">

@@ -226,39 +226,26 @@ export interface ITempProduk {
   max_tenor: number;
   max_plafon: number;
 }
-export interface IDapem {
+export interface InputDapem {
   tanggal_simulasi: Date;
-  nama_pemohon: string;
-  nopen: string;
-  alamat: string;
   tanggal_lahir: Date | null;
   tahun: number;
   bulan: number;
   hari: number;
-  gaji_bersih: number;
-  tenor: number;
-  plafond: number;
-  angsuran: number;
-  provisi: number;
-  blokir: number;
-  terima_kotor: number;
-  bpp: number;
-  pelunasan: number;
-  terima_bersih: number;
-  sisa_gaji: number;
-  is_flash: boolean;
   tanggal_lunas: string;
   usia_lunas: string;
-  curr_max_tenor: number;
-  curr_max_plafond: number;
-  biaya_biaya: number;
-}
-
-export interface IDapemSlik extends IDapem {
-  juru_bayar_asal: string | undefined | null;
-  juru_bayar_tujuan: string | undefined | null;
-  pembiayaan_sebelumnya: string | undefined | null;
-  nama_bank: string | undefined | null;
-  no_rekening: string | undefined | null;
-  tempat_lahir: string;
+  nama_pemohon: string | null;
+  nopen: string | null;
+  alamat: string | null;
+  gaji: number;
+  tenor: number;
+  plafond: number;
+  blokir: number;
+  kotor: number;
+  bpp: number;
+  pelunasan: number;
+  result_plafond: number;
+  result_tenor: number;
+  angsuran: number;
+  bersih: number;
 }

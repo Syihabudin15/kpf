@@ -1,28 +1,29 @@
 "use client";
 import {
   formatNumber,
+  getUsiaTanggalLunas,
   inputTextToDecimal,
-  newGetUsiaMasuk,
 } from "@/components/utils/inputUtils";
 import {
   DataBankWithProduk,
-  IDapem,
+  InputDapem,
   ITempBank,
   ITempProduk,
 } from "@/components/utils/Interfaces";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { JenisPembiayaan } from "@prisma/client";
 import { Input, Modal, Select, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
-const { PV } = require("@formulajs/formulajs");
+import {
+  DateDiffUsiaMasuk,
+  getAngsuranPerBulan,
+  getMaxPlafond,
+  newGetMaxTenor,
+} from "./simulasiUtil";
+import Image from "next/image";
 
-export default function Simulation() {
-  const [dataBank, setDataBank] = useState<DataBankWithProduk[]>([]);
-  const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
-  const [isDisable, setIsDisable] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [produkSesuai, setProdukSesuai] = useState<string[]>();
-  const [labelTabungan, setLabelTabungan] = useState("Buka Rekening");
+export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
   const [bank, setBank] = useState<ITempBank>({
     id: "",
     name: "",
@@ -58,38 +59,40 @@ export default function Simulation() {
     is_active: true,
     created_at: new Date(),
   });
-  const [dapem, setDapem] = useState<IDapem>({
+  const [inputDapem, setInputDapem] = useState<InputDapem>({
     tanggal_simulasi: new Date(),
-    nama_pemohon: "",
-    nopen: "",
-    alamat: "",
     tanggal_lahir: null,
     tahun: 0,
     bulan: 0,
     hari: 0,
-    gaji_bersih: 0,
+    nama_pemohon: null,
+    nopen: null,
+    alamat: null,
+    gaji: 0,
     tenor: 0,
     plafond: 0,
-    angsuran: 0,
-    provisi: 0,
     blokir: 0,
-    terima_kotor: 0,
     bpp: 0,
     pelunasan: 0,
-    terima_bersih: 0,
-    sisa_gaji: 0,
-    is_flash: false,
+    result_tenor: 0,
+    result_plafond: 0,
+    angsuran: 0,
     tanggal_lunas: "",
     usia_lunas: "",
-    curr_max_tenor: 0,
-    curr_max_plafond: 0,
-    biaya_biaya: 0,
+    kotor: 0,
+    bersih: 0,
   });
-
-  const [currProvisi, setCurrProvisi] = useState<number>();
-  const [currTatalaksana, setCurrTatalaksana] = useState<number>();
+  const [dataBank, setDataBank] = useState<DataBankWithProduk[]>([]);
+  const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
+  const [isDisable, setIsDisable] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [produkSesuai, setProdukSesuai] = useState<string[]>();
+  const [labelTabungan, setLabelTabungan] = useState("Buka Rekening");
+  const [tglSimulasi, setTglSimulasi] = useState("");
   const [tgl, setTgl] = useState("");
   const [modalErr, setModalErr] = useState("");
+  const [tempTatalaksana, setTempTatalaksana] = useState<number>();
+  const [tempProvisi, setTempProvisi] = useState<number>();
 
   useEffect(() => {
     (async () => {
@@ -140,63 +143,152 @@ export default function Simulation() {
       is_active: true,
       created_at: new Date(),
     });
-    setDapem((prev) => {
-      return {
-        ...prev,
-        tenor: 0,
-        plafond: 0,
-        angsuran: 0,
-        provisi: 0,
-        blokir: 0,
-        terima_kotor: 0,
-        bpp: 0,
-        pelunasan: 0,
-        terima_bersih: 0,
-        sisa_gaji: 0,
-        is_flash: false,
-        tanggal_lunas: "",
-        usia_lunas: "",
-        curr_max_tenor: 0,
-        curr_max_plafond: 0,
-        biaya_biaya: 0,
-      };
-    });
-    setCurrProvisi(undefined);
-    setCurrTatalaksana(undefined);
-    setTgl("");
+  };
+  const getTglDetail = (
+    tglmulai: string,
+    setTgl: Function,
+    tglakhir?: Date
+  ) => {
+    var ar = tglmulai.split("");
+    const filter = ar.filter((e) => e == "-");
+    if (ar.length > 2 && filter.length == 0) {
+      ar.splice(2, 0, "-");
+    }
+    if (ar.length > 4 && filter.length == 1) {
+      ar.splice(6, 0, "-");
+    }
+    setTgl(ar.join(""));
+    if (tglmulai.length < 10) return setIsDisable(true);
+    setIsDisable(false);
+
+    const date = tglmulai.split("-");
+    if (parseInt(date[0]) > 31 || parseInt(date[1]) > 12) {
+      return setIsDisable(true);
+    }
+    const validDate = new Date(`${date[2]}/${parseInt(date[1])}/${date[0]}`);
+    if (tglakhir) {
+      const { tahun, bulan, hari } = DateDiffUsiaMasuk(ar.join(""), tglakhir);
+      setInputDapem((prev) => {
+        return {
+          ...prev,
+          tanggal_lahir: validDate,
+          tahun: parseInt(tahun.toString()),
+          bulan: parseInt(bulan.toString()),
+          hari: parseInt(hari.toString()),
+        };
+      });
+      let tempProduk: string[] = [];
+      dataBank.forEach((b) => {
+        b.products.forEach((p) => {
+          if (
+            p.min_age <= parseInt(tahun.toString()) &&
+            p.max_age >= parseInt(tahun.toString())
+          ) {
+            tempProduk.push(p.name);
+          }
+        });
+      });
+      setProdukSesuai(tempProduk);
+      return { resTgl: validDate, tahun, bulan, hari };
+    } else {
+      setInputDapem((prev) => {
+        return {
+          ...prev,
+          tanggal_simulasi: validDate,
+        };
+      });
+    }
+    return { resTgl: validDate };
   };
 
   useEffect(() => {
-    if (!dapem.tanggal_lahir) return;
-    let tmp = produk.max_usia_lunas - dapem.tahun;
-    const max_tenor =
-      dapem.tahun <= produk.max_usia_lunas ? tmp * 12 - (dapem.bulan + 1) : 0;
-    let max_plafond =
-      PV(
-        produk.mg_bunga / 100 / 12,
-        dapem.tenor,
-        dapem.gaji_bersih * (bank.by_angsuran / 100),
-        0,
-        0
-      ) * -1;
-    setDapem((prev) => {
+    const tglRes = getTglDetail(tglSimulasi, setTglSimulasi);
+
+    const tglMasuk = getTglDetail(
+      tgl,
+      setTgl,
+      tglRes ? tglRes.resTgl : inputDapem.tanggal_simulasi
+    );
+    const { tanggalLunas, tahun, bulan, hari } = getUsiaTanggalLunas(
+      tglRes
+        ? tglRes.resTgl.toString()
+        : inputDapem.tanggal_simulasi.toString(),
+      tgl,
+      inputDapem.tenor
+    );
+    const max_tenor = newGetMaxTenor(
+      produk.max_usia_lunas,
+      tglMasuk ? parseInt(tglMasuk.tahun?.toString() || "0") : inputDapem.tahun,
+      inputDapem.bulan
+    );
+    const max_plafond = getMaxPlafond(
+      produk.mg_bunga,
+      inputDapem.tenor,
+      inputDapem.gaji * (bank.by_angsuran / 100)
+    );
+    const angsuran = ceiling(
+      parseInt(
+        getAngsuranPerBulan(
+          produk.mg_bunga,
+          inputDapem.tenor,
+          inputDapem.plafond
+        )
+      ),
+      bank.pembulatan
+    );
+    const admin =
+      inputDapem.plafond * ((bank.by_admin + bank.by_admin_bank) / 100);
+    const asuransi = inputDapem.plafond * (produk.by_asuransi / 100);
+    const blokirAngsuran = inputDapem.blokir * angsuran;
+
+    const biayaAwal =
+      admin +
+      asuransi +
+      (tempTatalaksana || 0) +
+      bank.by_buka_rekening +
+      bank.by_materai +
+      bank.by_epotpen +
+      bank.by_flagging +
+      jenis.by_mutasi +
+      (tempProvisi || 0) +
+      blokirAngsuran;
+    const kotor = inputDapem.plafond - biayaAwal;
+    if (
+      inputDapem.gaji !== 0 &&
+      produk.name === "Flash Sisa Gaji" &&
+      inputDapem.gaji - angsuran < 100000
+    ) {
+      setModalErr(
+        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
+      );
+    }
+    return setInputDapem((prev) => {
       return {
         ...prev,
-        curr_max_tenor:
+        tanggal_lunas: tanggalLunas,
+        usia_lunas: `${tahun} Tahun ${bulan} Bulan ${hari} Hari`,
+        result_tenor:
           max_tenor > produk.max_tenor ? produk.max_tenor : max_tenor,
-        curr_max_plafond:
+        result_plafond:
           max_plafond > produk.max_plafon ? produk.max_plafon : max_plafond,
+        angsuran: angsuran,
+        kotor,
+        bersih: kotor - (inputDapem.bpp + inputDapem.pelunasan),
       };
     });
   }, [
     bank,
     produk,
-    dapem,
     tgl,
-    jenis,
-    currProvisi,
-    currTatalaksana,
-    produkSesuai,
+    tglSimulasi,
+    inputDapem.gaji,
+    inputDapem.tenor,
+    inputDapem.plafond,
+    inputDapem.blokir,
+    inputDapem.bpp,
+    inputDapem.pelunasan,
+    jenis.by_mutasi,
+    tempTatalaksana,
   ]);
 
   return (
@@ -210,88 +302,66 @@ export default function Simulation() {
           <div className="flex flex-col gap-1 my-2">
             <span>Tanggal Simulasi</span>
             <Input
-              value={moment().format("DD-MM-YYYY")}
-              disabled
+              value={
+                tglSimulasi ||
+                moment(inputDapem.tanggal_simulasi).format("DD-MM-YYYY")
+              }
               style={{ color: "black", backgroundColor: "white" }}
+              onChange={(e) => setTglSimulasi(e.target.value)}
             />
           </div>
           <div className="flex gap-3 my-2">
             <div className="flex-1 flex flex-col gap-1">
               <span>Nama Pemohon</span>
-              <Input />
+              <Input
+                onChange={(e) =>
+                  setInputDapem((prev) => {
+                    return {
+                      ...prev,
+                      nama_pemohon: e.target.value,
+                    };
+                  })
+                }
+              />
             </div>
             <div className="flex-1 flex flex-col gap-1">
               <span>Nopen</span>
-              <Input />
+              <Input
+                onChange={(e) =>
+                  setInputDapem((prev) => {
+                    return {
+                      ...prev,
+                      nopen: e.target.value,
+                    };
+                  })
+                }
+              />
             </div>
           </div>
           <div className="flex flex-col gap-1 my-2">
             <span>Alamat</span>
-            <Input.TextArea />
+            <Input.TextArea
+              onChange={(e) =>
+                setInputDapem((prev) => {
+                  return {
+                    ...prev,
+                    alamat: e.target.value,
+                  };
+                })
+              }
+            />
           </div>
           <div className="flex gap-3 my-2">
             <div className="flex-1 flex flex-col gap-1">
               <span>Tanggal Lahir</span>
-              <Input
-                value={tgl}
-                onChange={(e) => {
-                  var ar = e.target.value.split("");
-                  const filter = ar.filter((e) => e == "-");
-                  if (ar.length > 2 && filter.length == 0) {
-                    ar.splice(2, 0, "-");
-                  }
-                  if (ar.length > 4 && filter.length == 1) {
-                    ar.splice(6, 0, "-");
-                  }
-                  setTgl(ar.join(""));
-                  if (e.target.value.length < 10) return setIsDisable(true);
-                  setIsDisable(false);
-
-                  const date = e.target.value.split("-");
-                  if (
-                    parseInt(date[0]) > 31 ||
-                    parseInt(date[1]) > 12 ||
-                    parseInt(date[2]) >= new Date().getFullYear()
-                  ) {
-                    return setIsDisable(true);
-                  }
-                  const validDate = new Date(
-                    `${date[2]}/${parseInt(date[1])}/${date[0]}`
-                  );
-                  const { tahun, bulan, hari } = newGetUsiaMasuk(
-                    validDate,
-                    new Date()
-                  );
-                  let tempProduk: string[] = [];
-                  dataBank.forEach((b) => {
-                    b.products.forEach((p) => {
-                      if (
-                        p.min_age <= parseInt(tahun) &&
-                        p.max_age >= parseInt(tahun)
-                      ) {
-                        tempProduk.push(p.name);
-                      }
-                    });
-                  });
-                  setDapem((prev) => {
-                    return {
-                      ...prev,
-                      tanggal_lahir: validDate,
-                      tahun: parseInt(tahun),
-                      bulan: parseInt(bulan),
-                      hari: parseInt(hari),
-                    };
-                  });
-                  setProdukSesuai(tempProduk);
-                }}
-              />
+              <Input value={tgl} onChange={(e) => setTgl(e.target.value)} />
             </div>
             <div className="flex-1 flex flex-col gap-1">
               <span>Usia Masuk</span>
               <div className="flex gap-1">
                 <Input
-                  value={dapem.tahun}
                   disabled
+                  value={inputDapem.tahun}
                   style={{ color: "black", backgroundColor: "white" }}
                   suffix={
                     <span className="text-xs italic hidden sm:block">
@@ -300,9 +370,9 @@ export default function Simulation() {
                   }
                 />
                 <Input
-                  value={dapem.bulan}
                   disabled
                   style={{ color: "black", backgroundColor: "white" }}
+                  value={inputDapem.bulan}
                   suffix={
                     <span className="text-xs italic hidden sm:block">
                       Bulan
@@ -310,9 +380,9 @@ export default function Simulation() {
                   }
                 />
                 <Input
-                  value={dapem.hari}
                   disabled
                   style={{ color: "black", backgroundColor: "white" }}
+                  value={inputDapem.hari}
                   suffix={
                     <span className="text-xs italic hidden sm:block">Hari</span>
                   }
@@ -324,12 +394,13 @@ export default function Simulation() {
             <div className="flex-1 flex flex-col gap-2">
               <span>Gaji Bersih</span>
               <Input
-                value={formatNumber(dapem.gaji_bersih.toFixed(0))}
+                value={formatNumber(inputDapem.gaji.toFixed(0))}
+                disabled={isDisable}
                 onChange={(e) =>
-                  setDapem((prev) => {
+                  setInputDapem((prev) => {
                     return {
                       ...prev,
-                      gaji_bersih: inputTextToDecimal(e.target.value || "0"),
+                      gaji: inputTextToDecimal(e.target.value || "0"),
                     };
                   })
                 }
@@ -343,12 +414,12 @@ export default function Simulation() {
                 })}
                 value={jenis.id}
                 showSearch
-                placeholder="Pilih Jenis"
-                disabled={isDisable}
+                placeholder="Jenis Pembiayaan"
+                disabled={produk.name === "Flash Sisa Gaji" ? true : isDisable}
                 onChange={(e) => {
                   const tempJenis = dataJenis.filter((j) => j.id === e);
                   if (tempJenis.length > 0) {
-                    setJenis({
+                    return setJenis({
                       id: tempJenis[0].id,
                       name: tempJenis[0].name,
                       by_mutasi: tempJenis[0].by_mutasi,
@@ -386,9 +457,8 @@ export default function Simulation() {
                 value={produk.id}
                 disabled={isDisable}
                 showSearch
-                placeholder="Pilih Produk"
+                placeholder="Produk Pembiayaan"
                 onChange={(e) => {
-                  setCurrProvisi(undefined);
                   for (let i = 0; i < dataBank.length; i++) {
                     for (let j = 0; j < dataBank[i].products.length; j++) {
                       const temp = dataBank[i].products.filter(
@@ -411,7 +481,7 @@ export default function Simulation() {
                         }
                         setProduk((prev) => {
                           return {
-                            ...prev,
+                            // ...prev,
                             id: temp[0].id,
                             name: temp[0].name,
                             by_asuransi: temp[0].by_asuransi,
@@ -425,7 +495,7 @@ export default function Simulation() {
                         });
                         setBank((prev) => {
                           return {
-                            ...prev,
+                            // ...prev,
                             id: dataBank[i].id,
                             name: dataBank[i].name,
                             kode: dataBank[i].kode || "",
@@ -443,24 +513,26 @@ export default function Simulation() {
                             pembulatan: dataBank[i].pembulatan || 0,
                           };
                         });
-                        setDapem((prev) => {
-                          return {
-                            ...prev,
-                            curr_max_tenor: temp[0].max_tenor,
-                            curr_max_plafond: temp[0].max_plafon,
-                            is_flash: false,
-                          };
-                        });
                         if (temp[0].name === "Flash Sisa Gaji") {
                           setLabelTabungan("Tabungan Anggota");
-                          setDapem((prev) => {
+                          setTempTatalaksana(inputDapem.plafond * (3 / 100));
+                          setJenis((prev) => {
                             return {
                               ...prev,
-                              is_flash: true,
-                              curr_max_tenor: 18,
-                              curr_max_plafond: 10000000,
+                              id: "",
+                              by_mutasi: 0,
                             };
                           });
+                        } else {
+                          setTempTatalaksana(bank.by_tatalaksana);
+                        }
+                        if ((dataBank[i].by_provisi || 0) > 100) {
+                          setTempProvisi(dataBank[i].by_provisi || 0);
+                        } else {
+                          setTempProvisi(
+                            inputDapem.plafond *
+                              ((dataBank[i].by_provisi || 0) / 100)
+                          );
                         }
                       }
                     }
@@ -468,10 +540,31 @@ export default function Simulation() {
                 }}
               />
             </div>
-            <div className="flex-1 flex flex-col gap-2">
+            <div
+              className={`flex-1 flex flex-col gap-2 ${
+                is_deviasi ? "" : "hidden"
+              }`}
+            >
               <span>Margin Bunga</span>
-              <Input value={produk.mg_bunga} disabled={isDisable} suffix="%" />
+              <Input
+                value={produk.mg_bunga}
+                disabled={isDisable}
+                suffix="%"
+                type="number"
+                onChange={(e) =>
+                  setProduk((prev) => {
+                    return {
+                      ...prev,
+                      mg_bunga: parseFloat(e.target.value || "0"),
+                    };
+                  })
+                }
+              />
             </div>
+          </div>
+          <div className="text-blue-500 italic text-xs">
+            {produkSesuai &&
+              produkSesuai.filter((e, i, o) => o.indexOf(e) === i).join(", ")}
           </div>
           <div className="bg-orange-500 text-white p-2 rounded font-bold">
             <span>Rekomendasi Pembiayaan</span>
@@ -482,11 +575,13 @@ export default function Simulation() {
               <Input
                 disabled={isDisable}
                 type="number"
-                status={dapem.tenor > dapem.curr_max_tenor ? "error" : ""}
-                value={dapem.tenor || 0}
+                status={
+                  inputDapem.tenor > inputDapem.result_tenor ? "error" : ""
+                }
+                value={inputDapem.tenor || 0}
                 onChange={(e) => {
-                  if (parseInt(e.target.value) > dapem.curr_max_tenor) {
-                    setDapem((prev) => {
+                  if (parseInt(e.target.value) > inputDapem.result_tenor) {
+                    setInputDapem((prev) => {
                       return {
                         ...prev,
                         tenor: 0,
@@ -496,7 +591,7 @@ export default function Simulation() {
                       `Maaf tenor yang diinput tidak dapat melebihi maksimal tenor yang tersedia!`
                     );
                   }
-                  setDapem((prev) => {
+                  setInputDapem((prev) => {
                     return {
                       ...prev,
                       tenor: parseInt(e.target.value),
@@ -509,7 +604,7 @@ export default function Simulation() {
               <span>Maks Tenor</span>
               <Input
                 disabled
-                value={dapem.curr_max_tenor}
+                value={inputDapem.result_tenor}
                 style={{ color: "black", backgroundColor: "white" }}
               />
             </div>
@@ -519,13 +614,16 @@ export default function Simulation() {
               <span>Plafond</span>
               <Input
                 disabled={isDisable}
-                status={dapem.plafond > dapem.curr_max_plafond ? "error" : ""}
-                value={formatNumber(dapem.plafond.toFixed(0))}
+                status={
+                  inputDapem.plafond > inputDapem.result_plafond ? "error" : ""
+                }
+                value={formatNumber(inputDapem.plafond.toFixed(0))}
                 onChange={(e) => {
                   if (
-                    inputTextToDecimal(e.target.value) > dapem.curr_max_plafond
+                    inputTextToDecimal(e.target.value) >
+                    inputDapem.result_plafond
                   ) {
-                    setDapem((prev) => {
+                    setInputDapem((prev) => {
                       return {
                         ...prev,
                         plafond: 0,
@@ -535,7 +633,22 @@ export default function Simulation() {
                       `Maaf plafond yang diinput tidak dapat melebihi maksimal plafond yang tersedia!`
                     );
                   }
-                  setDapem((prev) => {
+                  if (produk.name === "Flash Sisa Gaji") {
+                    setTempTatalaksana(
+                      inputTextToDecimal(e.target.value) * (3 / 100)
+                    );
+                  } else {
+                    setTempTatalaksana(bank.by_tatalaksana);
+                  }
+                  if (bank.by_provisi > 100) {
+                    setTempProvisi(bank.by_provisi);
+                  } else {
+                    setTempProvisi(
+                      inputTextToDecimal(e.target.value || "0") *
+                        (bank.by_provisi / 100)
+                    );
+                  }
+                  return setInputDapem((prev) => {
                     return {
                       ...prev,
                       plafond: inputTextToDecimal(e.target.value || "0"),
@@ -548,7 +661,7 @@ export default function Simulation() {
               <span>Maks Plafond</span>
               <Input
                 disabled
-                value={formatNumber(dapem.curr_max_plafond.toFixed(0))}
+                value={formatNumber(inputDapem.result_plafond.toFixed(0))}
                 style={{ color: "black", backgroundColor: "white" }}
               />
             </div>
@@ -558,7 +671,7 @@ export default function Simulation() {
               <span>Angsuran</span>
               <Input
                 disabled
-                value={formatNumber(dapem.angsuran.toFixed(0))}
+                value={formatNumber(inputDapem.angsuran.toFixed(0))}
                 style={{ color: "black", backgroundColor: "white" }}
               />
             </div>
@@ -567,7 +680,7 @@ export default function Simulation() {
               <Input
                 disabled
                 value={formatNumber(
-                  (dapem.gaji_bersih * (bank.by_angsuran / 100)).toFixed(0)
+                  (inputDapem.gaji * (bank.by_angsuran / 100)).toFixed(0)
                 )}
                 style={{ color: "black", backgroundColor: "white" }}
               />
@@ -582,29 +695,51 @@ export default function Simulation() {
             <div className="flex-1 font-semibold">
               <span>Administrasi</span>
             </div>
-            <div className="flex-1 flex gap-2">
-              <Tooltip title="Admin KPF">
-                <Input
-                  value={bank.by_admin}
-                  type="number"
-                  suffix={<span className="hidden sm:block opacity-80">%</span>}
-                  disabled={isDisable}
-                />
-              </Tooltip>
-              <Tooltip title="Admin Bank">
-                <Input
-                  value={bank.by_admin_bank}
-                  type="number"
-                  suffix={<span className="hidden sm:block opacity-80">%</span>}
-                  disabled={isDisable}
-                />
-              </Tooltip>
+            <div className="flex-1">
+              <div className={`flex gap-2 ${is_deviasi ? "" : "hidden"}`}>
+                <Tooltip title="Admin KPF">
+                  <Input
+                    value={bank.by_admin}
+                    type="number"
+                    suffix={
+                      <span className="hidden sm:block opacity-80">%</span>
+                    }
+                    disabled={isDisable}
+                    onChange={(e) =>
+                      setBank((prev) => {
+                        return {
+                          ...prev,
+                          by_admin: parseInt(e.target.value),
+                        };
+                      })
+                    }
+                  />
+                </Tooltip>
+                <Tooltip title="Admin Bank">
+                  <Input
+                    value={bank.by_admin_bank}
+                    type="number"
+                    suffix={
+                      <span className="hidden sm:block opacity-80">%</span>
+                    }
+                    disabled={isDisable}
+                    onChange={(e) =>
+                      setBank((prev) => {
+                        return {
+                          ...prev,
+                          by_admin_bank: parseInt(e.target.value),
+                        };
+                      })
+                    }
+                  />
+                </Tooltip>
+              </div>
             </div>
             <div className="flex-1">
               <Input
                 value={formatNumber(
                   (
-                    dapem.plafond *
+                    inputDapem.plafond *
                     ((bank.by_admin + bank.by_admin_bank) / 100)
                   ).toFixed(0)
                 )}
@@ -618,16 +753,28 @@ export default function Simulation() {
               <span>Asuransi</span>
             </div>
             <div className="flex-1">
-              <Input
-                value={produk.by_asuransi}
-                type="number"
-                suffix={<span className="hidden sm:block opacity-80">%</span>}
-                disabled={isDisable}
-              />
+              <div className={`${is_deviasi ? "" : "hidden"}`}>
+                <Input
+                  value={produk.by_asuransi}
+                  type="number"
+                  suffix={<span className="hidden sm:block opacity-80">%</span>}
+                  disabled={isDisable}
+                  onChange={(e) =>
+                    setProduk((prev) => {
+                      return {
+                        ...prev,
+                        by_asuransi: parseInt(e.target.value),
+                      };
+                    })
+                  }
+                />
+              </div>
             </div>
             <div className="flex-1">
               <Input
-                value={formatNumber(produk.by_asuransi.toFixed(0))}
+                value={formatNumber(
+                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0)
+                )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
               />
@@ -640,11 +787,11 @@ export default function Simulation() {
             <div className="flex-1"></div>
             <div className="flex-1">
               <Input
-                value={formatNumber((currTatalaksana || 0).toFixed(0))}
+                value={formatNumber((tempTatalaksana || 0).toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
-                  setCurrTatalaksana(inputTextToDecimal(e.target.value || "0"))
+                  setTempTatalaksana(inputTextToDecimal(e.target.value || "0"))
                 }
               />
             </div>
@@ -760,11 +907,11 @@ export default function Simulation() {
             <div className="flex-1"></div>
             <div className="flex-1">
               <Input
-                value={formatNumber((currProvisi || 0).toFixed(0))}
+                value={formatNumber((tempProvisi || 0).toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
-                  setCurrProvisi(inputTextToDecimal(e.target.value || "0"))
+                  setTempProvisi(inputTextToDecimal(e.target.value || "0"))
                 }
               />
             </div>
@@ -775,13 +922,13 @@ export default function Simulation() {
             </div>
             <div className="flex-1">
               <Input
-                value={formatNumber(dapem.blokir.toFixed(0))}
+                value={inputDapem.blokir}
                 disabled={isDisable}
                 type="number"
                 prefix="x"
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
-                  setDapem((prev) => {
+                  setInputDapem((prev) => {
                     return {
                       ...prev,
                       blokir: parseInt(e.target.value || "0"),
@@ -792,7 +939,9 @@ export default function Simulation() {
             </div>
             <div className="flex-1">
               <Input
-                value={formatNumber((dapem.blokir * dapem.angsuran).toFixed(0))}
+                value={formatNumber(
+                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0)
+                )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
               />
@@ -805,9 +954,7 @@ export default function Simulation() {
             <div className="flex-1"></div>
             <div className="flex-1">
               <Input
-                value={formatNumber(
-                  (dapem.plafond - dapem.biaya_biaya).toFixed(0)
-                )}
+                value={formatNumber(inputDapem.kotor.toFixed(0))}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
               />
@@ -820,11 +967,11 @@ export default function Simulation() {
             <div className="flex-1"></div>
             <div className="flex-1">
               <Input
-                value={formatNumber(dapem.bpp.toFixed(0))}
+                value={formatNumber(inputDapem.bpp.toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
-                  setDapem((prev) => {
+                  setInputDapem((prev) => {
                     return {
                       ...prev,
                       bpp: inputTextToDecimal(e.target.value || "0"),
@@ -841,11 +988,11 @@ export default function Simulation() {
             <div className="flex-1"></div>
             <div className="flex-1">
               <Input
-                value={formatNumber(dapem.pelunasan.toFixed(0))}
+                value={formatNumber(inputDapem.pelunasan.toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
-                  setDapem((prev) => {
+                  setInputDapem((prev) => {
                     return {
                       ...prev,
                       pelunasan: inputTextToDecimal(e.target.value || "0"),
@@ -862,12 +1009,7 @@ export default function Simulation() {
             <div className="flex-1"></div>
             <div className="flex-1">
               <Input
-                value={formatNumber(
-                  (
-                    dapem.plafond -
-                    (dapem.biaya_biaya + dapem.bpp + dapem.pelunasan)
-                  ).toFixed(0)
-                )}
+                value={formatNumber(inputDapem.bersih.toFixed(0))}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
               />
@@ -881,7 +1023,7 @@ export default function Simulation() {
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (dapem.gaji_bersih - dapem.angsuran).toFixed(0)
+                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0)
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -912,6 +1054,210 @@ export default function Simulation() {
       >
         <div className="italic text-red-500">
           <p>{modalErr}</p>
+        </div>
+      </Modal>
+      <Modal
+        open={open}
+        onCancel={() => setOpen(false)}
+        onClose={() => setOpen(false)}
+        footer={[]}
+        width={"80vw"}
+        style={{ top: 30 }}
+        title={
+          <div className="flex text-center sm:text-left gap-2 items-center">
+            <Image
+              src={"/assets/images/logo_kpf.jpg"}
+              alt="KPF Logo"
+              width={40}
+              height={40}
+            />
+            <span className="font-bold">ANALISA PERHITUNGAN</span>
+          </div>
+        }
+      >
+        <div className="flex flex-col sm:flex-row gap-5">
+          <div className="flex-1">
+            <div className="text-center font-bold bg-green-500 text-white p-2">
+              DATA PEMBIAYAAN
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Tanggal Simulasi</span>
+              <span className="text-right">
+                {moment(inputDapem.tanggal_simulasi).format("DD-MM-YYYY")}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Nomor Pensiun</span>
+              <span className="text-right">{inputDapem.nopen}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Nama Pemohon</span>
+              <span className="text-right">{inputDapem.nama_pemohon}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Tanggal Lahir</span>
+              <span className="text-right">
+                {moment(inputDapem.tanggal_lahir).format("DD-MM-YYYY")}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Usia Masuk</span>
+              <span className="text-right">
+                {inputDapem.tahun} Tahun {inputDapem.bulan} Bulan{" "}
+                {inputDapem.hari} Hari
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
+              <span>Tanggal Lunas</span>
+              <span className="text-right">{inputDapem.tanggal_lunas}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
+              <span>Usia Lunas</span>
+              <span className="text-right">{inputDapem.usia_lunas}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1 font-bold text-green-500">
+              <span>Gaji Bersih</span>
+              <span className="text-right">
+                {formatNumber(inputDapem.gaji.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Produk Pembiayaan</span>
+              <span className="text-right">{produk.name}</span>
+            </div>
+            {bank.kode === "BPR SIP" && (
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Margin Bunga</span>
+                <span className="text-right">{produk.mg_bunga}</span>
+              </div>
+            )}
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Jenis Pembiayaan</span>
+              <span className="text-right">{jenis.name}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Tenor</span>
+              <span className="text-right">{inputDapem.tenor}</span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Plafond</span>
+              <span className="text-right">
+                {formatNumber(inputDapem.plafond.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Angsuran</span>
+              <span className="text-right">
+                {formatNumber(inputDapem.angsuran.toFixed(0))}
+              </span>
+            </div>
+          </div>
+          <div className="flex-1">
+            <div className="text-center font-bold bg-green-500 text-white p-2">
+              RINCIAN PEMBIAYAAN
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Biaya Administrasi</span>
+              <span className="text-right">
+                {formatNumber(
+                  (
+                    inputDapem.plafond *
+                    ((bank.by_admin + bank.by_admin_bank) / 100)
+                  ).toFixed(0)
+                )}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Biaya Asuransi</span>
+              <span className="text-right">
+                {formatNumber(
+                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0)
+                )}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Biaya Tatalaksana</span>
+              <span className="text-right">
+                {formatNumber((tempTatalaksana || 0).toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Biaya {labelTabungan}</span>
+              <span className="text-right">
+                {formatNumber(bank.by_buka_rekening.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Biaya Materai</span>
+              <span className="text-right">
+                {formatNumber(bank.by_materai.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>
+                Biaya {bank.kode === "BPR SIP" ? "Layanan Kredit" : "Provisi"}
+              </span>
+              <span className="text-right">
+                {formatNumber((tempProvisi || 0).toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Biaya Data Informasi</span>
+              <span className="text-right">
+                {formatNumber((bank.by_epotpen + bank.by_flagging).toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Biaya Mutasi</span>
+              <span className="text-right">
+                {formatNumber(jenis.by_mutasi.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Blokir Angsuran</span>
+              <span className="text-center">
+                {inputDapem.blokir} x{" "}
+                {formatNumber(inputDapem.angsuran.toFixed(0))}
+              </span>
+              <span className="text-right">
+                {formatNumber(
+                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0)
+                )}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Terima Kotor</span>
+              <span className="text-right">
+                {formatNumber(inputDapem.kotor.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1 text-red-500 font-bold">
+              <span>BPP</span>
+              <span className="text-right">
+                {formatNumber(inputDapem.bpp.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Pelunasan</span>
+              <span className="text-right">
+                {formatNumber(inputDapem.pelunasan.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
+              <span>Terima Bersih</span>
+              <span className="text-right">
+                {formatNumber(inputDapem.bersih.toFixed(0))}
+              </span>
+            </div>
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Sisa Gaji</span>
+              <span className="text-right">
+                {formatNumber(
+                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0)
+                )}
+              </span>
+            </div>
+          </div>
         </div>
       </Modal>
     </div>

@@ -56,6 +56,12 @@ export const menusV2: Menus[] = [
         icon: <ExperimentOutlined />,
       },
       {
+        label: "Simulasi Deviasi",
+        url: "/simulasi/deviasi",
+        role: ["MASTER", "ENTRY_DATA"],
+        icon: <ExperimentOutlined />,
+      },
+      {
         label: "Data Simulasi",
         url: "/data-simulasi",
         role: ["MASTER", "ENTRY_DATA", "MARKETING"],

@@ -96,6 +96,15 @@ export function getMaxTenor(
   const result = tmp * 12 - (usia_bulan + 1);
   return result;
 }
+export function newGetMaxTenor(
+  max_usia: number,
+  usia_tahun: number,
+  usia_bulan: number
+) {
+  let tmp = max_usia - usia_tahun;
+  const max_tenor = usia_tahun <= max_usia ? tmp * 12 - (usia_bulan + 1) : 0;
+  return max_tenor;
+}
 
 export function getMaxPlafond(
   mg_bunga: number,
