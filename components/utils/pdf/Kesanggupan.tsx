@@ -477,8 +477,12 @@ export default function Kesanggupan({
             alignItems: "center",
           }}
         >
-          <Text>materai</Text>
-          <Text>Rp. 10.000</Text>
+          {data.Bank.kode === "BPR BDS" && (
+            <>
+              <Text>materai</Text>
+              <Text>Rp. 10.000</Text>
+            </>
+          )}
         </View>
         <View
           style={{

@@ -119,11 +119,9 @@ const handleMaster = async (
         AND: [
           { status_pencairan: "TRANSFER" },
           {
-            DataPembiayaan: {
-              created_at: {
-                gte: moment(from).tz("Asia/Jakarta").toISOString(true),
-                lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
-              },
+            tanggal_pencairan: {
+              gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+              lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
             },
           },
         ],
@@ -179,11 +177,9 @@ const handleMaster = async (
       AND: [
         { status_pencairan: "TRANSFER" },
         {
-          DataPembiayaan: {
-            created_at: {
-              gte: moment(from).tz("Asia/Jakarta").toISOString(true),
-              lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
-            },
+          tanggal_pencairan: {
+            gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+            lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
           },
         },
       ],
@@ -265,11 +261,9 @@ const handleBank = async (
           { status_pencairan: "TRANSFER" },
           { bankId: bankId },
           {
-            DataPembiayaan: {
-              created_at: {
-                gte: moment(from).tz("Asia/Jakarta").toISOString(true),
-                lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
-              },
+            tanggal_pencairan: {
+              gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+              lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
             },
           },
         ],
@@ -326,11 +320,9 @@ const handleBank = async (
         { status_pencairan: "TRANSFER" },
         { bankId: bankId },
         {
-          DataPembiayaan: {
-            created_at: {
-              gte: moment(from).tz("Asia/Jakarta").toISOString(true),
-              lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
-            },
+          tanggal_pencairan: {
+            gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+            lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
           },
         },
       ],

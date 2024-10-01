@@ -8,6 +8,7 @@ import {
 } from "@/components/utils/Interfaces";
 import { LoadingOutlined } from "@ant-design/icons";
 import {
+  Bank,
   BerkasPengajuan,
   DataPembiayaan,
   StatusKawin,
@@ -19,13 +20,20 @@ import { useContext, useEffect, useState } from "react";
 import { filterOption } from "@/components/utils/inputUtils";
 import dynamic from "next/dynamic";
 
-const EditBiaya = dynamic(
-  () => import("@/components/views/pengajuan/EditBiaya"),
+const NewEditBiaya = dynamic(
+  () => import("@/components/views/pengajuan/NewEditBiaya"),
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
   }
 );
+// const EditBiaya = dynamic(
+//   () => import("@/components/views/pengajuan/EditBiaya"),
+//   {
+//     ssr: false,
+//     loading: () => <LoadingOutlined />,
+//   }
+// );
 const UploadDoc = dynamic(
   () => import("@/components/views/pengajuan/UploadDoc"),
   {
@@ -65,6 +73,7 @@ export default function FormEditPengajuan({
   const [jenisMargin, setJenisMargin] = useState<string>();
   const [kabupaten, setKabupaten] = useState<Options[]>([]);
   const [kabupatenDomisili, setKabupatenDomisili] = useState<Options[]>([]);
+  const [selectedBank, setSelectedBank] = useState<Bank>();
 
   // const handleChangeUP = (e: string) => {
   //   const cabang = fullCabang?.filter((ca) => ca.id == e);
@@ -184,7 +193,7 @@ export default function FormEditPengajuan({
     e.tanggal_lahir = pembiayaan.tanggal_lahir;
     e.nopen = currData.DataPembiayaan.nopen;
     e.no_rek = pembiayaan.no_rekening || null;
-    e.bankId = currData.bankId;
+    e.bankId = selectedBank ? selectedBank.id : currData.bankId;
     e.jenis_margin = jenisMargin;
     pembiayaan.name = e.nama;
     e.area_pelayanan_berkas = e.unit_pelayanan;
@@ -918,12 +927,19 @@ export default function FormEditPengajuan({
             </div>
 
             {/* Pembiayaan */}
-            <EditBiaya
+            <NewEditBiaya
               currData={currData}
               refferal={refferalOpt}
               setPembiayaan={setPembiayaan}
               setJenisMargin={setJenisMargin}
+              setSelectedBank={setSelectedBank}
             />
+            {/* <EditBiaya
+              currData={currData}
+              refferal={refferalOpt}
+              setPembiayaan={setPembiayaan}
+              setJenisMargin={setJenisMargin}
+            /> */}
             {/* End Pembiayaan */}
 
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">

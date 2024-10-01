@@ -232,6 +232,46 @@ export default function ArusKas({
       },
     },
     {
+      title: "PRODUK PEMBIAYAAN",
+      dataIndex: "produk",
+      key: "produk",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{record.DataPembiayaan.Produk.name}</>;
+      },
+    },
+    {
+      title: "JENIS PEMBIAYAAN",
+      dataIndex: "jenis",
+      key: "jenis",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <>
+            {record.DataPembiayaan.jenis_pembiayaan_id
+              ? record.DataPembiayaan.JenisPembiayaan.name
+              : "Sisa Gaji"}
+          </>
+        );
+      },
+    },
+    {
       title: "TANGGAL AKAD",
       dataIndex: "tanggal_akad",
       key: "tanggal_akad",
@@ -464,19 +504,17 @@ export default function ArusKas({
               record.DataPembiayaan.tanggal_lahir,
               (record.tanggal_cetak_akad || moment()).toString()
             );
-            const asRate = AsuransiRate.filter(
-              (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`))
+            let asRate = AsuransiRate.filter(
+              (a) => a.usia === Math.round(parseFloat(`${tahun}.${bulan}`))
             );
 
-            const ind = Math.floor(record.DataPembiayaan.tenor / 12);
-            const rate = asRate ? asRate[0].jk[`${ind - 1}`] : 0;
-            return (
-              <>
-                {formatNumber(
-                  (record.DataPembiayaan.plafond * (rate / 1000)).toFixed(0)
-                )}
-              </>
-            );
+            const ind = Math.round(record.DataPembiayaan.tenor / 12);
+            const rate = asRate && ind ? asRate[0].jk[`${ind - 1}`] : 0;
+            const premi =
+              record.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
+                ? 0
+                : record.DataPembiayaan.plafond * (rate / 1000);
+            return <span>{formatNumber(premi.toFixed(0))}</span>;
           },
         },
         {
@@ -497,21 +535,21 @@ export default function ArusKas({
               record.DataPembiayaan.tanggal_lahir,
               (record.tanggal_cetak_akad || moment()).toString()
             );
-            const asRate = AsuransiRate.filter(
+
+            let asRate = AsuransiRate.filter(
               (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`))
             );
 
-            const ind = Math.floor(record.DataPembiayaan.tenor / 12);
-            const rate = asRate ? asRate[0].jk[ind - 1] : 0;
-            const premi = record.DataPembiayaan.plafond * (rate / 1000);
+            const ind = Math.round(record.DataPembiayaan.tenor / 12);
+            const rate = asRate && ind ? asRate[0].jk[ind - 1] : 0;
+            const premi =
+              record.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
+                ? 0
+                : record.DataPembiayaan.plafond * (rate / 1000);
             const asur =
               record.DataPembiayaan.plafond *
               (record.DataPembiayaan.by_asuransi / 100);
-            return (
-              <div onClick={() => console.log({ asRate, tahun })}>
-                {formatNumber((asur - premi).toFixed(0))}
-              </div>
-            );
+            return <div>{formatNumber((asur - premi).toFixed(0))}</div>;
           },
         },
       ],
@@ -947,9 +985,12 @@ export default function ArusKas({
                 (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`))
               );
 
-              const indRate = Math.floor(pd.DataPembiayaan.tenor / 12);
-              const rate = asRate ? asRate[0].jk[indRate - 1] : 0;
-              const premAsuransi = pd.DataPembiayaan.plafond * (rate / 1000);
+              const indRate = Math.round(pd.DataPembiayaan.tenor / 12);
+              const rate = asRate && indRate ? asRate[0].jk[indRate - 1] : 0;
+              const premAsuransi =
+                pd.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
+                  ? 0
+                  : pd.DataPembiayaan.plafond * (rate / 1000);
               const asur =
                 pd.DataPembiayaan.plafond *
                 (pd.DataPembiayaan.by_asuransi / 100);
@@ -1007,7 +1048,6 @@ export default function ArusKas({
                 <Table.Summary.Cell index={1}></Table.Summary.Cell>
                 <Table.Summary.Cell index={2} className="text-center">
                   Summary
-                  {/* {pageData.length} (Area Pelayanan) */}
                   <></>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={3}>
@@ -1046,61 +1086,67 @@ export default function ArusKas({
                 <Table.Summary.Cell index={14}>
                   <></>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={15} className="text-center">
-                  <>{formatNumber(adminBank.toFixed(0))}</>
+                <Table.Summary.Cell index={15}>
+                  <></>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={16} className="text-center">
-                  <>{formatNumber(adminKoperasi.toFixed(0))}</>
+                <Table.Summary.Cell index={16}>
+                  <></>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={17} className="text-center">
-                  <>{formatNumber(adminCadangan.toFixed(0))}</>
+                  <>{formatNumber(adminBank.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={18} className="text-center">
-                  <>{formatNumber(tatalaksana.toFixed(0))}</>
+                  <>{formatNumber(adminKoperasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={19} className="text-center">
-                  <>{formatNumber(asuransi.toFixed(0))}</>
+                  <>{formatNumber(adminCadangan.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={20} className="text-center">
-                  <>{formatNumber(premiAsuransi.toFixed(0))}</>
+                  <>{formatNumber(tatalaksana.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={21} className="text-center">
-                  <>{formatNumber(selisihAsuransi.toFixed(0))}</>
+                  <>{formatNumber(asuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={22} className="text-center">
-                  <>{formatNumber(dataInformasi.toFixed(0))}</>
+                  <>{formatNumber(premiAsuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={23} className="text-center">
-                  <>{formatNumber(tabungan.toFixed(0))}</>
+                  <>{formatNumber(selisihAsuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={24} className="text-center">
-                  <>{formatNumber(materai.toFixed(0))}</>
+                  <>{formatNumber(dataInformasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={25} className="text-center">
-                  <>{formatNumber(mutasi.toFixed(0))}</>
+                  <>{formatNumber(tabungan.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={26} className="text-center">
-                  <>{formatNumber(provisi.toFixed(0))}</>
+                  <>{formatNumber(materai.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={27} className="text-center">
-                  <>{formatNumber(totalAngsuran.toFixed(0))}</>
+                  <>{formatNumber(mutasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={28} className="text-center">
-                  <>{formatNumber(totalAngsuranBank.toFixed(0))}</>
+                  <>{formatNumber(provisi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={29} className="text-center">
-                  <>{formatNumber(selisihAngsuran.toFixed(0))}</>
+                  <>{formatNumber(totalAngsuran.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={30} className="text-center">
-                  <>{formatNumber(blokir.toFixed(0))}</>
+                  <>{formatNumber(totalAngsuranBank.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={31} className="text-center">
-                  <>{formatNumber(takeover.toFixed(0))}</>
+                  <>{formatNumber(selisihAngsuran.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={32} className="text-center">
-                  <>{formatNumber(pencairan.toFixed(0))}</>
+                  <>{formatNumber(blokir.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={33} className="text-center">
+                  <>{formatNumber(takeover.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={34} className="text-center">
+                  <>{formatNumber(pencairan.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={35} className="text-center">
                   <>{formatNumber(totalDropping.toFixed(0))}</>
                 </Table.Summary.Cell>
               </Table.Summary.Row>

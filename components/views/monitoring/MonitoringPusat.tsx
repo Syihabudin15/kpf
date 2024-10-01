@@ -273,6 +273,7 @@ export default function MonitoringPusat() {
         );
       },
     },
+
     {
       title: "NO PENSIUN",
       dataIndex: "nopen",
@@ -422,6 +423,52 @@ export default function MonitoringPusat() {
       sorter: (a, b) => a.DataPembiayaan.plafond - b.DataPembiayaan.plafond,
       render(value, record, index) {
         return <>{formatNumber(record.DataPembiayaan.plafond.toString())}</>;
+      },
+    },
+    {
+      title: "MARKETING / SPV",
+      dataIndex: "marketing",
+      key: "marketing",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      width: 120,
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <div>
+            {record.User.first_name} {record.User.last_name}{" "}
+            <span className="italic opacity-70" style={{ fontSize: 10 }}>
+              ({record.User.unit_cabang_id && record.User.UnitCabang.name})
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      title: "ADMIN INPUT",
+      dataIndex: "admin",
+      key: "admin",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      width: 120,
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <div>
+            {record.DataPembiayaan.User.first_name}{" "}
+            {record.DataPembiayaan.User.last_name}
+          </div>
+        );
       },
     },
     {

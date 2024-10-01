@@ -6,6 +6,8 @@ import moment from "moment";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
+import { getUsiaMasuk } from "@/components/utils/inputUtils";
+import { AsuransiRate } from "@/components/utils/AsuransiRate";
 
 export default function CetakDaftarNominatif({
   data,
@@ -32,6 +34,8 @@ export default function CetakDaftarNominatif({
       let totalPencairan = 0;
       let totalProvisi = 0;
       let totalAngsuran = 0;
+      let totalPremiAsuransi = 0;
+      let totalSelisihAsuransi = 0;
 
       const newData: any[] = data.map((d: DataDataPengajuan, ind: number) => {
         const plafond = d.DataPembiayaan.plafond;
@@ -58,6 +62,21 @@ export default function CetakDaftarNominatif({
         );
         const blokir = d.DataPembiayaan.blokir * angsuran;
         const takeOver = d.DataPembiayaan.pelunasan + d.DataPembiayaan.bpp;
+        const { tahun, bulan } = getUsiaMasuk(
+          d.DataPembiayaan.tanggal_lahir,
+          (d.tanggal_cetak_akad || moment()).toString()
+        );
+        const asRate = AsuransiRate.filter(
+          (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`))
+        );
+
+        const inda = Math.floor(d.DataPembiayaan.tenor / 12);
+        const rate = asRate && inda ? asRate[0].jk[inda - 1] : 0;
+        const premiAsuransi =
+          d.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
+            ? 0
+            : d.DataPembiayaan.plafond * (rate / 1000);
+        const selisihAsuransi = asuransi - premiAsuransi;
         const pencairan =
           plafond -
           (admin +
@@ -88,12 +107,15 @@ export default function CetakDaftarNominatif({
         totalPencairan += pencairan;
         totalProvisi += provisi;
         totalAngsuran += angsuran;
+        totalPremiAsuransi += premiAsuransi;
+        totalSelisihAsuransi += selisihAsuransi;
 
         if (d.Bank.kode === "BPR SIP") {
           return {
             NO: ind + 1,
             "AREA PELAYANAN": d.User.UnitCabang.UnitPelayanan.name,
             "UNIT PELAYANAN": d.User.UnitCabang.name,
+            MARKETING: d.User.first_name + " " + d.User.last_name,
             NOPEN: d.DataPembiayaan.nopen,
             "NO SK PENSIUN": d.nomor_sk_pensiun,
             "NAMA PEMOHON": d.nama,
@@ -101,6 +123,10 @@ export default function CetakDaftarNominatif({
             "SUMBER DANA": d.Bank.name,
             TENOR: d.DataPembiayaan.tenor,
             PLAFOND: d.DataPembiayaan.plafond,
+            PRODUK: d.DataPembiayaan.Produk.name,
+            JENIS: d.DataPembiayaan.jenis_pembiayaan_id
+              ? d.DataPembiayaan.JenisPembiayaan.name
+              : "Sisa Gaji",
             "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD-MM-YYYY"),
             "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format(
               "DD-MM-YYYY"
@@ -137,6 +163,10 @@ export default function CetakDaftarNominatif({
             "SUMBER DANA": d.Bank.name,
             TENOR: d.DataPembiayaan.tenor,
             PLAFOND: d.DataPembiayaan.plafond,
+            PRODUK: d.DataPembiayaan.Produk.name,
+            JENIS: d.DataPembiayaan.jenis_pembiayaan_id
+              ? d.DataPembiayaan.JenisPembiayaan.name
+              : "Sisa Gaji",
             "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD-MM-YYYY"),
             "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format(
               "DD-MM-YYYY"
@@ -149,7 +179,9 @@ export default function CetakDaftarNominatif({
             "ADMIN MITRA": admin,
             "PENCADANGAN PUSAT": cadangan,
             TATALAKSANA: tatalaksana,
-            "PREMI ASURANSI": asuransi,
+            ASURANSI: asuransi,
+            "PREMI ASURANSI": premiAsuransi,
+            "SELISIH ASURANSI": selisihAsuransi,
             "DATA INFORMASI": informasi,
             "PEMBUKAAN TABUNGAN": tabungan,
             "BIAYA MATERAI": materai,
@@ -182,7 +214,9 @@ export default function CetakDaftarNominatif({
         "ADMIN MITRA": totalAdmin,
         "PENCADANGAN PUSAT": totalCadangan,
         TATALAKSANA: totalTatalaksana,
-        "PREMI ASURANSI": totalAsuransi,
+        ASURANSI: totalAsuransi,
+        "PREMI ASURANSI": totalPremiAsuransi,
+        "SELISIH ASURANSI": totalSelisihAsuransi,
         "DATA INFORMASI": totalInformasi,
         "PEMBUKAAN TABUNGAN": totalTabungan,
         "BIAYA MATERAI": totalMaterai,

@@ -7,7 +7,7 @@ import {
   LoadingOutlined,
   MinusCircleFilled,
 } from "@ant-design/icons";
-import { Input, Table, TableProps, Tooltip, message } from "antd";
+import { DatePicker, Input, Table, TableProps, Tooltip, message } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -27,6 +27,7 @@ export default function TuggakanFlash() {
   const [page, setPage] = useState<number>(1);
   const [total, setTotal] = useState<number>(0);
   const [name, setName] = useState<string>();
+  const [month, setMonth] = useState<string>();
 
   const columns: TableProps<AngsuranPengajuan>["columns"] = [
     {
@@ -62,6 +63,23 @@ export default function TuggakanFlash() {
       className: "text-center",
       render(value, record, index) {
         return <>{record.DataPengajuan.DataPembiayaan.nopen}</>;
+      },
+    },
+    {
+      title: "NO TELEPON",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      key: "no_telepon",
+      dataIndex: "no_telepon",
+      render(value, record, index) {
+        return <>{record.DataPengajuan.no_telepon}</>;
       },
     },
     {
@@ -364,7 +382,9 @@ export default function TuggakanFlash() {
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/angsuran/tunggakan-flash?page=${page}${name ? "&name=" + name : ""}`
+      `/api/angsuran/tunggakan-flash?page=${page}${
+        name ? "&name=" + name : ""
+      }${month ? "&month=" + month : ""}`
     );
     const { data, total } = await res.json();
     setData(data);
@@ -392,10 +412,14 @@ export default function TuggakanFlash() {
     (async () => {
       await getData();
     })();
-  }, [page, name]);
+  }, [page, name, month]);
   return (
     <div>
       <div className="flex gap-2 my-1 mx-1">
+        <DatePicker
+          picker="month"
+          onChange={(date, dateString) => setMonth(dateString.toString())}
+        />
         <Input.Search
           style={{ width: 170 }}
           onChange={(e) => setName(e.target.value)}

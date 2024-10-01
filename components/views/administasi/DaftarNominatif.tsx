@@ -230,6 +230,46 @@ export default function DaftarNominatif({
       },
     },
     {
+      title: "PRODUK PEMBIAYAAN",
+      dataIndex: "produk",
+      key: "produk",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return <>{record.DataPembiayaan.Produk.name}</>;
+      },
+    },
+    {
+      title: "JENIS PEMBIAYAAN",
+      dataIndex: "jenis",
+      key: "jenis",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <>
+            {record.DataPembiayaan.jenis_pembiayaan_id
+              ? record.DataPembiayaan.JenisPembiayaan.name
+              : "Sisa Gaji"}
+          </>
+        );
+      },
+    },
+    {
       title: "TANGGAL AKAD",
       dataIndex: "tanggal_akad",
       key: "tanggal_akad",

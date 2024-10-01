@@ -31,30 +31,59 @@ export default function LabaRugi() {
       </div>
       <div>
         <div>
-          <div>PEMASUKAN</div>
-          <div></div>
-          <div>BEBAN</div>
-          <div></div>
+          <span>Pendapatan Operasional</span>
+          <div className="flex flex-col gap-2">
+            <div className="flex">
+              <span className="flex-1">Pendapatan Selisih Bunga</span>
+              <span className="flex-1"></span>
+              <span className="flex-1"></span>
+              <span className="flex-1"></span>
+              <span className="flex-1">6.855.00</span>
+            </div>
+            <div>
+              <span>Pendapatan Administrasi</span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span>6.855.00</span>
+            </div>
+            <div>
+              <span>Pendapatan Selisih Asuransi</span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span>6.855.00</span>
+            </div>
+            <div>
+              <span>Pendapatan Operasional Lainnya</span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span>6.855.00</span>
+            </div>
+          </div>
         </div>
         <div>
+          <p>Beban Operasional</p>
           <div>
-            <span>PEMASUKAN</span>
-            <span></span>
-            <span>BEBAN</span>
-            <span></span>
+            <span>Beban Pemasaran</span>
+            <div>
+              <div>
+                <span>Beban Fee Marketing/SPV</span>
+                <span>14.000.000</span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div>
+                <span>Beban Pemasaran Lain-lain</span>
+                <span>12.000.000</span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
           </div>
-          <div>
-            <span>PEMASUKAN</span>
-            <span></span>
-            <span>BEBAN</span>
-            <span></span>
-          </div>
-        </div>
-        <div>
-          <span>TOTAL</span>
-          <span>:</span>
-          <span></span>
-          <span></span>
         </div>
       </div>
     </div>

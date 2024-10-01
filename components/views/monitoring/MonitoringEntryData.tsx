@@ -395,6 +395,30 @@ export default function MonitoringEntryData() {
       },
     },
     {
+      title: "MARKETING / SPV",
+      dataIndex: "marketing",
+      key: "marketing",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      width: 120,
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <div>
+            {record.User.first_name} {record.User.last_name}{" "}
+            <span className="italic opacity-70" style={{ fontSize: 10 }}>
+              ({record.User.unit_cabang_id && record.User.UnitCabang.name})
+            </span>
+          </div>
+        );
+      },
+    },
+    {
       title: "AKAD",
       dataIndex: "akad",
       key: "akad",

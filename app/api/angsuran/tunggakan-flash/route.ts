@@ -4,10 +4,13 @@ import { getServerSession } from "next-auth";
 import { AngsuranPengajuan } from "@/components/utils/Interfaces";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
+import moment from "moment";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
   const name = req.nextUrl.searchParams.get("name");
+  const month =
+    req.nextUrl.searchParams.get("month") || moment().format("YYYY-MM");
   const skip = (page - 1) * 20;
   const session = await getServerSession();
   const user = await prisma.user.findFirst({
@@ -19,18 +22,22 @@ export const GET = async (req: NextRequest) => {
   let total = 0;
 
   if (user.bank_id) {
-    const data = await handleBank(skip, user.bank_id, name);
+    const data = await handleBank(skip, user.bank_id, name, month);
     result = <AngsuranPengajuan[]>data.result;
     total = data.total;
   } else {
-    const data = await handleMaster(skip, name);
+    const data = await handleMaster(skip, name, month);
     result = <AngsuranPengajuan[]>data.result;
     total = data.total;
   }
   return NextResponse.json({ data: result, total: total }, { status: 200 });
 };
 
-const handleMaster = async (skip: number, name: string | null) => {
+const handleMaster = async (
+  skip: number,
+  name: string | null,
+  month: string
+) => {
   let result: AngsuranPengajuan[] = [];
 
   if (name) {
@@ -43,9 +50,6 @@ const handleMaster = async (skip: number, name: string | null) => {
             },
             OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
           },
-        },
-        tanggal_bayar: {
-          lte: new Date(),
         },
         tanggal_pelunasan: null,
       },
@@ -76,7 +80,8 @@ const handleMaster = async (skip: number, name: string | null) => {
           },
         },
         tanggal_bayar: {
-          lte: new Date(),
+          lte: new Date(`${month}-${moment(month).daysInMonth()}`),
+          gte: new Date(`${month}-1`),
         },
         tanggal_pelunasan: null,
       },
@@ -108,7 +113,8 @@ const handleMaster = async (skip: number, name: string | null) => {
         },
       },
       tanggal_bayar: {
-        lte: new Date(),
+        lte: new Date(`${month}-${moment(month).daysInMonth()}`),
+        gte: new Date(`${month}-1`),
       },
       tanggal_pelunasan: null,
     },
@@ -150,13 +156,14 @@ const handleMaster = async (skip: number, name: string | null) => {
       DataPengajuan: r.DataPengajuan,
     };
   });
-  return { result: mapping, total: name ? name.length : total };
+  return { result: mapping, total: name ? result.length : total };
 };
 
 const handleBank = async (
   skip: number,
   bankId: string,
-  name: string | null
+  name: string | null,
+  month: string
 ) => {
   let result: AngsuranPengajuan[] = [];
 
@@ -171,9 +178,6 @@ const handleBank = async (
             OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
           },
           bankId: bankId,
-        },
-        tanggal_bayar: {
-          lte: new Date(),
         },
         tanggal_pelunasan: null,
       },
@@ -205,7 +209,8 @@ const handleBank = async (
           bankId: bankId,
         },
         tanggal_bayar: {
-          lte: new Date(),
+          lte: new Date(`${month}-${moment(month).daysInMonth()}`),
+          gte: new Date(`${month}-1`),
         },
         tanggal_pelunasan: null,
       },
@@ -238,7 +243,8 @@ const handleBank = async (
         bankId: bankId,
       },
       tanggal_bayar: {
-        lte: new Date(),
+        lte: new Date(`${month}-${moment(month).daysInMonth()}`),
+        gte: new Date(`${month}-1`),
       },
       tanggal_pelunasan: null,
     },
@@ -280,5 +286,5 @@ const handleBank = async (
       DataPengajuan: r.DataPengajuan,
     };
   });
-  return { result: mapping, total: name ? name.length : total };
+  return { result: mapping, total: name ? result.length : total };
 };

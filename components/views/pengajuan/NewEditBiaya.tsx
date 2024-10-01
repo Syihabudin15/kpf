@@ -1,39 +1,41 @@
-"use client";
+import {
+  DataBankWithProduk,
+  DataDataPengajuan,
+  InputDapem,
+  ITempBank,
+  ITempProduk,
+} from "@/components/utils/Interfaces";
+import { JenisPembiayaan } from "@prisma/client";
+import { useEffect, useState } from "react";
+import {
+  DateDiffUsiaMasuk,
+  DateDiffUsiaTanggalLunas,
+  getAngsuranPerBulan,
+  getMaxPlafond,
+  newGetMaxTenor,
+} from "../simulasi/simulasiUtil";
 import {
   formatNumber,
   getUsiaTanggalLunas,
   inputTextToDecimal,
 } from "@/components/utils/inputUtils";
-import {
-  DataBankWithProduk,
-  InputDapem,
-  ITempBank,
-  ITempProduk,
-} from "@/components/utils/Interfaces";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import { JenisPembiayaan } from "@prisma/client";
 import { Input, Modal, Select, Tooltip } from "antd";
-import { useEffect, useState } from "react";
-import {
-  DateDiffUsiaMasuk,
-  getAngsuranPerBulan,
-  getMaxPlafond,
-  newGetMaxTenor,
-} from "@/components/views/simulasi/simulasiUtil";
+import moment from "moment";
 
-export default function NewInputBiaya({
-  nama,
-  nopen,
-  alamat,
+interface productOptions {
+  label: string;
+  value: string;
+}
+export default function NewEditBiaya({
+  currData,
   refferal,
   setPembiayaan,
   setJenisMargin,
   setSelectedBank,
 }: {
-  nama: string;
-  nopen: string;
-  alamat: string;
-  refferal: { label: string; value: string }[];
+  currData: DataDataPengajuan;
+  refferal: productOptions[];
   setPembiayaan: Function;
   setJenisMargin: Function;
   setSelectedBank: Function;
@@ -99,7 +101,6 @@ export default function NewInputBiaya({
   const [dataBank, setDataBank] = useState<DataBankWithProduk[]>([]);
   const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
   const [isDisable, setIsDisable] = useState(true);
-  const [open, setOpen] = useState(false);
   const [produkSesuai, setProdukSesuai] = useState<string[]>();
   const [labelTabungan, setLabelTabungan] = useState("Buka Rekening");
   const [tglSimulasi, setTglSimulasi] = useState("");
@@ -119,18 +120,18 @@ export default function NewInputBiaya({
     jenis_margin: "",
   });
 
-  useEffect(() => {
-    (async () => {
-      setIsDisable(true);
-      const resJenis = await fetch("/api/master/pembiayaan");
-      const { result } = await resJenis.json();
-      setDataJenis(result);
+  // useEffect(() => {
+  //   (async () => {
+  //     setIsDisable(true);
+  //     const resJenis = await fetch("/api/master/pembiayaan");
+  //     const { result } = await resJenis.json();
+  //     setDataJenis(result);
 
-      const resBank = await fetch("/api/master/bank");
-      const bank = await resBank.json();
-      setDataBank(bank.result);
-    })();
-  }, []);
+  //     const resBank = await fetch("/api/master/bank");
+  //     const bank = await resBank.json();
+  //     setDataBank(bank.result);
+  //   })();
+  // }, []);
 
   const getTglDetail = (
     tglmulai: string,
@@ -304,8 +305,8 @@ export default function NewInputBiaya({
       };
     });
     return setPembiayaan({
-      name: nama,
-      nopen: nopen,
+      name: currData.nama,
+      nopen: currData.nopen,
       gaji_bersih: inputDapem.gaji,
       produk_id: produk.id,
       jenis_pembiayaan_id: jenis.id || null,
@@ -323,7 +324,7 @@ export default function NewInputBiaya({
       by_buka_rekening: bank.by_buka_rekening,
       by_materai: bank.by_materai,
       is_simulasi: false,
-      alamat: alamat,
+      alamat: currData.DataPengajuanAlamat.alamat,
       juru_bayar_asal: tambahan.juru_bayar_asal,
       juru_bayar_tujuan: tambahan.juru_bayar_tujuan,
       pembiayaan_sebelumnya: tambahan.pembiayaan_sebelumnya,
@@ -356,6 +357,130 @@ export default function NewInputBiaya({
     tempTatalaksana,
     tambahan.refferal_fee,
   ]);
+
+  useEffect(() => {
+    if (currData) {
+      (async () => {
+        setIsDisable(true);
+        const resJenis = await fetch("/api/master/pembiayaan");
+        const { result } = await resJenis.json();
+        setDataJenis(result);
+
+        const resBank = await fetch("/api/master/bank");
+        const bank = await resBank.json();
+        setDataBank(bank.result);
+        setSelectedBank(currData.Bank);
+        setBank({
+          id: currData.bankId || "",
+          name: currData.Bank.name,
+          kode: currData.Bank.name,
+          by_admin: currData.DataPembiayaan.by_admin,
+          by_admin_bank: currData.DataPembiayaan.by_admin_bank,
+          by_lainnya: currData.DataPembiayaan.by_lainnya,
+          by_tatalaksana: currData.DataPembiayaan.by_tatalaksana,
+          by_materai: currData.DataPembiayaan.by_materai,
+          by_buka_rekening: currData.DataPembiayaan.by_buka_rekening,
+          by_angsuran: currData.Bank.by_angsuran,
+          by_flagging: currData.DataPembiayaan.by_flagging,
+          by_epotpen: currData.DataPembiayaan.by_epotpen,
+          by_provisi: currData.DataPembiayaan.by_provisi,
+          margin_bank: currData.DataPembiayaan.margin_bank,
+          pembulatan: currData.DataPembiayaan.pembulatan,
+        });
+        setProduk({
+          id: currData.DataPembiayaan.produk_id || "",
+          name: currData.DataPembiayaan.Produk.name,
+          by_asuransi: currData.DataPembiayaan.by_asuransi,
+          mg_bunga: currData.DataPembiayaan.mg_bunga,
+          min_age: currData.DataPembiayaan.Produk.min_age,
+          max_age: currData.DataPembiayaan.Produk.max_age,
+          max_usia_lunas: currData.DataPembiayaan.Produk.max_usia_lunas,
+          max_tenor: currData.DataPembiayaan.Produk.max_tenor,
+          max_plafon: currData.DataPembiayaan.Produk.max_plafon,
+        });
+        setJenis({
+          id: currData.DataPembiayaan.jenis_pembiayaan_id || "",
+          name: currData.DataPembiayaan.jenis_pembiayaan_id
+            ? currData.DataPembiayaan.JenisPembiayaan.name
+            : "",
+          by_mutasi: currData.DataPembiayaan.jenis_pembiayaan_id
+            ? currData.DataPembiayaan.by_mutasi
+            : 0,
+          is_active: true,
+          created_at: new Date(),
+        });
+        const { tahun, bulan, hari } = DateDiffUsiaMasuk(
+          currData.DataPembiayaan.tanggal_lahir,
+          new Date(currData.DataPembiayaan.tanggal_input)
+        );
+        const tglLunas = DateDiffUsiaTanggalLunas(
+          currData.DataPembiayaan.tanggal_lahir,
+          currData.DataPembiayaan.tanggal_input.toString(),
+          currData.DataPembiayaan.tenor
+        );
+        let tempProduk: string[] = [];
+        bank.result.forEach((b: DataBankWithProduk) => {
+          b.products.forEach((p) => {
+            if (
+              p.min_age <= parseInt(tahun.toString()) &&
+              p.max_age >= parseInt(tahun.toString())
+            ) {
+              tempProduk.push(p.name);
+            }
+          });
+        });
+        setProdukSesuai(tempProduk);
+        setInputDapem((prev) => {
+          return {
+            ...prev,
+            tanggal_simulasi:
+              currData.DataPembiayaan.tanggal_input || new Date(),
+            tanggal_lahir: new Date(currData.DataPembiayaan.tanggal_lahir),
+            tahun: parseInt(tahun.toString()),
+            bulan: parseInt(bulan.toString()),
+            hari: parseInt(hari.toString()),
+            tanggal_lunas: tglLunas.tanggalLunas,
+            usia_lunas: `${tglLunas.tahun} Tahun ${tglLunas.bulan} Bulan ${tglLunas.hari} Hari`,
+            nama_pemohon: currData.nama,
+            nopen: currData.nopen,
+            alamat: currData.DataPengajuanAlamat.alamat,
+            gaji: currData.DataPembiayaan.gaji_bersih,
+            tenor: currData.DataPembiayaan.tenor,
+            plafond: currData.DataPembiayaan.plafond,
+            blokir: currData.DataPembiayaan.blokir,
+            // kotor: 0,
+            bpp: currData.DataPembiayaan.bpp,
+            pelunasan: currData.DataPembiayaan.pelunasan,
+            // result_plafond: 0,
+            // result_tenor: 0,
+            // angsuran: 0,
+            // bersih: 0,
+          };
+        });
+        setTambahan({
+          juru_bayar_asal: currData.DataPembiayaan.juru_bayar_asal || "",
+          juru_bayar_tujuan: currData.DataPembiayaan.juru_bayar_tujuan || "",
+          pembiayaan_sebelumnya:
+            currData.DataPembiayaan.pembiayaan_sebelumnya || "",
+          nama_bank: currData.DataPembiayaan.nama_bank || "",
+          no_rekening: currData.DataPembiayaan.no_rekening || "",
+          refferal_id: currData.DataPembiayaan.refferal_id || "",
+          refferal_fee: currData.DataPembiayaan.fee || 0,
+          tempat_lahir: currData.DataPembiayaan.tempat_lahir || "",
+          jenis_margin: currData.jenis_margin || "",
+        });
+        setTgl(currData.DataPembiayaan.tanggal_lahir);
+        setTglSimulasi(
+          moment(currData.DataPembiayaan.tanggal_input).format("DD-MM-YYYY")
+        );
+        setTempProvisi(currData.DataPembiayaan.by_provisi);
+        setTempTatalaksana(currData.DataPembiayaan.by_tatalaksana);
+        if (currData.DataPembiayaan.Produk.name === "Flash Sisa Gaji") {
+          setLabelTabungan("Tabungan Anggota");
+        }
+      })();
+    }
+  }, []);
 
   return (
     <div className="bg-white rounded text-sm">
@@ -467,7 +592,10 @@ export default function NewInputBiaya({
                   value={inputDapem.tahun}
                   style={{ color: "black", backgroundColor: "white" }}
                   suffix={
-                    <span className="text-xs italic hidden sm:block">
+                    <span
+                      className="text-xs italic hidden sm:block"
+                      style={{ fontSize: 8 }}
+                    >
                       Tahun
                     </span>
                   }
@@ -477,7 +605,10 @@ export default function NewInputBiaya({
                   style={{ color: "black", backgroundColor: "white" }}
                   value={inputDapem.bulan}
                   suffix={
-                    <span className="text-xs italic hidden sm:block">
+                    <span
+                      className="text-xs italic hidden sm:block"
+                      style={{ fontSize: 8 }}
+                    >
                       Bulan
                     </span>
                   }
@@ -487,7 +618,12 @@ export default function NewInputBiaya({
                   style={{ color: "black", backgroundColor: "white" }}
                   value={inputDapem.hari}
                   suffix={
-                    <span className="text-xs italic hidden sm:block">Hari</span>
+                    <span
+                      className="text-xs italic hidden sm:block"
+                      style={{ fontSize: 8 }}
+                    >
+                      Hari
+                    </span>
                   }
                 />
               </div>
@@ -572,6 +708,7 @@ export default function NewInputBiaya({
                           produkSesuai &&
                           !produkSesuai.includes(temp[0].name)
                         ) {
+                          console.log({ produkSesuai, temp: temp[0] });
                           resetData();
                           return setModalErr(
                             `Mohon maaf produk yang dipilih tidak sesuai dengan kriteria umur pemohon. Mohon pilih produk lain yang sesuai dengan umur pemohon: ${
@@ -649,7 +786,14 @@ export default function NewInputBiaya({
               <Input
                 value={produk.mg_bunga}
                 disabled={isDisable}
-                suffix="%"
+                suffix={
+                  <span
+                    style={{ fontSize: 8 }}
+                    className="hidden sm:block placeholder-opacity-70"
+                  >
+                    %
+                  </span>
+                }
                 type="number"
                 onChange={(e) =>
                   setProduk((prev) => {
@@ -860,7 +1004,12 @@ export default function NewInputBiaya({
                     value={bank.by_admin}
                     type="number"
                     suffix={
-                      <span className="hidden sm:block opacity-80">%</span>
+                      <span
+                        style={{ fontSize: 8 }}
+                        className="hidden sm:block opacity-70"
+                      >
+                        %
+                      </span>
                     }
                     disabled={isDisable}
                     onChange={(e) =>
@@ -878,7 +1027,12 @@ export default function NewInputBiaya({
                     value={bank.by_admin_bank}
                     type="number"
                     suffix={
-                      <span className="hidden sm:block opacity-80">%</span>
+                      <span
+                        style={{ fontSize: 8 }}
+                        className="hidden sm:block opacity-80"
+                      >
+                        %
+                      </span>
                     }
                     disabled={isDisable}
                     onChange={(e) =>
@@ -915,7 +1069,14 @@ export default function NewInputBiaya({
                 <Input
                   value={produk.by_asuransi}
                   type="number"
-                  suffix={<span className="hidden sm:block opacity-80">%</span>}
+                  suffix={
+                    <span
+                      style={{ fontSize: 8 }}
+                      className="hidden sm:block opacity-80"
+                    >
+                      %
+                    </span>
+                  }
                   disabled={isDisable}
                   onChange={(e) =>
                     setProduk((prev) => {

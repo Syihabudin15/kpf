@@ -667,6 +667,7 @@ export const PUT = async (req: NextRequest) => {
           nama_skep: data.nama ? data.nama_skep : findPengajuan?.nama_skep,
           kode_jiwa: data.kode_jiwa ? data.kode_jiwa : findPengajuan?.kode_jiwa,
           area_pelayanan_berkas: data.area_pelayanan_berkas,
+          bankId: data.bankId ? data.bankId : findPengajuan?.bankId,
         },
       });
 

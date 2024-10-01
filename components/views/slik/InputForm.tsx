@@ -50,7 +50,6 @@ export default function InputForm({
 }) {
   const [open, setOpen] = useState(false);
   const [pembiayaan, setPembiayaan] = useState<DataPembiayaan>();
-  const [bankOption, setBankOption] = useState<BankOpt[]>();
   const [selectedBank, setSelectedBank] = useState<Bank>();
   const [berkas, setBerkas] = useState<BerkasPengajuan>();
   const [nama, setNama] = useState<string>();
@@ -127,6 +126,7 @@ export default function InputForm({
 
   const handleFinish = async (e: any) => {
     setLoading(true);
+    console.log(pembiayaan);
     if (
       !pembiayaan ||
       !pembiayaan.name ||
@@ -1141,7 +1141,7 @@ export default function InputForm({
               </div>
 
               {/* Pembiayaan */}
-              <InputPembiayaan
+              {/* <InputPembiayaan
                 nama={nama ? nama : ""}
                 nopen={nopen ? nopen : ""}
                 alamat={alamat ? alamat : ""}
@@ -1150,8 +1150,8 @@ export default function InputForm({
                 selected={setSelectedBank}
                 setPembiayaan={setPembiayaan}
                 setJenisMargin={setJenisMargin}
-              />
-              {/* <NewInputBiaya
+              /> */}
+              <NewInputBiaya
                 nama={nama ? nama : ""}
                 nopen={nopen ? nopen : ""}
                 alamat={alamat ? alamat : ""}
@@ -1159,7 +1159,7 @@ export default function InputForm({
                 setPembiayaan={setPembiayaan}
                 setJenisMargin={setJenisMargin}
                 setSelectedBank={setSelectedBank}
-              /> */}
+              />
               {/* End Pembiayaan */}
 
               <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
