@@ -355,7 +355,7 @@ export default function NewEditBiaya({
     inputDapem.pelunasan,
     jenis.by_mutasi,
     tempTatalaksana,
-    tambahan.refferal_fee,
+    tambahan,
   ]);
 
   useEffect(() => {
@@ -486,6 +486,19 @@ export default function NewEditBiaya({
     <div className="bg-white rounded text-sm">
       <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
         Data Pembiayaan
+      </div>
+      <div className="flex gap-3 my-2">
+        <div className="flex-1 flex flex-col gap-1">
+          <span>Tanggal Input</span>
+          <Input
+            value={
+              tglSimulasi ||
+              moment(inputDapem.tanggal_simulasi).format("DD-MM-YYYY")
+            }
+            style={{ color: "black", backgroundColor: "white" }}
+            onChange={(e) => setTglSimulasi(e.target.value)}
+          />
+        </div>
       </div>
       <div className="flex gap-3 flex-col p-2">
         <div className="flex-1">

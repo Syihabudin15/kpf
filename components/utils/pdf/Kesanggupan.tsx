@@ -369,7 +369,7 @@ export default function Kesanggupan({
             <Text>
               Mekanisme Pelunasan wajib menghubungi Kantor Pusat{" "}
               {process.env.NEXT_PUBLIC_APP_FULL_NAME} di no telepon
-              ____________________.
+              0821-4561-4774.
             </Text>
           </View>
           <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>

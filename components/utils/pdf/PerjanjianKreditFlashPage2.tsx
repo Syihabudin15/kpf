@@ -404,12 +404,20 @@ export default function PerjanjianKreditFlashPage2({
             >
               <Text>Menyetujui</Text>
               <Text style={{ height: 50 }}></Text>
-              <Text>{process.env.NEXT_PUBLIC_APP_DIREKTUR}</Text>
+              <Text>
+                {data.Bank.kode === "KPF"
+                  ? "Adhi Sofyar Pramudya"
+                  : process.env.NEXT_PUBLIC_APP_DIREKTUR}
+              </Text>
               <Text
                 style={{ borderBottom: "1px solid #aaa", width: "80%" }}
               ></Text>
-              <Text>Kepala Operasional</Text>
-              <Text>{process.env.NEXT_PUBLIC_APP_FULL_NAME}</Text>
+              <Text>Manajer Operasional</Text>
+              <Text>
+                {data.Bank.kode === "KPF"
+                  ? data.Bank.name
+                  : process.env.NEXT_PUBLIC_APP_FULL_NAME}
+              </Text>
             </View>
             <View
               style={{
@@ -427,8 +435,8 @@ export default function PerjanjianKreditFlashPage2({
               <Text
                 style={{ borderBottom: "1px solid #aaa", width: "80%" }}
               ></Text>
-              <Text>Manajer</Text>
-              <Text>Kopdit {data.Bank.kode}</Text>
+              <Text>Direktur Pengelola</Text>
+              <Text>{data.Bank.name}</Text>
             </View>
           </View>
         </View>
