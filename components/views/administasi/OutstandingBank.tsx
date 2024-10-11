@@ -10,6 +10,7 @@ import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 export default function OutstandingAktif() {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
   const [total, setTotal] = useState(0);
   const [year, setYear] = useState<string>();
   const [nama, setNama] = useState<string>();
@@ -19,8 +20,8 @@ export default function OutstandingAktif() {
     setLoading(true);
     const res = await fetch(
       `/api/administrasi/outstanding-aktif?page=${page}${
-        nama ? "&name=" + nama : ""
-      }${year ? "&year=" + year : ""}`
+        pageSize ? "&pageSize=" + pageSize : ""
+      }${nama ? "&name=" + nama : ""}${year ? "&year=" + year : ""}`
     );
     const { data, total } = await res.json();
     setTotal(total);
@@ -31,7 +32,7 @@ export default function OutstandingAktif() {
     (async () => {
       await getData();
     })();
-  }, []);
+  }, [page, pageSize, year, nama]);
 
   return (
     <div>
@@ -54,10 +55,11 @@ export default function OutstandingAktif() {
           loading={loading}
           scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           pagination={{
-            pageSize: 20,
+            pageSize: pageSize,
             total: total,
             onChange(page, pageSize) {
               setPage(page);
+              setPageSize(pageSize);
             },
           }}
         />
@@ -372,7 +374,9 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
       const angsuran = record.JadwalAngsuran.filter(
         (e) => e.tanggal_pelunasan === null
       );
-      return <>{formatNumber(angsuran[0].sisa.toFixed(0))}</>;
+      return (
+        <>{formatNumber((angsuran[0].sisa + angsuran[0].pokok).toFixed(0))}</>
+      );
     },
   },
 ];

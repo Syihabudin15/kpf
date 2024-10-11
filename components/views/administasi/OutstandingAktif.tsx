@@ -2,7 +2,7 @@
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import { DatePicker, Input, Table, TableProps } from "antd";
+import { DatePicker, Input, Table, TableProps, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
@@ -11,6 +11,7 @@ import { Role } from "@prisma/client";
 export default function OutstandingAktif({ role }: { role: Role }) {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
   const [total, setTotal] = useState(0);
   const [year, setYear] = useState<string>();
   const [nama, setNama] = useState<string>();
@@ -20,8 +21,8 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     setLoading(true);
     const res = await fetch(
       `/api/administrasi/outstanding-aktif?page=${page}${
-        nama ? "&name=" + nama : ""
-      }${year ? "&year=" + year : ""}`
+        pageSize ? "&pageSize=" + pageSize : ""
+      }${nama ? "&name=" + nama : ""}${year ? "&year=" + year : ""}`
     );
     const { data, total } = await res.json();
     setTotal(total);
@@ -32,7 +33,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
     (async () => {
       await getData();
     })();
-  }, []);
+  }, [nama, page, pageSize, year]);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
@@ -261,8 +262,8 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       },
       className: "text-center",
       dataIndex: "angsuran",
-      width: 150,
       key: "angsuran",
+      width: 150,
       render(value, record, index) {
         const angsuran = getAngsuranPerBulan(
           role === "BANK"
@@ -276,6 +277,26 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           record.DataPembiayaan.pembulatan
         );
         return <>{formatNumber(result.toFixed(0))}</>;
+      },
+    },
+    {
+      title: "POKOK",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      dataIndex: "pokok",
+      key: "pokok",
+      width: 150,
+      render(value, record, index) {
+        const angsuran = record.JadwalAngsuran.filter(
+          (e) => e.tanggal_pelunasan === null
+        );
+        return <>{formatNumber(angsuran[0].pokok.toFixed(0))}</>;
       },
     },
     {
@@ -335,8 +356,30 @@ export default function OutstandingAktif({ role }: { role: Role }) {
         const angsuran = record.JadwalAngsuran.filter(
           (e) => e.tanggal_pelunasan === null
         );
+        const angsuranBulan = getAngsuranPerBulan(
+          role === "BANK"
+            ? record.DataPembiayaan.margin_bank
+            : record.DataPembiayaan.mg_bunga,
+          record.DataPembiayaan.tenor,
+          record.DataPembiayaan.plafond
+        );
+        const ceilingAngsuran = ceiling(
+          parseInt(angsuranBulan),
+          record.DataPembiayaan.pembulatan
+        );
+        const sisaAngsuran = ceilingAngsuran * angsuran.length;
+
         return (
-          <div>{angsuran && formatNumber(angsuran[0].sisa.toFixed(0))}</div>
+          <div>
+            <Tooltip
+              title={`Sisa Angsuran Total : ${formatNumber(
+                sisaAngsuran.toFixed(0)
+              )}`}
+            >
+              {angsuran &&
+                formatNumber((angsuran[0].sisa + angsuran[0].pokok).toFixed(0))}
+            </Tooltip>
+          </div>
         );
       },
     },
@@ -363,10 +406,11 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           loading={loading}
           scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           pagination={{
-            pageSize: 20,
+            pageSize: pageSize,
             total: total,
             onChange(page, pageSize) {
               setPage(page);
+              setPageSize(pageSize);
             },
           }}
         />

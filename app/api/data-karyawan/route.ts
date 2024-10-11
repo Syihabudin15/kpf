@@ -171,8 +171,10 @@ export const PUT = async (req: NextRequest) => {
         mulai_kontrak: data.mulai_kontrak
           ? data.mulai_kontrak
           : find.mulai_kontrak,
-        masa_kotrak: data.masa_kotrak ? data.masa_kotrak : find.masa_kotrak,
-        target: data.target ? data.target : find.target,
+        masa_kotrak: data.masa_kontrak
+          ? parseInt(data.masa_kontrak)
+          : find.masa_kotrak,
+        target: data.target ? parseInt(data.target) : find.target,
         unit_cabang_id: data.unit_cabang_id
           ? data.unit_cabang_id
           : find.unit_cabang_id,

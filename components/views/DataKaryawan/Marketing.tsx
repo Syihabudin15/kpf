@@ -11,6 +11,7 @@ import {
 import { Form, Input, Modal, Select, Table, TableProps } from "antd";
 import moment from "moment";
 import { ReactNode, useEffect, useState } from "react";
+import UpdateUser from "./UpdateUser";
 
 export default function DataMarketing() {
   const [data, setData] = useState<DataDataUser[]>();
@@ -284,6 +285,23 @@ export default function DataMarketing() {
           },
         },
         {
+          title: "MULAI KONTRAK",
+          key: "mulai-kontrak",
+          width: 100,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+              },
+            };
+          },
+          className: "text-center",
+          dataIndex: "mulai-kontrak",
+          render(value, record, index) {
+            return <>{moment(record.mulai_kontrak).format("DD-MM-YYYY")}</>;
+          },
+        },
+        {
           title: "MASA KONTRAK",
           key: "masa_kontrak",
           width: 100,
@@ -316,7 +334,7 @@ export default function DataMarketing() {
           render(value, record, index) {
             return (
               <>
-                {moment(record.created_at)
+                {moment(record.mulai_kontrak)
                   .add(record.masa_kotrak, "M")
                   .format("DD-MM-YYYY")}
               </>
@@ -446,34 +464,6 @@ export default function DataMarketing() {
     }
     setLoading(false);
   };
-
-  // const handleUpdate = async () => {
-  //   setLoading(true);
-  //   const res = await fetch("/api/data-karyawan", {
-  //     method: "PUT",
-  //     headers: { "Content-type": "Application/json" },
-  //     body: JSON.stringify(selected),
-  //   });
-  //   const data = await res.json();
-  //   if (!res.ok) {
-  //     Modal.error({
-  //       title: <span className="text-red-500">Internal Server Error</span>,
-  //       footer: [],
-  //       closable: true,
-  //       children: <p>{data.msg}</p>,
-  //     });
-  //   } else {
-  //     Modal.success({
-  //       title: <span className="text-green-500">Berhasil</span>,
-  //       footer: [],
-  //       closable: true,
-  //       children: <p>{data.msg}</p>,
-  //     });
-  //     setEditModal(false);
-  //     await getData();
-  //   }
-  //   setLoading(false);
-  // };
 
   return (
     <div>
@@ -645,6 +635,15 @@ export default function DataMarketing() {
           </button>
         </div>
       </Modal>
+      {selected && (
+        <UpdateUser
+          getData={getData}
+          currData={selected}
+          editModal={editModal}
+          setEditModal={setEditModal}
+          cabang={cabang}
+        />
+      )}
     </div>
   );
 }
