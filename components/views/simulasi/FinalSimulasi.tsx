@@ -363,29 +363,29 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   disabled
                   value={inputDapem.tahun}
                   style={{ color: "black", backgroundColor: "white" }}
-                  suffix={
-                    <span className="text-xs italic hidden sm:block">
-                      Tahun
-                    </span>
-                  }
+                  // suffix={
+                  //   <span className="text-xs italic hidden sm:block">
+                  //     Tahun
+                  //   </span>
+                  // }
                 />
                 <Input
                   disabled
                   style={{ color: "black", backgroundColor: "white" }}
                   value={inputDapem.bulan}
-                  suffix={
-                    <span className="text-xs italic hidden sm:block">
-                      Bulan
-                    </span>
-                  }
+                  // suffix={
+                  //   <span className="text-xs italic hidden sm:block">
+                  //     Bulan
+                  //   </span>
+                  // }
                 />
                 <Input
                   disabled
                   style={{ color: "black", backgroundColor: "white" }}
                   value={inputDapem.hari}
-                  suffix={
-                    <span className="text-xs italic hidden sm:block">Hari</span>
-                  }
+                  // suffix={
+                  //   <span className="text-xs italic hidden sm:block">Hari</span>
+                  // }
                 />
               </div>
             </div>
@@ -1061,7 +1061,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
         onCancel={() => setOpen(false)}
         onClose={() => setOpen(false)}
         footer={[]}
-        width={"80vw"}
+        width={window.innerWidth < 600 ? "90vw" : "80vw"}
         style={{ top: 30 }}
         title={
           <div className="flex text-center sm:text-left gap-2 items-center">

@@ -545,4 +545,10 @@ export const menusV2: Menus[] = [
     role: ["MASTER", "VERIFIKASI", "ENTRY_DATA"],
     icon: <DatabaseOutlined />,
   },
+  {
+    label: "Dokumen Pengajuan Mitra",
+    role: ["ENTRY_DATA"],
+    url: "/slik/dokumen-pengajuan-mitra",
+    icon: <FolderOpenOutlined />,
+  },
 ];

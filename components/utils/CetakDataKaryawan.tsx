@@ -25,12 +25,14 @@ export default function CetakDataKaryawan({ data }: { data: DataDataUser[] }) {
             : "-",
           ALAMAT: d.alamat,
           JABATAN: d.posisi,
-          CABANG: d.unit_cabang_id ? d.UnitCabang.name : "PUSAT",
+          "NO TELEPON": d.no_telepon || "-",
+          EMAIL: d.email,
           AREA: d.unit_cabang_id
             ? d.UnitCabang.UnitPelayanan.name.toUpperCase()
             : "JAWA BARAT",
-          "NO TELEPON": d.no_telepon || "-",
-          EMAIL: d.email,
+          CABANG: d.unit_cabang_id ? d.UnitCabang.name : "PUSAT",
+          MASUK: moment(d.created_at).format("DD-MM-YYYY"),
+          STATUS: d.status_active ? "AKTIF" : "NONAKTIF",
         };
       });
       const wb = XLSX.utils.book_new();

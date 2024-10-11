@@ -59,6 +59,7 @@ export default function MasterUser() {
   const [upOption, setUpOption] = useState<DropdownPelayanan[]>();
   const [search, setSearch] = useState<string>();
   const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(20);
   const [total, setTotal] = useState<number>(0);
   const [url, setUrl] = useState<any>();
 
@@ -79,7 +80,9 @@ export default function MasterUser() {
 
   const getDataUser = async () => {
     const res = await fetch(
-      `/api/master/user?page=${page}${search ? "&search=" + search : ""}`
+      `/api/master/user?page=${page}${search ? "&search=" + search : ""}${
+        pageSize ? "&pageSize=" + pageSize : ""
+      }`
     );
     const { data, totalLength } = await res.json();
     const pelayanan = await fetch("/api/master/unit/pelayanan");
@@ -243,7 +246,7 @@ export default function MasterUser() {
       });
       setDataBank(optBank);
     })();
-  }, [page, search]);
+  }, [page, search, pageSize]);
 
   const columns: TableProps<DataType>["columns"] = [
     {
@@ -548,10 +551,11 @@ export default function MasterUser() {
         scroll={{ x: "max-content", y: "calc(65vh - 100px)" }}
         size="small"
         pagination={{
-          pageSize: 20,
+          pageSize: pageSize,
           total: total,
           onChange(page, pageSize) {
             setPage(page);
+            setPageSize(pageSize);
           },
         }}
         loading={loading}
