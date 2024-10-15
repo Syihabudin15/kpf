@@ -520,6 +520,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                             return {
                               ...prev,
                               id: "",
+                              name: "",
                               by_mutasi: 0,
                             };
                           });

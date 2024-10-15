@@ -774,6 +774,7 @@ export default function NewEditBiaya({
                             return {
                               ...prev,
                               id: "",
+                              name: "",
                               by_mutasi: 0,
                             };
                           });
