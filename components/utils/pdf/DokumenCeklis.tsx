@@ -2,7 +2,13 @@ import { Page, Text, View } from "@react-pdf/renderer";
 import { stylePdf } from "./stylePdf";
 import { DataDataPengajuan } from "../Interfaces";
 
-export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
+export default function DokumenCeklis({
+  data,
+  page,
+}: {
+  data: DataDataPengajuan;
+  page: number;
+}) {
   const sekat1 = [
     [
       { data: "1", width: 30 },
@@ -359,6 +365,23 @@ export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
             <Text>ADM FILLING</Text>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? pageNumber : page}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

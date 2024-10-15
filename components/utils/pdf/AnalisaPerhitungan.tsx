@@ -245,19 +245,19 @@ export default function AnalisaPerhitungan({
           </View>
           {data.Bank.kode === "BPR SIP" && (
             <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 10,
-              padding: "2px 10px",
-            }}
-          >
-            <Text style={{ width: 100 }}>Margin Bunga</Text>
-            <Text style={{ flex: 0.3 }}>:</Text>
-            <Text style={{ flex: 2, textAlign: "right" }}>
-              {data.DataPembiayaan.Produk.mg_bunga} %
-            </Text>
-          </View>
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 10,
+                padding: "2px 10px",
+              }}
+            >
+              <Text style={{ width: 100 }}>Margin Bunga</Text>
+              <Text style={{ flex: 0.3 }}>:</Text>
+              <Text style={{ flex: 2, textAlign: "right" }}>
+                {data.DataPembiayaan.Produk.mg_bunga} %
+              </Text>
+            </View>
           )}
           <View
             style={{
@@ -496,7 +496,10 @@ export default function AnalisaPerhitungan({
               padding: "2px 10px",
             }}
           >
-            <Text style={{ width: 100 }}>Biaya {data.Bank.kode === "BPR SIP" ? "Layanan Kredit" : "Provisi"}</Text>
+            <Text style={{ width: 100 }}>
+              Biaya{" "}
+              {data.Bank.kode === "BPR SIP" ? "Layanan Kredit" : "Provisi"}
+            </Text>
             <Text style={{ flex: 0.3 }}>:</Text>
             <View
               style={{
@@ -793,6 +796,18 @@ export default function AnalisaPerhitungan({
             </View>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text render={({ pageNumber, totalPages }) => `${pageNumber}`}></Text>
       </View>
     </Page>
   );

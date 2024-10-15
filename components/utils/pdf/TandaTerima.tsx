@@ -3,7 +3,13 @@ import { Image, Page, Text, View } from "@react-pdf/renderer";
 import { stylePdf } from "./stylePdf";
 import moment from "moment";
 
-export default function TandaTerima({ data }: { data: DataDataPengajuan }) {
+export default function TandaTerima({
+  data,
+  page,
+}: {
+  data: DataDataPengajuan;
+  page: number;
+}) {
   return (
     <Page size={"A4"} style={stylePdf.root}>
       <View
@@ -391,6 +397,23 @@ export default function TandaTerima({ data }: { data: DataDataPengajuan }) {
             </View>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? pageNumber : page}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

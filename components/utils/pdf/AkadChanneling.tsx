@@ -23,7 +23,13 @@ moment.updateLocale("id", {
   ],
 });
 
-export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
+export default function AkadChanneling({
+  data,
+  page,
+}: {
+  data: DataDataPengajuan;
+  page: number;
+}) {
   const byAdmin =
     data.DataPembiayaan.plafond *
     ((data.DataPembiayaan.by_admin +
@@ -916,6 +922,17 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               </View>
               <View
                 style={{
+                  opacity: 0.7,
+                  marginTop: 10,
+                  marginBottom: 5,
+                  // position: "absolute",
+                  textAlign: "center",
+                }}
+              >
+                <Text>{page}</Text>
+              </View>
+              <View
+                style={{
                   display: "flex",
                   gap: 5,
                   width: 470,
@@ -1298,7 +1315,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       flexDirection: "column",
                       width: 450,
                       marginTop: 5,
-                      marginBottom: 10,
+                      marginBottom: 5,
                     }}
                   >
                     <View
@@ -1363,6 +1380,17 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                     </View>
                   </View>
                 </View>
+              </View>
+              <View
+                style={{
+                  opacity: 0.7,
+                  // position: "absolute",
+                  marginTop: 5,
+                  marginBottom: 5,
+                  textAlign: "center",
+                }}
+              >
+                <Text>{page + 1}</Text>
               </View>
               <View
                 style={{
@@ -1772,6 +1800,23 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
           </View>
         </View>
         {/* Tanda Tangan */}
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? page + pageNumber : pageNumber}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

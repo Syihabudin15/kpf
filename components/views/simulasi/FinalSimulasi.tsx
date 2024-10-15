@@ -523,6 +523,14 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                               by_mutasi: 0,
                             };
                           });
+                          setBank((prev) => {
+                            return {
+                              ...prev,
+                              by_flagging: 0,
+                              by_epotpen: 0,
+                              by_provisi: 0,
+                            };
+                          });
                         } else {
                           setTempTatalaksana(bank.by_tatalaksana);
                         }

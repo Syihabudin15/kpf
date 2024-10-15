@@ -5,8 +5,10 @@ import moment from "moment";
 
 export default function PernyataanDebitur({
   data,
+  page,
 }: {
   data: DataDataPengajuan;
+  page: number;
 }) {
   return (
     <Page size={"A4"} wrap style={stylePdf.root}>
@@ -133,6 +135,23 @@ export default function PernyataanDebitur({
           </View>
           <Text>{data.DataPembiayaan.name}</Text>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? pageNumber : page}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

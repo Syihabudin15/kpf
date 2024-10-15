@@ -29,37 +29,55 @@ export default function Akad({
       <PDFViewer className="w-full h-full">
         <Document title="Akad Pinjaman">
           <AnalisaPerhitungan data={data} />
-          <JadwalAngsuran data={data} isFor="DEBITUR" angsurans={angsurans} />
+          <JadwalAngsuran
+            data={data}
+            isFor="DEBITUR"
+            angsurans={angsurans}
+            page={2}
+          />
           <JadwalAngsuran
             data={data}
             isFor={data.Bank.kode || "BPRS"}
             angsurans={angsurans}
+            page={data.DataPembiayaan.tenor > 42 ? 4 : 3}
           />
           {data.DataPembiayaan.Produk.name === "Flash Sisa Gaji" ? (
             <>
-              <PerjanjianKreditFlashPage1 data={data} />
-              <PerjanjianKreditFlashPage2 data={data} />
+              <PerjanjianKreditFlashPage1 data={data} page={4} />
+              <PerjanjianKreditFlashPage2 data={data} page={5} />
             </>
           ) : (
             <>
               {data.Bank.kode === "BPR BDS" ? (
-                <PerjanjianKreditNonFlash data={data} />
+                <PerjanjianKreditNonFlash data={data} page={6} />
               ) : (
-                <AkadChanneling data={data} />
+                <AkadChanneling data={data} page={6} />
               )}
             </>
           )}
-          <DebetRekening data={data} />
-          <PernyataanDebitur data={data} />
-          <BuktiPembayaran data={data} isFor="DEBITUR" />
-          <BuktiPembayaran data={data} isFor={data.Bank.kode || "BPR"} />
-          <PemotonganGaji data={data} />
-          <Kesanggupan data={data} isFor="DEBITUR" />
-          <Kesanggupan data={data} isFor={"KREDITUR"} />
-          <TandaTerima data={data} />
-          {data.Bank.kode === "BPR BDS" && <TandaTerimaDebitur data={data} />}
-          <KelengkapanDokumen data={data} />
-          <DokumenCeklis data={data} />
+          <DebetRekening data={data} page={9} />
+          <PernyataanDebitur data={data} page={10} />
+          <BuktiPembayaran data={data} isFor="DEBITUR" page={11} />
+          <BuktiPembayaran
+            data={data}
+            isFor={data.Bank.kode || "BPR"}
+            page={12}
+          />
+          <PemotonganGaji data={data} page={13} />
+          <Kesanggupan data={data} isFor="DEBITUR" page={14} />
+          <Kesanggupan data={data} isFor={"KREDITUR"} page={15} />
+          <TandaTerima data={data} page={16} />
+          {data.Bank.kode === "BPR BDS" && (
+            <TandaTerimaDebitur data={data} page={17} />
+          )}
+          <KelengkapanDokumen
+            data={data}
+            page={data.Bank.kode === "BPR BDS" ? 18 : 17}
+          />
+          <DokumenCeklis
+            data={data}
+            page={data.Bank.kode === "BPR BDS" ? 19 : 18}
+          />
         </Document>
       </PDFViewer>
     </div>

@@ -2,7 +2,7 @@
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import { DatePicker, Input, Table, TableProps } from "antd";
+import { DatePicker, Input, Table, TableProps, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
@@ -136,23 +136,6 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     key: "nama_pemohon",
     render(value, record, index) {
       return <>{record.DataPembiayaan.name}</>;
-    },
-  },
-  {
-    title: "SUMBER DANA",
-    onHeaderCell: (text, record) => {
-      return {
-        ["style"]: {
-          textAlign: "center",
-        },
-      };
-    },
-    className: "text-center",
-    dataIndex: "sumber_dana",
-    width: 200,
-    key: "sumber_dana",
-    render(value, record, index) {
-      return <>{record.Bank.name}</>;
     },
   },
   {
@@ -306,6 +289,32 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
     className: "text-center",
     render(value, record, index) {
       const angsuran = getAngsuranPerBulan(
+        record.DataPembiayaan.mg_bunga,
+        record.DataPembiayaan.tenor,
+        record.DataPembiayaan.plafond
+      );
+      const result = ceiling(
+        parseInt(angsuran),
+        record.DataPembiayaan.pembulatan
+      );
+      return <>{formatNumber(result.toFixed(0))}</>;
+    },
+  },
+  {
+    title: "ANGSURAN BANK",
+    dataIndex: "angsuran_bank",
+    width: 150,
+    key: "angsuran_bank",
+    onHeaderCell: (text, record) => {
+      return {
+        ["style"]: {
+          textAlign: "center",
+        },
+      };
+    },
+    className: "text-center",
+    render(value, record, index) {
+      const angsuran = getAngsuranPerBulan(
         record.DataPembiayaan.margin_bank || 18,
         record.DataPembiayaan.tenor,
         record.DataPembiayaan.plafond
@@ -374,8 +383,24 @@ const columns: TableProps<DataDataPengajuan>["columns"] = [
       const angsuran = record.JadwalAngsuran.filter(
         (e) => e.tanggal_pelunasan === null
       );
+      const angsuranBulan = getAngsuranPerBulan(
+        record.DataPembiayaan.margin_bank,
+        record.DataPembiayaan.tenor,
+        record.DataPembiayaan.plafond
+      );
+      const ceilingAngsuran = ceiling(
+        parseInt(angsuranBulan),
+        record.DataPembiayaan.pembulatan
+      );
+      const sisaAngsuran = ceilingAngsuran * angsuran.length;
       return (
-        <>{formatNumber((angsuran[0].sisa + angsuran[0].pokok).toFixed(0))}</>
+        <Tooltip
+          title={`Sisa Angsuran Ke Bank Total : ${formatNumber(
+            sisaAngsuran.toFixed(0)
+          )}`}
+        >
+          {formatNumber((angsuran[0].sisa + angsuran[0].pokok).toFixed(0))}
+        </Tooltip>
       );
     },
   },

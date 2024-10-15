@@ -8,8 +8,10 @@ const angkaTerbilang = require("angka-menjadi-terbilang");
 
 export default function TandaTerimaDebitur({
   data,
+  page,
 }: {
   data: DataDataPengajuan;
+  page: number;
 }) {
   const admin =
     data.DataPembiayaan.plafond *
@@ -151,6 +153,23 @@ export default function TandaTerimaDebitur({
           <Text style={{ width: 100, borderBottom: "1px solid #aaa" }}></Text>
           <Text>Debitur</Text>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? pageNumber : page}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

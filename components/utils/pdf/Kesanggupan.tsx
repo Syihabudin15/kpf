@@ -8,9 +8,11 @@ import moment from "moment";
 export default function Kesanggupan({
   data,
   isFor,
+  page,
 }: {
   data: DataDataPengajuan;
   isFor: string;
+  page: number;
 }) {
   return (
     <Page size={"A4"} style={stylePdf.root}>
@@ -30,7 +32,7 @@ export default function Kesanggupan({
       <View style={{ marginTop: 20 }}>
         <Text>Yang bertanda tangan dibawah ini,</Text>
       </View>
-      <View style={{ marginTop: 10, marginBottom: 5, lineHeight: 1.2 }}>
+      <View style={{ marginTop: 5, marginBottom: 5, lineHeight: 1.2 }}>
         <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
           <Text style={{ width: 120 }}>Nama</Text>
           <Text style={{ width: 20 }}>:</Text>
@@ -447,13 +449,13 @@ export default function Kesanggupan({
           saya mengajukan pinjaman saya.
         </Text>
       </View>
-      <View style={{ marginTop: 10 }}>
+      <View style={{ marginTop: 7 }}>
         <Text>
           Demikian surat pernyataan ini dibuat dengan sebenarnya dengan
           dilandasi itikad baik tanpa paksaan dari siapapun dan pihak manapun.
         </Text>
       </View>
-      <View style={{ marginTop: 20 }}>
+      <View style={{ marginTop: 15 }}>
         <Text>
           {data.User.unit_cabang_id ? data.User.UnitCabang.name : "BANDUNG"},{" "}
           {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}
@@ -496,6 +498,23 @@ export default function Kesanggupan({
           <View style={{ width: 120, borderBottom: "1px solid #aaa" }}></View>
           <Text>Nasabah</Text>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? pageNumber : page}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

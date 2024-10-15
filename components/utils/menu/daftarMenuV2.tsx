@@ -220,7 +220,7 @@ export const menusV2: Menus[] = [
   {
     label: "Pengajuan  SI",
     url: "/operasional",
-    role: ["MASTER", "OPERASIONAL", "PEMBERKASAN"],
+    role: ["MASTER", "OPERASIONAL", "PEMBERKASAN", "ENTRY_DATA"],
     icon: <DiffOutlined />,
     child: [
       {
@@ -250,7 +250,7 @@ export const menusV2: Menus[] = [
       {
         label: "Dokumen Pengajuan Mitra",
         url: "/operasional/pengajuan-mitra",
-        role: ["MASTER", "OPERASIONAL", "PEMBERKASAN"],
+        role: ["MASTER", "OPERASIONAL", "PEMBERKASAN", "ENTRY_DATA"],
         icon: <FolderOpenOutlined />,
       },
     ],
@@ -544,11 +544,5 @@ export const menusV2: Menus[] = [
     url: "/cek-database",
     role: ["MASTER", "VERIFIKASI", "ENTRY_DATA"],
     icon: <DatabaseOutlined />,
-  },
-  {
-    label: "Dokumen Pengajuan Mitra",
-    role: ["ENTRY_DATA"],
-    url: "/slik/dokumen-pengajuan-mitra",
-    icon: <FolderOpenOutlined />,
   },
 ];

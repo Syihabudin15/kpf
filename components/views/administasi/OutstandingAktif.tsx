@@ -54,23 +54,6 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       },
     },
     {
-      title: "MITRA BANK",
-      dataIndex: "mitra",
-      width: 150,
-      key: "mitra",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      className: "text-center",
-      render(value, record, index) {
-        return <>{record.DataPembiayaan.Refferal.name}</>;
-      },
-    },
-    {
       title: "NOPEN",
       width: 150,
       onHeaderCell: (text, record) => {
@@ -266,9 +249,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       width: 150,
       render(value, record, index) {
         const angsuran = getAngsuranPerBulan(
-          role === "BANK"
-            ? record.DataPembiayaan.margin_bank
-            : record.DataPembiayaan.mg_bunga,
+          record.DataPembiayaan.mg_bunga,
           record.DataPembiayaan.tenor,
           record.DataPembiayaan.plafond
         );
@@ -277,6 +258,44 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           record.DataPembiayaan.pembulatan
         );
         return <>{formatNumber(result.toFixed(0))}</>;
+      },
+    },
+    {
+      title: "ANGSURAN BANK",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      dataIndex: "angsuran_bank",
+      key: "angsuran_bank",
+      width: 150,
+      render(value, record, index) {
+        const angsuran = getAngsuranPerBulan(
+          record.DataPembiayaan.margin_bank,
+          record.DataPembiayaan.tenor,
+          record.DataPembiayaan.plafond
+        );
+        const result = ceiling(
+          parseInt(angsuran),
+          record.DataPembiayaan.pembulatan
+        );
+        const sisaAngsuran = record.JadwalAngsuran.filter(
+          (e) => e.tanggal_pelunasan === null
+        );
+        const totalSisaAngsuran = result * sisaAngsuran.length;
+        return (
+          <Tooltip
+            title={`Sisa Angsuran Ke Bank : ${formatNumber(
+              totalSisaAngsuran.toFixed(0)
+            )}`}
+          >
+            {formatNumber(result.toFixed(0))}
+          </Tooltip>
+        );
       },
     },
     {
@@ -357,9 +376,7 @@ export default function OutstandingAktif({ role }: { role: Role }) {
           (e) => e.tanggal_pelunasan === null
         );
         const angsuranBulan = getAngsuranPerBulan(
-          role === "BANK"
-            ? record.DataPembiayaan.margin_bank
-            : record.DataPembiayaan.mg_bunga,
+          record.DataPembiayaan.mg_bunga,
           record.DataPembiayaan.tenor,
           record.DataPembiayaan.plafond
         );

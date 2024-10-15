@@ -4,12 +4,13 @@ import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling } from "./pdfUtil";
 import { DataDataPengajuan } from "../Interfaces";
-import { useEffect } from "react";
 
 export default function KelengkapanDokumen({
   data,
+  page,
 }: {
   data: DataDataPengajuan;
+  page: number;
 }) {
   const bodies = [
     [
@@ -53,7 +54,7 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "4", width: 30 },
-      { data: "KTP NPWP (untuk pembiayaan > Rp. 50 Jt)", width: 120 },
+      { data: "Surat Nikah", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -66,7 +67,7 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "5", width: 30 },
-      { data: "Perjanjian Kredit halaman 1, 2 dan 3", width: 120 },
+      { data: "Surat Kematian", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -79,7 +80,7 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "6", width: 30 },
-      { data: `Jadwal Angsuran untuk ${data.Bank.kode}`, width: 120 },
+      { data: "Foto Debitur", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -92,7 +93,7 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "7", width: 30 },
-      { data: "Surat Pernyataan DSR 70%", width: 120 },
+      { data: "KTP NPWP (untuk pembiayaan > Rp. 50 Jt)", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -105,7 +106,7 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "8", width: 30 },
-      { data: "Surat Pernyataan dan Kesanggupan", width: 120 },
+      { data: "Perjanjian Kredit halaman 1, 2 dan 3", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -118,7 +119,7 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "9", width: 30 },
-      { data: "KARIP/Buku ASABRI", width: 120 },
+      { data: `Jadwal Angsuran untuk ${data.Bank.kode}`, width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -131,6 +132,45 @@ export default function KelengkapanDokumen({
     ],
     [
       { data: "10", width: 30 },
+      { data: "Surat Pernyataan DSR 70%", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "11", width: 30 },
+      { data: "Surat Pernyataan dan Kesanggupan", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "12", width: 30 },
+      { data: "KARIP/Buku ASABRI", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "13", width: 30 },
       {
         data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 BulanTerakhir",
         width: 120,
@@ -146,7 +186,7 @@ export default function KelengkapanDokumen({
       { data: "", width: 40 },
     ],
     [
-      { data: "11", width: 30 },
+      { data: "14", width: 30 },
       {
         data: "Analisa Perhitungan/Simulasi",
         width: 120,
@@ -162,7 +202,7 @@ export default function KelengkapanDokumen({
       { data: "", width: 40 },
     ],
     [
-      { data: "12", width: 30 },
+      { data: "15", width: 30 },
       {
         data: "Form Permohonan Pembiayaan Pensiun",
         width: 120,
@@ -178,7 +218,7 @@ export default function KelengkapanDokumen({
       { data: "", width: 40 },
     ],
     [
-      { data: "13", width: 30 },
+      { data: "16", width: 30 },
       {
         data: "Surat Keterangan dan Pernyataan Perihal Kesehatan dan Domisili Debitur",
         width: 120,
@@ -194,7 +234,7 @@ export default function KelengkapanDokumen({
       { data: "", width: 40 },
     ],
     [
-      { data: "14", width: 30 },
+      { data: "17", width: 30 },
       {
         data: "Surat Keterangan dan Pernyataan Perihal Perbedaan Identitas",
         width: 120,
@@ -210,7 +250,7 @@ export default function KelengkapanDokumen({
       { data: "", width: 40 },
     ],
     [
-      { data: "15", width: 30 },
+      { data: "18", width: 30 },
       {
         data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia",
         width: 120,
@@ -979,6 +1019,23 @@ export default function KelengkapanDokumen({
           <Text style={{ width: 20 }}>*****</Text>
           <Text>Maksimal pengiriman berkas tanggal 5 bulan berikutnya</Text>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? pageNumber : page}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

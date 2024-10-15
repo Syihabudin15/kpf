@@ -9,7 +9,13 @@ import moment from "moment";
 import { ceiling } from "./pdfUtil";
 import { DataDataPengajuan } from "../Interfaces";
 
-export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
+export default function DebetRekening({
+  data,
+  page,
+}: {
+  data: DataDataPengajuan;
+  page: number;
+}) {
   return (
     <Page size={"A4"} wrap style={{ ...stylePdf.root, textAlign: "justify" }}>
       <View
@@ -432,6 +438,22 @@ export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
             <Text style={{ height: 10 }}></Text>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? pageNumber : page}`
+          }
+        ></Text>
       </View>
     </Page>
   );

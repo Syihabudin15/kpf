@@ -25,8 +25,10 @@ moment.updateLocale("id", {
 
 export default function PerjanjianKreditNonFlash({
   data,
+  page,
 }: {
   data: DataDataPengajuan;
+  page: number;
 }) {
   const byAdmin =
     data.DataPembiayaan.plafond *
@@ -707,6 +709,16 @@ export default function PerjanjianKreditNonFlash({
                     Kredit yang dibuat dikemudian hari atau sebab apapun juga,
                     maka DEBITUR menyerahkan jaminan kepada BANK berupa :
                   </Text>
+                  <View
+                    style={{
+                      opacity: 0.7,
+                      textAlign: "center",
+                      marginTop: 1,
+                      width: "100%",
+                    }}
+                  >
+                    <Text>{page}</Text>
+                  </View>
                   <View style={{ display: "flex", flexDirection: "column" }}>
                     <View
                       style={{ display: "flex", flexDirection: "row", gap: 10 }}
@@ -1190,6 +1202,18 @@ export default function PerjanjianKreditNonFlash({
                       </Text>
                     </View>
                     <View
+                      style={{
+                        opacity: 0.7,
+                        marginTop: 4,
+                        marginBottom: 4,
+                        // position: "absolute",
+                        textAlign: "center",
+                        width: "100%",
+                      }}
+                    >
+                      <Text>{page + 1}</Text>
+                    </View>
+                    <View
                       style={{ display: "flex", flexDirection: "row", gap: 10 }}
                     >
                       <Text>e.</Text>
@@ -1211,6 +1235,7 @@ export default function PerjanjianKreditNonFlash({
                   </View>
                 </View>
               </View>
+
               <View
                 style={{
                   display: "flex",
@@ -1606,6 +1631,23 @@ export default function PerjanjianKreditNonFlash({
           </View>
         </View>
         {/* Tanda Tangan */}
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? page + pageNumber : pageNumber}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

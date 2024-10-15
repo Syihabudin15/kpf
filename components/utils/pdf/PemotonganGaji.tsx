@@ -3,7 +3,13 @@ import { Page, Text, View } from "@react-pdf/renderer";
 import { stylePdf } from "./stylePdf";
 import moment from "moment";
 
-export default function PemotonganGaji({ data }: { data: DataDataPengajuan }) {
+export default function PemotonganGaji({
+  data,
+  page,
+}: {
+  data: DataDataPengajuan;
+  page: number;
+}) {
   return (
     <Page size={"A4"} style={stylePdf.root}>
       <View
@@ -173,6 +179,23 @@ export default function PemotonganGaji({ data }: { data: DataDataPengajuan }) {
             <Text style={{ height: 10 }}>SPV Kantor Layanan</Text>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? pageNumber : page}`
+          }
+          fixed
+        ></Text>
       </View>
     </Page>
   );

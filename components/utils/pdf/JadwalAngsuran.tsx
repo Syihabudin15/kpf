@@ -12,10 +12,12 @@ export default function JadwalAngsuran({
   data,
   isFor,
   angsurans,
+  page,
 }: {
   data: DataDataPengajuan;
   isFor: string;
   angsurans: any[];
+  page: number;
 }) {
   let bodyAngsuran = angsurans.map((angs, ind) => {
     return {
@@ -35,158 +37,250 @@ export default function JadwalAngsuran({
   });
 
   return (
-    <Page size={"A4"} style={stylePdf.root}>
-      <View
-        fixed
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontWeight: "bold",
-          marginBottom: 20,
-        }}
-      >
-        <View>
-          <Image
-            src={
-              process.env.NEXT_PUBLIC_APP_LOGO || "/assets/images/logo_kpf.jpg"
-            }
-            style={{ width: 50 }}
-          />
+    <>
+      <Page size={"A4"} style={stylePdf.root}>
+        <View
+          fixed
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            fontWeight: "bold",
+            marginBottom: 20,
+          }}
+        >
+          <View>
+            <Image
+              src={
+                process.env.NEXT_PUBLIC_APP_LOGO ||
+                "/assets/images/logo_kpf.jpg"
+              }
+              style={{ width: 50 }}
+            />
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 10 }}>KARTU ANGSURAN</Text>
+            <Text style={{ fontSize: 8, marginTop: 5 }}>
+              NO AKAD : {data.nomor_akad}
+            </Text>
+          </View>
+          <View>
+            <Image
+              src={
+                process.env.NEXT_PUBLIC_APP_LOGO ||
+                "/assets/images/logo_kpf.jpg"
+              }
+              style={{ width: 50 }}
+            />
+          </View>
         </View>
         <View
           style={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+            flexDirection: "row",
+            lineHeight: 1.5,
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 10 }}>KARTU ANGSURAN</Text>
-          <Text style={{ fontSize: 8, marginTop: 5 }}>
-            NO AKAD : {data.nomor_akad}
-          </Text>
-        </View>
-        <View>
-          <Image
-            src={
-              process.env.NEXT_PUBLIC_APP_LOGO || "/assets/images/logo_kpf.jpg"
-            }
-            style={{ width: 50 }}
-          />
-        </View>
-      </View>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          lineHeight: 1.5,
-          alignItems: "center",
-        }}
-      >
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 10,
-            }}
-          >
-            <Text style={{ width: 80 }}>Tanggal Akad</Text>
-            <Text>:</Text>
-            <Text>{moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}</Text>
-          </View>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <Text style={{ width: 80 }}>Plafond Pembiayaan</Text>
-            <Text>:</Text>
-            <Text>{formatNumber(data.DataPembiayaan.plafond.toFixed(0))}</Text>
-          </View>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <Text style={{ width: 80 }}>Jangka Waktu</Text>
-            <Text>:</Text>
-            <Text>{data.DataPembiayaan.tenor} Bulan</Text>
-          </View>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <Text style={{ width: 80 }}>Angsuran Perbulan</Text>
-            <Text>:</Text>
-            <Text>
-              {formatNumber(
-                ceiling(
-                  parseInt(
-                    getAngsuranPerBulan(
-                      data.DataPembiayaan.mg_bunga,
-                      data.DataPembiayaan.tenor,
-                      data.DataPembiayaan.plafond
-                    )
-                  ),
-                  data.DataPembiayaan.pembulatan
-                ).toString()
-              )}
-            </Text>
-          </View>
-        </View>
-        <View style={{ flex: 1 }}>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <Text style={{ width: 70 }}>Nama</Text>
-            <Text>:</Text>
-            <Text>{data.DataPembiayaan.name}</Text>
-          </View>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <Text style={{ width: 70 }}>Nopen</Text>
-            <Text>:</Text>
-            <Text>{data.DataPembiayaan.nopen}</Text>
-          </View>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <Text style={{ width: 70 }}>Kantor Bayar</Text>
-            <Text>:</Text>
-            <Text>{data.DataPembiayaan.juru_bayar_tujuan?.toUpperCase()}</Text>
-          </View>
-          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-            <Text style={{ width: 70 }}>Area Pelayanan</Text>
-            <Text>:</Text>
-            <Text>{data.User.UnitCabang.name.toUpperCase()}</Text>
-          </View>
-        </View>
-        <View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Text
+          <View style={{ flex: 1 }}>
+            <View
               style={{
-                fontWeight: "bold",
-                fontSize: 10,
-                textAlign: "right",
+                display: "flex",
+                flexDirection: "row",
+                gap: 10,
               }}
             >
-              {isFor.toUpperCase()}
-            </Text>
+              <Text style={{ width: 80 }}>Tanggal Akad</Text>
+              <Text>:</Text>
+              <Text>
+                {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}
+              </Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <Text style={{ width: 80 }}>Plafond Pembiayaan</Text>
+              <Text>:</Text>
+              <Text>
+                {formatNumber(data.DataPembiayaan.plafond.toFixed(0))}
+              </Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <Text style={{ width: 80 }}>Jangka Waktu</Text>
+              <Text>:</Text>
+              <Text>{data.DataPembiayaan.tenor} Bulan</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <Text style={{ width: 80 }}>Angsuran Perbulan</Text>
+              <Text>:</Text>
+              <Text>
+                {formatNumber(
+                  ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        data.DataPembiayaan.mg_bunga,
+                        data.DataPembiayaan.tenor,
+                        data.DataPembiayaan.plafond
+                      )
+                    ),
+                    data.DataPembiayaan.pembulatan
+                  ).toString()
+                )}
+              </Text>
+            </View>
           </View>
+          <View style={{ flex: 1 }}>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <Text style={{ width: 70 }}>Nama</Text>
+              <Text>:</Text>
+              <Text>{data.DataPembiayaan.name}</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <Text style={{ width: 70 }}>Nopen</Text>
+              <Text>:</Text>
+              <Text>{data.DataPembiayaan.nopen}</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <Text style={{ width: 70 }}>Kantor Bayar</Text>
+              <Text>:</Text>
+              <Text>
+                {data.DataPembiayaan.juru_bayar_tujuan?.toUpperCase()}
+              </Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+              <Text style={{ width: 70 }}>Area Pelayanan</Text>
+              <Text>:</Text>
+              <Text>{data.User.UnitCabang.name.toUpperCase()}</Text>
+            </View>
+          </View>
+          <View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 10,
+                  textAlign: "right",
+                }}
+              >
+                {isFor.toUpperCase()}
+              </Text>
+            </View>
+            <View
+              style={{ border: "1px solid black", width: 140, height: 50 }}
+            ></View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Text>Tanda Tangan Debitur</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Jadwal Angsuran */}
+        <View style={{ margin: "0px 0" }}>
+          <TableAngsuran
+            dataHeader={headerAngsuran}
+            dataBodies={bodyAngsuran.slice(0, 41)}
+          />
+        </View>
+        {/* End Jadwal Angsuran */}
+        <View
+          style={{
+            opacity: 0.7,
+            position: "absolute",
+            textAlign: "center",
+            left: 0,
+            right: 0,
+            bottom: 20,
+          }}
+        >
+          <Text>{page}</Text>
+        </View>
+      </Page>
+      {bodyAngsuran.length > 42 && (
+        <Page size={"A4"} style={stylePdf.root}>
           <View
-            style={{ border: "1px solid black", width: 140, height: 50 }}
-          ></View>
-          <View
+            fixed
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontWeight: "bold",
+              marginBottom: 20,
             }}
           >
-            <Text>Tanda Tangan Debitur</Text>
+            <View>
+              <Image
+                src={
+                  process.env.NEXT_PUBLIC_APP_LOGO ||
+                  "/assets/images/logo_kpf.jpg"
+                }
+                style={{ width: 50 }}
+              />
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ fontSize: 10 }}>KARTU ANGSURAN</Text>
+              <Text style={{ fontSize: 8, marginTop: 5 }}>
+                NO AKAD : {data.nomor_akad}
+              </Text>
+            </View>
+            <View>
+              <Image
+                src={
+                  process.env.NEXT_PUBLIC_APP_LOGO ||
+                  "/assets/images/logo_kpf.jpg"
+                }
+                style={{ width: 50 }}
+              />
+            </View>
           </View>
-        </View>
-      </View>
-
-      {/* Jadwal Angsuran */}
-      <View style={{ margin: "0px 0" }}>
-        <TableAngsuran dataHeader={headerAngsuran} dataBodies={bodyAngsuran} />
-      </View>
-      {/* End Jadwal Angsuran */}
-    </Page>
+          {/*  */}
+          <View style={{ margin: "0px 0" }}>
+            <TableAngsuran
+              dataHeader={headerAngsuran}
+              dataBodies={bodyAngsuran.slice(41, bodyAngsuran.length)}
+            />
+          </View>
+          {/*  */}
+          <View
+            style={{
+              opacity: 0.7,
+              position: "absolute",
+              textAlign: "center",
+              left: 0,
+              right: 0,
+              bottom: 20,
+            }}
+          >
+            <Text>{page + 1}</Text>
+          </View>
+        </Page>
+      )}
+    </>
   );
 }
 

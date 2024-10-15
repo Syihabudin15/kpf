@@ -21,8 +21,10 @@ import { stylePdf } from "./stylePdf";
 
 export default function PerjanjianKreditFlashPage2({
   data,
+  page,
 }: {
   data: DataDataPengajuan;
+  page: number;
 }) {
   return (
     <Page style={{ ...styles.page, ...stylePdf.root }} wrap size="A4">
@@ -440,6 +442,22 @@ export default function PerjanjianKreditFlashPage2({
             </View>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? page + pageNumber : pageNumber}`
+          }
+        ></Text>
       </View>
     </Page>
   );

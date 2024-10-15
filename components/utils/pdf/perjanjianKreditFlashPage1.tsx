@@ -9,8 +9,10 @@ const angkaTerbilang = require("angka-menjadi-terbilang");
 
 export default function PerjanjianKreditFlashPage1({
   data,
+  page,
 }: {
   data: DataDataPengajuan;
+  page: number;
 }) {
   const byAdmin =
     data.DataPembiayaan.plafond *
@@ -838,6 +840,22 @@ export default function PerjanjianKreditFlashPage1({
             </Text>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          opacity: 0.7,
+          position: "absolute",
+          textAlign: "center",
+          left: 0,
+          right: 0,
+          bottom: 20,
+        }}
+      >
+        <Text
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber < page ? page + pageNumber : pageNumber}`
+          }
+        ></Text>
       </View>
     </Page>
   );
