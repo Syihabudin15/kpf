@@ -1139,6 +1139,23 @@ export default function InputForm({
                   <Input.TextArea />
                 </Form.Item>
               </div>
+              <div className="block md:flex justify-between items-end gap-5">
+                <Form.Item
+                  label="Jenis Asuransi"
+                  required
+                  name={"jenis_asuransi"}
+                  className="w-full md:flex-1"
+                >
+                  <Select
+                    showSearch
+                    options={[
+                      { label: "CIU Insurance", value: "CIU" },
+                      { label: "Berdikari", value: "BERDIKARI" },
+                    ]}
+                    defaultValue={"CIU"}
+                  />
+                </Form.Item>
+              </div>
 
               {/* Pembiayaan */}
               {/* <InputPembiayaan

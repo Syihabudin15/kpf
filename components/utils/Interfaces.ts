@@ -249,3 +249,6 @@ export interface InputDapem {
   angsuran: number;
   bersih: number;
 }
+export interface DataAngnsuranMJM extends JadwalAngsuran {
+  DataPengajuan: DataTypePengajuan;
+}

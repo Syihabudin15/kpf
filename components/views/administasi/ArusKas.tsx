@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import CetakDaftarNominatif from "./CetakDaftarNominatif";
 import { Bank, User } from "@prisma/client";
 import { AsuransiRate } from "@/components/utils/AsuransiRate";
+import CetakLabaRugi from "./CetakLabaRugi";
 const { RangePicker } = DatePicker;
 
 export default function ArusKas({
@@ -514,7 +515,20 @@ export default function ArusKas({
               record.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
                 ? 0
                 : record.DataPembiayaan.plafond * (rate / 1000);
-            return <span>{formatNumber(premi.toFixed(0))}</span>;
+            const ciuPremi = record.DataPembiayaan.plafond * ((3 * ind) / 100);
+            const resultPremi =
+              record.jenis_asuransi === "BERDIKARI" ? premi : ciuPremi;
+            return (
+              <div>
+                {formatNumber(resultPremi.toFixed(0))}
+                <span
+                  style={{ fontSize: 8 }}
+                  className="text-xs italic opacity-60"
+                >
+                  ({record.jenis_asuransi})
+                </span>
+              </div>
+            );
           },
         },
         {
@@ -546,10 +560,14 @@ export default function ArusKas({
               record.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
                 ? 0
                 : record.DataPembiayaan.plafond * (rate / 1000);
+            const ciuPremi = record.DataPembiayaan.plafond * ((3 * ind) / 100);
             const asur =
               record.DataPembiayaan.plafond *
               (record.DataPembiayaan.by_asuransi / 100);
-            return <div>{formatNumber((asur - premi).toFixed(0))}</div>;
+            const resultPremi =
+              record.jenis_asuransi === "BERDIKARI" ? premi : ciuPremi;
+
+            return <div>{formatNumber((asur - resultPremi).toFixed(0))}</div>;
           },
         },
       ],
@@ -918,6 +936,7 @@ export default function ArusKas({
           />
         )}
         <CetakDaftarNominatif data={data || []} />
+        <CetakLabaRugi data={data || []} />
       </div>
       <div className="px-2">
         <Table
@@ -991,11 +1010,15 @@ export default function ArusKas({
                 pd.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
                   ? 0
                   : pd.DataPembiayaan.plafond * (rate / 1000);
+              const ciuPremi =
+                pd.DataPembiayaan.plafond * ((3 * indRate) / 100);
+              const resultPremi =
+                pd.jenis_asuransi === "BERDIKARI" ? premAsuransi : ciuPremi;
               const asur =
                 pd.DataPembiayaan.plafond *
                 (pd.DataPembiayaan.by_asuransi / 100);
-              premiAsuransi += premAsuransi;
-              selisihAsuransi += asur - premAsuransi;
+              premiAsuransi += resultPremi;
+              selisihAsuransi += asur - resultPremi;
               const angsuran = ceiling(
                 parseInt(
                   getAngsuranPerBulan(

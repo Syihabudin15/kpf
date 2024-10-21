@@ -303,6 +303,7 @@ export default function FormEditPengajuan({
       agent_fronting: currData.agent_fronting,
       masa_ktp: moment(currData.masa_ktp).format("YYYY-MM-DD"),
       unit_pelayanan: currData.area_pelayanan_berkas,
+      jenis_asuransi: currData.jenis_asuransi,
     });
   }, [currData]);
 
@@ -923,6 +924,23 @@ export default function FormEditPengajuan({
                 className="w-full md:flex-1"
               >
                 <Input.TextArea />
+              </Form.Item>
+            </div>
+            <div className="block md:flex justify-between items-end gap-5">
+              <Form.Item
+                label="Jenis Asuransi"
+                required
+                name={"jenis_asuransi"}
+                className="w-full md:flex-1"
+              >
+                <Select
+                  showSearch
+                  options={[
+                    { label: "CIU Insurance", value: "CIU" },
+                    { label: "Berdikari", value: "BERDIKARI" },
+                  ]}
+                  defaultValue={"CIU"}
+                />
               </Form.Item>
             </div>
 

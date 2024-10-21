@@ -23,6 +23,7 @@ import {
   HistoryOutlined,
   RadarChartOutlined,
   PieChartOutlined,
+  AccountBookOutlined,
 } from "@ant-design/icons";
 
 export interface MenuItem {
@@ -385,7 +386,7 @@ export const menusV2: Menus[] = [
       {
         label: "Arus Kas",
         url: "/laporan-administrasi/arus-kas",
-        role: ["MASTER"],
+        role: ["MASTER", "OPERASIONAL"],
         icon: <DiffOutlined />,
       },
       {
@@ -544,5 +545,11 @@ export const menusV2: Menus[] = [
     url: "/cek-database",
     role: ["MASTER", "VERIFIKASI", "ENTRY_DATA"],
     icon: <DatabaseOutlined />,
+  },
+  {
+    label: "Tagihan",
+    url: "/tagihan",
+    role: ["MASTER", "OPERASIONAL"],
+    icon: <AccountBookOutlined />,
   },
 ];

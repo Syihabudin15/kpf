@@ -13,6 +13,7 @@ app.prepare().then(() => {
   server.use("/mutasi", express.static(__dirname + "/storage/mutasi"));
   server.use("/flagging", express.static(__dirname + "/storage/flagging"));
   server.use("/akad", express.static(__dirname + "/storage/akad"));
+  server.use("/slik", express.static(__dirname + "/storage/slik"));
 
   server.all("*", (req, res) => {
     return handle(req, res);

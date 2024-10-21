@@ -278,6 +278,7 @@ model DataPengajuan {
   tanggal_cetak_akad        DateTime?
   nomor_akad                String?
   jenis_margin              JenisMargin?
+  jenis_asuransi            String           @default("BERDIKARI")
   is_active                 Boolean          @default(true)
 
   nopen         String?
