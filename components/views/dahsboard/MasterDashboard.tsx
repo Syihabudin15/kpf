@@ -159,6 +159,54 @@ export default function MasterDashboard() {
             loading={loading}
             scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
             key={"reguller"}
+            summary={(pageData) => {
+              let totalSlik = 0;
+              let totalApprov = 0;
+              let totalAntri = 0;
+              let totalProses = 0;
+              let totalHariIni = 0;
+              let totalDropping = 0;
+              let totalOs = 0;
+
+              pageData.forEach((pd, i) => {
+                totalSlik += pd.slik;
+                totalApprov += pd.approval;
+                totalAntri += pd.pengajuan_dropping[0];
+                totalProses += pd.pengajuan_dropping[1];
+                totalHariIni += pd.dropping_hari_ini;
+                totalDropping += pd.total[0];
+                totalOs += pd.total[1];
+              });
+              return (
+                <Table.Summary.Row className="bg-green-500 text-white">
+                  <Table.Summary.Cell index={1} className="text-center">
+                    Summary
+                    <></>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={2} className="text-center">
+                    {totalSlik}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={3} className="text-center">
+                    {totalApprov}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={4} className="text-center">
+                    {formatNumber(totalAntri.toFixed(0))}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={5} className="text-center">
+                    {formatNumber(totalProses.toFixed(0))}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={6} className="text-center">
+                    {formatNumber(totalHariIni.toFixed(0))}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={7} className="text-center">
+                    {formatNumber(totalDropping.toFixed(0))}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={8} className="text-center">
+                    {formatNumber(totalOs.toFixed(0))}
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              );
+            }}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
@@ -176,6 +224,52 @@ export default function MasterDashboard() {
             loading={loading}
             scroll={{ x: "max-content", y: "calc(50vh - 100px)" }}
             key={"flash"}
+            summary={(pageData) => {
+              let totalSlik = 0;
+              let totalApprov = 0;
+              let totalAntri = 0;
+              let totalProses = 0;
+              let totalHariIni = 0;
+              let totalDropping = 0;
+              let totalOs = 0;
+
+              pageData.forEach((pd, i) => {
+                totalSlik += pd.slik;
+                totalApprov += pd.approval;
+                totalAntri += pd.pengajuan_dropping[0];
+                totalProses += pd.pengajuan_dropping[1];
+                totalHariIni += pd.dropping_hari_ini;
+                totalDropping += pd.total[0];
+                totalOs += pd.total[1];
+              });
+              return (
+                <Table.Summary.Row className="bg-green-500 text-white text-center">
+                  <Table.Summary.Cell index={1} className="text-center">
+                    Summary
+                    <></>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={2}>{totalSlik}</Table.Summary.Cell>
+                  <Table.Summary.Cell index={3}>
+                    {totalApprov}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={4}>
+                    {formatNumber(totalAntri.toFixed(0))}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={5}>
+                    {formatNumber(totalProses.toFixed(0))}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={6}>
+                    {formatNumber(totalHariIni.toFixed(0))}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={7}>
+                    {formatNumber(totalDropping.toFixed(0))}
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={8}>
+                    {formatNumber(totalOs.toFixed(0))}
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              );
+            }}
           />
         </div>
         <div className="mt-5 p-0 rounded shadow bg-white">
@@ -897,149 +991,3 @@ const columnsMarketing: TableProps<any>["columns"] = [
     },
   },
 ];
-
-// const columns: TableProps<DataMasterDashboard>["columns"] = [
-//   {
-//     title: "SUMBER DANA",
-//     key: "sumdan",
-//     width: 200,
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "green",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       return <>{record.name.toUpperCase()}</>;
-//     },
-//   },
-//   {
-//     title: "ANTRI",
-//     key: "antri",
-//     dataIndex: "antri",
-//     width: 150,
-//     className: "text-center",
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "orange",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       let plafond = 0;
-//       let total = 0;
-//       record.DataPengajuan.forEach((p) => {
-//         if (
-//           p.status_pencairan !== "TRANSFER" &&
-//           p.status_pencairan !== "BATAL"
-//         ) {
-//           plafond += p.DataPembiayaan.plafond;
-//           total += 1;
-//         }
-//       });
-//       return <div className="flex">
-//         <div className="flex-1" style={{borderRight: "1px solid #aaa"}}>{total}</div>
-//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
-//       </div>;
-//     },
-//   },
-//   {
-//     title: "DITOLAK",
-//     key: "tolak",
-//     width: 150,
-//     dataIndex: "tolak",
-//     className: "text-center",
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "red",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       let plafond = 0;
-//       let total = 0;
-//       record.DataPengajuan.forEach((p) => {
-//         if (p.status_pencairan === "BATAL") {
-//           plafond += p.DataPembiayaan.plafond;
-//           total += 1;
-//         }
-//       });
-//       return <div className="flex">
-//         <div className="flex-1"  style={{borderRight: "1px solid #aaa"}}>{total}</div>
-//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
-//       </div>;
-//     },
-//   },
-//   {
-//     title: "DROPPING",
-//     key: "dropping",
-//     width: 150,
-//     dataIndex: "dropping",
-//     className: "text-center",
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "green",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       let plafond = 0;
-//       let total = 0;
-//       record.DataPengajuan.forEach((p) => {
-//         if (p.status_pencairan === "TRANSFER") {
-//           plafond += p.DataPembiayaan.plafond;
-//           total += 1;
-//         }
-//       });
-//       return <div className="flex">
-//         <div className="flex-1" style={{borderRight: "1px solid #aaa"}}>{total}</div>
-//         <div className="flex-1" >{formatNumber(plafond.toFixed(0))}</div>
-//       </div>;
-//     },
-//   },
-//   {
-//     title: "OS",
-//     key: "os",
-//     dataIndex: "os",
-//     width: 150,
-//     className: "text-center",
-//     onHeaderCell: (text, record) => {
-//       return {
-//         ["style"]: {
-//           textAlign: "center",
-//           backgroundColor: "blue",
-//           color: "white"
-//         },
-//       };
-//     },
-//     render(value, record, index) {
-//       let plafond = 0;
-//       let total = 0;
-//       record.DataPengajuan.forEach((p) => {
-//         if (p.status_pencairan === "TRANSFER") {
-//           plafond +=
-//             p.DataPembiayaan.plafond -
-//             ((p.DataPembiayaan.plafond * (p.DataPembiayaan.by_admin_bank / 100)) +
-//               p.DataPembiayaan.by_buka_rekening);
-//               total += 1;
-//         }
-//       });
-//       return <div className="flex">
-//         <div className="flex-1"  style={{borderRight: "1px solid #aaa"}}>{total}</div>
-//         <div className="flex-1">{formatNumber(plafond.toFixed(0))}</div>
-//       </div>;
-//     },
-//   },
-// ];

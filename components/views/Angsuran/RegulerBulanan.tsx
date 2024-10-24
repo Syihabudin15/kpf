@@ -25,6 +25,7 @@ export default function RegulerBulanan() {
   const [data, setData] = useState<AngsuranPengajuan[]>();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(50);
   const [total, setTotal] = useState<number>(0);
   const [name, setName] = useState<string>();
 
@@ -428,10 +429,12 @@ export default function RegulerBulanan() {
           size="small"
           loading={loading}
           pagination={{
-            pageSize: 20,
+            pageSizeOptions: [100, 150, 200],
+            pageSize: pageSize,
             total: total,
             onChange(page, pageSize) {
               setPage(page);
+              setPageSize(pageSize);
             },
           }}
           scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}

@@ -34,6 +34,8 @@ const CetakPdfAngsuranDebitur = dynamic(
 export default function JadwalAngsuranDebitur({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<AngsuranDebitur>();
+  const [pageSize, setPageSize] = useState(12);
+  const [page, setPage] = useState(1);
 
   const getData = async () => {
     setLoading(true);
@@ -422,8 +424,79 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
             size="small"
             loading={loading}
             bordered
-            pagination={{ pageSize: 12 }}
+            pagination={{
+              pageSizeOptions: [12, 24, 36, 48, 60, 72, 84, 96, 108, 120],
+              pageSize: pageSize,
+              onChange(page, pageSize) {
+                setPageSize(pageSize);
+              },
+            }}
             scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
+            summary={(pageData) => {
+              let totalPokok = 0;
+              let totalAngsuranBank = 0;
+              let totalAngsuran = 0;
+              let totalSelisih = 0;
+              let totalMargin = 0;
+
+              pageData.forEach((j, i) => {
+                const angsuran = ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      j.DataPengajuan.DataPembiayaan.mg_bunga,
+                      j.DataPengajuan.DataPembiayaan.tenor,
+                      j.DataPengajuan.DataPembiayaan.plafond
+                    )
+                  ),
+                  j.DataPengajuan.DataPembiayaan.pembulatan
+                );
+                const angsuranBank = ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      j.DataPengajuan.DataPembiayaan.margin_bank,
+                      j.DataPengajuan.DataPembiayaan.tenor,
+                      j.DataPengajuan.DataPembiayaan.plafond
+                    )
+                  ),
+                  j.DataPengajuan.DataPembiayaan.pembulatan
+                );
+
+                totalPokok += j.pokok;
+                totalAngsuran += angsuran;
+                totalAngsuranBank += angsuranBank;
+                totalSelisih += angsuran - angsuranBank;
+                totalMargin += j.margin;
+              });
+              return (
+                <Table.Summary.Row className="bg-green-500 text-white text-center">
+                  <Table.Summary.Cell index={1} className="text-center">
+                    Summary
+                    <></>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={2}>
+                    <></>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={3}>
+                    <>{formatNumber(totalAngsuran.toFixed(0))}</>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={4}>
+                    <>{formatNumber(totalAngsuranBank.toFixed(0))}</>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={5}>
+                    <>{formatNumber(totalSelisih.toFixed(0))}</>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={6}>
+                    <>{formatNumber(totalPokok.toFixed(0))}</>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={7}>
+                    <>{formatNumber(totalMargin.toFixed(0))}</>
+                  </Table.Summary.Cell>
+                  <Table.Summary.Cell index={8}></Table.Summary.Cell>
+                  <Table.Summary.Cell index={9}></Table.Summary.Cell>
+                  <Table.Summary.Cell index={10}></Table.Summary.Cell>
+                </Table.Summary.Row>
+              );
+            }}
           />
         </div>
       </div>

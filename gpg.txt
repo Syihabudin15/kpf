@@ -3,7 +3,6 @@ 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
 https://github.com/Syihabudin15/kpf.git
 => END GITHUB
 
-
 => DB
 host:103.150.190.79 
 username: kpfidb
@@ -66,7 +65,7 @@ CAPTCHA_SITE_KEY=6Ldoq6MpAAAAAB_Ewiq0iZWG4fSEgQiTtlTqCDvV
 CAPTCHA_SECRET_KEY=6Ldoq6MpAAAAAKqPOXVofoqsQZjadUSJCULy5TNF
 
 # BIZNET
-https://portal.biznetgio.com/user/login 
+https://portal.biznetgio.com/user/login
 
 username : wgerizal@gmail.com
 password : @Today1234

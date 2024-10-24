@@ -1145,6 +1145,32 @@ export default function MonitoringPusat() {
               setPageSize(pageSize);
             },
           }}
+          summary={(pageData) => {
+            let totalPLafond = 0;
+
+            pageData.forEach((pd, i) => {
+              totalPLafond += pd.DataPembiayaan.plafond;
+            });
+            return (
+              <Table.Summary.Row className="bg-green-500 text-white text-center">
+                <Table.Summary.Cell index={1} className="text-center">
+                  Summary
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={2}></Table.Summary.Cell>
+                <Table.Summary.Cell index={3}></Table.Summary.Cell>
+                <Table.Summary.Cell index={4}></Table.Summary.Cell>
+                <Table.Summary.Cell index={5}></Table.Summary.Cell>
+                <Table.Summary.Cell index={6}></Table.Summary.Cell>
+                <Table.Summary.Cell index={7}></Table.Summary.Cell>
+                <Table.Summary.Cell index={8}></Table.Summary.Cell>
+                <Table.Summary.Cell index={9}></Table.Summary.Cell>
+                <Table.Summary.Cell index={10}>
+                  {formatNumber(totalPLafond.toFixed(0))}
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            );
+          }}
         />
       </div>
 
