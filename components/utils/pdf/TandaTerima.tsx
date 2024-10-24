@@ -310,7 +310,7 @@ export default function TandaTerima({
             alignItems: "center",
           }}
         >
-          <Text>Dikembalikan Tanggal</Text>
+          <Text>Diserahkan Tanggal</Text>
           <View
             style={{
               display: "flex",
@@ -350,7 +350,7 @@ export default function TandaTerima({
             </View>
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             display: "flex",
             flexDirection: "column",
@@ -396,7 +396,7 @@ export default function TandaTerima({
               <Text style={{ height: 10, fontWeight: "bold" }}></Text>
             </View>
           </View>
-        </View>
+        </View> */}
       </View>
       <View
         style={{

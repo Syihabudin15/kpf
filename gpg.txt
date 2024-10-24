@@ -13,6 +13,9 @@ ssh sipkpf@kpfi.co.id
 => SSH PROJECT
 ssh -i rizalmac.pem sipkpfi@103.127.97.143
 ssh sip@kpfi.co.id  
+-> New
+DB -> ssh sipkpf@kpfi.co.id
+SISTEM -> ssh sipkpfi@sip.kpfi.co.id
 => END SSH PROJECT
 
 => CPANEL
