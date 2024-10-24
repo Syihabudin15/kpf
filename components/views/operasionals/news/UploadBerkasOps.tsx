@@ -133,7 +133,7 @@ export default function UploadBerksOps({
           data.nama && data.nama.toUpperCase()
         }`}
         style={{ top: 20 }}
-        width={"50vw"}
+        width={window.innerWidth < 600 ? "90vw" : "50vw"}
       >
         <div className="w-full" style={{ minHeight: "75vh" }}>
           <div>

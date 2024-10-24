@@ -23,13 +23,7 @@ moment.updateLocale("id", {
   ],
 });
 
-export default function AkadChanneling({
-  data,
-  page,
-}: {
-  data: DataDataPengajuan;
-  page: number;
-}) {
+export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
   const byAdmin =
     data.DataPembiayaan.plafond *
     ((data.DataPembiayaan.by_admin +
@@ -929,7 +923,10 @@ export default function AkadChanneling({
                   textAlign: "center",
                 }}
               >
-                <Text>{page}</Text>
+                <Text
+                  render={({ pageNumber, totalPages }) => `${pageNumber}`}
+                  fixed
+                ></Text>
               </View>
               <View
                 style={{
@@ -1390,7 +1387,10 @@ export default function AkadChanneling({
                   textAlign: "center",
                 }}
               >
-                <Text>{page + 1}</Text>
+                <Text
+                  render={({ pageNumber, totalPages }) => `${pageNumber}`}
+                  fixed
+                ></Text>
               </View>
               <View
                 style={{
@@ -1812,9 +1812,7 @@ export default function AkadChanneling({
         }}
       >
         <Text
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber < page ? page + pageNumber : pageNumber}`
-          }
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
           fixed
         ></Text>
       </View>

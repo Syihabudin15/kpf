@@ -331,7 +331,13 @@ export default function MonitoringPusat() {
       className: "text-center",
       render(value, record, index) {
         return (
-          <>{moment(record.DataPembiayaan.created_at).format("DD-MM-YYYY")}</>
+          <Tooltip
+            title={`Last Update: ${moment(
+              record.DataPembiayaan.updated_at
+            ).format("DD-MM-YYYY")}`}
+          >
+            {moment(record.DataPembiayaan.created_at).format("DD-MM-YYYY")}
+          </Tooltip>
         );
       },
     },
@@ -1089,7 +1095,6 @@ export default function MonitoringPusat() {
             setFrom(info && info[0]);
             setTo(info && info[1]);
           }}
-          size="small"
           width={170}
         />
         <Input.Search

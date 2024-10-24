@@ -103,7 +103,7 @@ export default function CetakDataPengajuan({
   return (
     <div className="flex justify-center">
       <button
-        className="py-1 px-2 rounded shadow hover:opacity-50 border text-xs bg-blue-500 hover:bg-blue-600 text-white"
+        className="py-1 px-3 w-20 rounded shadow hover:opacity-50 border text-xs bg-blue-500 hover:bg-blue-600 text-white"
         onClick={() => handleExcelExport()}
       >
         Cetak {loading ? <LoadingOutlined /> : <PrinterOutlined />}

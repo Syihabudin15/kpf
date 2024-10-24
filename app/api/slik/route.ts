@@ -180,23 +180,6 @@ export const POST = async (req: NextRequest) => {
     );
   data.DataPembiayaan.user_id = findUser.id;
   try {
-    // const findPengajuan = await prisma.dataPengajuan.findFirst({
-    //   where: {
-    //     AND: [
-    //       { DataPembiayaan: { nopen: data.DataPembiayaan.nopen } },
-    //       { is_active: true, status_lunas: false },
-    //     ],
-    //   },
-    // });
-
-    // if (findPengajuan && data.DataPembiayaan.jenis_pembiayaan_id) {
-    //   return NextResponse.json(
-    //     {
-    //       msg: "Nopen ini masih memiliki pinjaman di KPF!",
-    //     },
-    //     { status: 400, statusText: "BAD REQUEST" }
-    //   );
-    // }
     data.DataPembiayaan.is_simulasi = false;
 
     const find = await prisma.dataTaspen.findFirst({
@@ -206,6 +189,7 @@ export const POST = async (req: NextRequest) => {
     const findProduk = await prisma.produk.findFirst({
       where: { id: data.DataPembiayaan.produk_id },
     });
+    console.log(data);
     const trans = await prisma.$transaction(async (tx) => {
       const berkas = await tx.berkasPengajuan.create({
         data: {
@@ -236,7 +220,12 @@ export const POST = async (req: NextRequest) => {
         },
       });
       const biaya = await tx.dataPembiayaan.create({
-        data: data.DataPembiayaan,
+        data: {
+          ...data.DataPembiayaan,
+          created_at: data.DataPembiayaan.tanggal_input
+            ? data.DataPembiayaan.tanggal_input
+            : new Date(),
+        },
       });
       const pengajuanKeluarga = await tx.dataPengajuanKeluarga.create({
         data: data.DataKeluarga,
@@ -521,6 +510,9 @@ export const POST = async (req: NextRequest) => {
                 tanggal_sk_pensiun: data.tanggal_sk_pensiun,
                 alamat_pekerjaan: data.alamat_pekerjaan,
                 area_pelayanan_berkas: data.area_pelayanan_berkas,
+                jenis_asuransi: data.jenis_asuransi
+                  ? data.jenis_asuransi
+                  : "CIU",
               },
             });
 
@@ -544,6 +536,7 @@ export const PUT = async (req: NextRequest) => {
   const findUser = await prisma.user.findFirst({
     where: { email: session?.user?.email },
   });
+  console.log(data);
   if (!findUser)
     return NextResponse.json(
       { msg: "Gagal membuat pengajuan.. mohon login ulang" },
@@ -579,8 +572,16 @@ export const PUT = async (req: NextRequest) => {
       });
       data.DataPembiayaan.user_id = findPengajuan?.DataPembiayaan.user_id;
       const biaya = await tx.dataPembiayaan.update({
-        where: { id: findPengajuan?.data_pembiayaan_id },
-        data: data.DataPembiayaan,
+        where: {
+          id: findPengajuan?.data_pembiayaan_id,
+        },
+        data: {
+          ...data.DataPembiayaan,
+          created_at: data.DataPembiayaan.tanggal_input
+            ? data.DataPembiayaan.tanggal_input
+            : new Date(),
+          updated_at: new Date(),
+        },
       });
       const pengajuanKeluarga = await tx.dataPengajuanKeluarga.update({
         where: { id: findPengajuan?.dataPengajuanKeluargaId },
@@ -668,6 +669,9 @@ export const PUT = async (req: NextRequest) => {
           kode_jiwa: data.kode_jiwa ? data.kode_jiwa : findPengajuan?.kode_jiwa,
           area_pelayanan_berkas: data.area_pelayanan_berkas,
           bankId: data.bankId ? data.bankId : findPengajuan?.bankId,
+          jenis_asuransi: data.jenis_asuransi
+            ? data.jenis_asuransi
+            : findPengajuan?.jenis_asuransi,
         },
       });
 

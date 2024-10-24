@@ -8,11 +8,9 @@ import moment from "moment";
 export default function Kesanggupan({
   data,
   isFor,
-  page,
 }: {
   data: DataDataPengajuan;
   isFor: string;
-  page: number;
 }) {
   return (
     <Page size={"A4"} style={stylePdf.root}>
@@ -506,9 +504,7 @@ export default function Kesanggupan({
         }}
       >
         <Text
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber < page ? pageNumber : page}`
-          }
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
           fixed
         ></Text>
       </View>

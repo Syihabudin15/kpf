@@ -304,7 +304,9 @@ export default function NewInputBiaya({
         bersih: kotor - (inputDapem.bpp + inputDapem.pelunasan),
       };
     });
+
     return setPembiayaan({
+      tanggal_input: inputDapem.tanggal_simulasi,
       name: nama,
       nopen: nopen,
       gaji_bersih: inputDapem.gaji,

@@ -7,10 +7,8 @@ import { DataDataPengajuan } from "../Interfaces";
 
 export default function KelengkapanDokumen({
   data,
-  page,
 }: {
   data: DataDataPengajuan;
-  page: number;
 }) {
   const bodies = [
     [
@@ -1031,9 +1029,7 @@ export default function KelengkapanDokumen({
         }}
       >
         <Text
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber < page ? pageNumber : page}`
-          }
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
           fixed
         ></Text>
       </View>

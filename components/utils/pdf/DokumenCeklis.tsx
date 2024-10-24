@@ -2,13 +2,7 @@ import { Page, Text, View } from "@react-pdf/renderer";
 import { stylePdf } from "./stylePdf";
 import { DataDataPengajuan } from "../Interfaces";
 
-export default function DokumenCeklis({
-  data,
-  page,
-}: {
-  data: DataDataPengajuan;
-  page: number;
-}) {
+export default function DokumenCeklis({ data }: { data: DataDataPengajuan }) {
   const sekat1 = [
     [
       { data: "1", width: 30 },
@@ -377,9 +371,7 @@ export default function DokumenCeklis({
         }}
       >
         <Text
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber < page ? pageNumber : page}`
-          }
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
           fixed
         ></Text>
       </View>

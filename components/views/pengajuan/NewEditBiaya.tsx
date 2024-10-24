@@ -305,7 +305,7 @@ export default function NewEditBiaya({
       };
     });
     return setPembiayaan({
-      tanggal_input: new Date(tglSimulasi),
+      tanggal_input: inputDapem.tanggal_simulasi,
       name: currData.nama,
       nopen: currData.nopen,
       gaji_bersih: inputDapem.gaji,

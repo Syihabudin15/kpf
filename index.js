@@ -14,6 +14,9 @@ app.prepare().then(() => {
   server.use("/flagging", express.static(__dirname + "/storage/flagging"));
   server.use("/akad", express.static(__dirname + "/storage/akad"));
   server.use("/slik", express.static(__dirname + "/storage/slik"));
+  server.use("/pengajuan", express.static(__dirname + "/storage/pengajuan"));
+  server.use("/wawancara", express.static(__dirname + "/storage/wawancara"));
+  server.use("/asuransi", express.static(__dirname + "/storage/asuransi"));
 
   server.all("*", (req, res) => {
     return handle(req, res);

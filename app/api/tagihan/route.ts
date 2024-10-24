@@ -51,6 +51,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         data[i - 3].DataPengajuan.DataPembiayaan.juru_bayar_tujuan,
         "-",
         data[i - 3].DataPengajuan.DataPembiayaan.jenis_pembiayaan_id &&
+        data[i - 3].DataPengajuan.DataPembiayaan.JenisPembiayaan.name &&
         data[i - 3].DataPengajuan.DataPembiayaan.JenisPembiayaan.name ===
           "Mutasi Take Over"
           ? data[i - 3].DataPengajuan.DataPembiayaan.juru_bayar_asal
@@ -76,7 +77,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 };
 export const GET = async () => {
   const currMonth = moment().format("YYYY-MM");
-  const data = await prisma?.jadwalAngsuran.findMany({
+  const data = await prisma.jadwalAngsuran.findMany({
     where: {
       tanggal_pelunasan: null,
       tanggal_bayar: {

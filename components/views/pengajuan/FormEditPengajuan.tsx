@@ -75,20 +75,6 @@ export default function FormEditPengajuan({
   const [kabupatenDomisili, setKabupatenDomisili] = useState<Options[]>([]);
   const [selectedBank, setSelectedBank] = useState<Bank>();
 
-  // const handleChangeUP = (e: string) => {
-  //   const cabang = fullCabang?.filter((ca) => ca.id == e);
-  //   const user = fullUser?.filter(
-  //     (u) => u.unit_cabang_id == e && u.role == "MARKETING"
-  //   );
-  //   const fixUserOpt: Options[] = user?.map((user) => {
-  //     return { label: user.first_name + " " + user.last_name, value: user.id };
-  //   }) as any;
-  //   setUserOpt(fixUserOpt);
-  //   form.setFieldsValue({
-  //     area_pelayanan: cabang && cabang[0].unit ? cabang[0].unit : "PUSAT",
-  //   });
-  // };
-
   const handleChangeUser = (e: string) => {
     const user = fullUser?.filter((u) => u.id == e);
     form.setFieldsValue({
@@ -197,6 +183,7 @@ export default function FormEditPengajuan({
     e.jenis_margin = jenisMargin;
     pembiayaan.name = e.nama;
     e.area_pelayanan_berkas = e.unit_pelayanan;
+    console.log(e);
 
     const res = await fetch("/api/slik", {
       method: "PUT",
@@ -939,7 +926,6 @@ export default function FormEditPengajuan({
                     { label: "CIU Insurance", value: "CIU" },
                     { label: "Berdikari", value: "BERDIKARI" },
                   ]}
-                  defaultValue={"CIU"}
                 />
               </Form.Item>
             </div>

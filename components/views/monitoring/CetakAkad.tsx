@@ -36,7 +36,7 @@ export default function CetakAkad({ data }: { data: DataDataPengajuan }) {
         ? data.DataPembiayaan.JenisPembiayaan.name
         : "Sisa Gaji",
       sumber_dana: data.Bank.name,
-      jenis_margin: data.jenis_margin,
+      jenis_margin: data.jenis_margin || "ANUITAS",
       mg_bunga: data.DataPembiayaan.mg_bunga,
     });
   }, [tanggal]);
@@ -68,7 +68,6 @@ export default function CetakAkad({ data }: { data: DataDataPengajuan }) {
           blokir: data.DataPembiayaan.blokir,
         }),
       });
-      console.log(getAngsuran);
       if (!angsSave.ok) {
         const { msg, data } = await angsSave.json();
         console.log({ msg, data });

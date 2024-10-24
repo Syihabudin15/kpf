@@ -12,12 +12,10 @@ export default function JadwalAngsuran({
   data,
   isFor,
   angsurans,
-  page,
 }: {
   data: DataDataPengajuan;
   isFor: string;
   angsurans: any[];
-  page: number;
 }) {
   let bodyAngsuran = angsurans.map((angs, ind) => {
     return {
@@ -196,7 +194,10 @@ export default function JadwalAngsuran({
         <View style={{ margin: "0px 0" }}>
           <TableAngsuran
             dataHeader={headerAngsuran}
-            dataBodies={bodyAngsuran.slice(0, 41)}
+            dataBodies={bodyAngsuran.slice(
+              0,
+              bodyAngsuran.length >= 41 ? 41 : bodyAngsuran.length
+            )}
           />
         </View>
         {/* End Jadwal Angsuran */}
@@ -210,75 +211,224 @@ export default function JadwalAngsuran({
             bottom: 20,
           }}
         >
-          <Text>{page}</Text>
+          <Text
+            render={({ pageNumber, totalPages }) => `${pageNumber}`}
+            fixed
+          ></Text>
         </View>
       </Page>
       {bodyAngsuran.length > 42 && (
-        <Page size={"A4"} style={stylePdf.root}>
-          <View
-            fixed
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              fontWeight: "bold",
-              marginBottom: 20,
-            }}
-          >
-            <View>
-              <Image
-                src={
-                  process.env.NEXT_PUBLIC_APP_LOGO ||
-                  "/assets/images/logo_kpf.jpg"
-                }
-                style={{ width: 50 }}
-              />
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 10 }}>KARTU ANGSURAN</Text>
-              <Text style={{ fontSize: 8, marginTop: 5 }}>
-                NO AKAD : {data.nomor_akad}
-              </Text>
-            </View>
-            <View>
-              <Image
-                src={
-                  process.env.NEXT_PUBLIC_APP_LOGO ||
-                  "/assets/images/logo_kpf.jpg"
-                }
-                style={{ width: 50 }}
-              />
-            </View>
-          </View>
-          {/*  */}
-          <View style={{ margin: "0px 0" }}>
-            <TableAngsuran
-              dataHeader={headerAngsuran}
-              dataBodies={bodyAngsuran.slice(41, bodyAngsuran.length)}
-            />
-          </View>
-          {/*  */}
-          <View
-            style={{
-              opacity: 0.7,
-              position: "absolute",
-              textAlign: "center",
-              left: 0,
-              right: 0,
-              bottom: 20,
-            }}
-          >
-            <Text>{page + 1}</Text>
-          </View>
-        </Page>
+        <>
+          {bodyAngsuran.length > 89 ? (
+            <>
+              <Page size={"A4"} style={stylePdf.root}>
+                <View
+                  fixed
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontWeight: "bold",
+                    marginBottom: 20,
+                  }}
+                >
+                  <View>
+                    <Image
+                      src={
+                        process.env.NEXT_PUBLIC_APP_LOGO ||
+                        "/assets/images/logo_kpf.jpg"
+                      }
+                      style={{ width: 50 }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text style={{ fontSize: 10 }}>KARTU ANGSURAN</Text>
+                    <Text style={{ fontSize: 8, marginTop: 5 }}>
+                      NO AKAD : {data.nomor_akad}
+                    </Text>
+                  </View>
+                  <View>
+                    <Image
+                      src={
+                        process.env.NEXT_PUBLIC_APP_LOGO ||
+                        "/assets/images/logo_kpf.jpg"
+                      }
+                      style={{ width: 50 }}
+                    />
+                  </View>
+                </View>
+                {/*  */}
+                <View style={{ margin: "0px 0" }}>
+                  <TableAngsuran
+                    dataHeader={headerAngsuran}
+                    dataBodies={bodyAngsuran.slice(41, 86)}
+                  />
+                </View>
+                {/*  */}
+                <View
+                  style={{
+                    opacity: 0.7,
+                    position: "absolute",
+                    textAlign: "center",
+                    left: 0,
+                    right: 0,
+                    bottom: 20,
+                  }}
+                >
+                  <Text
+                    render={({ pageNumber, totalPages }) => `${pageNumber}`}
+                    fixed
+                  ></Text>
+                </View>
+              </Page>
+              <Page size={"A4"} style={stylePdf.root}>
+                <View
+                  fixed
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    fontWeight: "bold",
+                    marginBottom: 20,
+                  }}
+                >
+                  <View>
+                    <Image
+                      src={
+                        process.env.NEXT_PUBLIC_APP_LOGO ||
+                        "/assets/images/logo_kpf.jpg"
+                      }
+                      style={{ width: 50 }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text style={{ fontSize: 10 }}>KARTU ANGSURAN</Text>
+                    <Text style={{ fontSize: 8, marginTop: 5 }}>
+                      NO AKAD : {data.nomor_akad}
+                    </Text>
+                  </View>
+                  <View>
+                    <Image
+                      src={
+                        process.env.NEXT_PUBLIC_APP_LOGO ||
+                        "/assets/images/logo_kpf.jpg"
+                      }
+                      style={{ width: 50 }}
+                    />
+                  </View>
+                </View>
+                {/*  */}
+                <View style={{ margin: "0px 0" }}>
+                  <TableAngsuran
+                    dataHeader={headerAngsuran}
+                    dataBodies={bodyAngsuran.slice(86, bodyAngsuran.length)}
+                  />
+                </View>
+                {/*  */}
+                <View
+                  style={{
+                    opacity: 0.7,
+                    position: "absolute",
+                    textAlign: "center",
+                    left: 0,
+                    right: 0,
+                    bottom: 20,
+                  }}
+                >
+                  <Text
+                    render={({ pageNumber, totalPages }) => `${pageNumber}`}
+                    fixed
+                  ></Text>
+                </View>
+              </Page>
+            </>
+          ) : (
+            <Page size={"A4"} style={stylePdf.root}>
+              <View
+                fixed
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                  marginBottom: 20,
+                }}
+              >
+                <View>
+                  <Image
+                    src={
+                      process.env.NEXT_PUBLIC_APP_LOGO ||
+                      "/assets/images/logo_kpf.jpg"
+                    }
+                    style={{ width: 50 }}
+                  />
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ fontSize: 10 }}>KARTU ANGSURAN</Text>
+                  <Text style={{ fontSize: 8, marginTop: 5 }}>
+                    NO AKAD : {data.nomor_akad}
+                  </Text>
+                </View>
+                <View>
+                  <Image
+                    src={
+                      process.env.NEXT_PUBLIC_APP_LOGO ||
+                      "/assets/images/logo_kpf.jpg"
+                    }
+                    style={{ width: 50 }}
+                  />
+                </View>
+              </View>
+              {/*  */}
+              <View style={{ margin: "0px 0" }}>
+                <TableAngsuran
+                  dataHeader={headerAngsuran}
+                  dataBodies={bodyAngsuran.slice(41, bodyAngsuran.length)}
+                />
+              </View>
+              {/*  */}
+              <View
+                style={{
+                  opacity: 0.7,
+                  position: "absolute",
+                  textAlign: "center",
+                  left: 0,
+                  right: 0,
+                  bottom: 20,
+                }}
+              >
+                <Text
+                  render={({ pageNumber, totalPages }) => `${pageNumber}`}
+                  fixed
+                ></Text>
+              </View>
+            </Page>
+          )}
+        </>
       )}
     </>
   );

@@ -128,6 +128,7 @@ export default function UploadDoc({
         return {
           ...prev,
           fileName: res.data.url,
+          progres: 100,
         };
       });
     } catch (err) {
@@ -165,6 +166,7 @@ export default function UploadDoc({
         return {
           ...prev,
           fileName: res.data.url,
+          progres: 100,
         };
       });
     } catch (err) {
@@ -202,6 +204,7 @@ export default function UploadDoc({
         return {
           ...prev,
           fileName: res.data.url,
+          progres: 100,
         };
       });
     } catch (err) {
@@ -239,6 +242,7 @@ export default function UploadDoc({
         return {
           ...prev,
           fileName: res.data.url,
+          progres: 100,
         };
       });
     } catch (err) {
@@ -276,6 +280,7 @@ export default function UploadDoc({
         return {
           ...prev,
           fileName: res.data.url,
+          progres: 100,
         };
       });
     } catch (err) {
@@ -313,6 +318,7 @@ export default function UploadDoc({
         return {
           ...prev,
           fileName: res.data.url,
+          progres: 100,
         };
       });
     } catch (err) {

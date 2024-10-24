@@ -5,10 +5,8 @@ import moment from "moment";
 
 export default function PernyataanDebitur({
   data,
-  page,
 }: {
   data: DataDataPengajuan;
-  page: number;
 }) {
   return (
     <Page size={"A4"} wrap style={stylePdf.root}>
@@ -147,9 +145,7 @@ export default function PernyataanDebitur({
         }}
       >
         <Text
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber < page ? pageNumber : page}`
-          }
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
           fixed
         ></Text>
       </View>

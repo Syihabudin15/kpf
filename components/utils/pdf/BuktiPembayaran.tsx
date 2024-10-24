@@ -10,11 +10,9 @@ const angkaTerbilang = require("angka-menjadi-terbilang");
 export default function BuktiPembayaran({
   data,
   isFor,
-  page,
 }: {
   data: DataDataPengajuan;
   isFor: string;
-  page: number;
 }) {
   const angsuran = ceiling(
     parseInt(
@@ -389,9 +387,7 @@ export default function BuktiPembayaran({
         }}
       >
         <Text
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber < page ? pageNumber : page}`
-          }
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
           fixed
         ></Text>
       </View>

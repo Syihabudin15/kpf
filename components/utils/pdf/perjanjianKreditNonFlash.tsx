@@ -25,10 +25,8 @@ moment.updateLocale("id", {
 
 export default function PerjanjianKreditNonFlash({
   data,
-  page,
 }: {
   data: DataDataPengajuan;
-  page: number;
 }) {
   const byAdmin =
     data.DataPembiayaan.plafond *
@@ -717,7 +715,10 @@ export default function PerjanjianKreditNonFlash({
                       width: "100%",
                     }}
                   >
-                    <Text>{page}</Text>
+                    <Text
+                      render={({ pageNumber, totalPages }) => `${pageNumber}`}
+                      fixed
+                    ></Text>
                   </View>
                   <View style={{ display: "flex", flexDirection: "column" }}>
                     <View
@@ -1211,7 +1212,10 @@ export default function PerjanjianKreditNonFlash({
                         width: "100%",
                       }}
                     >
-                      <Text>{page + 1}</Text>
+                      <Text
+                        render={({ pageNumber, totalPages }) => `${pageNumber}`}
+                        fixed
+                      ></Text>
                     </View>
                     <View
                       style={{ display: "flex", flexDirection: "row", gap: 10 }}
@@ -1643,9 +1647,7 @@ export default function PerjanjianKreditNonFlash({
         }}
       >
         <Text
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber < page ? page + pageNumber : pageNumber}`
-          }
+          render={({ pageNumber, totalPages }) => `${pageNumber}`}
           fixed
         ></Text>
       </View>
