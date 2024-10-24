@@ -350,7 +350,7 @@ export default function TandaTerima({
             </View>
           </View>
         </View>
-        {/* <View
+        <View
           style={{
             display: "flex",
             flexDirection: "column",
@@ -376,11 +376,9 @@ export default function TandaTerima({
                 width: 150,
               }}
             >
-              <Text>DEBITUR</Text>
+              <Text>Kepala Unit Pelayanan</Text>
               <View style={{ height: 50 }}></View>
-              <Text style={{ height: 10, fontWeight: "bold" }}>
-                {data.DataPembiayaan.name}
-              </Text>
+              <Text style={{ height: 10, fontWeight: "bold" }}></Text>
             </View>
             <View
               style={{
@@ -391,12 +389,14 @@ export default function TandaTerima({
                 width: 150,
               }}
             >
-              <Text>Kepala Unit Pelayanan</Text>
+              <Text>DEBITUR</Text>
               <View style={{ height: 50 }}></View>
-              <Text style={{ height: 10, fontWeight: "bold" }}></Text>
+              <Text style={{ height: 10, fontWeight: "bold" }}>
+                {data.DataPembiayaan.name}
+              </Text>
             </View>
           </View>
-        </View> */}
+        </View>
       </View>
       <View
         style={{
