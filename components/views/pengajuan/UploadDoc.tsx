@@ -41,9 +41,11 @@ interface FileProps {
 export default function UploadDoc({
   setBerkas,
   currData,
+  setLastActivity,
 }: {
   setBerkas: Function;
   currData?: BerkasPengajuan;
+  setLastActivity?: Function;
 }) {
   const [berkasSlik, setBerkasSlik] = useState<FileProps>({
     fileName: "",
@@ -131,6 +133,15 @@ export default function UploadDoc({
           progres: 100,
         };
       });
+      if (setLastActivity) {
+        setLastActivity((prev: string) => {
+          if (prev && prev.includes("Upload Berkas Slik")) {
+            return prev;
+          } else {
+            return `${prev ? prev + " " : ""} Upload Berkas Slik,`;
+          }
+        });
+      }
     } catch (err) {
       onError((error: any) => {
         setBerkasSlik({ fileName: "", progres: 0 });
@@ -169,6 +180,15 @@ export default function UploadDoc({
           progres: 100,
         };
       });
+      if (setLastActivity) {
+        setLastActivity((prev: string) => {
+          if (prev && prev.includes("Upload Berkas Pengajuan")) {
+            return prev;
+          } else {
+            return `${prev ? prev + " " : ""} Upload Berkas Pengajuan,`;
+          }
+        });
+      }
     } catch (err) {
       onError((error: any) => {
         setBerkasPengajuan({ fileName: "", progres: 0 });
@@ -283,6 +303,15 @@ export default function UploadDoc({
           progres: 100,
         };
       });
+      if (setLastActivity) {
+        setLastActivity((prev: string) => {
+          if (prev && prev.includes("Upload Video Wawancara")) {
+            return prev;
+          } else {
+            return `${prev ? prev + " " : ""} Upload Video Wawancara,`;
+          }
+        });
+      }
     } catch (err) {
       onError((error: any) => {
         setBerkasWawancara({ fileName: "", progres: 0 });
@@ -321,6 +350,16 @@ export default function UploadDoc({
           progres: 100,
         };
       });
+
+      if (setLastActivity) {
+        setLastActivity((prev: string) => {
+          if (prev && prev.includes("Upload Video Asuransi")) {
+            return prev;
+          } else {
+            return `${prev ? prev + " " : ""} Upload Video Asuransi,`;
+          }
+        });
+      }
     } catch (err) {
       onError((error: any) => {
         setBerkasAsuransi({ fileName: "", progres: 0 });
@@ -329,7 +368,12 @@ export default function UploadDoc({
     }
   };
 
-  const handleDelete = async (uri: string, setNull: Function, url: string) => {
+  const handleDelete = async (
+    uri: string,
+    setNull: Function,
+    url: string,
+    namaBerkas: string
+  ) => {
     setLoading(true);
     const res = await fetch(uri, {
       headers: { "Content-Type": "Application/json" },
@@ -341,8 +385,17 @@ export default function UploadDoc({
         fileName: null,
         progres: 0,
       });
+      if (setLastActivity) {
+        setLastActivity((prev: string) => {
+          if (prev && prev.includes(`Hapus ${namaBerkas}`)) {
+            return prev;
+          } else {
+            return `${prev ? prev + " " : ""} Hapus ${namaBerkas},`;
+          }
+        });
+      }
     } else {
-      message.error(`Gagal hapus ${name}!`);
+      message.error(`Gagal hapus ${namaBerkas}!`);
     }
     setLoading(false);
   };
@@ -411,7 +464,8 @@ export default function UploadDoc({
                       handleDelete(
                         "/api/slik/berkas/slik",
                         setBerkasSlik,
-                        berkasSlik.fileName
+                        berkasSlik.fileName,
+                        "Berkas Slik"
                       )
                     }
                   >
@@ -458,7 +512,8 @@ export default function UploadDoc({
                       handleDelete(
                         "/api/slik/berkas/pengajuan",
                         setBerkasPengajuan,
-                        berkasPengajuan.fileName
+                        berkasPengajuan.fileName,
+                        "Berkas Pengajuan"
                       )
                     }
                   >
@@ -508,7 +563,8 @@ export default function UploadDoc({
                       handleDelete(
                         "/api/slik/berkas/idpb",
                         setBerkasIDPB,
-                        berkasIDPB.fileName
+                        berkasIDPB.fileName,
+                        "Berkas IDPB"
                       )
                     }
                   >
@@ -556,7 +612,8 @@ export default function UploadDoc({
                       handleDelete(
                         "/api/slik/berkas/flagging",
                         setBerkasFlagging,
-                        berkasFlagging.fileName
+                        berkasFlagging.fileName,
+                        "Berkas Flagging"
                       )
                     }
                   >
@@ -605,7 +662,8 @@ export default function UploadDoc({
                       handleDelete(
                         "/api/slik/berkas/wawancara",
                         setBerkasWawancara,
-                        berkasWawancara.fileName
+                        berkasWawancara.fileName,
+                        "Video Wawancara"
                       )
                     }
                   >
@@ -654,7 +712,8 @@ export default function UploadDoc({
                       handleDelete(
                         "/api/slik/berkas/asuransi",
                         setBerkasAsuransi,
-                        berkasAsuransi.fileName
+                        berkasAsuransi.fileName,
+                        "Video Asuransi"
                       )
                     }
                   >

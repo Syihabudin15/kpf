@@ -70,7 +70,13 @@ export default function BankDashboard() {
             type: "donut",
           },
           dataLabels: {
-            enabled: false,
+            enabled: true,
+            formatter: function (val: number) {
+              return val.toFixed(2) + "%";
+            },
+            style: {
+              fontSize: "10px",
+            },
           },
           labels: label,
           legend: {
@@ -166,7 +172,7 @@ export default function BankDashboard() {
 }
 const columns: TableProps<DataDashboardBank>["columns"] = [
   {
-    title: "PRODUK",
+    title: "PRODUK PEMBIAYAAN",
     dataIndex: "produk",
     key: "produk",
     onHeaderCell: (text, record) => {
@@ -198,7 +204,7 @@ const columns: TableProps<DataDashboardBank>["columns"] = [
     },
   },
   {
-    title: "DROPPING",
+    title: "PLAFON",
     dataIndex: "plafond",
     key: "plafond",
     onHeaderCell: (text, record) => {

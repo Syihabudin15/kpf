@@ -74,12 +74,20 @@ export default function FormEditPengajuan({
   const [kabupaten, setKabupaten] = useState<Options[]>([]);
   const [kabupatenDomisili, setKabupatenDomisili] = useState<Options[]>([]);
   const [selectedBank, setSelectedBank] = useState<Bank>();
+  const [lastActivity, setlastActivity] = useState<string>();
 
   const handleChangeUser = (e: string) => {
     const user = fullUser?.filter((u) => u.id == e);
     form.setFieldsValue({
       posisi: user && user[0].posisi,
       status_pkwt: user && user[0].status_pkwt,
+    });
+    setlastActivity((prev: string | undefined) => {
+      if (prev && prev.includes(`Edit Nama AO`)) {
+        return prev;
+      } else {
+        return `${prev ? prev + " " : ""} Edit Nama AO,`;
+      }
     });
   };
 
@@ -89,6 +97,13 @@ export default function FormEditPengajuan({
     } else {
       setStatusKawinDisable(false);
     }
+    setlastActivity((prev: string | undefined) => {
+      if (prev && prev.includes(`Edit Status Perkawinan`)) {
+        return prev;
+      } else {
+        return `${prev ? prev + " " : ""} Edit Status Perkawinan,`;
+      }
+    });
   };
 
   const handleChangeProvince = async (e: string, type: string) => {
@@ -104,8 +119,24 @@ export default function FormEditPengajuan({
     });
     if (type === "domisili") {
       setKabupatenDomisili(resultMap);
+
+      setlastActivity((prev: string | undefined) => {
+        if (prev && prev.includes(`Edit Provinsi Domisili`)) {
+          return prev;
+        } else {
+          return `${prev ? prev + " " : ""} Edit Provinsi Domisili,`;
+        }
+      });
     } else {
       setKabupaten(resultMap);
+
+      setlastActivity((prev: string | undefined) => {
+        if (prev && prev.includes(`Edit Provinsi KTP`)) {
+          return prev;
+        } else {
+          return `${prev ? prev + " " : ""} Edit Provinsi KTP,`;
+        }
+      });
     }
   };
 
@@ -173,7 +204,6 @@ export default function FormEditPengajuan({
       alamat_keluarga: e.alamat_keluarga || null,
     };
     e.BerkasPengajuan = berkas;
-    e.DataPembiayaan = pembiayaan;
     e.menempati_tahun = e.menempati_tahun;
     e.masa_kerja = parseInt(e.masa_kerja) || 0;
     e.tanggal_lahir = pembiayaan.tanggal_lahir;
@@ -183,7 +213,7 @@ export default function FormEditPengajuan({
     e.jenis_margin = jenisMargin;
     pembiayaan.name = e.nama;
     e.area_pelayanan_berkas = e.unit_pelayanan;
-    console.log(e);
+    e.DataPembiayaan = { ...pembiayaan, user_update: lastActivity };
 
     const res = await fetch("/api/slik", {
       method: "PUT",
@@ -323,7 +353,19 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input />
+                <Input
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Kelompok Pensiun`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Kelompok Pensiun,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="block md:flex justify-between gap-5">
@@ -333,7 +375,18 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev && prev.includes(`Edit Nama KTP`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Nama KTP,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 label="Nama SKEP"
@@ -341,7 +394,18 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Nama SKEP`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Nama SKEP,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <Form.Item
@@ -350,7 +414,18 @@ export default function FormEditPengajuan({
               required
               className="flex-1"
             >
-              <Input required />
+              <Input
+                required
+                onChange={() =>
+                  setlastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Nama Kode Jiwa`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Nama Kode Jiwa,`;
+                    }
+                  })
+                }
+              />
             </Form.Item>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mt-2 mb-2 font-semibold">
               Data Alamat
@@ -366,15 +441,46 @@ export default function FormEditPengajuan({
                 <Input.TextArea
                   required
                   value={alamat && alamat}
-                  onChange={(e) => setAlamat(e.target.value)}
+                  onChange={(e) => {
+                    setAlamat(e.target.value);
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Alamat`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Alamat,`;
+                      }
+                    });
+                  }}
                 />
               </Form.Item>
               <div className="block md:flex-1 md:flex gap-5">
                 <Form.Item label="RT" name={"rt"} required className="flex-1">
-                  <Input required />
+                  <Input
+                    required
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit RT KTP`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit RT KTP,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
                 <Form.Item label="RW" name={"rw"} required className="flex-1">
-                  <Input required />
+                  <Input
+                    required
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit RW KTP`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit RW KTP,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
               </div>
             </div>
@@ -398,7 +504,18 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Select options={kabupaten} />
+                <Select
+                  options={kabupaten}
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Kota KTP`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Kota KTP,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="block">
@@ -409,7 +526,20 @@ export default function FormEditPengajuan({
                   required
                   className="flex-1"
                 >
-                  <Input required />
+                  <Input
+                    required
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Kecamatan KTP`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Kecamatan KTP,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Kelurahan"
@@ -417,7 +547,20 @@ export default function FormEditPengajuan({
                   required
                   className="flex-1"
                 >
-                  <Input required />
+                  <Input
+                    required
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Kelurahan KTP`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Kelurahan KTP,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
               </div>
               <Form.Item
@@ -426,7 +569,18 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Kodepos KTP`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Kodepos KTP,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <Divider className="divider-input">Alamat Sesuai Domisili</Divider>
@@ -445,7 +599,20 @@ export default function FormEditPengajuan({
                 hidden={domisiliSama}
                 className="w-full md:flex-1"
               >
-                <Input.TextArea required />
+                <Input.TextArea
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Alamat Domisili`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Alamat Domisili,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <div className="block md:flex-1 md:flex gap-5">
                 <Form.Item
@@ -455,7 +622,18 @@ export default function FormEditPengajuan({
                   hidden={domisiliSama}
                   className="flex-1"
                 >
-                  <Input required />
+                  <Input
+                    required
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit RT Domisili`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit RT Domisili,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
                 <Form.Item
                   label="RW"
@@ -464,7 +642,18 @@ export default function FormEditPengajuan({
                   hidden={domisiliSama}
                   className="flex-1"
                 >
-                  <Input required />
+                  <Input
+                    required
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit RW Domisili`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit RW Domisili,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
               </div>
             </div>
@@ -490,7 +679,18 @@ export default function FormEditPengajuan({
                 hidden={domisiliSama}
                 className="flex-1"
               >
-                <Select options={kabupatenDomisili} />
+                <Select
+                  options={kabupatenDomisili}
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Kota Domisili`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Kota Domisili,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="block md:flex justify-center gap-5">
@@ -501,7 +701,20 @@ export default function FormEditPengajuan({
                 hidden={domisiliSama}
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Kecamatan Domisili`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Kecamatan Domisili,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 label="Kelurahan"
@@ -510,7 +723,20 @@ export default function FormEditPengajuan({
                 hidden={domisiliSama}
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Kecamatan Domisili`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Kecamatan Domisili,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="block md:flex justify-between gap-5">
@@ -521,7 +747,20 @@ export default function FormEditPengajuan({
                 hidden={domisiliSama}
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Kodepos Domisili`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Kodepos Domisili,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 label="Geo Location"
@@ -529,7 +768,18 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Geo Location`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Geo Location,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="block md:flex justify-between gap-5">
@@ -539,10 +789,32 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit No Telepon`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit No Telepon,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item label="NIK" name={"nik"} required className="flex-1">
-                <Input required />
+                <Input
+                  required
+                  onChange={(e) => {
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit NIK`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit NIK,`;
+                      }
+                    });
+                  }}
+                />
               </Form.Item>
             </div>
             <Form.Item
@@ -551,7 +823,18 @@ export default function FormEditPengajuan({
               required
               className="flex-1"
             >
-              <Input required />
+              <Input
+                required
+                onChange={() =>
+                  setlastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit NPWP`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit NPWP,`;
+                    }
+                  })
+                }
+              />
             </Form.Item>
             <div className="block md:flex gap-5 justify-between">
               <div className="block md:flex-1 md:flex gap-5 items-end">
@@ -561,7 +844,18 @@ export default function FormEditPengajuan({
                   required
                   className="flex-1"
                 >
-                  <Input type="date" />
+                  <Input
+                    type="date"
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Masa KTP`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit Masa KTP,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Gelar Pendidikan"
@@ -582,6 +876,15 @@ export default function FormEditPengajuan({
                       { label: "S3", value: "S3" },
                       { label: "LAINNYA", value: "LAINNYA" },
                     ]}
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Pendidikan`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit Pendidikan,`;
+                        }
+                      })
+                    }
                   />
                 </Form.Item>
               </div>
@@ -600,6 +903,15 @@ export default function FormEditPengajuan({
                     { label: "LAKI-LAKI", value: "LAKI_LAKI" },
                     { label: "PEREMPUAN", value: "PEREMPUAN" },
                   ]}
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Jenis Kelamin`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Jenis Kelamin,`;
+                      }
+                    })
+                  }
                 />
               </Form.Item>
               <Form.Item
@@ -620,6 +932,15 @@ export default function FormEditPengajuan({
                     { label: "ATHEIS", value: "ATHEIS" },
                     { label: "LAINNYA", value: "LAINNYA" },
                   ]}
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Agama`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Agama,`;
+                      }
+                    })
+                  }
                 />
               </Form.Item>
             </div>
@@ -644,6 +965,15 @@ export default function FormEditPengajuan({
                     value: "TIDAK_PUNYA_RUMAH",
                   },
                 ]}
+                onChange={() =>
+                  setlastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Pekerjaan`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Pekerjaan,`;
+                    }
+                  })
+                }
               />
             </Form.Item>
             <div className="block md:flex justify-between gap-5 items-end">
@@ -654,7 +984,24 @@ export default function FormEditPengajuan({
                   required
                   className="flex-1"
                 >
-                  <Input prefix="Tahun" required />
+                  <Input
+                    prefix="Tahun"
+                    required
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (
+                          prev &&
+                          prev.includes(`Edit Tahun Menempati Rumah`)
+                        ) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Tahun Menempati Rumah,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Masa Kerja"
@@ -662,7 +1009,19 @@ export default function FormEditPengajuan({
                   required
                   className="flex-1"
                 >
-                  <Input suffix="Tahun" required />
+                  <Input
+                    suffix="Tahun"
+                    required
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Masa Kerja`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit Masa Kerja,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
               </div>
             </div>
@@ -672,14 +1031,38 @@ export default function FormEditPengajuan({
                 name={"pekerjaan_sekarang"}
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Pekerjaan`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Pekerjaan,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 label="Alamat Pekerjaan"
                 name={"alamat_pekerjaan"}
                 className="w-full md:flex-1"
               >
-                <Input.TextArea required />
+                <Input.TextArea
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Alamat Pekerjaan`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Alamat Pekerjaan,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="block md:flex gap-5 items-end">
@@ -689,7 +1072,18 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Ibu Kandung`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Ibu Kandung,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 label="Jenis Usaha"
@@ -710,6 +1104,15 @@ export default function FormEditPengajuan({
                     { label: "SALON KECANTIKAN", value: "SALON_KECANTIKAN" },
                     { label: "LAINNYA", value: "LAINNYA" },
                   ]}
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Jenis Usaha`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Jenis Usaha,`;
+                      }
+                    })
+                  }
                 />
               </Form.Item>
             </div>
@@ -745,6 +1148,17 @@ export default function FormEditPengajuan({
                   <Input
                     disabled={statusKawinDisable}
                     required={!statusKawinDisable}
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Nama Pasangan`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Nama Pasangan,`;
+                        }
+                      })
+                    }
                   />
                 </Form.Item>
                 <Form.Item
@@ -756,6 +1170,20 @@ export default function FormEditPengajuan({
                   <Input
                     disabled={statusKawinDisable}
                     required={!statusKawinDisable}
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (
+                          prev &&
+                          prev.includes(`Edit Tempat Lahir Pasangan`)
+                        ) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Tempat Lahir Pasangan,`;
+                        }
+                      })
+                    }
                   />
                 </Form.Item>
               </div>
@@ -769,6 +1197,15 @@ export default function FormEditPengajuan({
               <Input
                 disabled={statusKawinDisable}
                 required={!statusKawinDisable}
+                onChange={() =>
+                  setlastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit NIK Pasangan`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit NIK Pasangan,`;
+                    }
+                  })
+                }
               />
             </Form.Item>
             <div className="block md:flex gap-5 justify-between items-end">
@@ -783,6 +1220,20 @@ export default function FormEditPengajuan({
                     type="date"
                     disabled={statusKawinDisable}
                     required={!statusKawinDisable}
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (
+                          prev &&
+                          prev.includes(`Edit Tanggal Lahir Pasangan`)
+                        ) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Tanggal Lahir Pasangan,`;
+                        }
+                      })
+                    }
                   />
                 </Form.Item>
                 <Form.Item
@@ -795,6 +1246,17 @@ export default function FormEditPengajuan({
                     type="date"
                     disabled={statusKawinDisable}
                     required={!statusKawinDisable}
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Masa KTP Pasangan`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Masa KTP Pasangan,`;
+                        }
+                      })
+                    }
                   />
                 </Form.Item>
               </div>
@@ -808,6 +1270,17 @@ export default function FormEditPengajuan({
               <Input
                 disabled={statusKawinDisable}
                 required={!statusKawinDisable}
+                onChange={() =>
+                  setlastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Pekerjaan Pasangan`)) {
+                      return prev;
+                    } else {
+                      return `${
+                        prev ? prev + " " : ""
+                      } Edit Pekerjaan Pasangan,`;
+                    }
+                  })
+                }
               />
             </Form.Item>
             <div className="block md:flex gap-5 justify-between items-end">
@@ -817,14 +1290,38 @@ export default function FormEditPengajuan({
                   name={"keluarga_tidak_serumah"}
                   className="flex-1"
                 >
-                  <Input />
+                  <Input
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Nama Keluarga`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Nama Keluarga,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
                 <Form.Item
                   label="Hubungan Keluarga"
                   name={"hubungan_keluarga"}
                   className="flex-1"
                 >
-                  <Input />
+                  <Input
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Hubungan Keluarga`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Hubungan Keluarga,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
               </div>
             </div>
@@ -834,14 +1331,38 @@ export default function FormEditPengajuan({
                 name={"no_telepon_keluarga"}
                 className="flex-1"
               >
-                <Input />
+                <Input
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit No Telepon Keluarga`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit No Telepon Keluarga,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 className="flex-1"
                 label="Alamat"
                 name={"alamat_keluarga"}
               >
-                <Input.TextArea />
+                <Input.TextArea
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Alamat Keluarga`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Alamat Keluarga,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
@@ -853,7 +1374,18 @@ export default function FormEditPengajuan({
               required
               className="flex-1"
             >
-              <Input required />
+              <Input
+                required
+                onChange={() =>
+                  setlastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Nomor SKEP`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Nomor SKEP,`;
+                    }
+                  })
+                }
+              />
             </Form.Item>
             <div className="block md:flex gap-5 justify-between items-end">
               <div className="flex-1 md:flex gap-5">
@@ -863,7 +1395,18 @@ export default function FormEditPengajuan({
                   required
                   className="flex-1"
                 >
-                  <Input type="date" />
+                  <Input
+                    type="date"
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Tanggal SKEP`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit Tanggal SKEP,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
                 <Form.Item
                   label="TMT Pensiun"
@@ -871,7 +1414,18 @@ export default function FormEditPengajuan({
                   required
                   className="flex-1"
                 >
-                  <Input type="date" />
+                  <Input
+                    type="date"
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit TMT Pensiun`)) {
+                          return prev;
+                        } else {
+                          return `${prev ? prev + " " : ""} Edit TMT Pensiun,`;
+                        }
+                      })
+                    }
+                  />
                 </Form.Item>
               </div>
             </div>
@@ -882,7 +1436,18 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Penerbit SKEP`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Penerbit SKEP,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 label="Pangkat / Golongan"
@@ -890,7 +1455,20 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input required />
+                <Input
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Pangkat Pensiun`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Pangkat Pensiun,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
@@ -903,14 +1481,39 @@ export default function FormEditPengajuan({
                 name={"tujuan_penggunaan1"}
                 className="w-full md:flex-1"
               >
-                <Input.TextArea required />
+                <Input.TextArea
+                  required
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Tujuan Penggunaan 1`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Tujuan Penggunaan 1,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 label="Tujuan Penggunaan 2"
                 name={"tujuan_penggunaan2"}
                 className="w-full md:flex-1"
               >
-                <Input.TextArea />
+                <Input.TextArea
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Tujuan Penggunaan 2`)) {
+                        return prev;
+                      } else {
+                        return `${
+                          prev ? prev + " " : ""
+                        } Edit Tujuan Penggunaan 2,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="block md:flex justify-between items-end gap-5">
@@ -926,6 +1529,15 @@ export default function FormEditPengajuan({
                     { label: "CIU Insurance", value: "CIU" },
                     { label: "Berdikari", value: "BERDIKARI" },
                   ]}
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Jenis Asuransi`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Jenis Asuransi,`;
+                      }
+                    })
+                  }
                 />
               </Form.Item>
             </div>
@@ -937,6 +1549,7 @@ export default function FormEditPengajuan({
               setPembiayaan={setPembiayaan}
               setJenisMargin={setJenisMargin}
               setSelectedBank={setSelectedBank}
+              setLastActivity={setlastActivity}
             />
             {/* <EditBiaya
               currData={currData}
@@ -964,6 +1577,13 @@ export default function FormEditPengajuan({
                     form.setFieldsValue({
                       area_pelayanan: cabang && cabang[0].unit,
                     });
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Unit Pelayanan`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Unit Pelayanan,`;
+                      }
+                    });
                   }}
                   defaultValue={currData.User.UnitCabang.name}
                   showSearch
@@ -976,7 +1596,18 @@ export default function FormEditPengajuan({
                 required
                 className="w-full md:flex-1"
               >
-                <Input disabled />
+                <Input
+                  disabled
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Area Pelayanan`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Area Pelayanan,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <Divider className="divider-input">Data AO</Divider>
@@ -1002,7 +1633,17 @@ export default function FormEditPengajuan({
                 name={"posisi"}
                 className="w-full md:flex-1"
               >
-                <Input disabled />
+                <Input
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Posisi AO`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Posisi AO,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="block md:flex justify-between gap-5 items-end">
@@ -1011,14 +1652,35 @@ export default function FormEditPengajuan({
                 name={"status_pkwt"}
                 className="flex-1"
               >
-                <Input disabled />
+                <Input
+                  disabled
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Status PKWT AO`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Status PKWT AO,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
               <Form.Item
                 label="Agent Fronting"
                 name={"agent_fronting"}
                 className="flex-1"
               >
-                <Input />
+                <Input
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Agent Fronting`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Agent Fronting,`;
+                      }
+                    })
+                  }
+                />
               </Form.Item>
             </div>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
@@ -1029,6 +1691,7 @@ export default function FormEditPengajuan({
             <UploadDoc
               setBerkas={setBerkas}
               currData={currData.BerkasPengajuan}
+              setLastActivity={setlastActivity}
             />
             {/* End Dokumen */}
           </div>

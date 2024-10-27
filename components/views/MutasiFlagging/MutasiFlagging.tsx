@@ -178,6 +178,46 @@ export default function MutasiFlagging() {
       },
     },
     {
+      title: "PRODUK",
+      key: "produk",
+      dataIndex: "produk",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      width: 150,
+      className: "text-center",
+      render(value, record, index) {
+        return <>{record.DataPembiayaan.Produk.name}</>;
+      },
+    },
+    {
+      title: "Jenis Pembiayaan",
+      key: "jenis",
+      dataIndex: "jenis",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      width: 150,
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <>
+            {record.DataPembiayaan.jenis_pembiayaan_id
+              ? record.DataPembiayaan.JenisPembiayaan.name
+              : "Sisa Gaji"}
+          </>
+        );
+      },
+    },
+    {
       title: "MUTASI",
       key: "mutasi",
       dataIndex: "mutasi",
@@ -206,29 +246,27 @@ export default function MutasiFlagging() {
           render(value, record, index) {
             return (
               <div
-                className="text-white"
-                style={{
-                  display:
-                    record.DataPembiayaan.jenis_pembiayaan_id &&
-                    record.DataPembiayaan.JenisPembiayaan.by_mutasi > 0
-                      ? "flex"
-                      : "none",
-                }}
+                className={`text-white ${
+                  record.DataPembiayaan.jenis_pembiayaan_id &&
+                  record.DataPembiayaan.JenisPembiayaan.by_mutasi > 0
+                    ? "flex"
+                    : "hidden"
+                } justify-center`}
               >
                 {record.BerkasPengajuan.status_mutasi === "SELESAI" ? (
-                  <div className="text-xs italic font-bold px-3 py-1 bg-green-500">
+                  <div className="text-xs italic font-bold px-3 py-1 bg-green-500 w-28">
                     SELESAI
                   </div>
                 ) : record.BerkasPengajuan.status_mutasi === "PROSESS" ? (
-                  <div className="text-xs italic font-bold px-3 py-1 bg-blue-500">
+                  <div className="text-xs italic font-bold px-3 py-1 bg-blue-500 w-28">
                     PROSES
                   </div>
                 ) : record.BerkasPengajuan.status_mutasi === "GAGAL" ? (
-                  <div className="text-xs italic font-bold px-3 py-1 bg-red-500">
+                  <div className="text-xs italic font-bold px-3 py-1 bg-red-500 w-28">
                     GAGAL
                   </div>
                 ) : (
-                  <div className="text-xs italic font-bold px-3 py-1 bg-orange-500">
+                  <div className="text-xs italic font-bold px-3 py-1 bg-orange-500 w-28">
                     BELUM PROSES
                   </div>
                 )}
@@ -317,21 +355,21 @@ export default function MutasiFlagging() {
           width: 150,
           render(value, record, index) {
             return (
-              <div className="text-white">
+              <div className="text-white flex justify-center">
                 {record.BerkasPengajuan.status_flagging === "SELESAI" ? (
-                  <div className="text-xs italic font-bold px-3 py-1 bg-green-500">
+                  <div className="text-xs italic font-bold px-3 py-1 bg-green-500 w-28">
                     SELESAI
                   </div>
                 ) : record.BerkasPengajuan.status_flagging === "PROSESS" ? (
-                  <div className="text-xs italic font-bold px-3 py-1 bg-blue-500">
+                  <div className="text-xs italic font-bold px-3 py-1 bg-blue-500 w-28">
                     PROSES
                   </div>
                 ) : record.BerkasPengajuan.status_flagging === "GAGAL" ? (
-                  <div className="text-xs italic font-bold px-3 py-1 bg-red-500">
+                  <div className="text-xs italic font-bold px-3 py-1 bg-red-500 w-28">
                     GAGAL
                   </div>
                 ) : (
-                  <div className="text-xs italic font-bold px-3 py-1 bg-orange-500">
+                  <div className="text-xs italic font-bold px-3 py-1 bg-orange-500 w-28">
                     BELUM PROSES
                   </div>
                 )}

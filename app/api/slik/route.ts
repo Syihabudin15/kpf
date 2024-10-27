@@ -536,7 +536,6 @@ export const PUT = async (req: NextRequest) => {
   const findUser = await prisma.user.findFirst({
     where: { email: session?.user?.email },
   });
-  console.log(data);
   if (!findUser)
     return NextResponse.json(
       { msg: "Gagal membuat pengajuan.. mohon login ulang" },
@@ -551,6 +550,17 @@ export const PUT = async (req: NextRequest) => {
         DataPembiayaan: true,
       },
     });
+    if (data.DataPembiayaan.user_update) {
+      data.DataPembiayaan.user_update = `${
+        findPengajuan?.DataPembiayaan.user_update
+          ? findPengajuan.DataPembiayaan.user_update + ". "
+          : ""
+      }${findUser.first_name || ""} ${
+        findUser.last_name || ""
+      }(${moment().format("DD/MM/YYYY HH:mm:ss")}) : ${
+        data.DataPembiayaan.user_update
+      }`;
+    }
     data.DataPembiayaan.is_simulasi = false;
     const trans = await prisma.$transaction(async (tx) => {
       await tx.berkasPengajuan.update({
@@ -579,7 +589,7 @@ export const PUT = async (req: NextRequest) => {
           ...data.DataPembiayaan,
           created_at: data.DataPembiayaan.tanggal_input
             ? data.DataPembiayaan.tanggal_input
-            : new Date(),
+            : findPengajuan?.DataPembiayaan.created_at || new Date(),
           updated_at: new Date(),
         },
       });
@@ -664,7 +674,7 @@ export const PUT = async (req: NextRequest) => {
           alamat_pekerjaan: data.alamat_pekerjaan
             ? data.alamat_pekerjaan
             : findPengajuan?.alamat_pekerjaan,
-          nama: data.nama ? data.nama : findPengajuan?.nama,
+          nama: data.nama ? data.DataPembiayaan.name : findPengajuan?.nama,
           nama_skep: data.nama ? data.nama_skep : findPengajuan?.nama_skep,
           kode_jiwa: data.kode_jiwa ? data.kode_jiwa : findPengajuan?.kode_jiwa,
           area_pelayanan_berkas: data.area_pelayanan_berkas,

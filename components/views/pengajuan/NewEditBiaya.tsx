@@ -33,12 +33,14 @@ export default function NewEditBiaya({
   setPembiayaan,
   setJenisMargin,
   setSelectedBank,
+  setLastActivity,
 }: {
   currData: DataDataPengajuan;
   refferal: productOptions[];
   setPembiayaan: Function;
   setJenisMargin: Function;
   setSelectedBank: Function;
+  setLastActivity: Function;
 }) {
   const [bank, setBank] = useState<ITempBank>({
     id: "",
@@ -497,7 +499,16 @@ export default function NewEditBiaya({
               moment(inputDapem.tanggal_simulasi).format("DD-MM-YYYY")
             }
             style={{ color: "black", backgroundColor: "white" }}
-            onChange={(e) => setTglSimulasi(e.target.value)}
+            onChange={(e) => {
+              setTglSimulasi(e.target.value);
+              setLastActivity((prev: string) => {
+                if (prev && prev.includes(`Edit Tanggal Input`)) {
+                  return prev;
+                } else {
+                  return `${prev ? prev + " " : ""} Edit Tanggal Input,`;
+                }
+              });
+            }}
           />
         </div>
       </div>
@@ -508,28 +519,44 @@ export default function NewEditBiaya({
               <span>Juru Bayar Asal</span>
               <Input
                 value={tambahan.juru_bayar_asal}
-                onChange={(e) =>
+                onChange={(e) => {
                   setTambahan((prev) => {
                     return {
                       ...prev,
                       juru_bayar_asal: e.target.value,
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string) => {
+                    if (prev && prev.includes(`Edit Juru Bayar Asal`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Juru Bayar Asal,`;
+                    }
+                  });
+                }}
               />
             </div>
             <div className="flex-1 flex flex-col gap-1">
               <span>Juru Bayar Tujuan</span>
               <Input
                 value={tambahan.juru_bayar_tujuan}
-                onChange={(e) =>
+                onChange={(e) => {
                   setTambahan((prev) => {
                     return {
                       ...prev,
                       juru_bayar_tujuan: e.target.value,
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string) => {
+                    if (prev && prev.includes(`Edit Juru Bayar Tujuan`)) {
+                      return prev;
+                    } else {
+                      return `${
+                        prev ? prev + " " : ""
+                      } Edit Juru Bayar Tujuan,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -538,28 +565,44 @@ export default function NewEditBiaya({
               <span>Pembiayaan Sebelumnya</span>
               <Input
                 value={tambahan.pembiayaan_sebelumnya}
-                onChange={(e) =>
+                onChange={(e) => {
                   setTambahan((prev) => {
                     return {
                       ...prev,
                       pembiayaan_sebelumnya: e.target.value,
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string) => {
+                    if (prev && prev.includes(`Edit Pembiayaan Sebelumnya`)) {
+                      return prev;
+                    } else {
+                      return `${
+                        prev ? prev + " " : ""
+                      } Edit Pembiayaan Sebelumnya,`;
+                    }
+                  });
+                }}
               />
             </div>
             <div className="flex-1 flex flex-col gap-1">
               <span>Nama Bank</span>
               <Input
                 value={tambahan.nama_bank}
-                onChange={(e) =>
+                onChange={(e) => {
                   setTambahan((prev) => {
                     return {
                       ...prev,
                       nama_bank: e.target.value,
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string) => {
+                    if (prev && prev.includes(`Edit Nama Bank`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Nama Bank,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -568,35 +611,61 @@ export default function NewEditBiaya({
               <span>No Rekening</span>
               <Input
                 value={tambahan.no_rekening}
-                onChange={(e) =>
+                onChange={(e) => {
                   setTambahan((prev) => {
                     return {
                       ...prev,
                       no_rekening: e.target.value,
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string) => {
+                    if (prev && prev.includes(`Edit No Rekening`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit No Rekening,`;
+                    }
+                  });
+                }}
               />
             </div>
             <div className="flex-1 flex flex-col gap-1">
               <span>Tempat Lahir</span>
               <Input
                 value={tambahan.tempat_lahir}
-                onChange={(e) =>
+                onChange={(e) => {
                   setTambahan((prev) => {
                     return {
                       ...prev,
                       tempat_lahir: e.target.value,
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Tempat Lahir`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Tempat Lahir,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
           <div className="flex gap-3 my-2">
             <div className="flex-1 flex flex-col gap-1">
               <span>Tanggal Lahir</span>
-              <Input value={tgl} onChange={(e) => setTgl(e.target.value)} />
+              <Input
+                value={tgl}
+                onChange={(e) => {
+                  setTgl(e.target.value);
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Tanggal Lahir`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Tanggal Lahir,`;
+                    }
+                  });
+                }}
+              />
             </div>
             <div className="flex-1 flex flex-col gap-1">
               <span>Usia Masuk</span>
@@ -649,14 +718,21 @@ export default function NewEditBiaya({
               <Input
                 value={formatNumber(inputDapem.gaji.toFixed(0))}
                 disabled={isDisable}
-                onChange={(e) =>
+                onChange={(e) => {
                   setInputDapem((prev) => {
                     return {
                       ...prev,
                       gaji: inputTextToDecimal(e.target.value || "0"),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Gaji Bersih`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Gaji Bersih,`;
+                    }
+                  });
+                }}
               />
             </div>
             <div className="flex-1 flex flex-col gap-2">
@@ -680,6 +756,13 @@ export default function NewEditBiaya({
                       created_at: new Date(),
                     });
                   }
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Jenis Pembiayaan`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Jenis Pembiayaan,`;
+                    }
+                  });
                 }}
               />
             </div>
@@ -793,6 +876,15 @@ export default function NewEditBiaya({
                       }
                     }
                   }
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Produk Pembiayaan`)) {
+                      return prev;
+                    } else {
+                      return `${
+                        prev ? prev + " " : ""
+                      } Edit Produk Pembiayaan,`;
+                    }
+                  });
                 }}
               />
             </div>
@@ -810,14 +902,21 @@ export default function NewEditBiaya({
                   </span>
                 }
                 type="number"
-                onChange={(e) =>
+                onChange={(e) => {
                   setProduk((prev) => {
                     return {
                       ...prev,
                       mg_bunga: parseFloat(e.target.value || "0"),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Margin Bunga`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Margin Bunga,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -833,14 +932,21 @@ export default function NewEditBiaya({
                 value={tambahan.refferal_id}
                 disabled={isDisable}
                 placeholder="Refferal"
-                onChange={(e) =>
+                onChange={(e) => {
                   setTambahan((prev) => {
                     return {
                       ...prev,
                       refferal_id: e,
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Refferal`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Refferal,`;
+                    }
+                  });
+                }}
               />
             </div>
             <div className="flex-1 flex flex-col gap-1">
@@ -849,14 +955,21 @@ export default function NewEditBiaya({
                 type="number"
                 value={tambahan.refferal_fee}
                 disabled={isDisable}
-                onChange={(e) =>
+                onChange={(e) => {
                   setTambahan((prev) => {
                     return {
                       ...prev,
                       refferal_fee: parseFloat(e.target.value),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Refferal Fee`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Refferal Fee,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -879,6 +992,13 @@ export default function NewEditBiaya({
                     };
                   });
                   setJenisMargin(e);
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Jenis Margin`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Jenis Margin,`;
+                    }
+                  });
                 }}
               />
             </div>
@@ -913,6 +1033,13 @@ export default function NewEditBiaya({
                       ...prev,
                       tenor: parseInt(e.target.value),
                     };
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Tenor`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Tenor,`;
+                    }
                   });
                 }}
               />
@@ -965,6 +1092,13 @@ export default function NewEditBiaya({
                         (bank.by_provisi / 100)
                     );
                   }
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Plafond`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Plafond,`;
+                    }
+                  });
                   return setInputDapem((prev) => {
                     return {
                       ...prev,
@@ -1027,14 +1161,26 @@ export default function NewEditBiaya({
                       </span>
                     }
                     disabled={isDisable}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setBank((prev) => {
                         return {
                           ...prev,
                           by_admin: parseInt(e.target.value),
                         };
-                      })
-                    }
+                      });
+                      setLastActivity((prev: string | undefined) => {
+                        if (
+                          prev &&
+                          prev.includes(`Edit Biaya Admin Koperasi`)
+                        ) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Biaya Admin Koperasi,`;
+                        }
+                      });
+                    }}
                   />
                 </Tooltip>
                 <Tooltip title="Admin Bank">
@@ -1050,14 +1196,23 @@ export default function NewEditBiaya({
                       </span>
                     }
                     disabled={isDisable}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setBank((prev) => {
                         return {
                           ...prev,
                           by_admin_bank: parseInt(e.target.value),
                         };
-                      })
-                    }
+                      });
+                      setLastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Biaya Admin Sumdan`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Biaya Admin Sumdan,`;
+                        }
+                      });
+                    }}
                   />
                 </Tooltip>
               </div>
@@ -1093,14 +1248,21 @@ export default function NewEditBiaya({
                     </span>
                   }
                   disabled={isDisable}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setProduk((prev) => {
                       return {
                         ...prev,
                         by_asuransi: parseInt(e.target.value),
                       };
-                    })
-                  }
+                    });
+                    setLastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Biaya Asuransi`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Biaya Asuransi,`;
+                      }
+                    });
+                  }}
                 />
               </div>
             </div>
@@ -1124,9 +1286,16 @@ export default function NewEditBiaya({
                 value={formatNumber((tempTatalaksana || 0).toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
-                onChange={(e) =>
-                  setTempTatalaksana(inputTextToDecimal(e.target.value || "0"))
-                }
+                onChange={(e) => {
+                  setTempTatalaksana(inputTextToDecimal(e.target.value || "0"));
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Tatalaksana`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Tatalaksana,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -1140,7 +1309,7 @@ export default function NewEditBiaya({
                 value={formatNumber(bank.by_buka_rekening.toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
-                onChange={(e) =>
+                onChange={(e) => {
                   setBank((prev) => {
                     return {
                       ...prev,
@@ -1148,8 +1317,15 @@ export default function NewEditBiaya({
                         e.target.value || "0"
                       ),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Biaya Rekening`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Biaya Rekening,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -1163,14 +1339,21 @@ export default function NewEditBiaya({
                 value={formatNumber(bank.by_materai.toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
-                onChange={(e) =>
+                onChange={(e) => {
                   setBank((prev) => {
                     return {
                       ...prev,
                       by_materai: inputTextToDecimal(e.target.value || "0"),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Biaya Materai`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Biaya Materai,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -1184,14 +1367,21 @@ export default function NewEditBiaya({
                   value={formatNumber(bank.by_epotpen.toFixed(0))}
                   disabled={isDisable}
                   style={{ color: "black", backgroundColor: "white" }}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setBank((prev) => {
                       return {
                         ...prev,
                         by_epotpen: inputTextToDecimal(e.target.value || "0"),
                       };
-                    })
-                  }
+                    });
+                    setLastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Biaya Epotpen`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Biaya Epotpen,`;
+                      }
+                    });
+                  }}
                 />
               </Tooltip>
             </div>
@@ -1201,14 +1391,21 @@ export default function NewEditBiaya({
                   value={formatNumber(bank.by_flagging.toFixed(0))}
                   disabled={isDisable}
                   style={{ color: "black", backgroundColor: "white" }}
-                  onChange={(e) =>
+                  onChange={(e) => {
                     setBank((prev) => {
                       return {
                         ...prev,
                         by_flagging: inputTextToDecimal(e.target.value || "0"),
                       };
-                    })
-                  }
+                    });
+                    setLastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Biaya Flagging`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Edit Biaya Flagging,`;
+                      }
+                    });
+                  }}
                 />
               </Tooltip>
             </div>
@@ -1223,14 +1420,21 @@ export default function NewEditBiaya({
                 value={formatNumber(jenis.by_mutasi.toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
-                onChange={(e) =>
+                onChange={(e) => {
                   setJenis((prev) => {
                     return {
                       ...prev,
                       by_mutasi: inputTextToDecimal(e.target.value || "0"),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Biaya Mutasi`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Biaya Mutasi,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -1244,9 +1448,16 @@ export default function NewEditBiaya({
                 value={formatNumber((tempProvisi || 0).toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
-                onChange={(e) =>
-                  setTempProvisi(inputTextToDecimal(e.target.value || "0"))
-                }
+                onChange={(e) => {
+                  setTempProvisi(inputTextToDecimal(e.target.value || "0"));
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Biaya Mutasi`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Biaya Mutasi,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -1278,14 +1489,21 @@ export default function NewEditBiaya({
                 type="number"
                 prefix="x"
                 style={{ color: "black", backgroundColor: "white" }}
-                onChange={(e) =>
+                onChange={(e) => {
                   setInputDapem((prev) => {
                     return {
                       ...prev,
                       blokir: parseInt(e.target.value || "0"),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Blokir Angsuran`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Blokir Angsuran,`;
+                    }
+                  });
+                }}
               />
             </div>
             <div className="flex-1">
@@ -1321,14 +1539,21 @@ export default function NewEditBiaya({
                 value={formatNumber(inputDapem.bpp.toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
-                onChange={(e) =>
+                onChange={(e) => {
                   setInputDapem((prev) => {
                     return {
                       ...prev,
                       bpp: inputTextToDecimal(e.target.value || "0"),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Biaya BPP`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Biaya BPP,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>
@@ -1342,14 +1567,21 @@ export default function NewEditBiaya({
                 value={formatNumber(inputDapem.pelunasan.toFixed(0))}
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
-                onChange={(e) =>
+                onChange={(e) => {
                   setInputDapem((prev) => {
                     return {
                       ...prev,
                       pelunasan: inputTextToDecimal(e.target.value || "0"),
                     };
-                  })
-                }
+                  });
+                  setLastActivity((prev: string | undefined) => {
+                    if (prev && prev.includes(`Edit Biaya Pelunasan`)) {
+                      return prev;
+                    } else {
+                      return `${prev ? prev + " " : ""} Edit Biaya Pelunasan,`;
+                    }
+                  });
+                }}
               />
             </div>
           </div>

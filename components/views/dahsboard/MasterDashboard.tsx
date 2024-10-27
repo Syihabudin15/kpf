@@ -78,7 +78,13 @@ export default function MasterDashboard() {
           type: "donut",
         },
         dataLabels: {
-          enabled: false,
+          enabled: true,
+          formatter: function (val: number) {
+            return val.toFixed(2) + "%";
+          },
+          style: {
+            fontSize: "10px",
+          },
         },
         labels: label,
         legend: {

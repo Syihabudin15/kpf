@@ -24,8 +24,8 @@ export default function ModalMutasiFlagging({
       headers: { "Content-Type": "Application/json" },
       body: JSON.stringify({
         ...url,
-        tanggal_flagging: new Date(e.tanggal_flagging).toISOString(),
-        tanggal_mutasi: new Date(e.tanggal_mutasi).toISOString(),
+        tanggal_flagging: new Date(e.tanggal_flagging),
+        tanggal_mutasi: new Date(e.tanggal_mutasi),
         status_flagging: e.status_flagging,
         status_mutasi: e.status_mutasi,
         id: data.berkasPengajuanId,

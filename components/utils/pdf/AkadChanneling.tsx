@@ -918,7 +918,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 style={{
                   opacity: 0.7,
                   marginTop: 10,
-                  marginBottom: 5,
+                  marginBottom: 13,
                   // position: "absolute",
                   textAlign: "center",
                 }}
@@ -1382,8 +1382,8 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                 style={{
                   opacity: 0.7,
                   // position: "absolute",
-                  marginTop: 5,
-                  marginBottom: 5,
+                  // marginTop: 5,
+                  // marginBottom: 5,
                   textAlign: "center",
                 }}
               >

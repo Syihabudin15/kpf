@@ -27,6 +27,7 @@ enum Role {
   PEMBERKASAN
   KEUANGAN
   MANAGEMENT
+  AUDIT
 }
 
 enum StatusPengajuan {
@@ -233,8 +234,9 @@ model DataPembiayaan {
   is_simulasi Boolean
   is_active   Boolean @default(true)
 
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+  user_update String?  @db.Text
 
   Produk              Produk?          @relation(fields: [produk_id], references: [id])
   produk_id           String?
@@ -278,7 +280,7 @@ model DataPengajuan {
   tanggal_cetak_akad        DateTime?
   nomor_akad                String?
   jenis_margin              JenisMargin?
-  jenis_asuransi            String           @default("BERDIKARI")
+  jenis_asuransi            String           @default("CIU")
   is_active                 Boolean          @default(true)
 
   nopen         String?

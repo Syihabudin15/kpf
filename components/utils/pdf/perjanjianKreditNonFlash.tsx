@@ -720,7 +720,13 @@ export default function PerjanjianKreditNonFlash({
                       fixed
                     ></Text>
                   </View>
-                  <View style={{ display: "flex", flexDirection: "column" }}>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      marginTop: 7,
+                    }}
+                  >
                     <View
                       style={{ display: "flex", flexDirection: "row", gap: 10 }}
                     >

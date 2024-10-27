@@ -1037,6 +1037,32 @@ export default function MonitoringPusat() {
       ],
     },
     {
+      title: "Aktivitas Terbaru",
+      dataIndex: "activity",
+      key: "activity",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+          className: "example-class-in-td bg-green-500 text-white",
+        };
+      },
+      width: 200,
+      render(value, record, index) {
+        return (
+          <Paragraph
+            ellipsis={{
+              rows: 2,
+              expandable: "collapsible",
+            }}
+          >
+            {record.DataPembiayaan.user_update}
+          </Paragraph>
+        );
+      },
+    },
+    {
       title: "AKSI",
       dataIndex: "id",
       key: "id",
