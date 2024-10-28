@@ -289,6 +289,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
     inputDapem.pelunasan,
     jenis.by_mutasi,
     tempTatalaksana,
+    tempProvisi,
   ]);
 
   return (
@@ -718,7 +719,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                       setBank((prev) => {
                         return {
                           ...prev,
-                          by_admin: parseInt(e.target.value),
+                          by_admin: parseFloat(e.target.value),
                         };
                       })
                     }
@@ -736,7 +737,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                       setBank((prev) => {
                         return {
                           ...prev,
-                          by_admin_bank: parseInt(e.target.value),
+                          by_admin_bank: parseFloat(e.target.value),
                         };
                       })
                     }

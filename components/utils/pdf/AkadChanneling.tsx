@@ -591,9 +591,10 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                   <Text>
                     {data.tujuan_penggunaan1 && `- ${data.tujuan_penggunaan1}`}
                   </Text>
-                  {data.tujuan_penggunaan2 && (
-                    <Text>- {data.tujuan_penggunaan2}</Text>
-                  )}
+                  {data.tujuan_penggunaan2 &&
+                    data.tujuan_penggunaan2 !== "-" && (
+                      <Text>- {data.tujuan_penggunaan2}</Text>
+                    )}
                 </View>
               </View>
               <View
@@ -917,8 +918,8 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               <View
                 style={{
                   opacity: 0.7,
-                  marginTop: 10,
-                  marginBottom: 13,
+                  marginTop: 5,
+                  marginBottom: 20,
                   // position: "absolute",
                   textAlign: "center",
                 }}
@@ -1381,9 +1382,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               <View
                 style={{
                   opacity: 0.7,
-                  // position: "absolute",
-                  // marginTop: 5,
-                  // marginBottom: 5,
+                  marginBottom: 5,
                   textAlign: "center",
                 }}
               >
