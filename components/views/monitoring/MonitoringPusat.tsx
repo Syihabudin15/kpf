@@ -1121,14 +1121,12 @@ export default function MonitoringPusat() {
             setFrom(info && info[0]);
             setTo(info && info[1]);
           }}
-          width={170}
         />
         <Input.Search
-          style={{ width: 150 }}
           onChange={(e) => setNameOrNopen(e.target.value)}
+          style={{ width: 150 }}
         />
         <Select
-          style={{ width: 130 }}
           options={[
             { label: "EXPRESS", value: "EXPRESS" },
             { label: "REGULER", value: "REGULER" },
@@ -1138,7 +1136,6 @@ export default function MonitoringPusat() {
           allowClear
         />
         <Select
-          style={{ width: 130 }}
           options={[
             { label: "ANTRI", value: "ANTRI" },
             { label: "PROSES", value: "PROSES" },
@@ -1150,7 +1147,6 @@ export default function MonitoringPusat() {
           onChange={(e) => setPencairan(e)}
         />
         <Select
-          style={{ width: 150 }}
           options={groupBank}
           placeholder="SUMDAN"
           allowClear

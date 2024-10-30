@@ -83,10 +83,10 @@ export default function FormEditPengajuan({
       status_pkwt: user && user[0].status_pkwt,
     });
     setlastActivity((prev: string | undefined) => {
-      if (prev && prev.includes(`Edit Nama AO`)) {
+      if (prev && prev.includes(`Edit MOC`)) {
         return prev;
       } else {
-        return `${prev ? prev + " " : ""} Edit Nama AO,`;
+        return `${prev ? prev + " " : ""} Edit MOC,`;
       }
     });
   };
@@ -418,10 +418,10 @@ export default function FormEditPengajuan({
                 required
                 onChange={() =>
                   setlastActivity((prev: string | undefined) => {
-                    if (prev && prev.includes(`Edit Nama Kode Jiwa`)) {
+                    if (prev && prev.includes(`Edit Kode Jiwa`)) {
                       return prev;
                     } else {
-                      return `${prev ? prev + " " : ""} Edit Nama Kode Jiwa,`;
+                      return `${prev ? prev + " " : ""} Edit Kode Jiwa,`;
                     }
                   })
                 }

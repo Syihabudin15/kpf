@@ -1,5 +1,0 @@
-Fitur save
-Laba rugi
-Laba Bersih
-Giro Bank ->  1. BRI      -> Balance -> Masuk - Keluar
-              2. Mandiri  -> Balance -> Masuk - Keluar

@@ -145,9 +145,6 @@ export default async function UserLayout({
           </Link>
           <span className="hidden md:flex">Allright Reserved</span>
         </div>
-        <div className="hidden md:flex">
-          Version: 1 - {process.env.NEXT_PUBLIC_APP_VER}
-        </div>
       </div>
     </section>
   );

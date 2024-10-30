@@ -218,22 +218,6 @@ export default function KelengkapanDokumen({
     [
       { data: "16", width: 30 },
       {
-        data: "Surat Keterangan dan Pernyataan Perihal Kesehatan dan Domisili Debitur",
-        width: 120,
-      },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-    ],
-    [
-      { data: "17", width: 30 },
-      {
         data: "Surat Keterangan dan Pernyataan Perihal Perbedaan Identitas",
         width: 120,
       },
@@ -248,7 +232,7 @@ export default function KelengkapanDokumen({
       { data: "", width: 40 },
     ],
     [
-      { data: "18", width: 30 },
+      { data: "17", width: 30 },
       {
         data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia",
         width: 120,
@@ -433,7 +417,7 @@ export default function KelengkapanDokumen({
     [
       { data: "13", width: 30 },
       {
-        data: "Surat Keterangan dan Pernyataan Perihal Kesehatan dan Domisili Debitur",
+        data: "Surat Keterangan dan Pernyataan Perihal Perbedaan Identitas",
         width: 120,
       },
       { data: "", width: 40 },
@@ -449,22 +433,6 @@ export default function KelengkapanDokumen({
     [
       { data: "14", width: 30 },
       {
-        data: "Surat Keterangan dan Pernyataan Perihal Perbedaan Identitas",
-        width: 120,
-      },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-      { data: "", width: 40 },
-    ],
-    [
-      { data: "15", width: 30 },
-      {
         data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia",
         width: 120,
       },
@@ -479,7 +447,7 @@ export default function KelengkapanDokumen({
       { data: "", width: 40 },
     ],
     [
-      { data: "16", width: 30 },
+      { data: "15", width: 30 },
       {
         data: "Tanda Terima Uang Oleh Nasabah",
         width: 120,
@@ -586,7 +554,7 @@ export default function KelengkapanDokumen({
             }}
           >
             <Text style={{ width: 100, border: "1px solid #aaa", padding: 3 }}>
-              {data.User.unit_cabang_id ? data.User.UnitCabang.name : "BANDUNG"}
+              {data.User.unit_cabang_id ? data.User.UnitCabang.name : "PUSAT"}
             </Text>
             <Text style={{ border: "1px solid #aaa", padding: 3, width: 130 }}>
               {data.DataPembiayaan.Produk.name}
@@ -682,6 +650,20 @@ export default function KelengkapanDokumen({
               {data.DataPembiayaan.jenis_pembiayaan_id
                 ? data.DataPembiayaan.JenisPembiayaan.name
                 : ""}
+            </Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <Text style={{ width: 100, border: "1px solid #aaa", padding: 2 }}>
+              ADMIN INPUT
+            </Text>
+            <Text style={{ border: "1px solid #aaa", padding: 2, width: 130 }}>
+              {data.DataPembiayaan.User.first_name}{" "}
+              {data.DataPembiayaan.User.last_name}
             </Text>
           </View>
         </View>

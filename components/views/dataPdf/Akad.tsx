@@ -14,8 +14,9 @@ import PerjanjianKreditFlashPage1 from "@/components/utils/pdf/perjanjianKreditF
 import PerjanjianKreditFlashPage2 from "@/components/utils/pdf/PerjanjianKreditFlashPage2";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import AnalisaPerhitungan from "@/components/utils/pdf/AnalisaPerhitungan";
-import AkadChanneling from "@/components/utils/pdf/AkadChanneling";
+// import AkadChanneling from "@/components/utils/pdf/AkadChanneling";
 import TandaTerimaDebitur from "@/components/utils/pdf/TandaTerimaDebitur";
+import ChanelingAkad from "@/components/utils/pdf/ChanelingAkad";
 
 export default function Akad({
   data,
@@ -45,7 +46,8 @@ export default function Akad({
               {data.Bank.kode === "BPR BDS" ? (
                 <PerjanjianKreditNonFlash data={data} />
               ) : (
-                <AkadChanneling data={data} />
+                // <AkadChanneling data={data} />
+                <ChanelingAkad data={data} />
               )}
             </>
           )}
