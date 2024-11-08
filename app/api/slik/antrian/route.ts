@@ -193,6 +193,7 @@ const handleBank = async (
       where: {
         AND: [
           { status_slik: "ANTRI" },
+          { status_verifikasi: "SETUJU" },
           { is_active: true },
           { bankId: bankId },
           {
@@ -249,6 +250,7 @@ const handleBank = async (
       where: {
         AND: [
           { status_slik: "ANTRI" },
+          { status_verifikasi: "SETUJU" },
           { is_active: true },
           { bankId: bankId },
           {
@@ -312,6 +314,7 @@ const handleBank = async (
     where: {
       AND: [
         { status_slik: "ANTRI" },
+        { status_verifikasi: "SETUJU" },
         { is_active: true },
         { bankId: bankId },
         {

@@ -78,12 +78,33 @@ export const GET = async (req: NextRequest) => {
         AND: [
           { is_active: true },
           {
-            DataPembiayaan: {
-              created_at: {
-                gte: moment(from).tz("Asia/Jakarta").toISOString(true),
-                lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
+            OR: [
+              {
+                DataPembiayaan: {
+                  created_at: {
+                    gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+                    lte: moment(`${to} 23:59`)
+                      .tz("Asia/Jakarta")
+                      .toISOString(true),
+                  },
+                },
               },
-            },
+              { status_pencairan: "PROSES" },
+              {
+                AND: [
+                  { status_pencairan: null },
+                  { status_pencairan: { not: "BATAL" } },
+                ],
+              },
+              {
+                tanggal_pencairan: {
+                  gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+                  lte: moment(`${to} 23:59`)
+                    .tz("Asia/Jakarta")
+                    .toISOString(true),
+                },
+              },
+            ],
           },
         ],
       },
@@ -126,12 +147,31 @@ export const GET = async (req: NextRequest) => {
         { DataPembiayaan: { is_active: true } },
         { is_active: true },
         {
-          DataPembiayaan: {
-            created_at: {
-              gte: moment(from).tz("Asia/Jakarta").toISOString(true),
-              lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
+          OR: [
+            {
+              DataPembiayaan: {
+                created_at: {
+                  gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+                  lte: moment(`${to} 23:59`)
+                    .tz("Asia/Jakarta")
+                    .toISOString(true),
+                },
+              },
             },
-          },
+            { status_pencairan: "PROSES" },
+            {
+              AND: [
+                { status_pencairan: null },
+                { status_pencairan: { not: "BATAL" } },
+              ],
+            },
+            {
+              tanggal_pencairan: {
+                gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+                lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
+              },
+            },
+          ],
         },
       ],
     },

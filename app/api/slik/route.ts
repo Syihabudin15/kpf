@@ -27,6 +27,7 @@ export const GET = async (req: NextRequest) => {
       where: {
         AND: [
           { status_slik: "ANTRI" },
+          { status_verifikasi: "SETUJU" },
           { is_active: true },
           { DataPembiayaan: { user_id: user.id } },
           {
@@ -83,6 +84,7 @@ export const GET = async (req: NextRequest) => {
       where: {
         AND: [
           { status_slik: "ANTRI" },
+          { status_verifikasi: "SETUJU" },
           { DataPembiayaan: { user_id: user.id } },
           { is_active: true },
           {
@@ -146,6 +148,7 @@ export const GET = async (req: NextRequest) => {
     where: {
       AND: [
         { status_slik: "ANTRI" },
+        { status_verifikasi: "SETUJU" },
         { DataPembiayaan: { user_id: user.id } },
         { is_active: true },
         {

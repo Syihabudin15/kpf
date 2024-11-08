@@ -676,7 +676,7 @@ export default function KelengkapanDokumen({
             alignItems: "center",
           }}
         >
-          <Text>{process.env.NEXT_PUBLIC_APP_FULL_NAME}</Text>
+          <Text>{process.env.NEXT_PUBLIC_APP_FULL_NAME?.toUpperCase()}</Text>
         </View>
       </View>
       <View

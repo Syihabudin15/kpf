@@ -1048,7 +1048,7 @@ export default function MonitoringPusat() {
           className: "example-class-in-td bg-green-500 text-white",
         };
       },
-      width: 200,
+      width: 400,
       render(value, record, index) {
         return (
           <Paragraph
@@ -1124,14 +1124,14 @@ export default function MonitoringPusat() {
         />
         <Input.Search
           onChange={(e) => setNameOrNopen(e.target.value)}
-          style={{ width: 150 }}
+          style={{ width: 170 }}
         />
         <Select
           options={[
             { label: "EXPRESS", value: "EXPRESS" },
             { label: "REGULER", value: "REGULER" },
           ]}
-          placeholder="GROUP"
+          placeholder="PRODUK"
           onChange={(e) => setGroup(e)}
           allowClear
         />

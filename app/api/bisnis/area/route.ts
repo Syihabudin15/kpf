@@ -77,6 +77,7 @@ const handleArea = async (area: string, from: string, to: string) => {
                     .tz("Asia/Jakarta")
                     .toISOString(true),
                 },
+                is_active: true,
               },
             },
             include: {

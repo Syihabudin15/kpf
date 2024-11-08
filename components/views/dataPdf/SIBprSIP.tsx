@@ -251,11 +251,11 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   display: "flex",
                 }}
               >
-                <Text>{process.env.NEXT_PUBLIC_APP_DIREKTUR}</Text>
+                <Text>Adhi Sofyar Pramudya</Text>
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>
-                <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
+                <Text>Kepala Operasional</Text>
               </View>
             </View>
           </Page>
@@ -591,11 +591,11 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     alignItems: "center",
                   }}
                 >
-                  <Text>{process.env.NEXT_PUBLIC_APP_DIREKTUR}</Text>
+                  <Text>Adhi Sofyar Pramudya</Text>
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
-                  <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
+                  <Text>Kepala Operasional</Text>
                 </View>
               </View>
               <View

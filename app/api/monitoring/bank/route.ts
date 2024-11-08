@@ -86,12 +86,25 @@ export const GET = async (req: NextRequest) => {
           // { status_verifikasi: "SETUJU" },
           { bankId: user.bank_id },
           {
-            DataPembiayaan: {
-              created_at: {
-                gte: moment(from).tz("Asia/Jakarta").toISOString(true),
-                lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
+            OR: [
+              {
+                DataPembiayaan: {
+                  created_at: {
+                    gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+                    lte: moment(`${to} 23:59`)
+                      .tz("Asia/Jakarta")
+                      .toISOString(true),
+                  },
+                },
               },
-            },
+              { status_pencairan: "PROSES" },
+              {
+                AND: [
+                  { status_pencairan: null },
+                  { status_pencairan: { not: "BATAL" } },
+                ],
+              },
+            ],
           },
         ],
       },
@@ -136,12 +149,25 @@ export const GET = async (req: NextRequest) => {
         // { status_verifikasi: "SETUJU" },
         { bankId: user.bank_id },
         {
-          DataPembiayaan: {
-            created_at: {
-              gte: moment(from).tz("Asia/Jakarta").toISOString(true),
-              lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
+          OR: [
+            {
+              DataPembiayaan: {
+                created_at: {
+                  gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+                  lte: moment(`${to} 23:59`)
+                    .tz("Asia/Jakarta")
+                    .toISOString(true),
+                },
+              },
             },
-          },
+            { status_pencairan: "PROSES" },
+            {
+              AND: [
+                { status_pencairan: null },
+                { status_pencairan: { not: "BATAL" } },
+              ],
+            },
+          ],
         },
       ],
     },
