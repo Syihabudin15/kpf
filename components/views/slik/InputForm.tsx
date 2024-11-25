@@ -61,10 +61,11 @@ export default function InputForm({
   const [statusKawinDisable, setStatusKawinDisable] = useState(false);
   const [taspen, setTaspen] = useState<DataDataTaspen>();
   const context = useContext(notifContext);
-  const [jenisMargin, setJenisMargin] = useState<string>();
+  const [jenisMargin, setJenisMargin] = useState<string>("ANUITAS");
   const [isDisable, setIsDisable] = useState(true);
   const [kabupaten, setKabupaten] = useState<Options[]>([]);
   const [kabupatenDomisili, setKabupatenDomisili] = useState<Options[]>([]);
+  const [saveOrSend, setSaveOrSend] = useState(false);
 
   // const handleChangeUP = (e: string) => {
   //   const cabang = fullCabang?.filter((ca) => ca.id == e);
@@ -124,7 +125,7 @@ export default function InputForm({
     }
   };
 
-  const handleFinish = async (e: any) => {
+  const handleSaveOrSend = async (e: any, isSend: boolean) => {
     setLoading(true);
     console.log(pembiayaan);
     if (
@@ -192,8 +193,8 @@ export default function InputForm({
     e.no_rek = pembiayaan.no_rekening || null;
     e.bankId = selectedBank ? selectedBank.id : null;
     e.jenis_margin = jenisMargin;
-    e.status_slik = "ANTRI";
-    e.status_verifikasi = "ANTRI";
+    e.status_slik = isSend ? "ANTRI" : null;
+    e.status_verifikasi = isSend ? "ANTRI" : null;
     e.margin_bank = selectedBank?.margin_bank;
     e.pembulatan = parseInt(
       selectedBank ? selectedBank.pembulatan.toString() : "1"
@@ -218,7 +219,12 @@ export default function InputForm({
     setOpen(false);
     await getData();
     await context.getNotifFunction();
+    setSaveOrSend(false);
     setLoading(false);
+  };
+
+  const handleFinish = () => {
+    return setSaveOrSend(true);
   };
 
   useEffect(() => {
@@ -237,16 +243,12 @@ export default function InputForm({
         rw: taspen.Domisili?.rw || "",
         kelurahan: taspen.Domisili?.kelurahan || "",
         kecamatan: taspen.Domisili?.kecamatan || "",
-        // kota: taspen.Domisili?.kota || "",
-        // provinsi: taspen.Domisili?.provinsi || "",
         kode_pos: taspen.Domisili?.kode_pos || "",
         alamat_domisili: taspen.Domisili?.alamat_domisili || "",
         rt_domisili: taspen.Domisili?.rt_domisili || "",
         rw_domisili: taspen.Domisili?.rw_domisili || "",
         kelurahan_domisili: taspen.Domisili?.kelurahan_domisili || "",
         kecamatan_domisili: taspen.Domisili?.kecamatan_domisili || "",
-        // kota_domisili: taspen.Domisili?.kota_domisili || "",
-        // provinsi_domisili: taspen.Domisili?.provinsi_domisili || "",
         kode_pos_domisili: taspen.Domisili?.kode_pos_domisili || "",
         geo_location: taspen.Domisili?.geo_location || "",
         no_telepon: taspen.no_telepon || "",
@@ -1278,6 +1280,36 @@ export default function InputForm({
             </div>
           </Form>
         </Spin>
+      </Modal>
+      <Modal
+        title="Save or Submit"
+        open={saveOrSend}
+        onCancel={() => setSaveOrSend(false)}
+        onClose={() => setSaveOrSend(false)}
+        footer={[]}
+      >
+        <p>
+          Apakah data akan disimpan atau disubmit untuk lanjut ke pengajuan
+          verifikas idan slik?
+        </p>
+        <div className="flex justify-end items-center gap-5">
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-gray-100 rounded shadow px-10 py-1 mr-5"
+            style={{ opacity: isDisable || loading ? 0.5 : 1 }}
+            disabled={isDisable ? isDisable : loading}
+            onClick={() => handleSaveOrSend(form.getFieldsValue(), false)}
+          >
+            {loading ? <LoadingOutlined /> : "Save"}
+          </button>
+          <button
+            className="bg-orange-500 hover:bg-orange-600 text-gray-100 rounded shadow px-10 py-1 mr-5"
+            style={{ opacity: isDisable || loading ? 0.5 : 1 }}
+            disabled={isDisable ? isDisable : loading}
+            onClick={() => handleSaveOrSend(form.getFieldsValue(), true)}
+          >
+            {loading ? <LoadingOutlined /> : "Submit"}
+          </button>
+        </div>
       </Modal>
     </div>
   );

@@ -1701,7 +1701,7 @@ export default function FormEditPengajuan({
               type="submit"
               disabled={loading}
             >
-              Sumbit {loading && <LoadingOutlined />}
+              Submit {loading && <LoadingOutlined />}
             </button>
           </Form.Item>
         </Form>

@@ -26,8 +26,9 @@ export const GET = async (req: NextRequest) => {
     result = <any>await prisma.dataPengajuan.findMany({
       where: {
         AND: [
-          { status_slik: "ANTRI" },
-          { status_verifikasi: "SETUJU" },
+          {
+            OR: [{ status_verifikasi: "ANTRI" }, { status_verifikasi: null }],
+          },
           { is_active: true },
           { DataPembiayaan: { user_id: user.id } },
           {
@@ -83,8 +84,9 @@ export const GET = async (req: NextRequest) => {
     result = <any>await prisma.dataPengajuan.findMany({
       where: {
         AND: [
-          { status_slik: "ANTRI" },
-          { status_verifikasi: "SETUJU" },
+          {
+            OR: [{ status_verifikasi: "ANTRI" }, { status_verifikasi: null }],
+          },
           { DataPembiayaan: { user_id: user.id } },
           { is_active: true },
           {
@@ -147,8 +149,9 @@ export const GET = async (req: NextRequest) => {
   const total = await prisma.dataPengajuan.count({
     where: {
       AND: [
-        { status_slik: "ANTRI" },
-        { status_verifikasi: "SETUJU" },
+        {
+          OR: [{ status_verifikasi: "ANTRI" }, { status_verifikasi: null }],
+        },
         { DataPembiayaan: { user_id: user.id } },
         { is_active: true },
         {
@@ -429,7 +432,7 @@ export const POST = async (req: NextRequest) => {
                 user_id: data.user_id,
                 data_pembiayaan_id: biaya.id,
                 berkasPengajuanId: berkas.id,
-                status_verifikasi: "ANTRI",
+                status_verifikasi: data.status_verifikasi,
                 keterangan_verifikasi: "VERIFIKASI PASS",
                 tanggal_verifikasi: new Date(),
                 status_slik: "SETUJU",
@@ -482,8 +485,8 @@ export const POST = async (req: NextRequest) => {
                 user_id: data.user_id,
                 data_pembiayaan_id: biaya.id,
                 berkasPengajuanId: berkas.id,
-                status_verifikasi: "ANTRI",
-                status_slik: "ANTRI",
+                status_verifikasi: data.status_verifikasi,
+                status_slik: data.status_slik,
                 dataTaspenId: dataTaspenId,
                 bankId: data.bankId,
                 dataPengajuanKeluargaId: pengajuanKeluarga.id,

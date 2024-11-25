@@ -38,13 +38,13 @@ export const GET = async (req: NextRequest) => {
       where: {
         AND: [
           { is_active: true },
-          // { status_verifikasi: "SETUJU" },
           { bankId: user.bank_id },
           {
             DataPembiayaan: {
               OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
             },
           },
+          { status_verifikasi: { not: null } },
         ],
       },
       include: {
@@ -83,8 +83,8 @@ export const GET = async (req: NextRequest) => {
       where: {
         AND: [
           { is_active: true },
-          // { status_verifikasi: "SETUJU" },
           { bankId: user.bank_id },
+          { status_verifikasi: { not: null } },
           {
             OR: [
               {
@@ -146,7 +146,7 @@ export const GET = async (req: NextRequest) => {
       AND: [
         { DataPembiayaan: { is_active: true } },
         { is_active: true },
-        // { status_verifikasi: "SETUJU" },
+        { status_verifikasi: { not: null } },
         { bankId: user.bank_id },
         {
           OR: [

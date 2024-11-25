@@ -25,6 +25,8 @@ export const GET = async (req: NextRequest) => {
         AND: [
           { is_active: true },
           { user_id: user.id },
+          { status_verifikasi: { not: null } },
+
           {
             DataPembiayaan: {
               OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
@@ -69,6 +71,8 @@ export const GET = async (req: NextRequest) => {
         AND: [
           { is_active: true },
           { user_id: user.id },
+          { status_verifikasi: { not: null } },
+
           {
             DataPembiayaan: {
               created_at: {
@@ -118,6 +122,7 @@ export const GET = async (req: NextRequest) => {
     where: {
       AND: [
         { DataPembiayaan: { is_active: true } },
+        { status_verifikasi: { not: null } },
         { is_active: true },
         { user_id: user.id },
         {

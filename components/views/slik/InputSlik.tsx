@@ -9,25 +9,22 @@ import {
   UP,
 } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
-import { FileFilled, LoadingOutlined } from "@ant-design/icons";
-import { DatePicker, Input, Table, TableProps } from "antd";
+import {
+  CheckCircleFilled,
+  FormOutlined,
+  LoadingOutlined,
+} from "@ant-design/icons";
+import { DatePicker, Input, message, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { Refferal, User } from "@prisma/client";
+import { Refferal } from "@prisma/client";
+import EditPengajuan from "../pengajuan/EditPengajuan";
 
 const InputForm = dynamic(() => import("@/components/views/slik/InputForm"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
-
-const ViewBerkasPengajuan = dynamic(
-  () => import("@/components/utils/ViewBerkasPengajuan"),
-  {
-    ssr: false,
-    loading: () => <LoadingOutlined />,
-  }
-);
 
 export default function InputSlik() {
   const [data, setData] = useState<DataDataPengajuan[]>();
@@ -43,7 +40,7 @@ export default function InputSlik() {
   const [dataTaspen, setDataTaspen] = useState<DataDataTaspen[]>();
   const [provinsi, setProvinsi] = useState<Options[]>();
   const [selected, setSelected] = useState<DataDataPengajuan>();
-  const [open, setOpen] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -55,6 +52,22 @@ export default function InputSlik() {
     const { data, total } = await res.json();
     setData(data);
     setTotal(total);
+    setLoading(false);
+  };
+
+  const handleSend = async (id: string) => {
+    setLoading(true);
+    const res = await fetch(`/api/slik/send-verif`, {
+      method: "POST",
+      headers: { "Content-type": "Application/json" },
+      body: JSON.stringify({ id }),
+    });
+    if (!res.ok) {
+      message.error("Error memperbarui status pengajuan. Coba lagi nanti!");
+      return setLoading(false);
+    }
+    message.success("Berhasil memperbarui status pengajuan!");
+    await getData();
     setLoading(false);
   };
 
@@ -92,9 +105,7 @@ export default function InputSlik() {
         const cabang: Options[] = up.UnitCabang.map((c) => {
           cabangFull.push({ ...c, unit: up.name });
           c.User.forEach((u) => {
-            // if (u.role === "MARKETING") {
             marketing.push(u);
-            // }
           });
           return { label: c.name, value: c.name };
         });
@@ -336,7 +347,7 @@ export default function InputSlik() {
       },
     },
     {
-      title: "VIEW BERKAS",
+      title: "AKSI",
       dataIndex: "id",
       key: "view_berkas",
       width: 80,
@@ -350,16 +361,24 @@ export default function InputSlik() {
       },
       render(value, record, index) {
         return (
-          <div className="flex justify-center">
+          <div className="flex justify-center gap-2">
             <button
-              className="py-1 px-2 border rounded shadow"
+              className="py-1 px-2 border rounded shadow text-white bg-green-500 hover:bg-green-600"
               onClick={() => {
                 setSelected(record);
-                setOpen(true);
+                setModalEdit(true);
               }}
             >
-              <FileFilled />
+              <FormOutlined />
             </button>
+            {!record.status_verifikasi && (
+              <button
+                className="py-1 px-2 border rounded shadow text-white bg-blue-500 hover:bg-blue-600"
+                onClick={() => handleSend(record.id)}
+              >
+                <CheckCircleFilled />
+              </button>
+            )}
           </div>
         );
       },
@@ -404,13 +423,19 @@ export default function InputSlik() {
             },
           }}
         />
+
         {selected && (
-          <ViewBerkasPengajuan
-            role="ENTRY_DATA"
-            allowForm={true}
-            open={open}
-            setOpen={setOpen}
-            data={selected as DataDataPengajuan}
+          <EditPengajuan
+            data={selected}
+            getData={getData}
+            fullCabang={cabang || []}
+            fullUser={marketing || []}
+            upOpt={up || []}
+            refferalOpt={refferal || []}
+            provinsi={provinsi || []}
+            open={modalEdit}
+            setOpen={setModalEdit}
+            key={selected.id || ""}
           />
         )}
       </div>

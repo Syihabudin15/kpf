@@ -154,7 +154,7 @@ export default function JadwalAngsuran({
             <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
               <Text style={{ width: 70 }}>Area Pelayanan</Text>
               <Text>:</Text>
-              <Text>{data.User.UnitCabang.name.toUpperCase()}</Text>
+              <Text>{data.area_pelayanan_berkas}</Text>
             </View>
           </View>
           <View>
