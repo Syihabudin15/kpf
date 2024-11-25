@@ -117,7 +117,7 @@ export default function PernyataanDebitur({
           }}
         >
           <Text>
-            {data.User.unit_cabang_id ? data.User.UnitCabang.name : "BANDUNG"},{" "}
+            {data.area_pelayanan_berkas || "BANDUNG"},{" "}
             {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}
           </Text>
           <Text>Yang menyatakan</Text>

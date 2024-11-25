@@ -455,7 +455,7 @@ export default function Kesanggupan({
       </View>
       <View style={{ marginTop: 15 }}>
         <Text>
-          {data.User.unit_cabang_id ? data.User.UnitCabang.name : "BANDUNG"},{" "}
+          {data.area_pelayanan_berkas || "BANDUNG"},{" "}
           {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}
         </Text>
       </View>

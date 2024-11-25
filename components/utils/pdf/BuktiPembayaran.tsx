@@ -233,7 +233,7 @@ export default function BuktiPembayaran({
           <Text style={{ width: 150 }}>Dibuat Di</Text>
           <Text style={{ width: 20 }}>:</Text>
           <Text style={{ width: 300 }}>
-            {data.User.unit_cabang_id ? data.User.UnitCabang.name : "BANDUNG"}
+            {data.area_pelayanan_berkas || "BANDUNG"}
           </Text>
         </View>
         <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>

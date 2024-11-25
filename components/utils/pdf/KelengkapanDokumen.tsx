@@ -554,7 +554,7 @@ export default function KelengkapanDokumen({
             }}
           >
             <Text style={{ width: 100, border: "1px solid #aaa", padding: 3 }}>
-              {data.User.unit_cabang_id ? data.User.UnitCabang.name : "PUSAT"}
+              {data.area_pelayanan_berkas || "PUSAT"}
             </Text>
             <Text style={{ border: "1px solid #aaa", padding: 3, width: 130 }}>
               {data.DataPembiayaan.Produk.name}
