@@ -98,6 +98,12 @@ export const menusV2: Menus[] = [
     ],
     icon: <ReadOutlined />,
   },
+  {
+    label: "Pengajuan Disimpan",
+    url: "/save-pengajuan",
+    role: ["OPERASIONAL"],
+    icon: <FolderOpenOutlined />,
+  },
   // Entry Data
   {
     label: "Monitoring Pembiayaan",
