@@ -47,19 +47,19 @@ export const menusV2: Menus[] = [
   {
     label: "Simulasi",
     url: "simulasi",
-    role: ["MASTER", "ENTRY_DATA", "MARKETING"],
+    role: ["MASTER", "ENTRY_DATA", "MARKETING", "OPERASIONAL"],
     icon: <CalculatorOutlined />,
     child: [
       {
         label: "Hitung Simulasi",
         url: "/simulasi",
-        role: ["MASTER", "ENTRY_DATA", "MARKETING"],
+        role: ["MASTER", "ENTRY_DATA", "MARKETING", "OPERASIONAL"],
         icon: <ExperimentOutlined />,
       },
       {
         label: "Simulasi Deviasi",
         url: "/simulasi/deviasi",
-        role: ["MASTER", "ENTRY_DATA"],
+        role: ["MASTER", "ENTRY_DATA", "OPERASIONAL"],
         icon: <ExperimentOutlined />,
       },
       {

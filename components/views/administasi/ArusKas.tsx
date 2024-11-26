@@ -515,7 +515,8 @@ export default function ArusKas({
               record.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
                 ? 0
                 : record.DataPembiayaan.plafond * (rate / 1000);
-            const ciuPremi = record.DataPembiayaan.plafond * ((3 * ind) / 100);
+            const ciuPremi =
+              record.DataPembiayaan.plafond * ((1.5 * ind) / 100);
             const resultPremi =
               record.jenis_asuransi === "BERDIKARI" ? premi : ciuPremi;
             return (
@@ -560,7 +561,8 @@ export default function ArusKas({
               record.DataPembiayaan.Produk.name === "Flash Sisa Gaji"
                 ? 0
                 : record.DataPembiayaan.plafond * (rate / 1000);
-            const ciuPremi = record.DataPembiayaan.plafond * ((3 * ind) / 100);
+            const ciuPremi =
+              record.DataPembiayaan.plafond * ((1.5 * ind) / 100);
             const asur =
               record.DataPembiayaan.plafond *
               (record.DataPembiayaan.by_asuransi / 100);
@@ -1011,7 +1013,7 @@ export default function ArusKas({
                   ? 0
                   : pd.DataPembiayaan.plafond * (rate / 1000);
               const ciuPremi =
-                pd.DataPembiayaan.plafond * ((3 * indRate) / 100);
+                pd.DataPembiayaan.plafond * ((1.5 * indRate) / 100);
               const resultPremi =
                 pd.jenis_asuransi === "BERDIKARI" ? premAsuransi : ciuPremi;
               const asur =

@@ -1,10 +1,11 @@
+export const dynamic = "force-dynamic";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 
 export const GET = async (req: NextRequest) => {
   const result = await prisma.dataPengajuan.findMany({
     where: {
-      OR: [{ status_slik: null }, { status_verifikasi: null }],
+      OR: [{ status_verifikasi: null }],
       is_active: true,
     },
     include: {
