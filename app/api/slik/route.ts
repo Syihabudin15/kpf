@@ -518,7 +518,7 @@ export const POST = async (req: NextRequest) => {
                 area_pelayanan_berkas: data.area_pelayanan_berkas,
                 jenis_asuransi: data.jenis_asuransi
                   ? data.jenis_asuransi
-                  : "CIU",
+                  : "BUMI PUTRA",
               },
             });
 
@@ -614,9 +614,7 @@ export const PUT = async (req: NextRequest) => {
           tujuan_penggunaan1: data.tujuan_penggunaan1
             ? data.tujuan_penggunaan1
             : findPengajuan?.tujuan_penggunaan1,
-          tujuan_penggunaan2: data.tujuan_penggunaan2
-            ? data.tujuan_penggunaan2
-            : findPengajuan?.tujuan_penggunaan2,
+          tujuan_penggunaan2: data.tujuan_penggunaan2,
           golongan: data.golongan ? data.golongan : findPengajuan?.golongan,
           jenis_pensiun: data.jenis_pensiun
             ? data.jenis_pensiun

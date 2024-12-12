@@ -1,0 +1,205 @@
+import moment from "moment";
+
+export const DataAnggota = [
+  {
+    nama: "Nandang Hermawan",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Eva Fajar Nurhasanah",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Faldi Rafsanjani",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Ujang Rukmana",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Adhi Sofyar Prayoga",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Syihabudin Tsani",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Asep Rustandi",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Lulu Dwi Akhira",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Muhammad Fadillah",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Putri Novi",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Anna Nadya",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Yuha Margana",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Agus Gunawan",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Lodewijk HF Lantang",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+  {
+    nama: "Rona Dewi",
+    buka_tabungan: 100000,
+    tabungan_bulanan: 50000,
+    dari_bulan: 3,
+  },
+];
+
+export const DataInvent = [
+  {
+    nama: "Meja Kerja",
+    jumlah: 17,
+    harga: 7380000,
+    tanggal_pembelian: moment("2024-12-02"),
+  },
+  {
+    nama: "Kursi Kerja",
+    jumlah: 20,
+    harga: 5400000,
+    tanggal_pembelian: moment("2024-12-02"),
+  },
+  {
+    nama: "Laptop",
+    jumlah: 4,
+    harga: 5370000,
+    tanggal_pembelian: moment("2024-3-02"),
+  },
+  {
+    nama: "Laptop",
+    jumlah: 4,
+    harga: 5370000,
+    tanggal_pembelian: moment("2024-5-02"),
+  },
+  {
+    nama: "Laptop",
+    jumlah: 4,
+    harga: 5370000,
+    tanggal_pembelian: moment("2024-8-02"),
+  },
+  {
+    nama: "Dispenser Air",
+    jumlah: 1,
+    harga: 222000,
+    tanggal_pembelian: moment("2024-12-02"),
+  },
+  {
+    nama: "Magiccom",
+    jumlah: 1,
+    harga: 300000,
+    tanggal_pembelian: moment("2024-12-02"),
+  },
+  {
+    nama: "Neon Box",
+    jumlah: 1,
+    harga: 720000,
+    tanggal_pembelian: moment("2024-6-02"),
+  },
+  {
+    nama: "Printer",
+    jumlah: 2,
+    harga: 3744000,
+    tanggal_pembelian: moment("2024-3-02"),
+  },
+  {
+    nama: "Brankas Besi",
+    jumlah: 2,
+    harga: 2880000,
+    tanggal_pembelian: moment("2024-5-02"),
+  },
+  {
+    nama: "Lemari Excel",
+    jumlah: 1,
+    harga: 180000,
+    tanggal_pembelian: moment("2024-4-02"),
+  },
+  {
+    nama: "Galon Air",
+    jumlah: 1,
+    harga: 84000,
+    tanggal_pembelian: moment("2024-12-02"),
+  },
+  {
+    nama: "Tinta Printer",
+    jumlah: 4,
+    harga: 393000,
+    tanggal_pembelian: moment("2024-3-02"),
+  },
+  {
+    nama: "Tinta Printer",
+    jumlah: 4,
+    harga: 393000,
+    tanggal_pembelian: moment("2024-5-02"),
+  },
+  {
+    nama: "Tinta Printer",
+    jumlah: 4,
+    harga: 393000,
+    tanggal_pembelian: moment("2024-7-02"),
+  },
+  {
+    nama: "Tinta Printer",
+    jumlah: 4,
+    harga: 393000,
+    tanggal_pembelian: moment("2024-9-02"),
+  },
+  {
+    nama: "Tinta Printer",
+    jumlah: 4,
+    harga: 393000,
+    tanggal_pembelian: moment("2024-11-02"),
+  },
+  {
+    nama: "Mobil Ertiga",
+    jumlah: 1,
+    harga: 350400000,
+    tanggal_pembelian: moment("2024-8-02"),
+  },
+];

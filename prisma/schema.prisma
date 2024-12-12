@@ -232,6 +232,7 @@ model DataPembiayaan {
   pembulatan            Int      @default(100)
 
   is_simulasi Boolean
+  is_deviasi  Boolean @default(false)
   is_active   Boolean @default(true)
 
   created_at  DateTime @default(now())
@@ -474,27 +475,31 @@ model DataPencairan {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  nip           String?   @unique
-  nik           String?   @unique
-  first_name    String
-  last_name     String
-  username      String    @unique
-  email         String    @unique
-  tempat_lahir  String?
-  tanggal_lahir DateTime?
-  alamat        String?
-  no_telepon    String
-  password      String
-  role          Role
-  posisi        String?
-  status_pkwt   String?
-  status_active Boolean
-  picture       String?   @default("/profile/profile_default.svg")
-  mulai_kontrak DateTime  @default(now())
-  masa_kotrak   Int       @default(3)
-  created_at    DateTime  @default(now())
-  target        Int       @default(50000000)
+  id               String    @id @default(uuid())
+  nip              String?   @unique
+  nik              String?   @unique
+  first_name       String
+  last_name        String
+  username         String    @unique
+  email            String    @unique
+  tempat_lahir     String?
+  tanggal_lahir    DateTime?
+  alamat           String?
+  no_telepon       String
+  password         String
+  role             Role
+  posisi           String?
+  status_pkwt      String?
+  status_active    Boolean
+  picture          String?   @default("/profile/profile_default.svg")
+  mulai_kontrak    DateTime  @default(now())
+  masa_kotrak      Int       @default(3)
+  created_at       DateTime  @default(now())
+  target           Int       @default(50000000)
+  is_anggota       Boolean?  @default(false)
+  bulan_masuk      Int?
+  buka_tabungan    Float?
+  simpanan_bulanan Float?
 
   DataPembiayaan DataPembiayaan[]
 
@@ -891,4 +896,13 @@ model Blog {
 
   Category       BlogCategory @relation(fields: [blogCategoryId], references: [id])
   blogCategoryId String
+}
+
+model Inventaris {
+  id                String   @id @default(uuid())
+  kode              String?
+  nama              String
+  jumlah            Int
+  harga             Float
+  tanggal_pembelian DateTime
 }

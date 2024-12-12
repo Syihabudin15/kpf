@@ -1151,10 +1151,11 @@ export default function InputForm({
                   <Select
                     showSearch
                     options={[
+                      { label: "BUMI PUTRA", value: "BUMI PUTRA" },
                       { label: "CIU Insurance", value: "CIU" },
                       { label: "Berdikari", value: "BERDIKARI" },
                     ]}
-                    defaultValue={"CIU"}
+                    defaultValue={"BUMI PUTRA"}
                   />
                 </Form.Item>
               </div>

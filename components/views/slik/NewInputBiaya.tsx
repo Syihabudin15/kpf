@@ -100,7 +100,6 @@ export default function NewInputBiaya({
   const [dataBank, setDataBank] = useState<DataBankWithProduk[]>([]);
   const [dataJenis, setDataJenis] = useState<JenisPembiayaan[]>([]);
   const [isDisable, setIsDisable] = useState(true);
-  const [open, setOpen] = useState(false);
   const [produkSesuai, setProdukSesuai] = useState<string[]>();
   const [labelTabungan, setLabelTabungan] = useState("Buka Rekening");
   const [tglSimulasi, setTglSimulasi] = useState("");
@@ -119,6 +118,7 @@ export default function NewInputBiaya({
     tempat_lahir: "",
     jenis_margin: "",
   });
+  const [asuransiProduk, setAsuransiProduk] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
@@ -343,6 +343,7 @@ export default function NewInputBiaya({
       by_epotpen: bank.by_epotpen,
       margin_bank: bank.margin_bank,
       pembulatan: bank.pembulatan,
+      id_deviasi: asuransiProduk === produk.by_asuransi ? false : true,
     });
   }, [
     bank,
@@ -598,6 +599,7 @@ export default function NewInputBiaya({
                             }`
                           );
                         }
+                        setAsuransiProduk(temp[0].by_asuransi);
                         setProduk((prev) => {
                           return {
                             // ...prev,

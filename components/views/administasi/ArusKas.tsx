@@ -449,6 +449,31 @@ export default function ArusKas({
       },
     },
     {
+      title: "STATUS DEVIASI",
+      key: "status_deviasi",
+      dataIndex: "status_deviasi",
+      width: 100,
+      fixed: window.innerWidth < 600 ? false : "right",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      render(value, record, index) {
+        return (
+          <div
+            className={`text-center italic text-xs ${
+              record.DataPembiayaan.is_deviasi ? "text-red" : ""
+            }`}
+          >
+            {record.DataPembiayaan.is_deviasi ? "DEVIASI" : "TIDAK DEVIASI"}
+          </div>
+        );
+      },
+    },
+    {
       title: "ASURANSI",
       dataIndex: "asuransi",
       key: "asuransi",
@@ -517,8 +542,13 @@ export default function ArusKas({
                 : record.DataPembiayaan.plafond * (rate / 1000);
             const ciuPremi =
               record.DataPembiayaan.plafond * ((1.5 * ind) / 100);
+            const bumiPremi = record.DataPembiayaan.plafond * ((2 * ind) / 100);
             const resultPremi =
-              record.jenis_asuransi === "BERDIKARI" ? premi : ciuPremi;
+              record.jenis_asuransi === "BERDIKARI"
+                ? premi
+                : record.jenis_asuransi === "CIU"
+                ? ciuPremi
+                : bumiPremi;
             return (
               <div>
                 {formatNumber(resultPremi.toFixed(0))}
@@ -563,11 +593,16 @@ export default function ArusKas({
                 : record.DataPembiayaan.plafond * (rate / 1000);
             const ciuPremi =
               record.DataPembiayaan.plafond * ((1.5 * ind) / 100);
+            const bumiPremi = record.DataPembiayaan.plafond * ((2 * ind) / 100);
             const asur =
               record.DataPembiayaan.plafond *
               (record.DataPembiayaan.by_asuransi / 100);
             const resultPremi =
-              record.jenis_asuransi === "BERDIKARI" ? premi : ciuPremi;
+              record.jenis_asuransi === "BERDIKARI"
+                ? premi
+                : record.jenis_asuransi === "CIU"
+                ? ciuPremi
+                : bumiPremi;
 
             return <div>{formatNumber((asur - resultPremi).toFixed(0))}</div>;
           },
@@ -1014,8 +1049,14 @@ export default function ArusKas({
                   : pd.DataPembiayaan.plafond * (rate / 1000);
               const ciuPremi =
                 pd.DataPembiayaan.plafond * ((1.5 * indRate) / 100);
+              const bumiPremi =
+                pd.DataPembiayaan.plafond * ((2 * indRate) / 100);
               const resultPremi =
-                pd.jenis_asuransi === "BERDIKARI" ? premAsuransi : ciuPremi;
+                pd.jenis_asuransi === "BERDIKARI"
+                  ? premAsuransi
+                  : pd.jenis_asuransi === "CIU"
+                  ? ciuPremi
+                  : bumiPremi;
               const asur =
                 pd.DataPembiayaan.plafond *
                 (pd.DataPembiayaan.by_asuransi / 100);

@@ -24,6 +24,9 @@ import {
   RadarChartOutlined,
   PieChartOutlined,
   AccountBookOutlined,
+  WalletOutlined,
+  DollarCircleOutlined,
+  FolderOutlined,
 } from "@ant-design/icons";
 
 export interface MenuItem {
@@ -443,6 +446,26 @@ export const menusV2: Menus[] = [
         url: "/laporan-administrasi/pelunasan-debitur",
         role: ["BANK", "APPROVAL", "BANK"],
         icon: <DiffOutlined />,
+      },
+    ],
+  },
+  {
+    label: "Keuangan",
+    url: "/keuangan",
+    role: ["MASTER", "KEUANGAN"],
+    icon: <WalletOutlined />,
+    child: [
+      {
+        label: "Neraca",
+        url: "/keuangan/neraca",
+        role: ["MASTER", "KEUANGAN"],
+        icon: <DollarCircleOutlined />,
+      },
+      {
+        label: "Inventaris",
+        url: "/keuangan/inventaris",
+        role: ["MASTER", "KEUANGAN"],
+        icon: <FolderOutlined />,
       },
     ],
   },

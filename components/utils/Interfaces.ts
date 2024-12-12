@@ -252,3 +252,8 @@ export interface InputDapem {
 export interface DataAngnsuranMJM extends JadwalAngsuran {
   DataPengajuan: DataTypePengajuan;
 }
+export interface NeracaKeuangan extends DataPengajuan {
+  DataPembiayaan: DataPembiayaan;
+  JadwalAngsuran: JadwalAngsuran[];
+  Bank: Bank;
+}

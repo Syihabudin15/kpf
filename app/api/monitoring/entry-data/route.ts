@@ -103,6 +103,9 @@ export const GET = async (req: NextRequest) => {
                   },
                 },
               },
+              { status_slik: "ANTRI" },
+              { status_verifikasi: "ANTRI" },
+              { status_approval: "ANTRI" },
               { status_pencairan: "PROSES" },
               {
                 AND: [
@@ -166,6 +169,9 @@ export const GET = async (req: NextRequest) => {
               },
             },
             { status_pencairan: "PROSES" },
+            { status_slik: "ANTRI" },
+            { status_verifikasi: "ANTRI" },
+            { status_approval: "ANTRI" },
             {
               AND: [
                 { status_pencairan: null },

@@ -36,6 +36,14 @@ export const GET = async (req: NextRequest) => {
           { is_active: true },
           { status_verifikasi: { not: null } },
           {
+            OR: [
+              { status_slik: "ANTRI" },
+              { status_verifikasi: "ANTRI" },
+              { status_approval: "ANTRI" },
+              { status_pencairan: "PROSES" },
+            ],
+          },
+          {
             DataPembiayaan: {
               OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
             },
@@ -92,6 +100,8 @@ export const GET = async (req: NextRequest) => {
                 },
               },
               { status_pencairan: "PROSES" },
+              { status_slik: "ANTRI" },
+              { status_verifikasi: "ANTRI" },
               {
                 AND: [
                   { status_pencairan: null },

@@ -443,6 +443,31 @@ export default function DaftarNominatif({
       },
     },
     {
+      title: "STATUS DEVIASI",
+      key: "status_deviasi",
+      dataIndex: "status_deviasi",
+      width: 100,
+      fixed: window.innerWidth < 600 ? false : "right",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      render(value, record, index) {
+        return (
+          <div
+            className={`text-center italic text-xs ${
+              record.DataPembiayaan.is_deviasi ? "text-red" : ""
+            }`}
+          >
+            {record.DataPembiayaan.is_deviasi ? "DEVIASI" : "TIDAK DEVIASI"}
+          </div>
+        );
+      },
+    },
+    {
       title: "ASURANSI",
       dataIndex: "asuransi",
       key: "asuransi",

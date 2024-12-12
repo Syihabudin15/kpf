@@ -255,7 +255,7 @@ export default function AnalisaPerhitungan({
               <Text style={{ width: 100 }}>Margin Bunga</Text>
               <Text style={{ flex: 0.3 }}>:</Text>
               <Text style={{ flex: 2, textAlign: "right" }}>
-                {data.DataPembiayaan.Produk.mg_bunga} %
+                {data.DataPembiayaan.mg_bunga} %
               </Text>
             </View>
           )}
