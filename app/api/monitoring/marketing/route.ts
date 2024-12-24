@@ -25,8 +25,6 @@ export const GET = async (req: NextRequest) => {
         AND: [
           { is_active: true },
           { user_id: user.id },
-          { status_verifikasi: { not: null } },
-
           {
             DataPembiayaan: {
               OR: [{ name: { contains: name } }, { nopen: { contains: name } }],

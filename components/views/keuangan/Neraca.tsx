@@ -7,7 +7,8 @@ import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
-import { DataAnggota, DataInvent } from "./DataAnggota";
+import { DataAnggota } from "./DataAnggota";
+import { Inventaris } from "@prisma/client";
 const { RangePicker } = DatePicker;
 
 const NeracaPDF = dynamic(
@@ -38,7 +39,7 @@ export default function Neraca() {
           to ? "&to=" + to : ""
         }`
       );
-      const { data, prevYear } = await res.json();
+      const { data, prevYear, inventaris } = await res.json();
       if (from || to) {
         setPinjamanAnggota(0);
         setPinjamanCalonAnggota(0);
@@ -101,14 +102,18 @@ export default function Neraca() {
           setSimpananAnggota((prev) => prev + 50000);
         }
       });
-      DataInvent.forEach((da) => {
-        if (from && to) {
-          if (new Date(from).getMonth() <= new Date(to).getMonth()) {
-            setInvent((prev) => prev + da.harga);
-          }
-          return;
-        }
-        setInvent((prev) => prev + da.harga);
+      // DataInvent.forEach((da) => {
+      //   if (from && to) {
+      //     if (new Date(from).getMonth() <= new Date(to).getMonth()) {
+      //       setInvent((prev) => prev + da.harga);
+      //     }
+      //     return;
+      //   }
+      //   setInvent((prev) => prev + da.harga);
+      // });
+      inventaris.forEach((inv: Inventaris) => {
+        const currPrive = inv.harga * inv.jumlah;
+        setInvent((prev) => prev + currPrive);
       });
       setLoading(false);
     })();

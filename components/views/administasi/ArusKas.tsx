@@ -2,7 +2,7 @@
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber, getUsiaMasuk } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import { DatePicker, Input, Select, Table, TableProps } from "antd";
+import { DatePicker, Input, Select, Table, TableProps, Typography } from "antd";
 import moment from "moment";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import { Bank, User } from "@prisma/client";
 import { AsuransiRate } from "@/components/utils/AsuransiRate";
 import CetakLabaRugi from "./CetakLabaRugi";
 const { RangePicker } = DatePicker;
+const { Paragraph } = Typography;
 
 export default function ArusKas({
   user,
@@ -108,7 +109,34 @@ export default function ArusKas({
       className: "text-center",
       render(value, record, index) {
         return (
-          <>{record.User.UnitCabang.name || record.User.UnitCabang.name}</>
+          <>{record.area_pelayanan_berkas || record.User.UnitCabang.name}</>
+        );
+      },
+    },
+    {
+      title: "MOC & ADMIN",
+      dataIndex: "admin_dan_moc",
+      width: 150,
+      key: "admin_dan_moc",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          <div className="flex flex-col">
+            <span>
+              {record.User.first_name || ""} {record.User.last_name || ""}
+            </span>
+            <span className="text-xs opacity-70">
+              ({record.DataPembiayaan.User.first_name || ""}{" "}
+              {record.DataPembiayaan.User.last_name || ""})
+            </span>
+          </div>
         );
       },
     },
@@ -269,6 +297,29 @@ export default function ArusKas({
               ? record.DataPembiayaan.JenisPembiayaan.name
               : "Sisa Gaji"}
           </>
+        );
+      },
+    },
+    {
+      title: "TANGGAL PENGAJUAN",
+      dataIndex: "tanggal_pengajuan",
+      key: "tanggal_pengajuan",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        return (
+          record.DataPembiayaan.tanggal_input && (
+            <>
+              {moment(record.DataPembiayaan.tanggal_input).format("DD-MM-YYYY")}
+            </>
+          )
         );
       },
     },
@@ -470,6 +521,32 @@ export default function ArusKas({
           >
             {record.DataPembiayaan.is_deviasi ? "DEVIASI" : "TIDAK DEVIASI"}
           </div>
+        );
+      },
+    },
+    {
+      title: "KETERANGAN DEVIASI",
+      key: "keterangan_deviasi",
+      dataIndex: "keterangan_deviasi",
+      width: 200,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      render(value, record, index) {
+        return (
+          <Paragraph
+            ellipsis={{
+              rows: 2,
+              expandable: "collapsible",
+            }}
+          >
+            {record.DataPembiayaan.is_deviasi &&
+              record.DataPembiayaan.keterangan}
+          </Paragraph>
         );
       },
     },
@@ -973,7 +1050,7 @@ export default function ArusKas({
           />
         )}
         <CetakDaftarNominatif data={data || []} />
-        <CetakLabaRugi data={data || []} />
+        {/* <CetakLabaRugi data={data || []} /> */}
       </div>
       <div className="px-2">
         <Table
@@ -1128,7 +1205,7 @@ export default function ArusKas({
                 <Table.Summary.Cell index={6}>
                   <></>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={7}>
+                <Table.Summary.Cell index={8}>
                   <></>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={8}>
@@ -1137,11 +1214,11 @@ export default function ArusKas({
                 <Table.Summary.Cell index={9}>
                   <></>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={10} className="text-center">
-                  <>{formatNumber(plafon.toFixed(0))}</>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell index={11}>
+                <Table.Summary.Cell index={10}>
                   <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={11} className="text-center">
+                  <>{formatNumber(plafon.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={12}>
                   <></>
@@ -1158,61 +1235,73 @@ export default function ArusKas({
                 <Table.Summary.Cell index={16}>
                   <></>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={17} className="text-center">
-                  <>{formatNumber(adminBank.toFixed(0))}</>
+                <Table.Summary.Cell index={17}>
+                  <></>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={18} className="text-center">
-                  <>{formatNumber(adminKoperasi.toFixed(0))}</>
+                <Table.Summary.Cell index={18}>
+                  <></>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={19} className="text-center">
-                  <>{formatNumber(adminCadangan.toFixed(0))}</>
+                  <>{formatNumber(adminBank.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={20} className="text-center">
-                  <>{formatNumber(tatalaksana.toFixed(0))}</>
+                  <>{formatNumber(adminKoperasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={21} className="text-center">
-                  <>{formatNumber(asuransi.toFixed(0))}</>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell index={22} className="text-center">
-                  <>{formatNumber(premiAsuransi.toFixed(0))}</>
+                  <>{formatNumber(adminCadangan.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={23} className="text-center">
-                  <>{formatNumber(selisihAsuransi.toFixed(0))}</>
+                  <>{formatNumber(tatalaksana.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={24} className="text-center">
-                  <>{formatNumber(dataInformasi.toFixed(0))}</>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={24} className="text-center">
+                  <></>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={25} className="text-center">
-                  <>{formatNumber(tabungan.toFixed(0))}</>
+                  <>{formatNumber(asuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={26} className="text-center">
-                  <>{formatNumber(materai.toFixed(0))}</>
+                  <>{formatNumber(premiAsuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={27} className="text-center">
-                  <>{formatNumber(mutasi.toFixed(0))}</>
+                  <>{formatNumber(selisihAsuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={28} className="text-center">
-                  <>{formatNumber(provisi.toFixed(0))}</>
+                  <>{formatNumber(dataInformasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={29} className="text-center">
-                  <>{formatNumber(totalAngsuran.toFixed(0))}</>
+                  <>{formatNumber(tabungan.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={30} className="text-center">
-                  <>{formatNumber(totalAngsuranBank.toFixed(0))}</>
+                  <>{formatNumber(materai.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={31} className="text-center">
-                  <>{formatNumber(selisihAngsuran.toFixed(0))}</>
+                  <>{formatNumber(mutasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={32} className="text-center">
-                  <>{formatNumber(blokir.toFixed(0))}</>
+                  <>{formatNumber(provisi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={33} className="text-center">
-                  <>{formatNumber(takeover.toFixed(0))}</>
+                  <>{formatNumber(totalAngsuran.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={34} className="text-center">
-                  <>{formatNumber(pencairan.toFixed(0))}</>
+                  <>{formatNumber(totalAngsuranBank.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={35} className="text-center">
+                  <>{formatNumber(selisihAngsuran.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={36} className="text-center">
+                  <>{formatNumber(blokir.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={37} className="text-center">
+                  <>{formatNumber(takeover.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={38} className="text-center">
+                  <>{formatNumber(pencairan.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={39} className="text-center">
                   <>{formatNumber(totalDropping.toFixed(0))}</>
                 </Table.Summary.Cell>
               </Table.Summary.Row>

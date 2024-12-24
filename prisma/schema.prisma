@@ -906,3 +906,22 @@ model Inventaris {
   harga             Float
   tanggal_pembelian DateTime
 }
+
+model TransaksiKeuangan {
+  id      String   @id @default(uuid())
+  kode    String?
+  nama    String
+  harga   String
+  jumlah  Float
+  tanggal DateTime
+  type    TypeTrx
+}
+
+enum TypeTrx {
+  INVENTARIS
+  TRANSPORTASI
+  PEMBELIAN_MOTOR
+  PEMBELIAN_MOBIL
+  ATK
+  PERDIN
+}

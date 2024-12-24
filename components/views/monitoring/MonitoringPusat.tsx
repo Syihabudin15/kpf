@@ -1088,6 +1088,32 @@ export default function MonitoringPusat() {
       },
     },
     {
+      title: "KETERANGAN DEVIASI",
+      key: "keterangan_deviasi",
+      dataIndex: "keterangan_deviasi",
+      width: 200,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      render(value, record, index) {
+        return (
+          <Paragraph
+            ellipsis={{
+              rows: 2,
+              expandable: "collapsible",
+            }}
+          >
+            {record.DataPembiayaan.is_deviasi &&
+              record.DataPembiayaan.keterangan}
+          </Paragraph>
+        );
+      },
+    },
+    {
       title: "AKSI",
       dataIndex: "id",
       key: "id",

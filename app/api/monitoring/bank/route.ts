@@ -40,19 +40,10 @@ export const GET = async (req: NextRequest) => {
           { is_active: true },
           { bankId: user.bank_id },
           {
-            OR: [
-              { status_verifikasi: "ANTRI" },
-              { status_slik: "ANTRI" },
-              { status_approval: "ANTRI" },
-              { status_pencairan: "PROSES" },
-            ],
-          },
-          {
             DataPembiayaan: {
               OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
             },
           },
-          { status_verifikasi: { not: null } },
         ],
       },
       include: {

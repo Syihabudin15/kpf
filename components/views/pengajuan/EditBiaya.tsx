@@ -591,7 +591,7 @@ export default function EditBiaya({
       pembiayaan_sebelumnya: pembiayaanSebelumnya,
       tanggal_lahir: tanggalLahir,
       refferal_id: reffId ? reffId : currData.DataPembiayaan.refferal_id,
-      keterangan: "Edit Pengajuan Slik",
+      keterangan: currData.DataPembiayaan.keterangan,
       fee: reffFee,
       updated_at: new Date(),
       by_admin_bank: currData.DataPembiayaan.by_admin_bank,
@@ -603,6 +603,7 @@ export default function EditBiaya({
       by_epotpen: currData.DataPembiayaan.by_epotpen,
       user_id: currData.DataPembiayaan.user_id,
       pembulatan: currData.DataPembiayaan.pembulatan,
+      is_deviasi: currData.DataPembiayaan.is_deviasi,
     });
   }, [
     tenor,

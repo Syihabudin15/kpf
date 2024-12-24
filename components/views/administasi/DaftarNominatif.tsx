@@ -940,40 +940,43 @@ export default function DaftarNominatif({
                 <Table.Summary.Cell index={19} className="text-center">
                   <>{formatNumber(adminCadangan.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={20} className="text-center">
+                <Table.Summary.Cell index={21} className="text-center">
                   <>{formatNumber(tatalaksana.toFixed(0))}</>
                 </Table.Summary.Cell>
-                <Table.Summary.Cell index={21} className="text-center">
-                  <>%</>
-                </Table.Summary.Cell>
                 <Table.Summary.Cell index={22} className="text-center">
-                  <>{formatNumber(asuransi.toFixed(0))}</>
+                  <></>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={23} className="text-center">
-                  <>{formatNumber(dataInformasi.toFixed(0))}</>
+                  <>%</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={24} className="text-center">
-                  <>{formatNumber(tabungan.toFixed(0))}</>
+                  <>{formatNumber(asuransi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={25} className="text-center">
-                  <>{formatNumber(materai.toFixed(0))}</>
+                  <>{formatNumber(dataInformasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={26} className="text-center">
-                  <>{formatNumber(mutasi.toFixed(0))}</>
+                  <>{formatNumber(tabungan.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={27} className="text-center">
-                  <>{formatNumber(provisi.toFixed(0))}</>
+                  <>{formatNumber(materai.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={28} className="text-center">
-                  <>{formatNumber(totalAngsuran.toFixed(0))}</>
+                  <>{formatNumber(mutasi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={29} className="text-center">
-                  <>{formatNumber(blokir.toFixed(0))}</>
+                  <>{formatNumber(provisi.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={30} className="text-center">
-                  <>{formatNumber(takeover.toFixed(0))}</>
+                  <>{formatNumber(totalAngsuran.toFixed(0))}</>
                 </Table.Summary.Cell>
                 <Table.Summary.Cell index={31} className="text-center">
+                  <>{formatNumber(blokir.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={32} className="text-center">
+                  <>{formatNumber(takeover.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={33} className="text-center">
                   <>{formatNumber(pencairan.toFixed(0))}</>
                 </Table.Summary.Cell>
               </Table.Summary.Row>

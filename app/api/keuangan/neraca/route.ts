@@ -57,5 +57,19 @@ export const GET = async (req: NextRequest) => {
       Bank: true,
     },
   });
-  return NextResponse.json({ data: result, prevYear }, { status: 200 });
+  const invent = await prisma.inventaris.findMany({
+    where: {
+      tanggal_pembelian: {
+        gte: moment(from).tz("Asia/Jakarta").toISOString(true),
+        lte: moment(`${to} 23:59`).tz("Asia/Jakarta").toISOString(true),
+      },
+    },
+  });
+  const anggota = await prisma.user.findMany({
+    where: { is_anggota: true },
+  });
+  return NextResponse.json(
+    { data: result, prevYear: prevYear, inventaris: invent, anggota: anggota },
+    { status: 200 }
+  );
 };

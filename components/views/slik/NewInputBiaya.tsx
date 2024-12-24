@@ -305,13 +305,26 @@ export default function NewInputBiaya({
       };
     });
 
+    const asuransiNormal = inputDapem.plafond * (asuransiProduk / 100);
+    const biayaAwalNormal =
+      admin +
+      asuransiNormal +
+      (tempTatalaksana || 0) +
+      bank.by_buka_rekening +
+      bank.by_materai +
+      reffFee +
+      bank.by_epotpen +
+      bank.by_flagging +
+      jenis.by_mutasi +
+      (tempProvisi || 0) +
+      blokirAngsuran;
+    const kotorNormal = inputDapem.plafond - biayaAwalNormal;
+
     return setPembiayaan({
       tanggal_input: inputDapem.tanggal_simulasi,
       name: nama,
       nopen: nopen,
       gaji_bersih: inputDapem.gaji,
-      produk_id: produk.id,
-      jenis_pembiayaan_id: jenis.id || null,
       tenor: inputDapem.tenor,
       plafond: inputDapem.plafond,
       blokir: inputDapem.blokir,
@@ -332,7 +345,20 @@ export default function NewInputBiaya({
       pembiayaan_sebelumnya: tambahan.pembiayaan_sebelumnya,
       tanggal_lahir: tgl,
       refferal_id: tambahan.refferal_id || null,
-      keterangan: "Pengajuan Slik",
+      keterangan:
+        asuransiProduk === produk.by_asuransi
+          ? "Pengajuan Normal"
+          : `Produk ${produk.name}, Deviasi Asuransi -${
+              asuransiProduk - produk.by_asuransi
+            }% (${asuransiProduk}%-${produk.by_asuransi}%). Tenor ${
+              inputDapem.tenor
+            }, Plafond ${formatNumber(
+              inputDapem.plafond.toFixed(0)
+            )} TB Normal ${formatNumber(
+              (kotorNormal - (inputDapem.bpp + inputDapem.pelunasan)).toFixed(0)
+            )}, TB Deviasi ${formatNumber(
+              (kotor - (inputDapem.bpp + inputDapem.pelunasan)).toFixed(0)
+            )}`,
       fee: reffFee,
       by_admin_bank: bank.by_admin_bank,
       by_lainnya: bank.by_lainnya,
@@ -343,7 +369,9 @@ export default function NewInputBiaya({
       by_epotpen: bank.by_epotpen,
       margin_bank: bank.margin_bank,
       pembulatan: bank.pembulatan,
-      id_deviasi: asuransiProduk === produk.by_asuransi ? false : true,
+      is_deviasi: asuransiProduk === produk.by_asuransi ? false : true,
+      produk_id: produk.id,
+      jenis_pembiayaan_id: jenis.id || null,
     });
   }, [
     bank,
