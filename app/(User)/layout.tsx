@@ -53,7 +53,7 @@ export default async function UserLayout({
             </div>
             <span className="font-bold text-xs sm:text-sm italic">
               {(
-                process.env.NEXT_PUBLIC_APP_FULL_NAME || "PENSIUNAN"
+                process.env.NEXT_PUBLIC_APP_NAME || "SI KREDIT PENSIUNAN"
               ).toUpperCase()}
             </span>
           </div>

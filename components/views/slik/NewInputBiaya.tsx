@@ -376,6 +376,7 @@ export default function NewInputBiaya({
   }, [
     bank,
     produk,
+    asuransiProduk,
     tgl,
     tglSimulasi,
     inputDapem.gaji,

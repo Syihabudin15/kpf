@@ -1779,7 +1779,9 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
                 fontWeight: "bold",
               }}
             >
-              <Text>KOPERASI PEMASARAN FADILLAH</Text>
+              <Text>
+                {process.env.NEXT_PUBLIC_APP_FULL_NAME || "KOPJAS FAS"}
+              </Text>
               <View style={{ height: 50 }}></View>
               <View
                 style={{

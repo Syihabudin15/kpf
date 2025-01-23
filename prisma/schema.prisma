@@ -768,7 +768,7 @@ model PelunasanDebitur {
   dataPengajuanId String
 }
 
-model flagging {
+model Flagging {
   id                   Int     @id @default(autoincrement())
   status_peserta       String  @db.VarChar(10)
   notas                String  @db.VarChar(20)

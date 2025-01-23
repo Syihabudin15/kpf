@@ -62,7 +62,7 @@ export const menusV2: Menus[] = [
       {
         label: "Simulasi Deviasi",
         url: "/simulasi/deviasi",
-        role: ["MASTER", "ENTRY_DATA", "OPERASIONAL"],
+        role: ["MASTER", "OPERASIONAL"],
         icon: <ExperimentOutlined />,
       },
       {
@@ -580,5 +580,11 @@ export const menusV2: Menus[] = [
     url: "/tagihan",
     role: ["MASTER", "OPERASIONAL"],
     icon: <AccountBookOutlined />,
+  },
+  {
+    label: "Sosial Link",
+    url: "/link",
+    role: ["MASTER", "OPERASIONAL", "PEMBERKASAN", "ENTRY_DATA"],
+    icon: <PieChartOutlined />,
   },
 ];
