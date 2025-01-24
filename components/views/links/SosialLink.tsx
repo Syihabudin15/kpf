@@ -7,7 +7,11 @@ export default function SosialLink({ role }: { role: Role }) {
       <div className="flex-1 border p-2 flex flex-col gap-2">
         {linksLeft.map((d, i: number) => (
           <div
-            className={`${d.role.includes(role) ? "flex" : "hidden"} border-b`}
+            className={`${
+              d.role.includes(role) || d.role.includes("ALL")
+                ? "flex"
+                : "hidden"
+            } border-b`}
             key={i}
           >
             <span className="w-36 sm:w-56">{d.title}</span>
@@ -25,7 +29,11 @@ export default function SosialLink({ role }: { role: Role }) {
       <div className="flex-1 border p-2 flex flex-col gap-2">
         {linksRight.map((d, i: number) => (
           <div
-            className={`${d.role.includes(role) ? "flex" : "hidden"} border-b`}
+            className={`${
+              d.role.includes(role) || d.role.includes("ALL")
+                ? "flex"
+                : "hidden"
+            } border-b`}
             key={i}
           >
             <span className="w-36  sm:w-56">{d.title}</span>
