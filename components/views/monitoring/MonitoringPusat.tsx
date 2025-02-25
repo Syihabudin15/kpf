@@ -1216,7 +1216,7 @@ export default function MonitoringPusat() {
           loading={loading}
           pagination={{
             pageSize: pageSize,
-            pageSizeOptions: [10, 20, 50, 100, 150, 200],
+            pageSizeOptions: [50, 100, 500, 1000, 10000, 20000],
             total,
             onChange(page, pageSize) {
               setPage(page);

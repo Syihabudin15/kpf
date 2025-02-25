@@ -127,13 +127,13 @@ export default function CetakDaftarNominatif({
             JENIS: d.DataPembiayaan.jenis_pembiayaan_id
               ? d.DataPembiayaan.JenisPembiayaan.name
               : "Sisa Gaji",
-            "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD-MM-YYYY"),
+            "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD/MM/YYYY"),
             "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format(
-              "DD-MM-YYYY"
+              "DD/MM/YYYY"
             ),
             "TANGGAL LUNAS": moment(d.tanggal_cetak_akad)
               .add(d.DataPembiayaan.tenor, "M")
-              .format("DD-MM-YYYY"),
+              .format("DD/MM/YYYY"),
             "MARGIN BUNGA": d.DataPembiayaan.mg_bunga,
             "ADMIN BANK": adminBank,
             "ADMIN MITRA": admin,
@@ -167,13 +167,13 @@ export default function CetakDaftarNominatif({
             JENIS: d.DataPembiayaan.jenis_pembiayaan_id
               ? d.DataPembiayaan.JenisPembiayaan.name
               : "Sisa Gaji",
-            "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD-MM-YYYY"),
+            "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD/MM/YYYY"),
             "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format(
-              "DD-MM-YYYY"
+              "DD/MM/YYYY"
             ),
             "TANGGAL LUNAS": moment(d.tanggal_cetak_akad)
               .add(d.DataPembiayaan.tenor, "M")
-              .format("DD-MM-YYYY"),
+              .format("DD/MM/YYYY"),
             "MARGIN BUNGA": d.DataPembiayaan.mg_bunga,
             "ADMIN BANK": adminBank,
             "ADMIN MITRA": admin,

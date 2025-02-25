@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import CetakDaftarNominatif from "./CetakDaftarNominatif";
 import { Bank, User } from "@prisma/client";
 import { AsuransiRate } from "@/components/utils/AsuransiRate";
-import CetakLabaRugi from "./CetakLabaRugi";
+import CetakFlagging from "./CetakFlagging";
 const { RangePicker } = DatePicker;
 const { Paragraph } = Typography;
 
@@ -29,6 +29,7 @@ export default function ArusKas({
   const [from, setFrom] = useState<string>();
   const [to, setTo] = useState<string>();
   const [selectedBank, setSelectedBank] = useState<string>();
+  const [unit, setUnit] = useState<string>();
 
   const getData = async () => {
     setLoading(true);
@@ -49,13 +50,21 @@ export default function ArusKas({
     if (selectedBank) {
       setData(data.filter((d: DataDataPengajuan) => d.bankId === selectedBank));
     }
+    if (unit) {
+      setData(
+        data.filter(
+          (d: DataDataPengajuan) =>
+            d.User.UnitCabang.UnitPelayanan.name === unit
+        )
+      );
+    }
     setLoading(false);
   };
   useEffect(() => {
     (async () => {
       await getData();
     })();
-  }, [nama, page, from, to, pageSize, selectedBank]);
+  }, [nama, page, from, to, pageSize, selectedBank, unit]);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
@@ -1049,7 +1058,20 @@ export default function ArusKas({
             onChange={(e) => setSelectedBank(e)}
           />
         )}
+        {!user.bank_id && (
+          <Select
+            placeholder="AREA PELAYANAN"
+            options={[
+              { label: "JAWA BARAT", value: "JAWA BARAT" },
+              { label: "JAWA TIMUR", value: "JAWA TIMUR" },
+              { label: "JAWA TENGAH", value: "JAWA TENGAH" },
+            ]}
+            allowClear
+            onChange={(e) => setUnit(e)}
+          />
+        )}
         <CetakDaftarNominatif data={data || []} />
+        <CetakFlagging data={data || []} />
         {/* <CetakLabaRugi data={data || []} /> */}
       </div>
       <div className="px-2">
@@ -1062,7 +1084,7 @@ export default function ArusKas({
           scroll={{ x: "max-content", y: "calc(62vh - 100px)" }}
           pagination={{
             pageSize: pageSize,
-            pageSizeOptions: [10, 20, 50, 100, 150, 200],
+            pageSizeOptions: [50, 100, 500, 1000, 10000, 20000],
             total: total,
             onChange(page, pageSize) {
               setPage(page);
