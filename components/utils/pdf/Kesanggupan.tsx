@@ -86,8 +86,8 @@ export default function Kesanggupan({
               data.DataPembiayaan.plafond
             )
           )}{" "}
-          per bulan, selama 94 bulan, terhitung mulai bulan{" "}
-          {moment(data.tanggal_cetak_akad).add(1, "M").month()} tahun{" "}
+          per bulan, selama {data.DataPembiayaan.tenor} bulan, terhitung mulai
+          bulan {moment(data.tanggal_cetak_akad).add(1, "M").month()} tahun{" "}
           {moment(data.tanggal_cetak_akad).year()} sampai dengan bulan{" "}
           {moment(data.tanggal_cetak_akad)
             .add(data.DataPembiayaan.tenor, "M")

@@ -333,7 +333,7 @@ export default function NewEditBiaya({
       pembiayaan_sebelumnya: tambahan.pembiayaan_sebelumnya,
       tanggal_lahir: tgl,
       refferal_id: tambahan.refferal_id || null,
-      keterangan: "Pengajuan Slik",
+      keterangan: currData.DataPembiayaan.keterangan,
       fee: reffFee,
       by_admin_bank: bank.by_admin_bank,
       by_lainnya: bank.by_lainnya,

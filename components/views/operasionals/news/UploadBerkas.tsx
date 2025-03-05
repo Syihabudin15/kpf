@@ -102,7 +102,8 @@ export default function UploadBerkas({
           }`]: new Date().toISOString(),
         };
       });
-      setProgress(100);
+      onError(setProgress(0));
+      onSuccess(setProgress(100));
       setCurrUrl(res.data.url);
       setLoading(false);
     } catch (err) {

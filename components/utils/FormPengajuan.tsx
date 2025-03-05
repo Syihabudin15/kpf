@@ -1417,7 +1417,7 @@ export default function TabsForm({
       produk_pembiayaan: data?.DataPembiayaan.Produk.name || "",
       jenis_pembiayaan: data?.DataPembiayaan.jenis_pembiayaan_id
         ? data?.DataPembiayaan.JenisPembiayaan.name
-        : "Sisa Gaji",
+        : "Tidak Diisi",
       refferal: data?.DataPembiayaan.Refferal.name || "",
       reff_fee: data?.DataPembiayaan.fee || 0,
       biaya_reff_rp: formatNumber(
@@ -1434,7 +1434,9 @@ export default function TabsForm({
         (
           (data?.DataPembiayaan.plafond || 0) *
           ((data?.DataPembiayaan.by_admin || 0) / 100)
-        ).toString()
+        )
+          .toFixed(0)
+          .toString()
       ),
       biaya_admin_bank: formatNumber(
         (

@@ -27,6 +27,7 @@ export default function PencairanBank() {
   const [data, setData] = useState<DataDataPencairan[]>();
   const [name, setName] = useState<string>();
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<DataDataPencairan>();
@@ -37,7 +38,7 @@ export default function PencairanBank() {
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/ops/uploads/bukti_transfer?page=${page}${
+      `/api/ops/uploads/bukti_transfer?page=${page}&pageSize=${pageSize}${
         name ? "&name=" + name : ""
       }`
     );
@@ -94,7 +95,7 @@ export default function PencairanBank() {
     (async () => {
       await getData();
     })();
-  }, [name, page]);
+  }, [name, page, pageSize]);
 
   const columns: TableProps<DataDataPencairan>["columns"] = [
     {
@@ -111,7 +112,7 @@ export default function PencairanBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        const currPage = (page - 1) * 20;
+        const currPage = (page - 1) * pageSize;
         return <>{currPage + (index + 1)}</>;
       },
     },
@@ -250,11 +251,11 @@ export default function PencairanBank() {
           dataIndex: "upload_surat",
           render(value, record, index) {
             return (
-              <div className="flex justify-center">
+              <div className="flex justify-center" key={record.id}>
                 <button
                   className="py-1 px-2 border rounded shadow text-white bg-blue-500 hover:bg-blue-600"
-                  disabled={record.bukti_transfer ? true : false}
-                  style={{ opacity: record.bukti_transfer ? 0.5 : 1 }}
+                  // disabled={record.bukti_transfer ? true : false}
+                  // style={{ opacity: record.bukti_transfer ? 0.5 : 1 }}
                   onClick={() => {
                     setSelected(record);
                     setModalUpload(true);
@@ -482,10 +483,12 @@ export default function PencairanBank() {
           bordered
           size="small"
           pagination={{
-            pageSize: 20,
+            pageSize: pageSize,
+            pageSizeOptions: [20, 50, 100, 200, 500, 1000, 1000],
             total,
             onChange(page, pageSize) {
               setPage(page);
+              setPageSize(pageSize);
             },
           }}
         />

@@ -212,6 +212,7 @@ export default function FormEditPengajuan({
     e.bankId = selectedBank ? selectedBank.id : currData.bankId;
     e.jenis_margin = jenisMargin;
     pembiayaan.name = e.nama;
+    pembiayaan.nopen = e.nopen;
     e.area_pelayanan_berkas = e.unit_pelayanan;
     e.DataPembiayaan = { ...pembiayaan, user_update: lastActivity };
 
@@ -239,6 +240,14 @@ export default function FormEditPengajuan({
       setStatusKawinDisable(true);
     }
     setAlamat(currData.DataPembiayaan.alamat);
+    setUserOpt(
+      fullUser.map((u) => {
+        return {
+          label: u.first_name + " " + u.last_name,
+          value: u.id,
+        };
+      })
+    );
 
     const filte = fullCabang.filter(
       (e) => e.unit === currData.area_pelayanan_berkas

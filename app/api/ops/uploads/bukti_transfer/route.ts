@@ -10,7 +10,8 @@ export const dynamic = "force-dynamic";
 export const GET = async (req: NextRequest) => {
   const name = req.nextUrl.searchParams.get("name");
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;
-  const skip = (page - 1) * 20;
+  const pageSize: number = <any>req.nextUrl.searchParams.get("pageSize") || 20;
+  const skip = (page - 1) * pageSize;
   const session = await getServerSession();
   const user = await prisma.user.findFirst({
     where: { email: session?.user?.email },
@@ -62,7 +63,7 @@ export const POST = async (req: NextRequest) => {
       process.cwd(),
       `/storage/${data.dir.toLowerCase()}/${fileName}`
     );
-    fs.writeFile(pathUrl, buff);
+    fs.writeFile(pathUrl, buff as any);
 
     return NextResponse.json(
       {

@@ -101,5 +101,6 @@ export const GET = async () => {
       },
     },
   });
+
   return NextResponse.json({ data: data }, { status: 200 });
 };

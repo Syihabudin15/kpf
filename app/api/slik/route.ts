@@ -342,7 +342,7 @@ export const POST = async (req: NextRequest) => {
               no_dosir: null,
               no_rek: data.no_rekening,
               nu_dapem: null,
-              pembulatan: (1).toFixed(0),
+              pembulatan: data.DataPembiayaan.pembulatan.toFixed(0),
               penpok: data.DataPembiayaan.gaji_bersih.toString(),
               status_dapem: null,
 
@@ -567,6 +567,18 @@ export const PUT = async (req: NextRequest) => {
         data.DataPembiayaan.user_update
       }`;
     }
+    if (findPengajuan && findPengajuan.nopen !== data.nopen) {
+      await prisma.dataTaspen.update({
+        where: { id: findPengajuan.dataTaspenId as string },
+        data: {
+          nopen: data.nopen,
+          no_skep: data.no_skep,
+          no_kk: data.no_kk,
+          no_ktp: data.no_ktp,
+          no_telepon: data.no_telepon,
+        },
+      });
+    }
     data.DataPembiayaan.is_simulasi = false;
     const trans = await prisma.$transaction(async (tx) => {
       await tx.berkasPengajuan.update({
@@ -611,6 +623,7 @@ export const PUT = async (req: NextRequest) => {
       const result = await tx.dataPengajuan.update({
         where: { id: findPengajuan?.id },
         data: {
+          nopen: data.nopen,
           tujuan_penggunaan1: data.tujuan_penggunaan1
             ? data.tujuan_penggunaan1
             : findPengajuan?.tujuan_penggunaan1,

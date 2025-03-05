@@ -133,6 +133,15 @@ export default function UploadDoc({
           progres: 100,
         };
       });
+      onSuccess(
+        setBerkasSlik((prev) => {
+          return {
+            ...prev,
+            fileName: res.data.url,
+            progres: 100,
+          };
+        })
+      );
       if (setLastActivity) {
         setLastActivity((prev: string) => {
           if (prev && prev.includes("Upload Berkas Slik")) {
@@ -173,6 +182,13 @@ export default function UploadDoc({
         }
       );
 
+      setBerkasPengajuan((prev) => {
+        return {
+          ...prev,
+          fileName: res.data.url,
+          progres: 100,
+        };
+      });
       setBerkasPengajuan((prev) => {
         return {
           ...prev,
@@ -303,6 +319,15 @@ export default function UploadDoc({
           progres: 100,
         };
       });
+      onSuccess(
+        setBerkasWawancara((prev) => {
+          return {
+            ...prev,
+            fileName: res.data.url,
+            progres: 100,
+          };
+        })
+      );
       if (setLastActivity) {
         setLastActivity((prev: string) => {
           if (prev && prev.includes("Upload Video Wawancara")) {
@@ -350,6 +375,15 @@ export default function UploadDoc({
           progres: 100,
         };
       });
+      onSuccess(
+        setBerkasAsuransi((prev) => {
+          return {
+            ...prev,
+            fileName: res.data.url,
+            progres: 100,
+          };
+        })
+      );
 
       if (setLastActivity) {
         setLastActivity((prev: string) => {

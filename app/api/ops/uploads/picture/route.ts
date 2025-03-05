@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest) => {
       process.cwd(),
       `/storage/${data.dir.toLowerCase()}/${fileName}`
     );
-    fs.writeFile(pathUrl, buff);
+    fs.writeFile(pathUrl, buff as any);
 
     return NextResponse.json(
       {
