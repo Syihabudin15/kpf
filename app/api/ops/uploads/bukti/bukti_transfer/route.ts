@@ -4,7 +4,6 @@ import path from "path";
 import { existsSync, promises as fs } from "fs";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 import { getServerSession } from "next-auth";
-import moment from "moment";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -55,10 +54,7 @@ export const POST = async (req: NextRequest) => {
         { msg: "Data tidak ditemukan" },
         { status: 404 }
       );
-    const fileName = `${find.nomor_surat.replaceAll(
-      "/",
-      "_"
-    )}_${moment().format("DD-MM-YYYY")}.${data.ext}`;
+    const fileName = `${find.nomor_surat.replaceAll("/", "_")}.${data.ext}`;
     const pathUrl = path.join(
       process.cwd(),
       `/storage/${data.dir.toLowerCase()}/${fileName}`

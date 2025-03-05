@@ -2,7 +2,7 @@
 import { formatNumber, formatNumberTitik } from "@/components/utils/inputUtils";
 import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Modal, Table, TableProps, Tooltip, message } from "antd";
-import moment from "moment";
+// import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
@@ -157,7 +157,7 @@ export default function PencairanBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{moment(record.tanggal_cetak).format("DD-MM-YYYY")}</>;
+        return <>{/* {moment(record.tanggal_cetak).format("DD-MM-YYYY")} */}</>;
       },
     },
     {
@@ -457,8 +457,8 @@ export default function PencairanBank() {
       render(value, record, index) {
         return (
           <>
-            {record.tanggal_proses &&
-              moment(record.tanggal_proses).format("DD-MM-YYYY")}
+            {/* {record.tanggal_proses &&
+              moment(record.tanggal_proses).format("DD-MM-YYYY")} */}
           </>
         );
       },
@@ -503,7 +503,7 @@ export default function PencairanBank() {
               url="/api/ops/uploads/bukti/bukti_transfer"
               dir="bukti_transfer"
               name="Bukti Transfer"
-              id={selected?.id || ""}
+              id={selected.id || ""}
               ext="pdf"
               fileType="application/pdf"
               filePath={urls && urls["bukti_transfer"]}
