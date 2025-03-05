@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 const PencairanBank = dynamic(
-  () => import("@/components/views/operasionals/PencairanBank"),
+  () => import("@/components/views/operasionals/news/PencairanBank"),
   {
     ssr: false,
     loading: () => <LoadingOutlined />,

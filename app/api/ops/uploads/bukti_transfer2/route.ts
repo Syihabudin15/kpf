@@ -21,7 +21,7 @@ export const POST = async (req: NextRequest) => {
     const fileName = `${
       find?.DataPembiayaan.nopen
     }_${find?.DataPembiayaan.name?.toUpperCase()}_${moment().format(
-      "DDMMYYYY"
+      "DD-MM-YYYY"
     )}.${data.ext}`;
     const pathUrl = path.join(
       process.cwd(),

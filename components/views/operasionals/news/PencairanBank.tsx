@@ -7,18 +7,18 @@ import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 import CetakNominatif from "@/components/utils/CetakNominatif";
-import UploadBerkas from "./news/UploadBerkas";
+import UploadBerkas from "./UploadBerkas";
 import { notifContext } from "@/components/NotifContext";
 
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
-const CetakCIFTAB = dynamic(() => import("./CetakCiftab"), {
+const CetakCIFTAB = dynamic(() => import("../CetakCiftab"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
-const CetakUPPINJ = dynamic(() => import("./CetakUppinj"), {
+const CetakUPPINJ = dynamic(() => import("../CetakUppinj"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
@@ -38,7 +38,7 @@ export default function PencairanBank() {
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/ops/uploads/bukti_transfer?page=${page}&pageSize=${pageSize}${
+      `/api/ops/uploads/bukti/bukti_transfer?page=${page}&pageSize=${pageSize}${
         name ? "&name=" + name : ""
       }`
     );
@@ -71,7 +71,7 @@ export default function PencairanBank() {
 
   const handleUpload = async () => {
     setLoading(true);
-    const res = await fetch("/api/ops/uploads/bukti_transfer", {
+    const res = await fetch("/api/ops/uploads/bukti/bukti_transfer", {
       method: "PUT",
       headers: { "Content-type": "Application/json" },
       body: JSON.stringify({
@@ -500,7 +500,7 @@ export default function PencairanBank() {
         >
           <div className="my-5">
             <UploadBerkas
-              url="/api/ops/uploads/bukti_transfer"
+              url="/api/ops/uploads/bukti/bukti_transfer"
               dir="bukti_transfer"
               name="Bukti Transfer"
               id={selected?.id || ""}

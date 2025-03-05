@@ -17,6 +17,10 @@ app.prepare().then(() => {
   server.use("/pengajuan", express.static(__dirname + "/storage/pengajuan"));
   server.use("/wawancara", express.static(__dirname + "/storage/wawancara"));
   server.use("/asuransi", express.static(__dirname + "/storage/asuransi"));
+  server.use(
+    "/bukti_transfer2",
+    express.static(__dirname + "/storage/bukti_transfer2")
+  );
 
   server.all("*", (req, res) => {
     return handle(req, res);
