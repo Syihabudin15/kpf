@@ -7,8 +7,9 @@ import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 import CetakNominatif from "@/components/utils/CetakNominatif";
-import UploadBerkas from "./UploadBerkas";
+// import UploadBerkas from "./UploadBerkas";
 import { notifContext } from "@/components/NotifContext";
+import moment from "moment";
 
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
@@ -19,6 +20,10 @@ const CetakCIFTAB = dynamic(() => import("../CetakCiftab"), {
   loading: () => <LoadingOutlined />,
 });
 const CetakUPPINJ = dynamic(() => import("../CetakUppinj"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
+const UploadBerkas = dynamic(() => import("./UploadBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
@@ -157,7 +162,7 @@ export default function PencairanBank() {
       },
       className: "text-center",
       render(value, record, index) {
-        return <>{/* {moment(record.tanggal_cetak).format("DD-MM-YYYY")} */}</>;
+        return <>{moment(record.tanggal_cetak).format("DD-MM-YYYY")}</>;
       },
     },
     {
@@ -457,8 +462,8 @@ export default function PencairanBank() {
       render(value, record, index) {
         return (
           <>
-            {/* {record.tanggal_proses &&
-              moment(record.tanggal_proses).format("DD-MM-YYYY")} */}
+            {record.tanggal_proses &&
+              moment(record.tanggal_proses).format("DD-MM-YYYY")}
           </>
         );
       },
@@ -497,6 +502,7 @@ export default function PencairanBank() {
           title={`BUKTI TRANSFER ${selected?.nomor_surat}`}
           onCancel={() => setModalUpload(false)}
           footer={[]}
+          key={selected.id}
         >
           <div className="my-5">
             <UploadBerkas
@@ -509,6 +515,7 @@ export default function PencairanBank() {
               filePath={urls && urls["bukti_transfer"]}
               pathName="bukti_transfer"
               setUrl={setUrls}
+              key={selected.id}
             />
           </div>
           <div className="flex justify-end mt-5">
