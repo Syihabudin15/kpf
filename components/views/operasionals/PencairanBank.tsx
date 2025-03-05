@@ -71,7 +71,7 @@ export default function PencairanBank() {
 
   const handleUpload = async () => {
     setLoading(true);
-    const res = await fetch("/api/ops/uploads/bukti_transfer", {
+    const res = await fetch("/api/ops/uploads/bukti_transfer2", {
       method: "PUT",
       headers: { "Content-type": "Application/json" },
       body: JSON.stringify({
@@ -254,8 +254,6 @@ export default function PencairanBank() {
               <div className="flex justify-center" key={record.id}>
                 <button
                   className="py-1 px-2 border rounded shadow text-white bg-blue-500 hover:bg-blue-600"
-                  // disabled={record.bukti_transfer ? true : false}
-                  // style={{ opacity: record.bukti_transfer ? 0.5 : 1 }}
                   onClick={() => {
                     setSelected(record);
                     setModalUpload(true);
@@ -502,8 +500,8 @@ export default function PencairanBank() {
         >
           <div className="my-5">
             <UploadBerkas
-              url="/api/ops/uploads/bukti_transfer"
-              dir="bukti_transfer"
+              url="/api/ops/uploads/bukti_transfer2"
+              dir="bukti_transfer2"
               name="Bukti Transfer"
               id={selected?.id || ""}
               ext="pdf"

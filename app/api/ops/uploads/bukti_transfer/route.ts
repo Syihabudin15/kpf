@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import path from "path";
 import { existsSync, promises as fs } from "fs";
-import moment from "moment";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 import { getServerSession } from "next-auth";
+import moment from "moment";
 export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
@@ -67,7 +67,7 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json(
       {
-        msg: "Upload surat pencairan berhasil",
+        msg: "Upload bukti transfer berhasil",
         url: `/${data.dir.toLowerCase()}/${fileName}`,
       },
       { status: 201 }

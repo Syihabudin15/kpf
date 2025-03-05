@@ -14,11 +14,13 @@ export const POST = async (req: NextRequest) => {
       where: {
         berkasPengajuanId: data.id,
       },
-      include: { DataPembiayaan: true },
+      include: {
+        DataPembiayaan: true,
+      },
     });
     const fileName = `${
       find?.DataPembiayaan.nopen
-    }_${find?.DataPembiayaan.name.toUpperCase()}_${moment().format(
+    }_${find?.DataPembiayaan.name?.toUpperCase()}_${moment().format(
       "DDMMYYYY"
     )}.${data.ext}`;
     const pathUrl = path.join(
@@ -29,7 +31,7 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json(
       {
-        msg: "Upload video Cair berhasil",
+        msg: "Upload surat pencairan berhasil",
         url: `/${data.dir.toLowerCase()}/${fileName}`,
       },
       { status: 201 }
@@ -37,7 +39,7 @@ export const POST = async (req: NextRequest) => {
   } catch (err) {
     console.log(err);
     return NextResponse.json(
-      { msg: "Gagal upload Video Cair!" },
+      { msg: "Gagal upload surat pencairan!" },
       { status: 500 }
     );
   }
@@ -50,10 +52,11 @@ export const PUT = async (req: NextRequest) => {
         id: data.id,
       },
       data: {
-        video_cair: data.url,
-        tanggal_video_cair: new Date(),
+        bukti_cair: data.url,
+        tanggal_bukti_cair: new Date().toISOString(),
       },
     });
+
     return NextResponse.json(
       {
         msg: "Upload surat pencairan berhasil",
@@ -83,8 +86,8 @@ export const DELETE = async (req: NextRequest) => {
         id: data.id,
       },
       data: {
-        video_cair: null,
-        tanggal_video_cair: null,
+        bukti_cair: null,
+        tanggal_bukti_cair: null,
       },
     });
     return NextResponse.json(

@@ -354,7 +354,7 @@ export default function FormEditPengajuan({
                 required
                 className="flex-1"
               >
-                <Input disabled />
+                <Input />
               </Form.Item>
               <Form.Item
                 label="Kelompok Pensiun"
