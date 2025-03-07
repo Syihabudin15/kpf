@@ -27,6 +27,14 @@ const UploadBerkas = dynamic(() => import("./UploadBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+const ModalProsesCair = dynamic(() => import("./ModalProsesCair"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
+const ModalUploadBerkas = dynamic(() => import("./ModalUploadBerkas"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 
 export default function PencairanBank() {
   const [data, setData] = useState<DataDataPencairan[]>();
@@ -35,9 +43,6 @@ export default function PencairanBank() {
   const [pageSize, setPageSize] = useState(20);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState<DataDataPencairan>();
-  const [modalUpload, setModalUpload] = useState(false);
-  const [urls, setUrls] = useState<any>();
   const notifCtx = useContext(notifContext);
 
   const getData = async () => {
@@ -74,20 +79,19 @@ export default function PencairanBank() {
     await getData();
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (id: string, url: string) => {
     setLoading(true);
     const res = await fetch("/api/ops/uploads/bukti/bukti_transfer", {
       method: "PUT",
       headers: { "Content-type": "Application/json" },
       body: JSON.stringify({
-        id: selected?.id,
-        url: urls["bukti_transfer"],
+        id: id,
+        url: url,
       }),
     });
     if (res.ok) {
       message.success("Bukti Transfer berhasil di upload");
       await notifCtx.getNotifFunction();
-      setModalUpload(false);
       await getData();
     } else {
       message.error("Gagal upload bukti transfer. Coba lagi!");
@@ -215,16 +219,7 @@ export default function PencairanBank() {
         return (
           <Tooltip title={title && title.join(", ")}>
             <div className="flex justify-center">
-              <button
-                onClick={() => handleProses(record.id)}
-                className="bg-green-500 hover:bg-green-600 text-white py-2 px-3 text-center rounded shadow text-xs"
-                disabled={loading ? true : record.status ? true : false}
-                style={{
-                  opacity: record.status ? 0.5 : 1,
-                }}
-              >
-                PROSES {loading && <LoadingOutlined />}
-              </button>
+              <ModalProsesCair data={record} handleProses={handleProses} />
             </div>
           </Tooltip>
         );
@@ -256,16 +251,8 @@ export default function PencairanBank() {
           dataIndex: "upload_surat",
           render(value, record, index) {
             return (
-              <div className="flex justify-center" key={record.id}>
-                <button
-                  className="py-1 px-2 border rounded shadow text-white bg-blue-500 hover:bg-blue-600"
-                  onClick={() => {
-                    setSelected(record);
-                    setModalUpload(true);
-                  }}
-                >
-                  {loading ? <LoadingOutlined /> : <CloudUploadOutlined />}
-                </button>
+              <div className="flex justify-center" key={index}>
+                <ModalUploadBerkas data={record} handleUpload={handleUpload} />
               </div>
             );
           },
@@ -496,11 +483,14 @@ export default function PencairanBank() {
           }}
         />
       </div>
-      {selected && (
+      {/* {selected && (
         <Modal
           open={modalUpload}
           title={`BUKTI TRANSFER ${selected?.nomor_surat}`}
-          onCancel={() => setModalUpload(false)}
+          onCancel={() => {
+            setSelected(undefined);
+            setModalUpload(false);
+          }}
           footer={[]}
           key={selected.id}
         >
@@ -528,7 +518,7 @@ export default function PencairanBank() {
             </button>
           </div>
         </Modal>
-      )}
+      )} */}
     </div>
   );
 }
