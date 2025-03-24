@@ -268,12 +268,12 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
       blokirAngsuran;
     const kotor = inputDapem.plafond - biayaAwal;
     if (
-      inputDapem.gaji !== 0 &&
+      inputDapem.gaji > 100000 &&
       produk.name === "Flash Sisa Gaji" &&
-      inputDapem.gaji - angsuran < 200000
+      inputDapem.gaji - angsuran < 100000
     ) {
       setModalErr(
-        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 200.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
+        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
       );
     }
     return setInputDapem((prev) => {
