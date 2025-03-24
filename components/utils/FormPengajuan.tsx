@@ -1374,16 +1374,30 @@ export default function TabsForm({
         },
       ]);
     }
-    const angs = ceiling(
-      parseInt(
-        getAngsuranPerBulan(
-          data?.DataPembiayaan.mg_bunga as number,
-          data?.DataPembiayaan.tenor as number,
-          data?.DataPembiayaan.plafond as number
-        )
-      ),
-      data.DataPembiayaan.pembulatan || 1
-    );
+    const angs =
+      data?.jenis_margin === "FLAT"
+        ? ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                data?.DataPembiayaan.mg_bunga,
+                data?.DataPembiayaan.tenor,
+                data?.DataPembiayaan.plafond,
+                false,
+                true
+              )
+            ),
+            data?.DataPembiayaan.pembulatan
+          )
+        : ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                data?.DataPembiayaan.mg_bunga,
+                data?.DataPembiayaan.tenor,
+                data?.DataPembiayaan.plafond
+              )
+            ),
+            data?.DataPembiayaan.pembulatan
+          );
     const kotor =
       (data?.DataPembiayaan.plafond || 0) -
       (data?.DataPembiayaan.plafond || 0) *

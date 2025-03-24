@@ -4,6 +4,7 @@ import { stylePdf } from "./stylePdf";
 import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import moment from "moment";
+import { ceiling } from "./pdfUtil";
 
 export default function Kesanggupan({
   data,
@@ -80,11 +81,29 @@ export default function Kesanggupan({
           {formatNumber(data.DataPembiayaan.plafond.toFixed(0))} dengan besar
           angsuran Rp.{" "}
           {formatNumber(
-            getAngsuranPerBulan(
-              data.DataPembiayaan.mg_bunga,
-              data.DataPembiayaan.tenor,
-              data.DataPembiayaan.plafond
-            )
+            data.jenis_margin === "FLAT"
+              ? ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      data.DataPembiayaan.mg_bunga,
+                      data.DataPembiayaan.tenor,
+                      data.DataPembiayaan.plafond,
+                      false,
+                      true
+                    )
+                  ),
+                  data.DataPembiayaan.pembulatan
+                ).toString()
+              : ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      data.DataPembiayaan.mg_bunga,
+                      data.DataPembiayaan.tenor,
+                      data.DataPembiayaan.plafond
+                    )
+                  ),
+                  data.DataPembiayaan.pembulatan
+                ).toString()
           )}{" "}
           per bulan, selama {data.DataPembiayaan.tenor} bulan, terhitung mulai
           bulan {moment(data.tanggal_cetak_akad).add(1, "M").month()} tahun{" "}

@@ -47,6 +47,7 @@ export default function ModalProsesCair({
             onClick={() => proses()}
             loading={loading}
             disabled={loading}
+            key={data.id}
           >
             Proses
           </Button>,

@@ -248,15 +248,30 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       key: "angsuran",
       width: 150,
       render(value, record, index) {
-        const angsuran = getAngsuranPerBulan(
-          record.DataPembiayaan.mg_bunga,
-          record.DataPembiayaan.tenor,
-          record.DataPembiayaan.plafond
-        );
-        const result = ceiling(
-          parseInt(angsuran),
-          record.DataPembiayaan.pembulatan
-        );
+        const result =
+          record.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              );
         return <>{formatNumber(result.toFixed(0))}</>;
       },
     },

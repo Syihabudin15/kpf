@@ -43,26 +43,54 @@ export default function PerjanjianKreditNonFlash({
     data.DataPembiayaan.by_mutasi +
     data.DataPembiayaan.by_provisi;
 
-  const angsuranBulanan = ceiling(
-    parseInt(
-      getAngsuranPerBulan(
-        data.DataPembiayaan.mg_bunga,
-        data.DataPembiayaan.tenor,
-        data.DataPembiayaan.plafond
-      )
-    ),
-    data.DataPembiayaan.pembulatan
-  ).toString();
-  const angsuranBank = ceiling(
-    parseInt(
-      getAngsuranPerBulan(
-        data.DataPembiayaan.margin_bank || 0,
-        data.DataPembiayaan.tenor,
-        data.DataPembiayaan.plafond
-      )
-    ),
-    data.DataPembiayaan.pembulatan
-  ).toString();
+  const angsuranBulanan =
+    data.jenis_margin === "FLAT"
+      ? ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond,
+              false,
+              true
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        ).toString()
+      : ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        ).toString();
+  const angsuranBank =
+    data.jenis_margin === "FLAT"
+      ? ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.margin_bank,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond,
+              false,
+              true
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        ).toString()
+      : ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.margin_bank,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        ).toString();
 
   const colfee = (parseInt(angsuranBulanan) - parseInt(angsuranBank)).toFixed(
     0

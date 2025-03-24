@@ -817,16 +817,30 @@ export default function ArusKas({
           },
           className: "text-center",
           render(value, record, index) {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPembiayaan.mg_bunga,
-                  record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPembiayaan.pembulatan
-            );
+            const angsuran =
+              record.jenis_margin === "FLAT"
+                ? ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPembiayaan.mg_bunga,
+                        record.DataPembiayaan.tenor,
+                        record.DataPembiayaan.plafond,
+                        false,
+                        true
+                      )
+                    ),
+                    record.DataPembiayaan.pembulatan
+                  )
+                : ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPembiayaan.mg_bunga,
+                        record.DataPembiayaan.tenor,
+                        record.DataPembiayaan.plafond
+                      )
+                    ),
+                    record.DataPembiayaan.pembulatan
+                  );
             return <>{formatNumber(angsuran.toFixed(0))}</>;
           },
         },
@@ -844,16 +858,30 @@ export default function ArusKas({
           },
           className: "text-center",
           render(value, record, index) {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPembiayaan.margin_bank,
-                  record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPembiayaan.pembulatan
-            );
+            const angsuran =
+              record.jenis_margin === "FLAT"
+                ? ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPembiayaan.mg_bunga,
+                        record.DataPembiayaan.tenor,
+                        record.DataPembiayaan.plafond,
+                        false,
+                        true
+                      )
+                    ),
+                    record.DataPembiayaan.pembulatan
+                  )
+                : ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPembiayaan.mg_bunga,
+                        record.DataPembiayaan.tenor,
+                        record.DataPembiayaan.plafond
+                      )
+                    ),
+                    record.DataPembiayaan.pembulatan
+                  );
             return <>{formatNumber(angsuran.toFixed(0))}</>;
           },
         },
@@ -871,26 +899,54 @@ export default function ArusKas({
           },
           className: "text-center",
           render(value, record, index) {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPembiayaan.mg_bunga,
-                  record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPembiayaan.pembulatan
-            );
-            const angsuranBank = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPembiayaan.margin_bank,
-                  record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPembiayaan.pembulatan
-            );
+            const angsuran =
+              record.jenis_margin === "FLAT"
+                ? ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPembiayaan.mg_bunga,
+                        record.DataPembiayaan.tenor,
+                        record.DataPembiayaan.plafond,
+                        false,
+                        true
+                      )
+                    ),
+                    record.DataPembiayaan.pembulatan
+                  )
+                : ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPembiayaan.mg_bunga,
+                        record.DataPembiayaan.tenor,
+                        record.DataPembiayaan.plafond
+                      )
+                    ),
+                    record.DataPembiayaan.pembulatan
+                  );
+            const angsuranBank =
+              record.jenis_margin === "FLAT"
+                ? ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPembiayaan.margin_bank,
+                        record.DataPembiayaan.tenor,
+                        record.DataPembiayaan.plafond,
+                        false,
+                        true
+                      )
+                    ),
+                    record.DataPembiayaan.pembulatan
+                  )
+                : ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPembiayaan.margin_bank,
+                        record.DataPembiayaan.tenor,
+                        record.DataPembiayaan.plafond
+                      )
+                    ),
+                    record.DataPembiayaan.pembulatan
+                  );
             return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
           },
         },
@@ -910,16 +966,30 @@ export default function ArusKas({
       },
       className: "text-center",
       render(value, record, index) {
-        const angsuran = ceiling(
-          parseInt(
-            getAngsuranPerBulan(
-              record.DataPembiayaan.mg_bunga,
-              record.DataPembiayaan.tenor,
-              record.DataPembiayaan.plafond
-            )
-          ),
-          record.DataPembiayaan.pembulatan
-        );
+        const angsuran =
+          record.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              );
         return (
           <>
             {record.DataPembiayaan.blokir}x |{" "}
@@ -978,16 +1048,30 @@ export default function ArusKas({
         const asuransi =
           record.DataPembiayaan.plafond *
           (record.DataPembiayaan.by_asuransi / 100);
-        const angsuran = ceiling(
-          parseInt(
-            getAngsuranPerBulan(
-              record.DataPembiayaan.mg_bunga,
-              record.DataPembiayaan.tenor,
-              record.DataPembiayaan.plafond
-            )
-          ),
-          parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-        );
+        const angsuran =
+          record.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              );
         const blokir = record.DataPembiayaan.blokir * angsuran;
         const kotor =
           record.DataPembiayaan.plafond -
@@ -1161,26 +1245,54 @@ export default function ArusKas({
                 (pd.DataPembiayaan.by_asuransi / 100);
               premiAsuransi += resultPremi;
               selisihAsuransi += asur - resultPremi;
-              const angsuran = ceiling(
-                parseInt(
-                  getAngsuranPerBulan(
-                    pd.DataPembiayaan.mg_bunga,
-                    pd.DataPembiayaan.tenor,
-                    pd.DataPembiayaan.plafond
-                  )
-                ),
-                pd.DataPembiayaan.pembulatan
-              );
-              const angsuranBank = ceiling(
-                parseInt(
-                  getAngsuranPerBulan(
-                    pd.DataPembiayaan.margin_bank,
-                    pd.DataPembiayaan.tenor,
-                    pd.DataPembiayaan.plafond
-                  )
-                ),
-                pd.DataPembiayaan.pembulatan
-              );
+              const angsuran =
+                pd.jenis_margin === "FLAT"
+                  ? ceiling(
+                      parseInt(
+                        getAngsuranPerBulan(
+                          pd.DataPembiayaan.mg_bunga,
+                          pd.DataPembiayaan.tenor,
+                          pd.DataPembiayaan.plafond,
+                          false,
+                          true
+                        )
+                      ),
+                      pd.DataPembiayaan.pembulatan
+                    )
+                  : ceiling(
+                      parseInt(
+                        getAngsuranPerBulan(
+                          pd.DataPembiayaan.mg_bunga,
+                          pd.DataPembiayaan.tenor,
+                          pd.DataPembiayaan.plafond
+                        )
+                      ),
+                      pd.DataPembiayaan.pembulatan
+                    );
+              const angsuranBank =
+                pd.jenis_margin === "FLAT"
+                  ? ceiling(
+                      parseInt(
+                        getAngsuranPerBulan(
+                          pd.DataPembiayaan.margin_bank,
+                          pd.DataPembiayaan.tenor,
+                          pd.DataPembiayaan.plafond,
+                          false,
+                          true
+                        )
+                      ),
+                      pd.DataPembiayaan.pembulatan
+                    )
+                  : ceiling(
+                      parseInt(
+                        getAngsuranPerBulan(
+                          pd.DataPembiayaan.margin_bank,
+                          pd.DataPembiayaan.tenor,
+                          pd.DataPembiayaan.plafond
+                        )
+                      ),
+                      pd.DataPembiayaan.pembulatan
+                    );
               totalAngsuran += angsuran;
               totalAngsuranBank += angsuranBank;
               selisihAngsuran += angsuran - angsuranBank;

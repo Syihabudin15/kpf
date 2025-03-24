@@ -128,16 +128,30 @@ export default function RiwayatPencairanMitra() {
         const asuransi =
           record.DataPembiayaan.plafond *
           (record.DataPembiayaan.by_asuransi / 100);
-        const angsuran = ceiling(
-          parseInt(
-            getAngsuranPerBulan(
-              record.DataPembiayaan.mg_bunga,
-              record.DataPembiayaan.tenor,
-              record.DataPembiayaan.plafond
-            )
-          ),
-          record.DataPembiayaan.pembulatan
-        );
+        const angsuran =
+          record.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              );
         const blokir = angsuran * record.DataPembiayaan.blokir;
         const kotor =
           record.DataPembiayaan.plafond -

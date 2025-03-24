@@ -635,16 +635,30 @@ export default function DaftarNominatif({
 
       className: "text-center",
       render(value, record, index) {
-        const angsuran = ceiling(
-          parseInt(
-            getAngsuranPerBulan(
-              record.DataPembiayaan.mg_bunga,
-              record.DataPembiayaan.tenor,
-              record.DataPembiayaan.plafond
-            )
-          ),
-          record.DataPembiayaan.pembulatan
-        );
+        const angsuran =
+          record.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              );
         return <>{formatNumber(angsuran.toFixed(0))}</>;
       },
     },

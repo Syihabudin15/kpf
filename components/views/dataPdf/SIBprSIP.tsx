@@ -34,16 +34,30 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
     totalAdmin += newAdmin;
     totalRekening += rekening;
     totalProvisi += d.DataPembiayaan.by_provisi;
-    const angsuran = ceiling(
-      parseInt(
-        getAngsuranPerBulan(
-          d.DataPembiayaan.mg_bunga,
-          d.DataPembiayaan.tenor,
-          d.DataPembiayaan.plafond
-        )
-      ),
-      d.DataPembiayaan.pembulatan
-    );
+    const angsuran =
+      d.jenis_margin === "FLAT"
+        ? ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                d.DataPembiayaan.mg_bunga,
+                d.DataPembiayaan.tenor,
+                d.DataPembiayaan.plafond,
+                false,
+                true
+              )
+            ),
+            d.DataPembiayaan.pembulatan
+          )
+        : ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                d.DataPembiayaan.mg_bunga,
+                d.DataPembiayaan.tenor,
+                d.DataPembiayaan.plafond
+              )
+            ),
+            d.DataPembiayaan.pembulatan
+          );
     let angs = angsuran * d.DataPembiayaan.blokir;
     totalAngsuran += angs;
     totalDropping +=
@@ -201,7 +215,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   <Text style={{ width: 100 }}>Atas Nama</Text>
                   <Text style={{ width: 20 }}>:</Text>
                   <Text>
-                    {process.env.NEXT_PUBLIC_APP_NAMA_BANK ||
+                    {process.env.NEXT_PUBLIC_APP_ATAS_NAMA_BANK ||
                       "KOPERASI JASA FADILLAH AQILA SEJAHTRA"}
                   </Text>
                 </View>

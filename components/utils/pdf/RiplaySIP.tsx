@@ -7,16 +7,30 @@ import { ceiling } from "./pdfUtil";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 
 export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
-  const angsuran = ceiling(
-    parseInt(
-      getAngsuranPerBulan(
-        data.DataPembiayaan.mg_bunga,
-        data.DataPembiayaan.tenor,
-        data.DataPembiayaan.plafond
-      )
-    ),
-    data.DataPembiayaan.pembulatan
-  );
+  const angsuran =
+    data.jenis_margin === "FLAT"
+      ? ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond,
+              false,
+              true
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        )
+      : ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        );
   const admin =
     data.DataPembiayaan.plafond *
     ((data.DataPembiayaan.by_admin +

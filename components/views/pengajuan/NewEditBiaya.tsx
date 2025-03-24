@@ -255,16 +255,30 @@ export default function NewEditBiaya({
       inputDapem.tenor,
       inputDapem.gaji * (bank.by_angsuran / 100)
     );
-    const angsuran = ceiling(
-      parseInt(
-        getAngsuranPerBulan(
-          produk.mg_bunga,
-          inputDapem.tenor,
-          inputDapem.plafond
-        )
-      ),
-      bank.pembulatan
-    );
+    const angsuran =
+      produk.name === "Flash Sisa Gaji"
+        ? ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                produk.mg_bunga,
+                inputDapem.tenor,
+                inputDapem.plafond,
+                false,
+                true
+              )
+            ),
+            bank.pembulatan
+          )
+        : ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                produk.mg_bunga,
+                inputDapem.tenor,
+                inputDapem.plafond
+              )
+            ),
+            bank.pembulatan
+          );
     const admin =
       inputDapem.plafond * ((bank.by_admin + bank.by_admin_bank) / 100);
     const asuransi = inputDapem.plafond * (produk.by_asuransi / 100);

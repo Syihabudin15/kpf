@@ -9,26 +9,54 @@ import { stylePdf } from "@/components/utils/pdf/stylePdf";
 import moment from "moment";
 
 export default function Mauk({ data }: { data: DataDataPengajuan }) {
-  const angsuranBulanan = ceiling(
-    parseInt(
-      getAngsuranPerBulan(
-        data.DataPembiayaan.mg_bunga,
-        data.DataPembiayaan.tenor,
-        data.DataPembiayaan.plafond
-      )
-    ),
-    data.DataPembiayaan.pembulatan
-  );
-  const angsuranBank = ceiling(
-    parseInt(
-      getAngsuranPerBulan(
-        data.DataPembiayaan.margin_bank || 0,
-        data.DataPembiayaan.tenor,
-        data.DataPembiayaan.plafond
-      )
-    ),
-    data.DataPembiayaan.pembulatan
-  );
+  const angsuranBulanan =
+    data.jenis_margin === "FLAT"
+      ? ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond,
+              false,
+              true
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        )
+      : ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        );
+  const angsuranBank =
+    data.jenis_margin === "FLAT"
+      ? ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond,
+              false,
+              true
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        )
+      : ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.margin_bank,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        );
 
   const colfee = angsuranBulanan - angsuranBank;
   return (

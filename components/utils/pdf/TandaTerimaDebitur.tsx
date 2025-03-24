@@ -19,16 +19,30 @@ export default function TandaTerimaDebitur({
       100);
   const asuransi =
     data.DataPembiayaan.plafond * (data.DataPembiayaan.by_asuransi / 100);
-  const angsuran = ceiling(
-    parseInt(
-      getAngsuranPerBulan(
-        data.DataPembiayaan.mg_bunga,
-        data.DataPembiayaan.tenor,
-        data.DataPembiayaan.plafond
-      )
-    ),
-    data.DataPembiayaan.pembulatan
-  );
+  const angsuran =
+    data.jenis_margin === "FLAT"
+      ? ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond,
+              false,
+              true
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        )
+      : ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        );
   const blokir = data.DataPembiayaan.blokir * angsuran;
 
   const kotor =

@@ -46,16 +46,30 @@ export default function CetakLabaRugi({ data }: { data: DataDataPengajuan[] }) {
         const materai = d.DataPembiayaan.by_materai;
         const mutasi = d.DataPembiayaan.by_mutasi;
         const provisi = d.DataPembiayaan.by_provisi;
-        const angsuran = ceiling(
-          parseInt(
-            getAngsuranPerBulan(
-              d.DataPembiayaan.mg_bunga,
-              d.DataPembiayaan.tenor,
-              d.DataPembiayaan.plafond
-            )
-          ),
-          d.DataPembiayaan.pembulatan
-        );
+        const angsuran =
+          d.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    d.DataPembiayaan.mg_bunga,
+                    d.DataPembiayaan.tenor,
+                    d.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                d.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    d.DataPembiayaan.mg_bunga,
+                    d.DataPembiayaan.tenor,
+                    d.DataPembiayaan.plafond
+                  )
+                ),
+                d.DataPembiayaan.pembulatan
+              );
         const blokir = d.DataPembiayaan.blokir * angsuran;
         const takeOver = d.DataPembiayaan.pelunasan + d.DataPembiayaan.bpp;
         const { tahun, bulan } = getUsiaMasuk(

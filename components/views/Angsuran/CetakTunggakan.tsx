@@ -19,16 +19,30 @@ export default function CetakTunggakan({
     setLoading(true);
     try {
       const newData = data.map((d: AngsuranPengajuan, ind: number) => {
-        const angsuranBank = ceiling(
-          parseInt(
-            getAngsuranPerBulan(
-              d.DataPengajuan.DataPembiayaan.mg_bunga,
-              d.DataPengajuan.DataPembiayaan.tenor,
-              d.DataPengajuan.DataPembiayaan.plafond
-            )
-          ),
-          d.DataPengajuan.DataPembiayaan.pembulatan
-        );
+        const angsuranBank =
+          d.DataPengajuan.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    d.DataPengajuan.DataPembiayaan.margin_bank,
+                    d.DataPengajuan.DataPembiayaan.tenor,
+                    d.DataPengajuan.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                d.DataPengajuan.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    d.DataPengajuan.DataPembiayaan.margin_bank,
+                    d.DataPengajuan.DataPembiayaan.tenor,
+                    d.DataPengajuan.DataPembiayaan.plafond
+                  )
+                ),
+                d.DataPengajuan.DataPembiayaan.pembulatan
+              );
         return {
           NO: ind + 1,
           "NAMA PEMOHON": d.DataPengajuan.DataPembiayaan.name,

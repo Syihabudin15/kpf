@@ -132,7 +132,7 @@ export default async function UserLayout({
         }}
         className="text-xs flex font-semibold px-1 sm:px-4"
       >
-        <div className="flex gap-2">
+        <div className="flex gap-2 text-xs italic">
           <span>
             Copyright {new Date().getFullYear()} <CopyrightCircleOutlined />{" "}
           </span>{" "}

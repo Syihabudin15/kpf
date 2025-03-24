@@ -17,16 +17,30 @@ export default function CetakFlagging({ data }: { data: DataDataPengajuan[] }) {
       const asabri: any[] = [];
 
       for (let i = 0; i < data.length; i++) {
-        const angsuran = ceiling(
-          parseInt(
-            getAngsuranPerBulan(
-              data[i].DataPembiayaan.mg_bunga,
-              data[i].DataPembiayaan.tenor,
-              data[i].DataPembiayaan.plafond
-            )
-          ),
-          data[i].DataPembiayaan.pembulatan
-        );
+        const angsuran =
+          data[0].jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    data[0].DataPembiayaan.mg_bunga,
+                    data[0].DataPembiayaan.tenor,
+                    data[0].DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                data[0].DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    data[0].DataPembiayaan.mg_bunga,
+                    data[0].DataPembiayaan.tenor,
+                    data[0].DataPembiayaan.plafond
+                  )
+                ),
+                data[0].DataPembiayaan.pembulatan
+              );
 
         if (data[i].jenis_pensiun === "ASABRI") {
           asabri.push({

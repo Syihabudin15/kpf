@@ -226,16 +226,30 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
       inputDapem.tenor,
       inputDapem.gaji * (bank.by_angsuran / 100)
     );
-    const angsuran = ceiling(
-      parseInt(
-        getAngsuranPerBulan(
-          produk.mg_bunga,
-          inputDapem.tenor,
-          inputDapem.plafond
-        )
-      ),
-      bank.pembulatan
-    );
+    const angsuran =
+      produk.name === "Flash Sisa Gaji"
+        ? ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                produk.mg_bunga,
+                inputDapem.tenor,
+                inputDapem.plafond,
+                false,
+                true
+              )
+            ),
+            bank.pembulatan
+          )
+        : ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                produk.mg_bunga,
+                inputDapem.tenor,
+                inputDapem.plafond
+              )
+            ),
+            bank.pembulatan
+          );
     const admin =
       inputDapem.plafond * ((bank.by_admin + bank.by_admin_bank) / 100);
     const asuransi = inputDapem.plafond * (produk.by_asuransi / 100);
@@ -256,10 +270,10 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
     if (
       inputDapem.gaji !== 0 &&
       produk.name === "Flash Sisa Gaji" &&
-      inputDapem.gaji - angsuran < 100000
+      inputDapem.gaji - angsuran < 200000
     ) {
       setModalErr(
-        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
+        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 200.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
       );
     }
     return setInputDapem((prev) => {

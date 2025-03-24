@@ -38,30 +38,58 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
     data.DataPembiayaan.by_tatalaksana +
     data.DataPembiayaan.by_mutasi;
 
-  const angsuranBulanan = ceiling(
-    parseInt(
-      getAngsuranPerBulan(
-        data.DataPembiayaan.mg_bunga,
-        data.DataPembiayaan.tenor,
-        data.DataPembiayaan.plafond
-      )
-    ),
-    data.DataPembiayaan.pembulatan
-  ).toString();
+  const angsuranBulanan =
+    data.jenis_margin === "FLAT"
+      ? ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond,
+              false,
+              true
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        ).toString()
+      : ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.mg_bunga,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        ).toString();
   const angsuranPokok = ceiling(
     data.DataPembiayaan.plafond / data.DataPembiayaan.tenor,
     data.DataPembiayaan.pembulatan
   ).toString();
-  const angsuranBank = ceiling(
-    parseInt(
-      getAngsuranPerBulan(
-        data.DataPembiayaan.margin_bank || 0,
-        data.DataPembiayaan.tenor,
-        data.DataPembiayaan.plafond
-      )
-    ),
-    data.DataPembiayaan.pembulatan
-  ).toString();
+  const angsuranBank =
+    data.jenis_margin === "FLAT"
+      ? ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.margin_bank,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond,
+              false,
+              true
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        ).toString()
+      : ceiling(
+          parseInt(
+            getAngsuranPerBulan(
+              data.DataPembiayaan.margin_bank,
+              data.DataPembiayaan.tenor,
+              data.DataPembiayaan.plafond
+            )
+          ),
+          data.DataPembiayaan.pembulatan
+        ).toString();
 
   const colfee = (parseInt(angsuranBulanan) - parseInt(angsuranBank)).toFixed(
     0

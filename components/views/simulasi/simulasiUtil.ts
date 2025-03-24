@@ -67,15 +67,28 @@ export function getAngsuranPerBulan(
   bunga: number,
   tenor: number,
   plafond: number,
-  fixed?: boolean
+  fixed?: boolean,
+  isFlat?: boolean
 ) {
-  const mgBunga = bunga / 100;
-  const result = PMT(mgBunga / 12, tenor, plafond) * -1;
-
-  if (fixed) {
-    return result.toString();
+  if (isFlat) {
+    const r = Math.ceil(bunga / 12 / 100 / 0.001) * 0.001;
+    const pokok = parseInt((plafond / tenor).toString());
+    const margin = parseInt((plafond * r).toString());
+    const angsuran = Math.ceil(pokok + margin);
+    if (fixed) {
+      return angsuran.toString();
+    } else {
+      return angsuran.toFixed(0);
+    }
   } else {
-    return result.toFixed(0);
+    const mgBunga = bunga / 100;
+    const result = PMT(mgBunga / 12, tenor, plafond) * -1;
+
+    if (fixed) {
+      return result.toString();
+    } else {
+      return result.toFixed(0);
+    }
   }
 }
 export function getAngsuranPerBulanPdf(

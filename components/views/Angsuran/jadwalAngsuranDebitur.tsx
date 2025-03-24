@@ -167,16 +167,30 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
           },
           className: "text-center",
           render(value, record, index) {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPengajuan.DataPembiayaan.margin_bank,
-                  record.DataPengajuan.DataPembiayaan.tenor,
-                  record.DataPengajuan.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPengajuan.DataPembiayaan.pembulatan
-            );
+            const angsuran =
+              record.DataPengajuan.jenis_margin === "FLAT"
+                ? ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPengajuan.DataPembiayaan.margin_bank,
+                        record.DataPengajuan.DataPembiayaan.tenor,
+                        record.DataPengajuan.DataPembiayaan.plafond,
+                        false,
+                        true
+                      )
+                    ),
+                    record.DataPengajuan.DataPembiayaan.pembulatan
+                  )
+                : ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPengajuan.DataPembiayaan.margin_bank,
+                        record.DataPengajuan.DataPembiayaan.tenor,
+                        record.DataPengajuan.DataPembiayaan.plafond
+                      )
+                    ),
+                    record.DataPengajuan.DataPembiayaan.pembulatan
+                  );
             return <>{formatNumber(angsuran.toFixed(0))}</>;
           },
         },
@@ -194,26 +208,54 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
           },
           className: "text-center",
           render(value, record, index) {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPengajuan.DataPembiayaan.mg_bunga,
-                  record.DataPengajuan.DataPembiayaan.tenor,
-                  record.DataPengajuan.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPengajuan.DataPembiayaan.pembulatan
-            );
-            const angsuranBank = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  record.DataPengajuan.DataPembiayaan.margin_bank,
-                  record.DataPengajuan.DataPembiayaan.tenor,
-                  record.DataPengajuan.DataPembiayaan.plafond
-                )
-              ),
-              record.DataPengajuan.DataPembiayaan.pembulatan
-            );
+            const angsuran =
+              record.DataPengajuan.jenis_margin === "FLAT"
+                ? ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPengajuan.DataPembiayaan.mg_bunga,
+                        record.DataPengajuan.DataPembiayaan.tenor,
+                        record.DataPengajuan.DataPembiayaan.plafond,
+                        false,
+                        true
+                      )
+                    ),
+                    record.DataPengajuan.DataPembiayaan.pembulatan
+                  )
+                : ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPengajuan.DataPembiayaan.mg_bunga,
+                        record.DataPengajuan.DataPembiayaan.tenor,
+                        record.DataPengajuan.DataPembiayaan.plafond
+                      )
+                    ),
+                    record.DataPengajuan.DataPembiayaan.pembulatan
+                  );
+            const angsuranBank =
+              record.DataPengajuan.jenis_margin === "FLAT"
+                ? ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPengajuan.DataPembiayaan.margin_bank,
+                        record.DataPengajuan.DataPembiayaan.tenor,
+                        record.DataPengajuan.DataPembiayaan.plafond,
+                        false,
+                        true
+                      )
+                    ),
+                    record.DataPengajuan.DataPembiayaan.pembulatan
+                  )
+                : ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        record.DataPengajuan.DataPembiayaan.margin_bank,
+                        record.DataPengajuan.DataPembiayaan.tenor,
+                        record.DataPengajuan.DataPembiayaan.plafond
+                      )
+                    ),
+                    record.DataPengajuan.DataPembiayaan.pembulatan
+                  );
             return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
           },
         },
@@ -440,26 +482,54 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
               let totalMargin = 0;
 
               pageData.forEach((j, i) => {
-                const angsuran = ceiling(
-                  parseInt(
-                    getAngsuranPerBulan(
-                      j.DataPengajuan.DataPembiayaan.mg_bunga,
-                      j.DataPengajuan.DataPembiayaan.tenor,
-                      j.DataPengajuan.DataPembiayaan.plafond
-                    )
-                  ),
-                  j.DataPengajuan.DataPembiayaan.pembulatan
-                );
-                const angsuranBank = ceiling(
-                  parseInt(
-                    getAngsuranPerBulan(
-                      j.DataPengajuan.DataPembiayaan.margin_bank,
-                      j.DataPengajuan.DataPembiayaan.tenor,
-                      j.DataPengajuan.DataPembiayaan.plafond
-                    )
-                  ),
-                  j.DataPengajuan.DataPembiayaan.pembulatan
-                );
+                const angsuran =
+                  j.DataPengajuan.jenis_margin === "FLAT"
+                    ? ceiling(
+                        parseInt(
+                          getAngsuranPerBulan(
+                            j.DataPengajuan.DataPembiayaan.mg_bunga,
+                            j.DataPengajuan.DataPembiayaan.tenor,
+                            j.DataPengajuan.DataPembiayaan.plafond,
+                            false,
+                            true
+                          )
+                        ),
+                        j.DataPengajuan.DataPembiayaan.pembulatan
+                      )
+                    : ceiling(
+                        parseInt(
+                          getAngsuranPerBulan(
+                            j.DataPengajuan.DataPembiayaan.mg_bunga,
+                            j.DataPengajuan.DataPembiayaan.tenor,
+                            j.DataPengajuan.DataPembiayaan.plafond
+                          )
+                        ),
+                        j.DataPengajuan.DataPembiayaan.pembulatan
+                      );
+                const angsuranBank =
+                  j.DataPengajuan.jenis_margin === "FLAT"
+                    ? ceiling(
+                        parseInt(
+                          getAngsuranPerBulan(
+                            j.DataPengajuan.DataPembiayaan.margin_bank,
+                            j.DataPengajuan.DataPembiayaan.tenor,
+                            j.DataPengajuan.DataPembiayaan.plafond,
+                            false,
+                            true
+                          )
+                        ),
+                        j.DataPengajuan.DataPembiayaan.pembulatan
+                      )
+                    : ceiling(
+                        parseInt(
+                          getAngsuranPerBulan(
+                            j.DataPengajuan.DataPembiayaan.margin_bank,
+                            j.DataPengajuan.DataPembiayaan.tenor,
+                            j.DataPengajuan.DataPembiayaan.plafond
+                          )
+                        ),
+                        j.DataPengajuan.DataPembiayaan.pembulatan
+                      );
 
                 totalPokok += j.pokok;
                 totalAngsuran += angsuran;

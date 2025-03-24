@@ -119,16 +119,29 @@ export default function JadwalAngsuran({
               <Text>:</Text>
               <Text>
                 {formatNumber(
-                  ceiling(
-                    parseInt(
-                      getAngsuranPerBulan(
-                        data.DataPembiayaan.mg_bunga,
-                        data.DataPembiayaan.tenor,
-                        data.DataPembiayaan.plafond
-                      )
-                    ),
-                    data.DataPembiayaan.pembulatan
-                  ).toString()
+                  data.jenis_margin === "FLAT"
+                    ? ceiling(
+                        parseInt(
+                          getAngsuranPerBulan(
+                            data.DataPembiayaan.mg_bunga,
+                            data.DataPembiayaan.tenor,
+                            data.DataPembiayaan.plafond,
+                            false,
+                            true
+                          )
+                        ),
+                        data.DataPembiayaan.pembulatan
+                      ).toString()
+                    : ceiling(
+                        parseInt(
+                          getAngsuranPerBulan(
+                            data.DataPembiayaan.mg_bunga,
+                            data.DataPembiayaan.tenor,
+                            data.DataPembiayaan.plafond
+                          )
+                        ),
+                        data.DataPembiayaan.pembulatan
+                      ).toString()
                 )}
               </Text>
             </View>

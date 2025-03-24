@@ -22,16 +22,30 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
           d.DataPembiayaan.plafond * (d.DataPembiayaan.by_lainnya / 100);
         const asuransi =
           d.DataPembiayaan.plafond * (d.DataPembiayaan.by_asuransi / 100);
-        const angsuran = ceiling(
-          parseInt(
-            getAngsuranPerBulan(
-              d.DataPembiayaan.mg_bunga,
-              d.DataPembiayaan.tenor,
-              d.DataPembiayaan.plafond
-            )
-          ),
-          d.DataPembiayaan.pembulatan
-        );
+        const angsuran =
+          d.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    d.DataPembiayaan.mg_bunga,
+                    d.DataPembiayaan.tenor,
+                    d.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                d.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    d.DataPembiayaan.mg_bunga,
+                    d.DataPembiayaan.tenor,
+                    d.DataPembiayaan.plafond
+                  )
+                ),
+                d.DataPembiayaan.pembulatan
+              );
         const blokir = d.DataPembiayaan.blokir * angsuran;
 
         return {

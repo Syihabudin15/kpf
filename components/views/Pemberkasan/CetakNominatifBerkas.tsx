@@ -46,47 +46,34 @@ export default function CetakNominatifBerkas({
           PLAFON: d.DataPembiayaan.plafond,
           TENOR: d.DataPembiayaan.tenor,
           MARGIN: d.DataPembiayaan.mg_bunga,
-          "ANGSURAN PERBULAN": ceiling(
-            parseInt(
-              getAngsuranPerBulan(
-                d.DataPembiayaan.mg_bunga,
-                d.DataPembiayaan.tenor,
-                d.DataPembiayaan.plafond
-              )
-            ),
-            parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-          ),
-          [`ADMIN ${d.Bank.kode}`]: ceiling(
-            parseInt(
-              getAngsuranPerBulan(
-                d.Bank.margin_bank || 0,
-                d.DataPembiayaan.tenor,
-                d.DataPembiayaan.plafond
-              )
-            ),
-            parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-          ),
+          "ANGSURAN PERBULAN":
+            d.jenis_margin === "FLAT"
+              ? ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      d.DataPembiayaan.mg_bunga,
+                      d.DataPembiayaan.tenor,
+                      d.DataPembiayaan.plafond,
+                      false,
+                      true
+                    )
+                  ),
+                  d.DataPembiayaan.pembulatan
+                )
+              : ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      d.DataPembiayaan.mg_bunga,
+                      d.DataPembiayaan.tenor,
+                      d.DataPembiayaan.plafond
+                    )
+                  ),
+                  d.DataPembiayaan.pembulatan
+                ),
+          [`ADMIN ${d.Bank.kode}`]:
+            d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100),
           [`ADMIN MITRA`]:
-            ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  d.DataPembiayaan.mg_bunga,
-                  d.DataPembiayaan.tenor,
-                  d.DataPembiayaan.plafond
-                )
-              ),
-              parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-            ) -
-            ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  d.Bank.margin_bank || 0,
-                  d.DataPembiayaan.tenor,
-                  d.DataPembiayaan.plafond
-                )
-              ),
-              parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
-            ),
+            d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin / 100),
           "BIAYA ASURANSI":
             d.DataPembiayaan.plafond * (d.DataPembiayaan.by_asuransi / 100),
           "BIAYA PEMBUKAAN TABUNGAN": d.DataPembiayaan.by_buka_rekening,

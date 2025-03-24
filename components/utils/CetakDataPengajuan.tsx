@@ -41,16 +41,30 @@ export default function CetakDataPengajuan({
           // "MITRA BANK": d.DataPembiayaan.Refferal.name,
           PLAFON: d.DataPembiayaan.plafond,
           TENOR: d.DataPembiayaan.tenor,
-          ANGSURAN: ceiling(
-            parseInt(
-              getAngsuranPerBulan(
-                d.DataPembiayaan.mg_bunga,
-                d.DataPembiayaan.tenor,
-                d.DataPembiayaan.plafond
-              )
-            ),
-            d.DataPembiayaan.pembulatan
-          ),
+          ANGSURAN:
+            d.jenis_margin === "FLAT"
+              ? ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      d.DataPembiayaan.mg_bunga,
+                      d.DataPembiayaan.tenor,
+                      d.DataPembiayaan.plafond,
+                      false,
+                      true
+                    )
+                  ),
+                  d.DataPembiayaan.pembulatan
+                )
+              : ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      d.DataPembiayaan.mg_bunga,
+                      d.DataPembiayaan.tenor,
+                      d.DataPembiayaan.plafond
+                    )
+                  ),
+                  d.DataPembiayaan.pembulatan
+                ),
           MARKETING: d.User.first_name + " " + d.User.last_name,
           // "AGENT FRONTING": d.agent_fronting,
           "ADMIN INPUT":

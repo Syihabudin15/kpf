@@ -1167,42 +1167,61 @@ export default function MonitoringPusat() {
   return (
     <div className="px-2">
       <div className="flex gap-2 my-1 mx-1 md:flex-wrap overflow-x-auto">
-        <RangePicker
-          onChange={(_, info) => {
-            setFrom(info && info[0]);
-            setTo(info && info[1]);
-          }}
-        />
-        <Input.Search
-          onChange={(e) => setNameOrNopen(e.target.value)}
-          style={{ width: 170 }}
-        />
-        <Select
-          options={[
-            { label: "EXPRESS", value: "EXPRESS" },
-            { label: "REGULER", value: "REGULER" },
-          ]}
-          placeholder="PRODUK"
-          onChange={(e) => setGroup(e)}
-          allowClear
-        />
-        <Select
-          options={[
-            { label: "ANTRI", value: "ANTRI" },
-            { label: "PROSES", value: "PROSES" },
-            { label: "CAIR", value: "CAIR" },
-            { label: "BATAL", value: "BATAL" },
-          ]}
-          placeholder="PENCAIRAN"
-          allowClear
-          onChange={(e) => setPencairan(e)}
-        />
-        <Select
-          options={groupBank}
-          placeholder="SUMDAN"
-          allowClear
-          onChange={(e) => setSelectedBank(e)}
-        />
+        <div className="flex-1">
+          <RangePicker
+            onChange={(_, info) => {
+              setFrom(info && info[0]);
+              setTo(info && info[1]);
+            }}
+            style={{ width: 200 }}
+            size="small"
+          />
+        </div>
+        <div className="flex-1">
+          <Input.Search
+            onChange={(e) => setNameOrNopen(e.target.value)}
+            style={{ width: 200 }}
+            size="small"
+          />
+        </div>
+        <div className="flex-1">
+          <Select
+            options={[
+              { label: "EXPRESS", value: "EXPRESS" },
+              { label: "REGULER", value: "REGULER" },
+            ]}
+            placeholder="PRODUK"
+            onChange={(e) => setGroup(e)}
+            allowClear
+            size="small"
+            className="w-full"
+          />
+        </div>
+        <div className="flex-1">
+          <Select
+            options={[
+              { label: "ANTRI", value: "ANTRI" },
+              { label: "PROSES", value: "PROSES" },
+              { label: "CAIR", value: "CAIR" },
+              { label: "BATAL", value: "BATAL" },
+            ]}
+            placeholder="PENCAIRAN"
+            allowClear
+            onChange={(e) => setPencairan(e)}
+            size="small"
+            className="w-full"
+          />
+        </div>
+        <div className="flex-1">
+          <Select
+            options={groupBank}
+            placeholder="SUMDAN"
+            allowClear
+            onChange={(e) => setSelectedBank(e)}
+            size="small"
+            className="w-full"
+          />
+        </div>
         <CetakDataPengajuan data={data || []} />
       </div>
 

@@ -217,9 +217,13 @@ export default function PencairanBank() {
           title.push(e.nama || "");
         });
         return (
-          <Tooltip title={title && title.join(", ")}>
+          <Tooltip title={title && title.join(", ")} key={record.id}>
             <div className="flex justify-center">
-              <ModalProsesCair data={record} handleProses={handleProses} />
+              <ModalProsesCair
+                data={record}
+                handleProses={handleProses}
+                key={record.id}
+              />
             </div>
           </Tooltip>
         );

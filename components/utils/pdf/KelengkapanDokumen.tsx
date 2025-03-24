@@ -611,16 +611,29 @@ export default function KelengkapanDokumen({
             <Text style={{ border: "1px solid #aaa", padding: 2, width: 130 }}>
               Rp.{" "}
               {formatNumber(
-                ceiling(
-                  parseInt(
-                    getAngsuranPerBulan(
-                      data.DataPembiayaan.mg_bunga,
-                      data.DataPembiayaan.tenor,
-                      data.DataPembiayaan.plafond
-                    )
-                  ),
-                  data.DataPembiayaan.pembulatan || 100
-                ).toString()
+                data.jenis_margin === "FLAT"
+                  ? ceiling(
+                      parseInt(
+                        getAngsuranPerBulan(
+                          data.DataPembiayaan.mg_bunga,
+                          data.DataPembiayaan.tenor,
+                          data.DataPembiayaan.plafond,
+                          false,
+                          true
+                        )
+                      ),
+                      data.DataPembiayaan.pembulatan
+                    ).toString()
+                  : ceiling(
+                      parseInt(
+                        getAngsuranPerBulan(
+                          data.DataPembiayaan.mg_bunga,
+                          data.DataPembiayaan.tenor,
+                          data.DataPembiayaan.plafond
+                        )
+                      ),
+                      data.DataPembiayaan.pembulatan
+                    ).toString()
               )}
             </Text>
           </View>

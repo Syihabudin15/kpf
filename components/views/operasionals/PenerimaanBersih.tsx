@@ -193,16 +193,29 @@ export default function PenerimaanBersih() {
         const asuransi = plaf * (record.DataPembiayaan.by_asuransi / 100);
         const blokir =
           record.DataPembiayaan.blokir *
-          ceiling(
-            parseInt(
-              getAngsuranPerBulan(
-                record.DataPembiayaan.mg_bunga,
-                record.DataPembiayaan.tenor,
-                record.DataPembiayaan.plafond
+          (record.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
               )
-            ),
-            record.DataPembiayaan.pembulatan
-          );
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    record.DataPembiayaan.mg_bunga,
+                    record.DataPembiayaan.tenor,
+                    record.DataPembiayaan.plafond
+                  )
+                ),
+                record.DataPembiayaan.pembulatan
+              ));
         const biaya =
           admin +
           asuransi +
