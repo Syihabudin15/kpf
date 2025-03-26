@@ -75,6 +75,7 @@ export default function FormEditPengajuan({
   const [kabupatenDomisili, setKabupatenDomisili] = useState<Options[]>([]);
   const [selectedBank, setSelectedBank] = useState<Bank>();
   const [lastActivity, setlastActivity] = useState<string>();
+  const [userId, setUserId] = useState<string>();
 
   const handleChangeUser = (e: string) => {
     const user = fullUser?.filter((u) => u.id == e);
@@ -82,6 +83,7 @@ export default function FormEditPengajuan({
       posisi: user && user[0].posisi,
       status_pkwt: user && user[0].status_pkwt,
     });
+    setUserId(user[0].id);
     setlastActivity((prev: string | undefined) => {
       if (prev && prev.includes(`Edit MOC`)) {
         return prev;
@@ -215,6 +217,7 @@ export default function FormEditPengajuan({
     pembiayaan.nopen = e.nopen;
     e.area_pelayanan_berkas = e.unit_pelayanan;
     e.DataPembiayaan = { ...pembiayaan, user_update: lastActivity };
+    e.user_id = userId;
 
     const res = await fetch("/api/slik", {
       method: "PUT",

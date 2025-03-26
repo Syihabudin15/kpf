@@ -297,15 +297,15 @@ export default function NewEditBiaya({
       (tempProvisi || 0) +
       blokirAngsuran;
     const kotor = inputDapem.plafond - biayaAwal;
-    if (
-      inputDapem.gaji !== 0 &&
-      produk.name === "Flash Sisa Gaji" &&
-      inputDapem.gaji - angsuran < 100000
-    ) {
-      setModalErr(
-        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
-      );
-    }
+    // if (
+    //   inputDapem.gaji !== 0 &&
+    //   produk.name === "Flash Sisa Gaji" &&
+    //   inputDapem.gaji - angsuran < 100000
+    // ) {
+    //   setModalErr(
+    //     "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
+    //   );
+    // }
     setInputDapem((prev) => {
       return {
         ...prev,
@@ -758,7 +758,7 @@ export default function NewEditBiaya({
                 value={jenis.id}
                 showSearch
                 placeholder="Jenis Pembiayaan"
-                disabled={produk.name === "Flash Sisa Gaji" ? true : isDisable}
+                disabled={isDisable}
                 onChange={(e) => {
                   const tempJenis = dataJenis.filter((j) => j.id === e);
                   if (tempJenis.length > 0) {
