@@ -20,7 +20,6 @@ export default function SavedPengajuan() {
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [open, setOpen] = useState(false);
-  const [keterangan, setKeterangan] = useState(false);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {

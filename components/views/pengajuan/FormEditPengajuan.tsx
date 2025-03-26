@@ -151,6 +151,15 @@ export default function FormEditPengajuan({
       !pembiayaan.alamat ||
       !pembiayaan.refferal_id
     ) {
+      console.log(
+        { pembiayaan },
+        {
+          nama: pembiayaan?.name,
+          nopen: pembiayaan?.nopen,
+          alamat: pembiayaan?.alamat,
+          refferal: pembiayaan?.refferal_id,
+        }
+      );
       setLoading(false);
       return message.error("Mohon lengkapi data pembiayaan terlebih dahulu!");
     }
@@ -334,6 +343,7 @@ export default function FormEditPengajuan({
       unit_pelayanan: currData.area_pelayanan_berkas,
       jenis_asuransi: currData.jenis_asuransi,
     });
+    setJenisMargin(currData.jenis_margin || "ANUITAS");
   }, [currData]);
 
   return (
@@ -1540,6 +1550,7 @@ export default function FormEditPengajuan({
                   options={[
                     { label: "CIU Insurance", value: "CIU" },
                     { label: "Berdikari", value: "BERDIKARI" },
+                    { label: "BUMI PUTRA", value: "BUMI PUTRA" },
                   ]}
                   onChange={() =>
                     setlastActivity((prev: string | undefined) => {

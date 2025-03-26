@@ -995,7 +995,7 @@ export default function NewEditBiaya({
                   { label: "ANUITAS", value: "ANUITAS" },
                   { label: "FLAT", value: "FLAT" },
                 ]}
-                defaultValue={"ANUITAS"}
+                defaultValue={currData.jenis_margin}
                 disabled={isDisable}
                 placeholder="Jenis Margin"
                 onChange={(e) => {
