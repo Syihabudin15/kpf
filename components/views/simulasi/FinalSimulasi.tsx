@@ -530,7 +530,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                         });
                         if (temp[0].name === "Flash Sisa Gaji") {
                           setLabelTabungan("Tabungan Anggota");
-                          setTempTatalaksana(inputDapem.plafond * (3 / 100));
+                          setTempTatalaksana(0);
                           setJenis((prev) => {
                             return {
                               ...prev,
@@ -658,9 +658,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     );
                   }
                   if (produk.name === "Flash Sisa Gaji") {
-                    setTempTatalaksana(
-                      inputTextToDecimal(e.target.value) * (3 / 100)
-                    );
+                    setTempTatalaksana(0);
                   } else {
                     setTempTatalaksana(bank.by_tatalaksana);
                   }

@@ -18,9 +18,7 @@ export const POST = async (req: NextRequest) => {
         DataPembiayaan: true,
       },
     });
-    const fileName = `${
-      find?.DataPembiayaan.nopen
-    }_${find?.DataPembiayaan.name?.toUpperCase()}_${moment().format(
+    const fileName = `${find?.berkasPengajuanId}_${moment().format(
       "DDMMYYYY"
     )}.${data.ext}`;
     const pathUrl = path.join(
