@@ -227,7 +227,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
       inputDapem.gaji * (bank.by_angsuran / 100)
     );
     const angsuran =
-      produk.name === "Flash Sisa Gaji"
+      produk.name === "Flash Sisa Gaji" || produk.name === "Ultima Plus"
         ? ceiling(
             parseInt(
               getAngsuranPerBulan(

@@ -256,7 +256,7 @@ export default function NewEditBiaya({
       inputDapem.gaji * (bank.by_angsuran / 100)
     );
     const angsuran =
-      produk.name === "Flash Sisa Gaji"
+      tambahan.jenis_margin === "FLAT"
         ? ceiling(
             parseInt(
               getAngsuranPerBulan(
