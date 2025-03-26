@@ -415,7 +415,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   setInputDapem((prev) => {
                     return {
                       ...prev,
-                      gaji: inputTextToDecimal(e.target.value || "0"),
+                      gaji: inputTextToDecimal(
+                        e.target.value.replace(/\D/g, "") || "0"
+                      ),
                     };
                   })
                 }
@@ -673,7 +675,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   return setInputDapem((prev) => {
                     return {
                       ...prev,
-                      plafond: inputTextToDecimal(e.target.value || "0"),
+                      plafond: inputTextToDecimal(
+                        e.target.value.replace(/\D/g, "") || "0"
+                      ),
                     };
                   });
                 }}
@@ -785,7 +789,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     setProduk((prev) => {
                       return {
                         ...prev,
-                        by_asuransi: parseInt(e.target.value),
+                        by_asuransi: parseFloat(e.target.value),
                       };
                     })
                   }
@@ -797,7 +801,20 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 value={formatNumber(
                   (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0)
                 )}
-                disabled
+                onChange={(e) =>
+                  setProduk((prev) => {
+                    return {
+                      ...prev,
+                      by_asuransi: parseFloat(
+                        (
+                          (parseInt(e.target.value.replace(/\D/g, "")) /
+                            inputDapem.plafond) *
+                          100
+                        ).toString()
+                      ),
+                    };
+                  })
+                }
                 style={{ color: "black", backgroundColor: "white" }}
               />
             </div>
@@ -813,7 +830,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
-                  setTempTatalaksana(inputTextToDecimal(e.target.value || "0"))
+                  setTempTatalaksana(
+                    inputTextToDecimal(e.target.value.replace(/\D/g, "") || "0")
+                  )
                 }
               />
             </div>
@@ -833,7 +852,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     return {
                       ...prev,
                       by_buka_rekening: inputTextToDecimal(
-                        e.target.value || "0"
+                        e.target.value.replace(/\D/g, "") || "0"
                       ),
                     };
                   })
@@ -855,7 +874,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   setBank((prev) => {
                     return {
                       ...prev,
-                      by_materai: inputTextToDecimal(e.target.value || "0"),
+                      by_materai: inputTextToDecimal(
+                        e.target.value.replace(/\D/g, "") || "0"
+                      ),
                     };
                   })
                 }
@@ -876,7 +897,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     setBank((prev) => {
                       return {
                         ...prev,
-                        by_epotpen: inputTextToDecimal(e.target.value || "0"),
+                        by_epotpen: inputTextToDecimal(
+                          e.target.value.replace(/\D/g, "") || "0"
+                        ),
                       };
                     })
                   }
@@ -893,7 +916,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     setBank((prev) => {
                       return {
                         ...prev,
-                        by_flagging: inputTextToDecimal(e.target.value || "0"),
+                        by_flagging: inputTextToDecimal(
+                          e.target.value.replace(/\D/g, "") || "0"
+                        ),
                       };
                     })
                   }
@@ -915,7 +940,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   setJenis((prev) => {
                     return {
                       ...prev,
-                      by_mutasi: inputTextToDecimal(e.target.value || "0"),
+                      by_mutasi: inputTextToDecimal(
+                        e.target.value.replace(/\D/g, "") || "0"
+                      ),
                     };
                   })
                 }
@@ -933,7 +960,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 disabled={isDisable}
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
-                  setTempProvisi(inputTextToDecimal(e.target.value || "0"))
+                  setTempProvisi(
+                    inputTextToDecimal(e.target.value.replace(/\D/g, "") || "0")
+                  )
                 }
               />
             </div>
@@ -996,7 +1025,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   setInputDapem((prev) => {
                     return {
                       ...prev,
-                      bpp: inputTextToDecimal(e.target.value || "0"),
+                      bpp: inputTextToDecimal(
+                        e.target.value.replace(/\D/g, "") || "0"
+                      ),
                     };
                   })
                 }
@@ -1017,7 +1048,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   setInputDapem((prev) => {
                     return {
                       ...prev,
-                      pelunasan: inputTextToDecimal(e.target.value || "0"),
+                      pelunasan: inputTextToDecimal(
+                        e.target.value.replace(/\D/g, "") || "0"
+                      ),
                     };
                   })
                 }
