@@ -430,7 +430,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 value={jenis.id}
                 showSearch
                 placeholder="Jenis Pembiayaan"
-                disabled={produk.name === "Flash Sisa Gaji" ? true : isDisable}
+                disabled={isDisable}
                 onChange={(e) => {
                   const tempJenis = dataJenis.filter((j) => j.id === e);
                   if (tempJenis.length > 0) {
