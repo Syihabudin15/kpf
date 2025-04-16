@@ -257,3 +257,9 @@ export interface NeracaKeuangan extends DataPengajuan {
   JadwalAngsuran: JadwalAngsuran[];
   Bank: Bank;
 }
+interface PengajuanTagihan extends DataPengajuan {
+  DataPembiayaan: DataPembiayaan;
+}
+export interface Tagihan extends JadwalAngsuran {
+  DataPengajuan: PengajuanTagihan;
+}

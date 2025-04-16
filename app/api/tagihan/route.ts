@@ -36,7 +36,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         moment(data[i - 3].tanggal_bayar).format("YYYYMM"),
         "",
         data[i - 3].DataPengajuan.nomor_sk_pensiun,
-        data[i - 3].DataPengajuan.jenis_pensiun === "TASPEN" ? "01" : "03",
+        data[i - 3].DataPengajuan.jenis_pensiun === "TASPEN" ? "01" : "02",
         "00",
         data[i - 3].DataPengajuan.nopen,
         data[i - 3].DataPengajuan.nomor_sk_pensiun,

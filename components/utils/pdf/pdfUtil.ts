@@ -163,11 +163,11 @@ const angsuranFlatToInterest = (
 ) => {
   const table: any[] = [];
   const angsuranKoperasi = ceiling(
-    parseInt(getAngsuranPerBulan(bungaKoperasi, tenor, plafond, true)),
+    parseInt(getAngsuranPerBulan(bungaKoperasi, tenor, plafond, false, true)),
     pembulatan
   );
 
-  const bank = getAngsuranPerBulan(bungaBank, tenor, plafond, true);
+  const bank = getAngsuranPerBulan(bungaBank, tenor, plafond, false, true);
   const pokok = plafond / tenor;
   let sisa = plafond;
 

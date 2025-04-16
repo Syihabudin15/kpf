@@ -2,19 +2,21 @@ import { Metadata } from "next";
 import { handleRoute } from "@/components/utils/menuUtils";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
-import moment from "moment";
 
 export const metadata: Metadata = {
-  title: `Tagihan ${moment().format("MMMM")}`,
+  title: `Tagihan Debitur`,
 };
 
-const Tagihan = dynamic(() => import("@/components/views/Angsuran/Tagihan"), {
-  ssr: false,
-  loading: () => <LoadingOutlined />,
-});
+const TagihanDebitur = dynamic(
+  () => import("@/components/views/Angsuran/TagihanDebitur"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
 
 export default async function page() {
-  await handleRoute("/verifikasi/antrian");
+  await handleRoute("/tagihan");
 
   return (
     <section className="rounded border shadow bg-white">
@@ -25,7 +27,7 @@ export default async function page() {
           TAGIHAN BULANAN
         </h1>
       </div>
-      <Tagihan />
+      <TagihanDebitur />
     </section>
   );
 }
