@@ -28,7 +28,7 @@ export default function CetakAkad({ data }: { data: DataDataPengajuan }) {
 
     form.setFieldsValue({
       tanggal_cetak_akad: moment(tanggal).format("YYYY-MM-DD"),
-      nomor_akad: `${data.User.UnitCabang.number_code || "001"}/KPF-${
+      nomor_akad: `${data.User.UnitCabang.number_code || "001"}/KOPJASFAS-${
         data.User.UnitCabang.kode_area
       }/${data.Bank.kode}/${moment(tanggal).format("DDMMYYYY")}`,
       produk: data.DataPembiayaan.Produk.name,

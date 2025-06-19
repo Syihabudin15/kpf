@@ -4,6 +4,7 @@ import moment from "moment-timezone";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import path from "path";
+import { Tagihan } from "@/components/utils/Interfaces";
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   const { data } = await req.json();
@@ -102,5 +103,24 @@ export const GET = async () => {
     },
   });
 
-  return NextResponse.json({ data: data }, { status: 200 });
+  const newData: Tagihan[] = [];
+  data.forEach((e) => {
+    const find = data.filter(
+      (d) =>
+        d.DataPengajuan.DataPembiayaan.nopen ===
+        e.DataPengajuan.DataPembiayaan.nopen
+    );
+    if (find.length !== 0) {
+      const temp = data.filter(
+        (t) =>
+          t.DataPengajuan.DataPembiayaan.nopen !==
+          e.DataPengajuan.DataPembiayaan.nopen
+      );
+      temp.push({ ...e, angsuran: find[0].angsuran + e.angsuran });
+    } else {
+      newData.push(e);
+    }
+  });
+
+  return NextResponse.json({ data: newData }, { status: 200 });
 };

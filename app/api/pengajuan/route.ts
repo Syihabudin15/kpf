@@ -3,7 +3,6 @@ import prisma from "@/components/prisma";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { getServerSession } from "next-auth";
 import { daysInMonth } from "@/components/utils/inputUtils";
-import { DataTaspen } from "@prisma/client";
 
 export const GET = async (req: NextRequest) => {
   const page: number = <any>req.nextUrl.searchParams.get("page") || 1;

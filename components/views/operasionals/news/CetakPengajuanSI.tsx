@@ -369,7 +369,9 @@ export default function CetakPengajuanSI({ role }: { role: Role }) {
                   ]).format("YYYY-MM-DD");
                   setTanggalSI(result);
                   setNomorSurat(
-                    `/KPF-OPS/${bankName}/${moment(result).format("MMYYYY")}`
+                    `/KOPJASFAS-OPS/${bankName}/${moment(result).format(
+                      "MMYYYY"
+                    )}`
                   );
                 }}
               />

@@ -1,14 +1,55 @@
 "use client";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { DataAngnsuranMJM, Tagihan } from "@/components/utils/Interfaces";
-import { DatePicker, Table, TableProps } from "antd";
+import { CloudUploadOutlined } from "@ant-design/icons";
+import {
+  DatePicker,
+  GetProp,
+  Table,
+  TableProps,
+  Upload,
+  UploadProps,
+} from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
+
+type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
+
+const getBase64 = (file: any) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      console.log(reader.result);
+      resolve(reader.result);
+    };
+    reader.onerror = (info) => {
+      console.log(info);
+      reject;
+    };
+  });
 
 export default function TagihanDebitur() {
   const [loading, setLoading] = useState(false);
   const [month, setMonth] = useState<string>(moment().format("YYYY-MM"));
   const [data, setData] = useState<Tagihan[]>([]);
+
+  const handleUpload = async (options: any) => {
+    const base = await getBase64(options.file);
+    await fetch("/api/tagihan-debitur", {
+      method: "POST",
+      headers: { "Content-type": "Application/json" },
+      body: JSON.stringify({ url: base }),
+    })
+      .then((res) =>
+        res.json().then((res) => {
+          console.log(res);
+        })
+      )
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   // const handleCetak = async () => {
   //   setLoading(true);
@@ -58,6 +99,16 @@ export default function TagihanDebitur() {
         >
           Cetak
         </button>
+        <Upload
+          accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv"
+          customRequest={handleUpload}
+          showUploadList={false}
+          multiple={false}
+        >
+          <button className="bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 px-4 rounded shadow">
+            <CloudUploadOutlined />
+          </button>
+        </Upload>
         <DatePicker
           picker="month"
           onChange={(_, e) => setMonth(moment(e).format("YYYY-MM"))}
