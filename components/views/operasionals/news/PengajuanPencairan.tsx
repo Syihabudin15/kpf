@@ -8,6 +8,8 @@ import UploadBerkasSI from "./UploadBerkasSI";
 import dynamic from "next/dynamic";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 import CetakNominatif from "@/components/utils/CetakNominatif";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
+import { getAngsuranPerBulan } from "../../simulasi/simulasiUtil";
 
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
@@ -322,6 +324,33 @@ export default function PengajuanPencairan() {
             d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
           total -= plaf + d.DataPembiayaan.by_buka_rekening;
           total -= d.DataPembiayaan.by_provisi;
+          if (d.Bank.kode === "BPR SIP" || d.Bank.kode === "BPR BNM") {
+            const angsuran =
+              d.jenis_margin === "FLAT"
+                ? ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        d.DataPembiayaan.mg_bunga,
+                        d.DataPembiayaan.tenor,
+                        d.DataPembiayaan.plafond,
+                        false,
+                        true
+                      )
+                    ),
+                    d.DataPembiayaan.pembulatan
+                  )
+                : ceiling(
+                    parseInt(
+                      getAngsuranPerBulan(
+                        d.DataPembiayaan.mg_bunga,
+                        d.DataPembiayaan.tenor,
+                        d.DataPembiayaan.plafond
+                      )
+                    ),
+                    d.DataPembiayaan.pembulatan
+                  );
+            total -= angsuran * d.DataPembiayaan.blokir;
+          }
         });
         return <>{formatNumberTitik(total.toFixed(0))}</>;
       },

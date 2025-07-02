@@ -35,6 +35,7 @@ export default function TagihanDebitur() {
   const [data, setData] = useState<Tagihan[]>([]);
 
   const handleUpload = async (options: any) => {
+    setLoading(true);
     const base = await getBase64(options.file);
     await fetch("/api/tagihan-debitur", {
       method: "POST",
@@ -49,6 +50,7 @@ export default function TagihanDebitur() {
       .catch((err) => {
         console.log(err);
       });
+    setLoading(false);
   };
 
   // const handleCetak = async () => {

@@ -14,7 +14,7 @@ import {
 import moment from "moment";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 
-export default function SIBprSip({ data }: { data: DataDataPencairan }) {
+export default function SIBprBNM({ data }: { data: DataDataPencairan }) {
   let totalPlafond = 0;
   data.DataPengajuan.forEach((e) => {
     totalPlafond += e.DataPembiayaan.plafond;
@@ -71,10 +71,9 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
       { data: formatNumber(d.DataPembiayaan.plafond.toFixed(0)), width: 100 },
       { data: formatNumber(newAdmin.toFixed(0)), width: 100 },
       {
-        data: formatNumber(d.DataPembiayaan.by_provisi.toFixed(0)),
+        data: formatNumber(d.DataPembiayaan.by_buka_rekening.toFixed(0)),
         width: 100,
       },
-      { data: "1 Bulan", width: 100 },
       {
         data: formatNumber(angs.toFixed(0)),
         width: 100,
@@ -431,23 +430,8 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     padding: 2,
                   }}
                 >
-                  <Text>Biaya Layanan</Text>
-                  <Text>Kredit (Rp)</Text>
-                </View>
-                <View
-                  style={{
-                    width: 100,
-                    border: "1px solid #aaa",
-                    textAlign: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    lineHeight: 1.5,
-                    padding: 2,
-                  }}
-                >
-                  <Text>Bunga GP</Text>
+                  <Text>Pembukaan</Text>
+                  <Text>Rekening (Rp)</Text>
                 </View>
                 <View
                   style={{
@@ -547,17 +531,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     textAlign: "center",
                   }}
                 >
-                  <Text>{formatNumber(totalProvisi.toFixed(0))}</Text>
-                </View>
-                <View
-                  style={{
-                    width: 100,
-                    padding: 2,
-                    border: "1px solid #aaa",
-                    textAlign: "center",
-                  }}
-                >
-                  <Text></Text>
+                  <Text>{formatNumber(totalRekening.toFixed(0))}</Text>
                 </View>
                 <View
                   style={{
@@ -608,7 +582,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     alignItems: "center",
                   }}
                 >
-                  <Text>Adhi Sofyar Pramudya</Text>
+                  <Text>ADHI SOFYAR PRAMUDYA</Text>
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>

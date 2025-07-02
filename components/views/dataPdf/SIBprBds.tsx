@@ -267,7 +267,7 @@ export default function SIBprBds({ data }: { data: DataDataPencairan }) {
               <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
                 <Text style={{ width: 80 }}>Atas Nama</Text>
                 <Text style={{ width: 20 }}>:</Text>
-                <Text>{process.env.NEXT_PUBLIC_APP_FULL_NAME}</Text>
+                <Text>{process.env.NEXT_PUBLIC_APP_ATAS_NAMA_BANK}</Text>
               </View>
               <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
                 <Text style={{ width: 80 }}>Nama Bank</Text>
