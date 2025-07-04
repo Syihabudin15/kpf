@@ -1,0 +1,98 @@
+import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/components/prisma";
+import path from "path";
+import { existsSync, promises as fs } from "fs";
+import moment from "moment";
+export const dynamic = "force-dynamic";
+
+export const POST = async (req: NextRequest) => {
+  const data = await req.json();
+
+  try {
+    const buff = Buffer.from(data.file.split(",")[1], "base64");
+    const find = await prisma.dataPengajuan.findFirst({
+      where: {
+        berkasPengajuanId: data.id,
+      },
+      include: { DataPembiayaan: true },
+    });
+    const fileName = `${
+      find?.DataPembiayaan.nopen
+    }_${find?.DataPembiayaan.name.toUpperCase()}_${moment().format(
+      "DDMMYYYY"
+    )}${Date.now()}.${data.ext}`;
+    const pathUrl = path.join(
+      process.cwd(),
+      `/storage/${data.dir.toLowerCase()}/${fileName}`
+    );
+    fs.writeFile(pathUrl, buff as any);
+
+    return NextResponse.json(
+      {
+        msg: "Upload Video Akad Berhasil",
+        url: `/${data.dir.toLowerCase()}/${fileName}`,
+      },
+      { status: 201 }
+    );
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      { msg: "Gagal upload video akad!" },
+      { status: 500 }
+    );
+  }
+};
+export const PUT = async (req: NextRequest) => {
+  const data = await req.json();
+  try {
+    await prisma.berkasPengajuan.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        video_akad: data.url,
+        tanggal_video_akad: new Date(),
+      },
+    });
+    return NextResponse.json(
+      {
+        msg: "Upload surat pencairan berhasil",
+      },
+      { status: 201 }
+    );
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      {
+        msg: "Gagal upload surat pencairan !",
+      },
+      { status: 500 }
+    );
+  }
+};
+
+export const DELETE = async (req: NextRequest) => {
+  const data = await req.json();
+  const pathUrl = path.join(process.cwd(), "/storage" + data.url);
+  try {
+    if (existsSync(pathUrl)) {
+      await fs.unlink(pathUrl);
+    }
+    await prisma.berkasPengajuan.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        video_akad: null,
+        tanggal_video_akad: null,
+      },
+    });
+    return NextResponse.json(
+      { msg: "berhasil mengahapus file" },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({ msg: "Gagal hapus file!" }, { status: 500 });
+  }
+};

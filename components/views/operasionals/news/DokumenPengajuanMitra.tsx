@@ -334,14 +334,30 @@ export default function DokumenPengajuanMitra() {
           },
           render(value, record, index) {
             return (
-              <ModalBerkas
-                data={{
-                  url: record.BerkasPengajuan.berkas_akad || "",
-                  type: "application/pdf",
-                  title: `BERKAS AKAD ${record.DataPembiayaan.name}`,
-                }}
-                key={"akad" + record.id}
-              />
+              <div className="flex gap-2 items-center">
+                <ModalBerkas
+                  data={{
+                    url: record.BerkasPengajuan.berkas_akad || "",
+                    type: "application/pdf",
+                    title: `BERKAS AKAD ${record.DataPembiayaan.name}`,
+                  }}
+                  key={"akad" + record.id}
+                />
+                <div
+                  className={`${
+                    record.Bank.kode !== "BPR BNM" ? "hidden" : "block"
+                  }`}
+                >
+                  <ModalBerkas
+                    data={{
+                      url: record.BerkasPengajuan.video_akad || "",
+                      type: "video/mp4",
+                      title: `VIDEO AKAD ${record.DataPembiayaan.name}`,
+                    }}
+                    key={"videoakad" + record.id}
+                  />
+                </div>
+              </div>
             );
           },
         },

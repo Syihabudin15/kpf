@@ -425,6 +425,8 @@ model BerkasPengajuan {
   tanggal_video_cair2    DateTime?
   video_cair3            String?
   tanggal_video_cair3    DateTime?
+  video_akad             String?
+  tanggal_video_akad     DateTime?
   epotpen                String?
   tanggal_epotpen        DateTime?
   DataPengajuan          DataPengajuan[]

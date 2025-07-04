@@ -28,6 +28,8 @@ interface URLS {
   tanggal_flagging?: string;
   bukti_cair?: string;
   tanggal_bukti_cair?: string;
+  video_akad?: string;
+  tanggal_video_akad?: string;
   video_cair?: string;
   tanggal_video_cair?: string;
   berkas_lainnya?: string;
@@ -81,6 +83,9 @@ export default function UploadBerksOps({
       bukti_cair: data.BerkasPengajuan.bukti_cair || undefined,
       tanggal_bukti_cair:
         data.BerkasPengajuan.tanggal_bukti_cair?.toString() || undefined,
+      video_akad: data.BerkasPengajuan.video_akad || undefined,
+      tanggal_video_akad:
+        data.BerkasPengajuan.tanggal_video_akad?.toString() || undefined,
       video_cair: data.BerkasPengajuan.video_cair || undefined,
       tanggal_video_cair:
         data.BerkasPengajuan.tanggal_video_cair?.toString() || undefined,
@@ -248,6 +253,19 @@ export default function UploadBerksOps({
               ext="pdf"
               fileType="application/pdf"
               filePath={data.BerkasPengajuan.bukti_cair}
+              setUrl={setUrls}
+            />
+          </div>
+          <div>
+            <UploadBerkas
+              pathName="video_akad"
+              name="Upload Video Akad"
+              url="/api/ops/uploads/video_akad"
+              dir="video_akad"
+              id={data.berkasPengajuanId as string}
+              ext="mp4"
+              fileType="video/mp4"
+              filePath={data.BerkasPengajuan.video_akad}
               setUrl={setUrls}
             />
           </div>
