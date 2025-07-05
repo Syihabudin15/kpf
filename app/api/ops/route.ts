@@ -60,6 +60,10 @@ export const POST = async (req: NextRequest) => {
         tanggal_epotpen: data.tanggal_epotpen
           ? data.tanggal_epotpen
           : find.tanggal_epotpen,
+        video_akad: data.video_akad ? data.video_akad : find.video_akad,
+        tanggal_video_akad: data.tanggal_video_akad
+          ? data.tanggal_video_akad
+          : find.tanggal_video_akad,
       },
     });
     // if (data.bukti_cair && !find.bukti_cair) {

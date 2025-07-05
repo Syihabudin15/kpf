@@ -40,6 +40,8 @@ export const POST = async (req: NextRequest) => {
         tanggal_video_cair3: data.tanggal_video_cair3,
         epotpen: data.epotpen,
         tanggal_epotpen: data.tanggal_epotpen,
+        video_akad: data.video_akad,
+        tanggal_video_akad: data.tanggal_video_akad,
       },
     });
     // if (data.bukti_cair && !find.bukti_cair) {
