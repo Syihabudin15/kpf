@@ -8,7 +8,6 @@ import { ceiling } from "@/components/utils/pdf/pdfUtil";
 
 export const POST = async (req: NextRequest) => {
   const data = await req.json();
-  const baseDate = moment("01/01/1904");
   try {
     const buffer = Buffer.from(data.url.split(",")[1], "base64");
     const workbook = XLSX.read(buffer, { type: "buffer" });
@@ -16,8 +15,18 @@ export const POST = async (req: NextRequest) => {
     const result: any[] = XLSX.utils.sheet_to_json(sheetbook);
     const messages: string[] = [];
 
-    const tempTagihan = prisma.dataPengajuan.findMany({
-      where: {},
+    const tempTagihan = prisma.jadwalAngsuran.findMany({
+      where: {
+        tanggal_bayar: {
+          gte: moment(
+            `${new Date().getFullYear()}-${new Date().getMonth()}-01`
+          ).toISOString(),
+          lte: moment(
+            `${new Date().getFullYear()}-${new Date().getMonth()}-${moment().daysInMonth()}`
+          ).toISOString(),
+        },
+        tanggal_pelunasan: null,
+      },
     });
 
     for (let i = 1; i < result.length - 1; i++) {
@@ -92,29 +101,20 @@ export const POST = async (req: NextRequest) => {
             );
           }
           // Check Tgl Akad
-          if (
-            result[i]["TANGGAL AKAD"] !== detail.akadExp &&
-            result[i]["TANGGAL AKAD"] !== detail.akadReg
-          ) {
+          if (result[i]["NO SK"] !== detail.data[0].nomor_sk_pensiun) {
             messages.push(
-              `(Row ${result[i]["NO."]}) NOPEN ${result[i]["NO PENSIUN"]} - ${
-                result[i]["NAMA PENERIMA"]
-              } Invalid Tanggal Akad : ${baseDate
-                .add(result[i]["TANGGAL AKAD"], "milliseconds")
-                .format("DD/MM/YYYY")}, Sistem : Flash (${
-                detail.akadExp
-              }) - SK (${detail.akadReg})`
+              `(Row ${result[i]["NO."]}) NOPEN ${result[i]["NO PENSIUN"]} - ${result[i]["NAMA PENERIMA"]} Invalid NO SK : EXCEL ${result[i]["NO SK"]} - SISTEM (${detail.data[0].nomor_sk_pensiun})`
             );
           }
         }
       }
     }
-    console.log(messages);
+    console.log({ messages, tempTagihan });
     return NextResponse.json(
       {
         msg: "Success",
         data: result.slice(1, result.length - 5),
-        result: messages,
+        result: { messages, tempTagihan },
       },
       { status: 200 }
     );
