@@ -100,16 +100,27 @@ export const POST = async (req: NextRequest) => {
               `(Row ${result[i]["NO."]}) NOPEN ${result[i]["NO PENSIUN"]} - ${result[i]["NAMA PENERIMA"]} Invalid No SKEP : ${result[i]["NO. SK"]}, Sistem : ${detail.data[0].nomor_sk_pensiun}`
             );
           }
-          // Check Tgl Akad
-          if (result[i]["NO SK"] !== detail.data[0].nomor_sk_pensiun) {
+          // Check No SKEP
+          if (result[i]["NO. SK"] !== result[i]["NO SK"]) {
             messages.push(
-              `(Row ${result[i]["NO."]}) NOPEN ${result[i]["NO PENSIUN"]} - ${result[i]["NAMA PENERIMA"]} Invalid NO SK : EXCEL ${result[i]["NO SK"]} - SISTEM (${detail.data[0].nomor_sk_pensiun})`
+              `(Row ${result[i]["NO."]}) NOPEN ${result[i]["NO PENSIUN"]} - ${result[i]["NAMA PENERIMA"]} Invalid No SKEP di Excel (NO. SK dan NO SK Berbeda)`
+            );
+          }
+          // Chech Periode
+          if (
+            result[i]["PERIODE"] !== moment().add(1, "month").format("YYYYMM")
+          ) {
+            messages.push(
+              `(Row ${result[i]["NO."]}) NOPEN ${result[i]["NO PENSIUN"]} - ${
+                result[i]["NAMA PENERIMA"]
+              } Invalid PERIODE/BULAN TAGIH : ${
+                result[i]["PERIODE"]
+              }, Sistem : ${moment().add(1, "month").format("YYYYMM")}`
             );
           }
         }
       }
     }
-    console.log({ messages, tempTagihan });
     return NextResponse.json(
       {
         msg: "Success",
