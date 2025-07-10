@@ -107,15 +107,13 @@ export const POST = async (req: NextRequest) => {
             );
           }
           // Chech Periode
-          if (
-            result[i]["PERIODE"] !== moment().add(1, "month").format("YYYYMM")
-          ) {
+          if (result[i]["PERIODE"] !== moment().format("YYYYMM")) {
             messages.push(
               `(Row ${result[i]["NO."]}) NOPEN ${result[i]["NO PENSIUN"]} - ${
                 result[i]["NAMA PENERIMA"]
               } Invalid PERIODE/BULAN TAGIH : ${
                 result[i]["PERIODE"]
-              }, Sistem : ${moment().add(1, "month").format("YYYYMM")}`
+              }, Sistem : ${moment().format("YYYYMM")}`
             );
           }
         }
