@@ -11,7 +11,7 @@ import {
   ITempProduk,
 } from "@/components/utils/Interfaces";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import { JenisPembiayaan } from "@prisma/client";
+import { JenisPembiayaan, Produk } from "@prisma/client";
 import { Input, Modal, Select, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -87,6 +87,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
   const [isDisable, setIsDisable] = useState(true);
   const [open, setOpen] = useState(false);
   const [produkSesuai, setProdukSesuai] = useState<string[]>();
+  const [productAvailable, setProductAvailable] = useState<
+    DataBankWithProduk[]
+  >([]);
   const [labelTabungan, setLabelTabungan] = useState("Buka Rekening");
   const [tglSimulasi, setTglSimulasi] = useState("");
   const [tgl, setTgl] = useState("");
@@ -178,16 +181,25 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
         };
       });
       let tempProduk: string[] = [];
+      let bankProduk: DataBankWithProduk[] = [];
       dataBank.forEach((b) => {
+        const temp: Produk[] = [];
         b.products.forEach((p) => {
           if (
             p.min_age <= parseInt(tahun.toString()) &&
             p.max_age >= parseInt(tahun.toString())
           ) {
+            temp.push(p);
             tempProduk.push(p.name);
           }
         });
+        bankProduk.push({
+          ...b,
+          products: temp,
+        });
       });
+      setProductAvailable(bankProduk);
+      console.log(productAvailable);
       setProdukSesuai(tempProduk);
       return { resTgl: validDate, tahun, bulan, hari };
     } else {
@@ -454,7 +466,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             <div className="flex-1 flex flex-col gap-2">
               <span>Produk Pembiayaan</span>
               <Select
-                options={dataBank.map((e) => {
+                options={productAvailable.map((e) => {
                   return {
                     label: e.name,
                     value: e.id,

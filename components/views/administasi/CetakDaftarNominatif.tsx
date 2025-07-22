@@ -216,7 +216,6 @@ export default function CetakDaftarNominatif({
         NOPEN: "-",
         "NO SK PENSIUN": "-",
         "NAMA PEMOHON": "-",
-        "MITRA BANK": "-",
         "SUMBER DANA": "-",
         TENOR: "-",
         PLAFOND: "-",

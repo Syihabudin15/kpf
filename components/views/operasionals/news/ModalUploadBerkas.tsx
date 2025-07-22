@@ -47,7 +47,7 @@ export default function ModalUploadBerkas({
       >
         <div className="my-5">
           <UploadBerkas
-            url="/api/ops/uploads/bukti/bukti_transfer"
+            url="/api/ops/uploads/bukti_transfer"
             dir="bukti_transfer"
             name="Bukti Transfer"
             id={data.id}

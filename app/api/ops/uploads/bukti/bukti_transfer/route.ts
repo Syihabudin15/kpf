@@ -4,6 +4,7 @@ import path from "path";
 import { existsSync, promises as fs } from "fs";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 import { getServerSession } from "next-auth";
+export const dynamic = "force-dynamic";
 
 export const GET = async (req: NextRequest) => {
   const name = req.nextUrl.searchParams.get("name");

@@ -2,14 +2,14 @@
 import { formatNumber, formatNumberTitik } from "@/components/utils/inputUtils";
 import { CloudUploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Input, Modal, Table, TableProps, Tooltip, message } from "antd";
-// import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
 import CetakNominatif from "@/components/utils/CetakNominatif";
-// import UploadBerkas from "./UploadBerkas";
 import { notifContext } from "@/components/NotifContext";
 import moment from "moment";
+import { ceiling } from "@/components/utils/pdf/pdfUtil";
+import { getAngsuranPerBulan } from "../../simulasi/simulasiUtil";
 
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
@@ -81,7 +81,7 @@ export default function PencairanBank() {
 
   const handleUpload = async (id: string, url: string) => {
     setLoading(true);
-    const res = await fetch("/api/ops/uploads/bukti/bukti_transfer", {
+    const res = await fetch("/api/ops/uploads/bukti_transfer", {
       method: "PUT",
       headers: { "Content-type": "Application/json" },
       body: JSON.stringify({
@@ -433,6 +433,21 @@ export default function PencairanBank() {
             d.DataPembiayaan.by_buka_rekening +
             d.DataPembiayaan.by_provisi +
             admin;
+          if (d.Bank.kode === "BPR BNM" || d.Bank.kode === "BPR SIP") {
+            const angsuran = ceiling(
+              parseInt(
+                getAngsuranPerBulan(
+                  d.DataPembiayaan.mg_bunga,
+                  d.DataPembiayaan.tenor,
+                  d.DataPembiayaan.plafond,
+                  false,
+                  false
+                )
+              ),
+              d.DataPembiayaan.pembulatan
+            );
+            totalBiaya += angsuran * d.DataPembiayaan.blokir;
+          }
         });
         return <>{formatNumberTitik((totalplaf - totalBiaya).toFixed(0))}</>;
       },
@@ -487,42 +502,6 @@ export default function PencairanBank() {
           }}
         />
       </div>
-      {/* {selected && (
-        <Modal
-          open={modalUpload}
-          title={`BUKTI TRANSFER ${selected?.nomor_surat}`}
-          onCancel={() => {
-            setSelected(undefined);
-            setModalUpload(false);
-          }}
-          footer={[]}
-          key={selected.id}
-        >
-          <div className="my-5">
-            <UploadBerkas
-              url="/api/ops/uploads/bukti/bukti_transfer"
-              dir="bukti_transfer"
-              name="Bukti Transfer"
-              id={selected.id || ""}
-              ext="pdf"
-              fileType="application/pdf"
-              filePath={urls && urls["bukti_transfer"]}
-              pathName="bukti_transfer"
-              setUrl={setUrls}
-              key={selected.id}
-            />
-          </div>
-          <div className="flex justify-end mt-5">
-            <button
-              className={`text-white py-1 px-4 bg-orange-500 hover:bg-orange-600 rounded shadow text-sm`}
-              disabled={!urls ? true : false}
-              onClick={() => handleUpload()}
-            >
-              Simpan {loading && <LoadingOutlined />}{" "}
-            </button>
-          </div>
-        </Modal>
-      )} */}
     </div>
   );
 }
