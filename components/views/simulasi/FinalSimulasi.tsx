@@ -186,9 +186,16 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
         const temp: Produk[] = [];
         b.products.forEach((p) => {
           if (
-            p.min_age <= parseInt(tahun.toString()) &&
-            p.max_age >= parseInt(tahun.toString())
+            parseInt(`${tahun}.${bulan}`) >= p.min_age &&
+            parseInt(`${tahun}.${bulan}`) < p.max_age
           ) {
+            console.log({
+              usia: parseFloat(`${tahun}.${bulan}`),
+              usiProduk: {
+                min: p.min_age,
+                max: p.max_age,
+              },
+            });
             temp.push(p);
             tempProduk.push(p.name);
           }
