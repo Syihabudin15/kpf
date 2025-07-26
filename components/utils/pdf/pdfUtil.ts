@@ -169,6 +169,8 @@ const angsuranFlatToInterest = (
 
   const bank = getAngsuranPerBulan(bungaBank, tenor, plafond, false, true);
   const pokok = plafond / tenor;
+  const margin = angsuranKoperasi - pokok;
+  const bankShare = (bungaBank / bungaKoperasi) * margin;
   let sisa = plafond;
 
   for (let i = 0; i <= tenor; i++) {
@@ -191,7 +193,7 @@ const angsuranFlatToInterest = (
         angsuran: angsuranKoperasi.toFixed(0),
         pokok: ceiling(pokok, 1).toFixed(0),
         margin: (angsuranKoperasi - pokok).toFixed(0),
-        margin_bank: parseInt(bank).toFixed(0),
+        margin_bank: bankShare.toFixed(0),
         collfee: (angsuranKoperasi - parseInt(bank)).toFixed(0),
         tanggal_bayar: moment(tanggal).add(i, "M").format("YYYY-MM-DD"),
         sisa: sisa.toFixed(0),
@@ -322,7 +324,12 @@ export const angsuranAnuitas = (
         angsuran: rounded_installment.toFixed(0),
         pokok: principal.toFixed(0),
         margin: (rounded_installment - principal).toFixed(0),
-        margin_bank: angsuranBank.toFixed(0),
+        margin_bank: parseFloat(
+          (
+            (bungaBank / bungaKoperasi) *
+            (rounded_installment - principal)
+          ).toFixed(2)
+        ),
         tanggal_bayar: moment(tanggal).add(i, "M").format("YYYY-MM-DD"),
         collfee: (rounded_installment - angsuranBank).toFixed(0),
         sisa: total.toFixed(0),

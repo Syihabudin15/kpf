@@ -191,7 +191,11 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
                     ),
                     record.DataPengajuan.DataPembiayaan.pembulatan
                   );
-            return <>{formatNumber(angsuran.toFixed(0))}</>;
+            return (
+              <>
+                {formatNumber((record.pokok + record.margin_bank).toFixed(0))}
+              </>
+            );
           },
         },
         {
@@ -256,7 +260,13 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
                     ),
                     record.DataPengajuan.DataPembiayaan.pembulatan
                   );
-            return <>{formatNumber((angsuran - angsuranBank).toFixed(0))}</>;
+            return (
+              <>
+                {formatNumber(
+                  (angsuran - (record.pokok + record.margin_bank)).toFixed(0)
+                )}
+              </>
+            );
           },
         },
       ],
@@ -506,30 +516,7 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
                         ),
                         j.DataPengajuan.DataPembiayaan.pembulatan
                       );
-                const angsuranBank =
-                  j.DataPengajuan.jenis_margin === "FLAT"
-                    ? ceiling(
-                        parseInt(
-                          getAngsuranPerBulan(
-                            j.DataPengajuan.DataPembiayaan.margin_bank,
-                            j.DataPengajuan.DataPembiayaan.tenor,
-                            j.DataPengajuan.DataPembiayaan.plafond,
-                            false,
-                            true
-                          )
-                        ),
-                        j.DataPengajuan.DataPembiayaan.pembulatan
-                      )
-                    : ceiling(
-                        parseInt(
-                          getAngsuranPerBulan(
-                            j.DataPengajuan.DataPembiayaan.margin_bank,
-                            j.DataPengajuan.DataPembiayaan.tenor,
-                            j.DataPengajuan.DataPembiayaan.plafond
-                          )
-                        ),
-                        j.DataPengajuan.DataPembiayaan.pembulatan
-                      );
+                const angsuranBank = j.pokok + j.margin_bank;
 
                 totalPokok += j.pokok;
                 totalAngsuran += angsuran;
