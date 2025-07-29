@@ -85,9 +85,9 @@ export function getAngsuranPerBulan(
     const result = PMT(mgBunga / 12, tenor, plafond) * -1;
 
     if (fixed) {
-      return result.toString();
+      return (result + 300).toString();
     } else {
-      return result.toFixed(0);
+      return (result + 300).toFixed(0);
     }
   }
 }

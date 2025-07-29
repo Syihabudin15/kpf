@@ -863,7 +863,7 @@ export default function ArusKas({
                 ? ceiling(
                     parseInt(
                       getAngsuranPerBulan(
-                        record.DataPembiayaan.mg_bunga,
+                        record.DataPembiayaan.margin_bank,
                         record.DataPembiayaan.tenor,
                         record.DataPembiayaan.plafond,
                         false,
@@ -875,7 +875,7 @@ export default function ArusKas({
                 : ceiling(
                     parseInt(
                       getAngsuranPerBulan(
-                        record.DataPembiayaan.mg_bunga,
+                        record.DataPembiayaan.margin_bank,
                         record.DataPembiayaan.tenor,
                         record.DataPembiayaan.plafond
                       )
