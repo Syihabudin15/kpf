@@ -2,38 +2,63 @@
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import { DatePicker, Input, Table, TableProps, Tooltip } from "antd";
+import { DatePicker, Input, Select, Table, TableProps, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
-import { Role } from "@prisma/client";
+import { Bank, Role } from "@prisma/client";
+const { RangePicker } = DatePicker;
 
-export default function OutstandingAktif({ role }: { role: Role }) {
+const checkStatusFlat = (data: DataDataPengajuan) => {
+  const dateCair = parseInt(moment(data.tanggal_pencairan).format("YYYYMM"));
+  const dateNow = parseInt(moment("2025/05/01").format("YYYYMM"));
+  if (data.jenis_margin === "FLAT" && dateCair >= dateNow) return true;
+  return false;
+};
+
+export default function OutstandingAktif({
+  role,
+  banks,
+}: {
+  role: Role;
+  banks: Bank[];
+}) {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
   const [total, setTotal] = useState(0);
-  const [year, setYear] = useState<string>();
   const [nama, setNama] = useState<string>();
   const [loading, setLoading] = useState(false);
+  const [from, setFrom] = useState<string>();
+  const [to, setTo] = useState<string>();
+  const [selectedBank, setSelectedBank] = useState<string>();
 
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
       `/api/administrasi/outstanding-aktif?page=${page}${
         pageSize ? "&pageSize=" + pageSize : ""
-      }${nama ? "&name=" + nama : ""}${year ? "&year=" + year : ""}`
+      }${nama ? "&name=" + nama : ""}${from ? "&from=" + from : ""}${
+        to ? "&to=" + to : ""
+      }`
     );
     const { data, total } = await res.json();
     setTotal(total);
     setData(data);
+    if (selectedBank) {
+      const newData = data.filter(
+        (d: DataDataPengajuan) => d.bankId === selectedBank
+      );
+      setData(newData);
+      setTotal(newData.length);
+    }
     setLoading(false);
   };
   useEffect(() => {
     (async () => {
       await getData();
     })();
-  }, [nama, page, pageSize, year]);
+  }, [nama, page, pageSize, to, from, selectedBank]);
 
   const columns: TableProps<DataDataPengajuan>["columns"] = [
     {
@@ -248,69 +273,20 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       key: "angsuran",
       width: 150,
       render(value, record, index) {
-        const result =
-          record.jenis_margin === "FLAT"
-            ? ceiling(
-                parseInt(
-                  getAngsuranPerBulan(
-                    record.DataPembiayaan.mg_bunga,
-                    record.DataPembiayaan.tenor,
-                    record.DataPembiayaan.plafond,
-                    false,
-                    true
-                  )
-                ),
-                record.DataPembiayaan.pembulatan
-              )
-            : ceiling(
-                parseInt(
-                  getAngsuranPerBulan(
-                    record.DataPembiayaan.mg_bunga,
-                    record.DataPembiayaan.tenor,
-                    record.DataPembiayaan.plafond
-                  )
-                ),
-                record.DataPembiayaan.pembulatan
-              );
-        return <>{formatNumber(result.toFixed(0))}</>;
-      },
-    },
-    {
-      title: "ANGSURAN BANK",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      className: "text-center",
-      dataIndex: "angsuran_bank",
-      key: "angsuran_bank",
-      width: 150,
-      render(value, record, index) {
-        const angsuran = getAngsuranPerBulan(
-          record.DataPembiayaan.margin_bank,
-          record.DataPembiayaan.tenor,
-          record.DataPembiayaan.plafond
-        );
         const result = ceiling(
-          parseInt(angsuran),
+          parseInt(
+            getAngsuranPerBulan(
+              record.DataPembiayaan.mg_bunga,
+              record.DataPembiayaan.tenor,
+              record.DataPembiayaan.plafond,
+              false,
+              checkStatusFlat(record)
+            )
+          ),
           record.DataPembiayaan.pembulatan
         );
-        const sisaAngsuran = record.JadwalAngsuran.filter(
-          (e) => e.tanggal_pelunasan === null
-        );
-        const totalSisaAngsuran = result * sisaAngsuran.length;
-        return (
-          <Tooltip
-            title={`Sisa Angsuran Ke Bank : ${formatNumber(
-              totalSisaAngsuran.toFixed(0)
-            )}`}
-          >
-            {formatNumber(result.toFixed(0))}
-          </Tooltip>
-        );
+
+        return <>{formatNumber(result.toFixed(0))}</>;
       },
     },
     {
@@ -328,9 +304,114 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       width: 150,
       render(value, record, index) {
         const angsuran = record.JadwalAngsuran.filter(
-          (e) => e.tanggal_pelunasan === null
+          (e) =>
+            moment(e.tanggal_bayar).format("MM/YY") ===
+            moment().add(1, "month").format("MM/YY")
         );
-        return <>{formatNumber(angsuran[0].pokok.toFixed(0))}</>;
+
+        return (
+          <>
+            {formatNumber(
+              (angsuran.length > 0 ? angsuran[0].pokok : 0).toFixed(0)
+            )}
+          </>
+        );
+      },
+    },
+    {
+      title: "MARGIN",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      dataIndex: "margin",
+      key: "margin",
+      width: 150,
+      render(value, record, index) {
+        const angsuran = record.JadwalAngsuran.filter(
+          (e) =>
+            moment(e.tanggal_bayar).format("MM/YY") ===
+            moment().add(1, "month").format("MM/YY")
+        );
+
+        return (
+          <>
+            {formatNumber(
+              (angsuran.length > 0 ? angsuran[0].margin : 0).toFixed(0)
+            )}
+          </>
+        );
+      },
+    },
+
+    {
+      title: "ANGSURAN BANK",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      dataIndex: "angsuran_bank",
+      key: "angsuran_bank",
+      width: 150,
+      render(value, record, index) {
+        const angsuran = getAngsuranPerBulan(
+          record.DataPembiayaan.margin_bank,
+          record.DataPembiayaan.tenor,
+          record.DataPembiayaan.plafond,
+          false,
+          checkStatusFlat(record)
+        );
+        const result = ceiling(
+          parseInt(angsuran),
+          record.DataPembiayaan.pembulatan
+        );
+        return <>{formatNumber(result.toFixed(0))}</>;
+      },
+    },
+    {
+      title: "ANGSURAN KOPERASI",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      dataIndex: "marginkop",
+      key: "marginkop",
+      width: 150,
+      render(value, record, index) {
+        const angsuran = getAngsuranPerBulan(
+          record.DataPembiayaan.mg_bunga,
+          record.DataPembiayaan.tenor,
+          record.DataPembiayaan.plafond,
+          false,
+          checkStatusFlat(record)
+        );
+        const result = ceiling(
+          parseInt(angsuran),
+          record.DataPembiayaan.pembulatan
+        );
+        const angsuranBank = getAngsuranPerBulan(
+          record.DataPembiayaan.margin_bank,
+          record.DataPembiayaan.tenor,
+          record.DataPembiayaan.plafond
+        );
+        const resultBank = ceiling(
+          parseInt(angsuranBank),
+          record.DataPembiayaan.pembulatan
+        );
+
+        return <>{formatNumber((result - resultBank).toFixed(0))}</>;
       },
     },
     {
@@ -348,9 +429,11 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       className: "text-center",
       render(value, record, index) {
         const angsuran = record.JadwalAngsuran.filter(
-          (e) => e.tanggal_pelunasan === null
+          (e) =>
+            moment(e.tanggal_bayar).format("MM/YY") ===
+            moment().add(1, "month").format("MM/YY")
         );
-        return <>{angsuran && angsuran[0].angsuran_ke}</>;
+        return <div>{angsuran.length > 0 && angsuran[0].angsuran_ke}</div>;
       },
     },
     {
@@ -368,9 +451,72 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       className: "text-center",
       render(value, record, index) {
         const angsuran = record.JadwalAngsuran.filter(
-          (e) => e.tanggal_pelunasan === null
+          (e) =>
+            moment(e.tanggal_bayar).format("MM") ===
+            moment().add(1, "month").format("MM")
         );
-        return <>{angsuran && angsuran.length}</>;
+        return (
+          <>
+            {record.DataPembiayaan.tenor -
+              (angsuran.length > 0 ? angsuran[0].angsuran_ke : 0)}
+          </>
+        );
+      },
+    },
+    // {
+    //   title: "SISA POKOK",
+    //   dataIndex: "sisa_pokok",
+    //   key: "sisa_pokok",
+    //   width: 150,
+    //   onHeaderCell: (text, record) => {
+    //     return {
+    //       ["style"]: {
+    //         textAlign: "center",
+    //       },
+    //     };
+    //   },
+    //   className: "text-center",
+    //   render(value, record, index) {
+    //     const angsuran = record.JadwalAngsuran.filter(
+    //       (e) =>
+    //         moment(e.tanggal_bayar).format("MM/YYYY") ===
+    //         moment().add(1, "month").format("MM/YYYY")
+    //     );
+    //     return (
+    //       <>
+    //         {formatNumber(
+    //           angsuran.length > 0 ? angsuran[0].sisa.toFixed(0) : "0"
+    //         )}
+    //       </>
+    //     );
+    //   },
+    // },
+    {
+      title: "PERIODE",
+      dataIndex: "periode",
+      key: "periode",
+      width: 150,
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+          },
+        };
+      },
+      className: "text-center",
+      render(value, record, index) {
+        const angsuran = record.JadwalAngsuran.filter(
+          (e) =>
+            moment(e.tanggal_bayar).format("MM") ===
+            moment().add(1, "month").format("MM")
+        );
+        return (
+          <>
+            {moment(
+              angsuran.length > 0 ? angsuran[0].tanggal_bayar : new Date()
+            ).format("MMYYYY")}
+          </>
+        );
       },
     },
     {
@@ -388,30 +534,22 @@ export default function OutstandingAktif({ role }: { role: Role }) {
       className: "text-center",
       render(value, record, index) {
         const angsuran = record.JadwalAngsuran.filter(
-          (e) => e.tanggal_pelunasan === null
+          (e) =>
+            moment(e.tanggal_bayar).format("MMYYYY") ===
+            moment().add(1, "month").format("MMYYYY")
         );
-        const angsuranBulan = getAngsuranPerBulan(
-          record.DataPembiayaan.mg_bunga,
-          record.DataPembiayaan.tenor,
-          record.DataPembiayaan.plafond
-        );
-        const ceilingAngsuran = ceiling(
-          parseInt(angsuranBulan),
-          record.DataPembiayaan.pembulatan
-        );
-        const sisaAngsuran = ceilingAngsuran * angsuran.length;
+        // const angsuranBulan = getAngsuranPerBulan(
+        //   record.DataPembiayaan.mg_bunga,
+        //   record.DataPembiayaan.tenor,
+        //   record.DataPembiayaan.plafond
+        // );
+        // const ceilingAngsuran = ceiling(
+        //   parseInt(angsuranBulan),
+        //   record.DataPembiayaan.pembulatan
+        // );
 
         return (
-          <div>
-            <Tooltip
-              title={`Sisa Angsuran Total : ${formatNumber(
-                sisaAngsuran.toFixed(0)
-              )}`}
-            >
-              {angsuran &&
-                formatNumber((angsuran[0].sisa + angsuran[0].pokok).toFixed(0))}
-            </Tooltip>
-          </div>
+          <div>{angsuran && formatNumber(angsuran[0].sisa.toFixed(0))}</div>
         );
       },
     },
@@ -420,10 +558,29 @@ export default function OutstandingAktif({ role }: { role: Role }) {
   return (
     <div>
       <div className="flex gap-5 my-1 mx-1">
-        <DatePicker
-          picker="year"
+        {/* <DatePicker
+          picker="month"
           onChange={(date, dateString) => setYear(dateString as string)}
+        /> */}
+        <RangePicker
+          onChange={(_, info) => {
+            setFrom(info && info[0]);
+            setTo(info && info[1]);
+          }}
         />
+        {!["BANK", "APPROVAL"].includes(role) && (
+          <Select
+            placeholder="SUMDAN"
+            options={banks.map((b) => {
+              return {
+                label: b.kode,
+                value: b.id,
+              };
+            })}
+            allowClear
+            onChange={(e) => setSelectedBank(e)}
+          />
+        )}
         <Input.Search
           style={{ width: 170 }}
           onChange={(e) => setNama(e.target.value)}
@@ -444,6 +601,117 @@ export default function OutstandingAktif({ role }: { role: Role }) {
               setPage(page);
               setPageSize(pageSize);
             },
+          }}
+          summary={(pageData) => {
+            let plafon = 0;
+            let totalAngsuran = 0;
+            let totalAngsuranBank = 0;
+            let totalAngsuranKoperasi = 0;
+            let totalPokok = 0;
+            let totalMargin = 0;
+            let os = 0;
+
+            pageData.forEach((pd, ind) => {
+              plafon += pd.DataPembiayaan.plafond;
+
+              const angsuran = ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    pd.DataPembiayaan.mg_bunga,
+                    pd.DataPembiayaan.tenor,
+                    pd.DataPembiayaan.plafond,
+                    false,
+                    checkStatusFlat(pd)
+                  )
+                ),
+                pd.DataPembiayaan.pembulatan
+              );
+              const angsuranBank = ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    pd.DataPembiayaan.margin_bank,
+                    pd.DataPembiayaan.tenor,
+                    pd.DataPembiayaan.plafond
+                  )
+                ),
+                pd.DataPembiayaan.pembulatan
+              );
+              const jadwal = pd.JadwalAngsuran.filter(
+                (e) =>
+                  moment(e.tanggal_bayar).format("MM/YY") ===
+                  moment().add(1, "month").format("MM/YY")
+              );
+              totalAngsuran += angsuran;
+              totalAngsuranBank += angsuranBank;
+              totalAngsuranKoperasi += angsuran - angsuranBank;
+              totalPokok += jadwal.length > 0 ? jadwal[0].pokok : 0;
+              totalMargin += jadwal.length > 0 ? jadwal[0].margin : 0;
+              os += jadwal.length > 0 ? jadwal[0].sisa : 0;
+            });
+
+            return (
+              <Table.Summary.Row className="bg-green-500 text-white">
+                <Table.Summary.Cell index={1}></Table.Summary.Cell>
+                <Table.Summary.Cell index={2} className="text-center">
+                  Summary
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={3}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={4}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={5}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={6}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={8}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={8}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={9}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={10}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={11} className="text-center">
+                  <>{formatNumber(plafon.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={12}>
+                  <>{formatNumber(totalAngsuran.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={13}>
+                  <>{formatNumber(totalPokok.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={14}>
+                  <>{formatNumber(totalMargin.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={15}>
+                  <>{formatNumber(totalAngsuranBank.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={16}>
+                  <>{formatNumber(totalAngsuranKoperasi.toFixed(0))}</>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={17}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={18}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={19}>
+                  <></>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={20} className="text-center">
+                  <>{formatNumber(os.toFixed(0))}</>
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            );
           }}
         />
       </div>

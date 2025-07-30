@@ -25,6 +25,9 @@ export default async function page() {
       email: session?.user?.email,
     },
   });
+  const banks = await prisma.bank.findMany({
+    where: { is_active: true },
+  });
   return (
     <div className="bg-white shadow">
       <div
@@ -33,7 +36,10 @@ export default async function page() {
         <h1 className="font-bold text-md">DAFTAR OUTSTANDING AKTIF</h1>
       </div>
       <div className="p-2">
-        <OutstandingAktif role={user?.role || "MARKETING"} />
+        <OutstandingAktif
+          role={user?.role || "MARKETING"}
+          banks={banks || []}
+        />
       </div>
     </div>
   );

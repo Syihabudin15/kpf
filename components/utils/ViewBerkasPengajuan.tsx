@@ -2,8 +2,8 @@
 import { Role } from "@prisma/client";
 import { Modal, Tabs } from "antd";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import { icon } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { icon } from "leaflet";
 import dynamic from "next/dynamic";
 import React from "react";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -158,7 +158,7 @@ export default function BerkasTabsPengajuan({
                                 zoom={13}
                               >
                                 <TileLayer
-                                  attribution={`&copy; Created ${process.env.NEXT_PUBLIC_APP_FULL_NAME}`}
+                                  attribution={`&copy; Created `}
                                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                 />
                                 <Marker
