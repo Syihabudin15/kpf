@@ -317,6 +317,7 @@ model DataPengajuan {
   status_lunas                Boolean   @default(false)
   tanggal_pembayaran_asuransi DateTime?
   area_pelayanan_berkas       String?
+  moc                         String?
   tagihan_manual              Boolean   @default(false)
 
   BerkasPengajuan   BerkasPengajuan? @relation(fields: [berkasPengajuanId], references: [id])

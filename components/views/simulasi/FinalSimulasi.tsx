@@ -248,7 +248,8 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
     const angsuran =
       produk.name === "Flash Sisa Gaji" ||
       produk.name === "Ultima Plus" ||
-      produk.name === "Ultima"
+      produk.name === "Ultima" ||
+      (produk.name === "Platinum Plus" && bank.kode === "KPF")
         ? ceiling(
             parseInt(
               getAngsuranPerBulan(
@@ -551,6 +552,12 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                             pembulatan: dataBank[i].pembulatan || 0,
                           };
                         });
+                        if (
+                          produk.name === "Platinum Lintas" &&
+                          dataBank[0].kode === "KPF"
+                        ) {
+                          setLabelTabungan("Tabungan Anggota");
+                        }
                         if (temp[0].name === "Flash Sisa Gaji") {
                           setLabelTabungan("Tabungan Anggota");
                           setTempTatalaksana(0);

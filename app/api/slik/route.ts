@@ -472,6 +472,7 @@ export const POST = async (req: NextRequest) => {
                 tanggal_sk_pensiun: data.tanggal_sk_pensiun,
                 alamat_pekerjaan: data.alamat_pekerjaan,
                 area_pelayanan_berkas: data.area_pelayanan_berkas,
+                moc: data.moc,
               },
             })
           : await tx.dataPengajuan.create({
@@ -516,6 +517,7 @@ export const POST = async (req: NextRequest) => {
                 tanggal_sk_pensiun: data.tanggal_sk_pensiun,
                 alamat_pekerjaan: data.alamat_pekerjaan,
                 area_pelayanan_berkas: data.area_pelayanan_berkas,
+                moc: data.moc,
                 jenis_asuransi: data.jenis_asuransi
                   ? data.jenis_asuransi
                   : "BUMI PUTRA",
@@ -696,6 +698,7 @@ export const PUT = async (req: NextRequest) => {
           kode_jiwa: data.kode_jiwa ? data.kode_jiwa : findPengajuan?.kode_jiwa,
           area_pelayanan_berkas: data.area_pelayanan_berkas,
           bankId: data.bankId ? data.bankId : findPengajuan?.bankId,
+          moc: data.moc,
           jenis_asuransi: data.jenis_asuransi
             ? data.jenis_asuransi
             : findPengajuan?.jenis_asuransi,

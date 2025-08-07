@@ -1219,7 +1219,7 @@ export default function InputForm({
               <div className="block md:flex gap-5 justify-between items-end">
                 <Form.Item
                   required
-                  label="Nama Marketing"
+                  label="Nama SPV/Marketing"
                   name={"user_id"}
                   className="w-full md:flex-1"
                   rules={[{ required: true, message: "Mohon isi field ini!" }]}
@@ -1255,6 +1255,15 @@ export default function InputForm({
                 <Form.Item
                   label="Agent Fronting"
                   name={"agent_fronting"}
+                  className="flex-1"
+                >
+                  <Input />
+                </Form.Item>
+              </div>
+              <div className="block md:flex justify-between gap-5 items-end">
+                <Form.Item
+                  label="Nama Marketing"
+                  name={"moc"}
                   className="flex-1"
                 >
                   <Input />

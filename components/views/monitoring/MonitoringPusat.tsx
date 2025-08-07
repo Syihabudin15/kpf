@@ -432,7 +432,7 @@ export default function MonitoringPusat() {
       },
     },
     {
-      title: "MARKETING / SPV",
+      title: "SPV / MARKETING",
       dataIndex: "marketing",
       key: "marketing",
       onHeaderCell: (text, record) => {
@@ -450,7 +450,8 @@ export default function MonitoringPusat() {
             {record.User.first_name} {record.User.last_name}{" "}
             <span className="italic opacity-70" style={{ fontSize: 10 }}>
               ({record.User.unit_cabang_id && record.User.UnitCabang.name})
-            </span>
+            </span>{" "}
+            / {record.moc}
           </div>
         );
       },

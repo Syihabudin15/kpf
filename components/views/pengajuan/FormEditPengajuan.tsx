@@ -1706,6 +1706,21 @@ export default function FormEditPengajuan({
                 />
               </Form.Item>
             </div>
+            <div className="block md:flex justify-between gap-5 items-end">
+              <Form.Item label="Nama Marketing" name={"moc"} className="flex-1">
+                <Input
+                  onChange={() =>
+                    setlastActivity((prev: string | undefined) => {
+                      if (prev && prev.includes(`Edit Nama Marketing`)) {
+                        return prev;
+                      } else {
+                        return `${prev ? prev + " " : ""} Nama Marketing,`;
+                      }
+                    })
+                  }
+                />
+              </Form.Item>
+            </div>
             <div className="w-full py-3 px-2 bg-orange-500 text-gray-100 mb-2 font-semibold">
               Upload Dokumen Pesyaratan
             </div>
