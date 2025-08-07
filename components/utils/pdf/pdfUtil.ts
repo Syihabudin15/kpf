@@ -77,7 +77,6 @@ export const generateTableAngsuran = (data: DataDataPengajuan) => {
     );
     result = tables;
   } else {
-    console.log(data);
     const tables = angsuranAnuitas(
       data.DataPembiayaan.tenor,
       data.DataPembiayaan.plafond,
@@ -284,7 +283,10 @@ export const angsuranAnuitas = (
 
   let monthly_installment =
     (plafond * montly_rate) / (1 - Math.pow(1 + montly_rate, -tenor));
-  let rounded_installment = ceiling(monthly_installment, pembulatan);
+  let rounded_installment = ceiling(
+    parseInt(getAngsuranPerBulan(bungaKoperasi, tenor, plafond, false, false)),
+    pembulatan
+  );
   let angsuranBank = ceiling(
     parseInt(getAngsuranPerBulan(bungaBank, tenor, plafond)),
     pembulatan
