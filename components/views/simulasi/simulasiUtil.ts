@@ -68,7 +68,8 @@ export function getAngsuranPerBulan(
   tenor: number,
   plafond: number,
   fixed?: boolean,
-  isFlat?: boolean
+  isFlat?: boolean,
+  bpr?: string
 ) {
   if (isFlat) {
     const r = Math.ceil(bunga / 12 / 100 / 0.001) * 0.001;
@@ -83,7 +84,6 @@ export function getAngsuranPerBulan(
   } else {
     const mgBunga = bunga / 100;
     const result = PMT(mgBunga / 12, tenor, plafond) * -1;
-
     if (fixed) {
       return result.toString();
     } else {

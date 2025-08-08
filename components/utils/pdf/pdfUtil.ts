@@ -281,8 +281,9 @@ export const angsuranAnuitas = (
 
   let montly_rate = bungaKoperasi / 12 / 100;
 
-  let monthly_installment =
-    (plafond * montly_rate) / (1 - Math.pow(1 + montly_rate, -tenor));
+  // let monthly_installment =
+  //   (plafond * montly_rate) / (1 - Math.pow(1 + montly_rate, -tenor));
+  // let rounded_installmentManual = ceiling(monthly_installment, pembulatan);
   let rounded_installment = ceiling(
     parseInt(getAngsuranPerBulan(bungaKoperasi, tenor, plafond, false, false)),
     pembulatan
