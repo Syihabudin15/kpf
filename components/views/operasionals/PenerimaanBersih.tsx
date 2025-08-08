@@ -211,7 +211,10 @@ export default function PenerimaanBersih() {
                   getAngsuranPerBulan(
                     record.DataPembiayaan.mg_bunga,
                     record.DataPembiayaan.tenor,
-                    record.DataPembiayaan.plafond
+                    record.DataPembiayaan.plafond,
+                    false,
+                    false,
+                    record.Bank.kode
                   )
                 ),
                 record.DataPembiayaan.pembulatan

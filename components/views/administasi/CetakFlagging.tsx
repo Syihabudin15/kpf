@@ -36,7 +36,10 @@ export default function CetakFlagging({ data }: { data: DataDataPengajuan[] }) {
                   getAngsuranPerBulan(
                     data[0].DataPembiayaan.mg_bunga,
                     data[0].DataPembiayaan.tenor,
-                    data[0].DataPembiayaan.plafond
+                    data[0].DataPembiayaan.plafond,
+                    false,
+                    false,
+                    data[0].Bank.kode
                   )
                 ),
                 data[0].DataPembiayaan.pembulatan

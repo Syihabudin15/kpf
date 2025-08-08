@@ -41,7 +41,10 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
                   getAngsuranPerBulan(
                     d.DataPembiayaan.mg_bunga,
                     d.DataPembiayaan.tenor,
-                    d.DataPembiayaan.plafond
+                    d.DataPembiayaan.plafond,
+                    false,
+                    false,
+                    d.Bank.kode
                   )
                 ),
                 d.DataPembiayaan.pembulatan

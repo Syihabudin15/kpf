@@ -85,7 +85,14 @@ export default function DataSimulasi() {
     );
     const angsBulan = ceiling(
       parseInt(
-        getAngsuranPerBulan(record.mg_bunga, record.tenor, record.plafond)
+        getAngsuranPerBulan(
+          record.mg_bunga,
+          record.tenor,
+          record.plafond,
+          false,
+          false,
+          record.Produk.Bank.kode
+        )
       ),
       record.pembulatan
     ).toString();

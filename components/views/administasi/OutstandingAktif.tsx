@@ -280,7 +280,8 @@ export default function OutstandingAktif({
               record.DataPembiayaan.tenor,
               record.DataPembiayaan.plafond,
               false,
-              checkStatusFlat(record)
+              checkStatusFlat(record),
+              record.Bank.kode
             )
           ),
           record.DataPembiayaan.pembulatan
@@ -395,7 +396,8 @@ export default function OutstandingAktif({
           record.DataPembiayaan.tenor,
           record.DataPembiayaan.plafond,
           false,
-          checkStatusFlat(record)
+          checkStatusFlat(record),
+          record.Bank.kode
         );
         const result = ceiling(
           parseInt(angsuran),
@@ -621,7 +623,8 @@ export default function OutstandingAktif({
                     pd.DataPembiayaan.tenor,
                     pd.DataPembiayaan.plafond,
                     false,
-                    checkStatusFlat(pd)
+                    checkStatusFlat(pd),
+                    pd.Bank.kode
                   )
                 ),
                 pd.DataPembiayaan.pembulatan

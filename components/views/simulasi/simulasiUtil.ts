@@ -69,7 +69,7 @@ export function getAngsuranPerBulan(
   plafond: number,
   fixed?: boolean,
   isFlat?: boolean,
-  bpr?: string
+  bpr?: string | null
 ) {
   if (isFlat) {
     const r = Math.ceil(bunga / 12 / 100 / 0.001) * 0.001;
@@ -83,7 +83,8 @@ export function getAngsuranPerBulan(
     }
   } else {
     const mgBunga = bunga / 100;
-    const result = PMT(mgBunga / 12, tenor, plafond) * -1;
+    const tempResult = PMT(mgBunga / 12, tenor, plafond) * -1;
+    const result = bpr && bpr === "BPR BNM" ? tempResult + 500 : tempResult;
     if (fixed) {
       return result.toString();
     } else {

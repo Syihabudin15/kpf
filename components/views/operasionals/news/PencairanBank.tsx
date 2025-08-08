@@ -441,7 +441,8 @@ export default function PencairanBank() {
                   d.DataPembiayaan.tenor,
                   d.DataPembiayaan.plafond,
                   false,
-                  false
+                  false,
+                  d.Bank.kode
                 )
               ),
               d.DataPembiayaan.pembulatan

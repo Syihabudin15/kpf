@@ -137,7 +137,10 @@ export default function JadwalAngsuran({
                           getAngsuranPerBulan(
                             data.DataPembiayaan.mg_bunga,
                             data.DataPembiayaan.tenor,
-                            data.DataPembiayaan.plafond
+                            data.DataPembiayaan.plafond,
+                            false,
+                            false,
+                            data.Bank.kode
                           )
                         ),
                         data.DataPembiayaan.pembulatan

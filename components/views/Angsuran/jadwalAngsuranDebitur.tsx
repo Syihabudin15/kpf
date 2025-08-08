@@ -227,7 +227,10 @@ export default function JadwalAngsuranDebitur({ id }: { id: string }) {
                       getAngsuranPerBulan(
                         record.DataPengajuan.DataPembiayaan.mg_bunga,
                         record.DataPengajuan.DataPembiayaan.tenor,
-                        record.DataPengajuan.DataPembiayaan.plafond
+                        record.DataPengajuan.DataPembiayaan.plafond,
+                        false,
+                        false,
+                        record.DataPengajuan.Bank.kode
                       )
                     ),
                     record.DataPengajuan.DataPembiayaan.pembulatan

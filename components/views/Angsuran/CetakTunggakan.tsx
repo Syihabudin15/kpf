@@ -38,7 +38,10 @@ export default function CetakTunggakan({
                   getAngsuranPerBulan(
                     d.DataPengajuan.DataPembiayaan.margin_bank,
                     d.DataPengajuan.DataPembiayaan.tenor,
-                    d.DataPengajuan.DataPembiayaan.plafond
+                    d.DataPengajuan.DataPembiayaan.plafond,
+                    false,
+                    false,
+                    d.DataPengajuan.Bank.kode
                   )
                 ),
                 d.DataPengajuan.DataPembiayaan.pembulatan

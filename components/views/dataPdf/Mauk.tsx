@@ -28,7 +28,10 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
             getAngsuranPerBulan(
               data.DataPembiayaan.mg_bunga,
               data.DataPembiayaan.tenor,
-              data.DataPembiayaan.plafond
+              data.DataPembiayaan.plafond,
+              false,
+              false,
+              data.Bank.kode
             )
           ),
           data.DataPembiayaan.pembulatan
@@ -455,7 +458,10 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                           getAngsuranPerBulan(
                             data.Bank.margin_bank || 0,
                             data.DataPembiayaan.tenor,
-                            data.DataPembiayaan.plafond
+                            data.DataPembiayaan.plafond,
+                            false,
+                            false,
+                            data.Bank.kode
                           )
                         ),
                         parseInt(

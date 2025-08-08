@@ -26,7 +26,10 @@ export default function CetakManagement({
         const angsuranKoperasi = getAngsuranPerBulan(
           d.DataPembiayaan.mg_bunga,
           d.DataPembiayaan.tenor,
-          d.DataPembiayaan.plafond
+          d.DataPembiayaan.plafond,
+          false,
+          false,
+          d.Bank.kode
         );
         const angsuranBank = getAngsuranPerBulan(
           d.DataPembiayaan.margin_bank,

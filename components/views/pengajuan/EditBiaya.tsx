@@ -352,7 +352,10 @@ export default function EditBiaya({
         getAngsuranPerBulan(
           selectedProduk.mg_bunga,
           tenor,
-          inputTextToDecimal(plafond)
+          inputTextToDecimal(plafond),
+          false,
+          false,
+          selectedBank && selectedBank.kode
         )
       ),
       currData.DataPembiayaan.pembulatan || 1

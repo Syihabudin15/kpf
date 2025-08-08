@@ -274,7 +274,10 @@ export default function NewEditBiaya({
               getAngsuranPerBulan(
                 produk.mg_bunga,
                 inputDapem.tenor,
-                inputDapem.plafond
+                inputDapem.plafond,
+                false,
+                false,
+                bank.kode
               )
             ),
             bank.pembulatan

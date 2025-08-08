@@ -64,7 +64,10 @@ export default function Neraca() {
               getAngsuranPerBulan(
                 pd.DataPembiayaan.mg_bunga,
                 pd.DataPembiayaan.tenor,
-                pd.DataPembiayaan.plafond
+                pd.DataPembiayaan.plafond,
+                false,
+                false,
+                pd.Bank.kode
               )
             ),
             pd.DataPembiayaan.pembulatan

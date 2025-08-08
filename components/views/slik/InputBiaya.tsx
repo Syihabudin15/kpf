@@ -365,7 +365,10 @@ export default function InputPembiayaan({
         getAngsuranPerBulan(
           selectedProduk.mg_bunga,
           tenor,
-          inputTextToDecimal(plafond)
+          inputTextToDecimal(plafond),
+          false,
+          false,
+          selectedBank && selectedBank.kode
         )
       ),
       parseInt(selectedBank ? selectedBank.pembulatan.toString() : "1")

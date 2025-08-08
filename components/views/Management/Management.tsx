@@ -212,7 +212,10 @@ export default function Management() {
             const angsuran = getAngsuranPerBulan(
               record.DataPembiayaan.mg_bunga,
               record.DataPembiayaan.tenor,
-              record.DataPembiayaan.plafond
+              record.DataPembiayaan.plafond,
+              false,
+              false,
+              record.Bank.kode
             );
             return (
               <>
@@ -245,7 +248,10 @@ export default function Management() {
                 getAngsuranPerBulan(
                   record.DataPembiayaan.mg_bunga,
                   record.DataPembiayaan.tenor,
-                  record.DataPembiayaan.plafond
+                  record.DataPembiayaan.plafond,
+                  false,
+                  false,
+                  record.Bank.kode
                 )
               ),
               record.DataPembiayaan.pembulatan
