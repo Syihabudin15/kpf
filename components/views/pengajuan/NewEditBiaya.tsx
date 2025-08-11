@@ -393,7 +393,7 @@ export default function NewEditBiaya({
         setBank({
           id: currData.bankId || "",
           name: currData.Bank.name,
-          kode: currData.Bank.name,
+          kode: currData.Bank.kode || currData.Bank.name,
           by_admin: currData.DataPembiayaan.by_admin,
           by_admin_bank: currData.DataPembiayaan.by_admin_bank,
           by_lainnya: currData.DataPembiayaan.by_lainnya,

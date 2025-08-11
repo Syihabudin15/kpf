@@ -690,7 +690,10 @@ export default function EditBiaya({
         getAngsuranPerBulan(
           currData.DataPembiayaan.mg_bunga,
           currData.DataPembiayaan.tenor,
-          currData.DataPembiayaan.plafond
+          currData.DataPembiayaan.plafond,
+          false,
+          false,
+          currData.Bank.kode
         )
       ),
       currData.DataPembiayaan.pembulatan
