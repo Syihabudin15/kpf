@@ -57,7 +57,7 @@ export default function TandaTerima({ data }: { data: DataDataPengajuan }) {
           <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
             <Text style={{ width: 100 }}>Instansi</Text>
             <Text style={{ width: 20 }}>:</Text>
-            <Text style={{ width: 150 }}>ASABRI</Text>
+            <Text style={{ width: 150 }}>{data.jenis_pensiun}</Text>
           </View>
           <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
             <Text style={{ width: 100 }}>Loket Bayar</Text>
@@ -257,7 +257,7 @@ export default function TandaTerima({ data }: { data: DataDataPengajuan }) {
           <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
             <Text style={{ width: 100 }}>Instansi</Text>
             <Text style={{ width: 20 }}>:</Text>
-            <Text style={{ width: 150 }}>ASABRI</Text>
+            <Text style={{ width: 150 }}>{data.jenis_pensiun}</Text>
           </View>
           <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
             <Text style={{ width: 100 }}>Loket Bayar</Text>

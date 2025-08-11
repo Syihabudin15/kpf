@@ -85,7 +85,8 @@ export const generateTableAngsuran = (data: DataDataPengajuan) => {
       data.tanggal_cetak_akad?.toString() ||
         moment().format("YYYY-MM-DD").toString(),
       data.id,
-      data.DataPembiayaan.pembulatan
+      data.DataPembiayaan.pembulatan,
+      data.Bank.kode || undefined
     );
 
     result = tables;
@@ -264,7 +265,8 @@ export const angsuranAnuitas = (
   bungaBank: number,
   tanggal: string,
   pengajuanId: string,
-  pembulatan: number
+  pembulatan: number,
+  bprCode?: string
 ) => {
   let table: any[] = [];
 
@@ -285,7 +287,9 @@ export const angsuranAnuitas = (
   //   (plafond * montly_rate) / (1 - Math.pow(1 + montly_rate, -tenor));
   // let rounded_installmentManual = ceiling(monthly_installment, pembulatan);
   let rounded_installment = ceiling(
-    parseInt(getAngsuranPerBulan(bungaKoperasi, tenor, plafond, false, false)),
+    parseInt(
+      getAngsuranPerBulan(bungaKoperasi, tenor, plafond, false, false, bprCode)
+    ),
     pembulatan
   );
   let angsuranBank = ceiling(
