@@ -839,7 +839,8 @@ export default function ArusKas({
                         record.DataPembiayaan.plafond,
                         false,
                         false,
-                        record.Bank.kode
+                        record.Bank.kode,
+                        record.DataPembiayaan.pembulatanKhusus
                       )
                     ),
                     record.DataPembiayaan.pembulatan
@@ -880,7 +881,11 @@ export default function ArusKas({
                       getAngsuranPerBulan(
                         record.DataPembiayaan.margin_bank,
                         record.DataPembiayaan.tenor,
-                        record.DataPembiayaan.plafond
+                        record.DataPembiayaan.plafond,
+                        false,
+                        false,
+                        record.Bank.kode,
+                        record.DataPembiayaan.pembulatanKhusus
                       )
                     ),
                     record.DataPembiayaan.pembulatan
@@ -924,7 +929,8 @@ export default function ArusKas({
                         record.DataPembiayaan.plafond,
                         false,
                         false,
-                        record.Bank.kode
+                        record.Bank.kode,
+                        record.DataPembiayaan.pembulatanKhusus
                       )
                     ),
                     record.DataPembiayaan.pembulatan
@@ -948,7 +954,11 @@ export default function ArusKas({
                       getAngsuranPerBulan(
                         record.DataPembiayaan.margin_bank,
                         record.DataPembiayaan.tenor,
-                        record.DataPembiayaan.plafond
+                        record.DataPembiayaan.plafond,
+                        false,
+                        false,
+                        record.Bank.kode,
+                        record.DataPembiayaan.pembulatanKhusus
                       )
                     ),
                     record.DataPembiayaan.pembulatan
@@ -994,7 +1004,8 @@ export default function ArusKas({
                     record.DataPembiayaan.plafond,
                     false,
                     false,
-                    record.Bank.kode
+                    record.Bank.kode,
+                    record.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 record.DataPembiayaan.pembulatan
@@ -1079,7 +1090,8 @@ export default function ArusKas({
                     record.DataPembiayaan.plafond,
                     false,
                     false,
-                    record.Bank.kode
+                    record.Bank.kode,
+                    record.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 record.DataPembiayaan.pembulatan
@@ -1279,7 +1291,8 @@ export default function ArusKas({
                           pd.DataPembiayaan.plafond,
                           false,
                           false,
-                          pd.Bank.kode
+                          pd.Bank.kode,
+                          pd.DataPembiayaan.pembulatanKhusus
                         )
                       ),
                       pd.DataPembiayaan.pembulatan
@@ -1303,7 +1316,11 @@ export default function ArusKas({
                         getAngsuranPerBulan(
                           pd.DataPembiayaan.margin_bank,
                           pd.DataPembiayaan.tenor,
-                          pd.DataPembiayaan.plafond
+                          pd.DataPembiayaan.plafond,
+                          false,
+                          false,
+                          pd.Bank.kode,
+                          pd.DataPembiayaan.pembulatanKhusus
                         )
                       ),
                       pd.DataPembiayaan.pembulatan

@@ -36,6 +36,8 @@ export default function CetakDaftarNominatif({
       let totalAngsuran = 0;
       let totalPremiAsuransi = 0;
       let totalSelisihAsuransi = 0;
+      let totalAngsuranBank = 0;
+      let totalAngsuranKoperasi = 0;
 
       const newData: any[] = data.map((d: DataDataPengajuan, ind: number) => {
         const plafond = d.DataPembiayaan.plafond;
@@ -72,11 +74,41 @@ export default function CetakDaftarNominatif({
                     d.DataPembiayaan.plafond,
                     false,
                     false,
-                    d.Bank.kode
+                    d.Bank.kode,
+                    d.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 d.DataPembiayaan.pembulatan
               );
+        const angsuranBank =
+          d.jenis_margin === "FLAT"
+            ? ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    d.DataPembiayaan.margin_bank,
+                    d.DataPembiayaan.tenor,
+                    d.DataPembiayaan.plafond,
+                    false,
+                    true
+                  )
+                ),
+                d.DataPembiayaan.pembulatan
+              )
+            : ceiling(
+                parseInt(
+                  getAngsuranPerBulan(
+                    d.DataPembiayaan.margin_bank,
+                    d.DataPembiayaan.tenor,
+                    d.DataPembiayaan.plafond,
+                    false,
+                    false,
+                    d.Bank.kode,
+                    d.DataPembiayaan.pembulatanKhusus
+                  )
+                ),
+                d.DataPembiayaan.pembulatan
+              );
+        const angsuranKoperasi = angsuran - angsuranBank;
         const blokir = d.DataPembiayaan.blokir * angsuran;
         const takeOver = d.DataPembiayaan.pelunasan + d.DataPembiayaan.bpp;
         const { tahun, bulan } = getUsiaMasuk(
@@ -126,6 +158,8 @@ export default function CetakDaftarNominatif({
         totalAngsuran += angsuran;
         totalPremiAsuransi += premiAsuransi;
         totalSelisihAsuransi += selisihAsuransi;
+        totalAngsuranBank += angsuranBank;
+        totalAngsuranKoperasi += angsuranKoperasi;
 
         if (d.Bank.kode === "BPR SIP") {
           return {
@@ -163,7 +197,10 @@ export default function CetakDaftarNominatif({
             "BIAYA MUTASI": mutasi,
             "BIAYA LAYANAN KREDIT": provisi,
             "ANGSURAN PERBULAN": angsuran,
-            "BLOKIR ANGSURAN": blokir,
+            "ANGSURAN BANK": angsuranBank,
+            "ANGSURAN KOPERASI": angsuranKoperasi,
+            "BLOKIR ANGSURAN": d.DataPembiayaan.blokir,
+            "TOTAL BLOKIR ANGSURAN": blokir,
             "NOMINAL TAKE OVER": takeOver,
             PENCAIRAN: pencairan,
           };
@@ -205,7 +242,10 @@ export default function CetakDaftarNominatif({
             "BIAYA MUTASI": mutasi,
             "BIAYA PROVISI": provisi,
             "ANGSURAN PERBULAN": angsuran,
-            "BLOKIR ANGSURAN": blokir,
+            "ANGSURAN BANK": angsuranBank,
+            "ANGSURAN KOPERASI": angsuranKoperasi,
+            "BLOKIR ANGSURAN": d.DataPembiayaan.blokir,
+            "TOTAL BLOKIR ANGSURAN": blokir,
             "NOMINAL TAKE OVER": takeOver,
             PENCAIRAN: pencairan,
           };
@@ -239,7 +279,10 @@ export default function CetakDaftarNominatif({
         "BIAYA MUTASI": totalMutasi,
         "BIAYA PROVISI": totalProvisi,
         "ANGSURAN PERBULAN": totalAngsuran,
-        "BLOKIR ANGSURAN": totalBlokir,
+        "ANGSURAN BANK": totalAngsuranBank,
+        "ANGSURAN KOPERASI": totalAngsuranKoperasi,
+        "BLOKIR ANGSURAN": "-",
+        "TOTAL BLOKIR ANGSURAN": totalBlokir,
         "NOMINAL TAKE OVER": totalTakeOver,
         PENCAIRAN: totalPencairan,
       });

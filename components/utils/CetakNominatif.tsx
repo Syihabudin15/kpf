@@ -44,7 +44,8 @@ export default function CetakNominatif({ data }: { data: DataDataPencairan }) {
                     d.DataPembiayaan.plafond,
                     false,
                     false,
-                    d.Bank.kode
+                    d.Bank.kode,
+                    d.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 d.DataPembiayaan.pembulatan

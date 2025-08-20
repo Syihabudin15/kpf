@@ -29,7 +29,8 @@ export default function RiplaySIP({ data }: { data: DataDataPengajuan }) {
               data.DataPembiayaan.plafond,
               false,
               false,
-              data.Bank.kode
+              data.Bank.kode,
+              data.DataPembiayaan.pembulatanKhusus
             )
           ),
           data.DataPembiayaan.pembulatan

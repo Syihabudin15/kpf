@@ -36,7 +36,8 @@ export default function BuktiPembayaran({
               data.DataPembiayaan.plafond,
               false,
               false,
-              data.Bank.kode
+              data.Bank.kode,
+              data.DataPembiayaan.pembulatanKhusus
             )
           ),
           data.DataPembiayaan.pembulatan

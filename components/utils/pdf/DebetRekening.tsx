@@ -274,7 +274,8 @@ export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
                           data.DataPembiayaan.plafond,
                           false,
                           false,
-                          data.Bank.kode
+                          data.Bank.kode,
+                          data.DataPembiayaan.pembulatanKhusus
                         )
                       ),
                       data.DataPembiayaan.pembulatan

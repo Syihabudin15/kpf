@@ -266,7 +266,8 @@ export const angsuranAnuitas = (
   tanggal: string,
   pengajuanId: string,
   pembulatan: number,
-  bprCode?: string
+  bprCode?: string,
+  isKhusus?: boolean
 ) => {
   let table: any[] = [];
 
@@ -288,12 +289,30 @@ export const angsuranAnuitas = (
   // let rounded_installmentManual = ceiling(monthly_installment, pembulatan);
   let rounded_installment = ceiling(
     parseInt(
-      getAngsuranPerBulan(bungaKoperasi, tenor, plafond, false, false, bprCode)
+      getAngsuranPerBulan(
+        bungaKoperasi,
+        tenor,
+        plafond,
+        false,
+        false,
+        bprCode,
+        isKhusus
+      )
     ),
     pembulatan
   );
   let angsuranBank = ceiling(
-    parseInt(getAngsuranPerBulan(bungaBank, tenor, plafond)),
+    parseInt(
+      getAngsuranPerBulan(
+        bungaBank,
+        tenor,
+        plafond,
+        false,
+        false,
+        bprCode,
+        isKhusus
+      )
+    ),
     pembulatan
   );
 

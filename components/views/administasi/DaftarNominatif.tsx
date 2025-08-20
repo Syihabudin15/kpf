@@ -657,7 +657,8 @@ export default function DaftarNominatif({
                     record.DataPembiayaan.plafond,
                     false,
                     false,
-                    record.Bank.kode
+                    record.Bank.kode,
+                    record.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 record.DataPembiayaan.pembulatan
@@ -687,7 +688,8 @@ export default function DaftarNominatif({
               record.DataPembiayaan.plafond,
               false,
               false,
-              record.Bank.kode
+              record.Bank.kode,
+              record.DataPembiayaan.pembulatanKhusus
             )
           ),
           record.DataPembiayaan.pembulatan
@@ -757,7 +759,8 @@ export default function DaftarNominatif({
               record.DataPembiayaan.plafond,
               false,
               false,
-              record.Bank.kode
+              record.Bank.kode,
+              record.DataPembiayaan.pembulatanKhusus
             )
           ),
           parseInt(process.env.NEXT_PUBLIC_APP_PEMBULATAN || "100")
@@ -882,7 +885,11 @@ export default function DaftarNominatif({
                   getAngsuranPerBulan(
                     pd.DataPembiayaan.margin_bank,
                     pd.DataPembiayaan.tenor,
-                    pd.DataPembiayaan.plafond
+                    pd.DataPembiayaan.plafond,
+                    false,
+                    false,
+                    pd.Bank.kode,
+                    pd.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 pd.DataPembiayaan.pembulatan

@@ -230,6 +230,7 @@ model DataPembiayaan {
   fee                   Int      @default(0)
   margin_bank           Int      @default(0)
   pembulatan            Int      @default(100)
+  pembulatanKhusus      Boolean  @default(false)
 
   is_simulasi Boolean
   is_deviasi  Boolean @default(false)

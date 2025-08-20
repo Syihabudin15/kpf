@@ -281,7 +281,8 @@ export default function OutstandingAktif({
               record.DataPembiayaan.plafond,
               false,
               checkStatusFlat(record),
-              record.Bank.kode
+              record.Bank.kode,
+              record.DataPembiayaan.pembulatanKhusus
             )
           ),
           record.DataPembiayaan.pembulatan
@@ -368,7 +369,9 @@ export default function OutstandingAktif({
           record.DataPembiayaan.tenor,
           record.DataPembiayaan.plafond,
           false,
-          checkStatusFlat(record)
+          false,
+          record.Bank.kode,
+          record.DataPembiayaan.pembulatanKhusus
         );
         const result = ceiling(
           parseInt(angsuran),
@@ -397,7 +400,8 @@ export default function OutstandingAktif({
           record.DataPembiayaan.plafond,
           false,
           checkStatusFlat(record),
-          record.Bank.kode
+          record.Bank.kode,
+          record.DataPembiayaan.pembulatanKhusus
         );
         const result = ceiling(
           parseInt(angsuran),
@@ -406,7 +410,11 @@ export default function OutstandingAktif({
         const angsuranBank = getAngsuranPerBulan(
           record.DataPembiayaan.margin_bank,
           record.DataPembiayaan.tenor,
-          record.DataPembiayaan.plafond
+          record.DataPembiayaan.plafond,
+          false,
+          false,
+          record.Bank.kode,
+          record.DataPembiayaan.pembulatanKhusus
         );
         const resultBank = ceiling(
           parseInt(angsuranBank),
@@ -624,7 +632,8 @@ export default function OutstandingAktif({
                     pd.DataPembiayaan.plafond,
                     false,
                     checkStatusFlat(pd),
-                    pd.Bank.kode
+                    pd.Bank.kode,
+                    pd.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 pd.DataPembiayaan.pembulatan
@@ -634,7 +643,11 @@ export default function OutstandingAktif({
                   getAngsuranPerBulan(
                     pd.DataPembiayaan.margin_bank,
                     pd.DataPembiayaan.tenor,
-                    pd.DataPembiayaan.plafond
+                    pd.DataPembiayaan.plafond,
+                    false,
+                    false,
+                    pd.Bank.kode,
+                    pd.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 pd.DataPembiayaan.pembulatan

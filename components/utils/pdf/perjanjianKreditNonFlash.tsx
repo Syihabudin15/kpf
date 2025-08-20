@@ -65,7 +65,8 @@ export default function PerjanjianKreditNonFlash({
               data.DataPembiayaan.plafond,
               false,
               false,
-              data.Bank.kode
+              data.Bank.kode,
+              data.DataPembiayaan.pembulatanKhusus
             )
           ),
           data.DataPembiayaan.pembulatan
@@ -89,7 +90,11 @@ export default function PerjanjianKreditNonFlash({
             getAngsuranPerBulan(
               data.DataPembiayaan.margin_bank,
               data.DataPembiayaan.tenor,
-              data.DataPembiayaan.plafond
+              data.DataPembiayaan.plafond,
+              false,
+              false,
+              data.Bank.kode,
+              data.DataPembiayaan.pembulatanKhusus
             )
           ),
           data.DataPembiayaan.pembulatan
