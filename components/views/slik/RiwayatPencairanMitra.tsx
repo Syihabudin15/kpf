@@ -150,7 +150,8 @@ export default function RiwayatPencairanMitra() {
                     record.DataPembiayaan.plafond,
                     false,
                     false,
-                    record.Bank.kode
+                    record.Bank.kode,
+                    record.DataPembiayaan.pembulatanKhusus
                   )
                 ),
                 record.DataPembiayaan.pembulatan
