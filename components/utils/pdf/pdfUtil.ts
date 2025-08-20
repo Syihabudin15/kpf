@@ -86,7 +86,8 @@ export const generateTableAngsuran = (data: DataDataPengajuan) => {
         moment().format("YYYY-MM-DD").toString(),
       data.id,
       data.DataPembiayaan.pembulatan,
-      data.Bank.kode || undefined
+      data.Bank.kode || undefined,
+      data.DataPembiayaan.pembulatanKhusus
     );
 
     result = tables;
