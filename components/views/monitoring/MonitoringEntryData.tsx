@@ -2,6 +2,7 @@
 import {
   DeleteOutlined,
   FileFilled,
+  FolderFilled,
   FormOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
@@ -14,6 +15,7 @@ import {
   message,
   Typography,
   Select,
+  Button,
 } from "antd";
 import moment from "moment-timezone";
 import { useEffect, useState } from "react";
@@ -60,6 +62,14 @@ const ViewBerkasPengajuan = dynamic(
   }
 );
 
+const CetakForm = dynamic(
+  () => import("@/components/utils/CetakFormPengajuan"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
+
 export default function MonitoringEntryData() {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
@@ -80,6 +90,7 @@ export default function MonitoringEntryData() {
   const [modalEdit, setModalEdit] = useState(false);
   const [group, setGroup] = useState<string>();
   const [pencairan, setPencairan] = useState<string>();
+  const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -981,7 +992,15 @@ export default function MonitoringEntryData() {
       width: 100,
       render(value, record, index) {
         return (
-          <div className="flex justify-center">
+          <div className="flex justify-center" key={record.id}>
+            <Button
+              icon={<FolderFilled />}
+              type="primary"
+              onClick={() => {
+                setSelectedData(record);
+                setOpenForm(true);
+              }}
+            ></Button>
             <button
               className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded shadow"
               onClick={() => {
@@ -1101,6 +1120,9 @@ export default function MonitoringEntryData() {
           setOpen={setModalEdit}
           key={selectedData.id || ""}
         />
+      )}
+      {selectedData && (
+        <CetakForm open={openForm} setOpen={setOpenForm} data={selectedData} />
       )}
     </div>
   );

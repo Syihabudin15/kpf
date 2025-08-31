@@ -3,6 +3,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
   FileFilled,
+  FolderFilled,
   FormOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
@@ -16,6 +17,7 @@ import {
   Typography,
   Select,
   Tooltip,
+  Button,
 } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -54,6 +56,13 @@ const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+const CetakForm = dynamic(
+  () => import("@/components/utils/CetakFormPengajuan"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
 
 const ViewBerkasPengajuan = dynamic(
   () => import("@/components/utils/ViewBerkasPengajuan"),
@@ -86,6 +95,7 @@ export default function MonitoringPusat() {
   const [groupBank, setGroupBank] =
     useState<{ value: string; label: string }[]>();
   const [selectedBank, setSelectedBank] = useState<string>();
+  const [openForm, setOpenForm] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -265,7 +275,7 @@ export default function MonitoringPusat() {
           },
         };
       },
-      width: 120,
+      width: 150,
       className: "text-center",
       render(value, record, index) {
         return (
@@ -1130,7 +1140,15 @@ export default function MonitoringPusat() {
       width: 100,
       render(value, record, index) {
         return (
-          <div className="flex justify-center gap-1">
+          <div className="flex justify-center gap-1" key={record.id}>
+            <Button
+              icon={<FolderFilled />}
+              type="primary"
+              onClick={() => {
+                setSelected(record);
+                setOpenForm(true);
+              }}
+            ></Button>
             <button
               className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded shadow"
               onClick={() => {
@@ -1314,6 +1332,9 @@ export default function MonitoringPusat() {
           setOpen={setModalEdit}
           key={selected.id || ""}
         />
+      )}
+      {selected && (
+        <CetakForm open={openForm} setOpen={setOpenForm} data={selected} />
       )}
     </div>
   );

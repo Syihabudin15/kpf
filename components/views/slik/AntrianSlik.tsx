@@ -232,7 +232,7 @@ export default function AntrianSlik() {
       },
       render(value, record, index) {
         return (
-          <div className="flex justify-center">
+          <div className="flex justify-center" key={record.id}>
             <button
               className="py-1 px-2 rounded shadow bg-green-500 hover:bg-green-600 text-white"
               onClick={() => {

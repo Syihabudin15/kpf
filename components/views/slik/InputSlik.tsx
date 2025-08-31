@@ -11,10 +11,11 @@ import {
 import { formatNumber } from "@/components/utils/inputUtils";
 import {
   CheckCircleFilled,
+  FolderFilled,
   FormOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { DatePicker, Input, message, Table, TableProps } from "antd";
+import { Button, DatePicker, Input, message, Table, TableProps } from "antd";
 import moment from "moment";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
@@ -25,6 +26,13 @@ const InputForm = dynamic(() => import("@/components/views/slik/InputForm"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+const CetakForm = dynamic(
+  () => import("@/components/utils/CetakFormPengajuan"),
+  {
+    ssr: false,
+    loading: () => <LoadingOutlined />,
+  }
+);
 
 export default function InputSlik() {
   const [data, setData] = useState<DataDataPengajuan[]>();
@@ -41,6 +49,7 @@ export default function InputSlik() {
   const [provinsi, setProvinsi] = useState<Options[]>();
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [modalEdit, setModalEdit] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -361,7 +370,15 @@ export default function InputSlik() {
       },
       render(value, record, index) {
         return (
-          <div className="flex justify-center gap-2">
+          <div className="flex justify-center gap-2" key={record.id}>
+            <Button
+              icon={<FolderFilled />}
+              type="primary"
+              onClick={() => {
+                setSelected(record);
+                setOpenForm(true);
+              }}
+            ></Button>
             <button
               className="py-1 px-2 border rounded shadow text-white bg-green-500 hover:bg-green-600"
               onClick={() => {
@@ -439,6 +456,9 @@ export default function InputSlik() {
           />
         )}
       </div>
+      {selected && (
+        <CetakForm open={openForm} setOpen={setOpenForm} data={selected} />
+      )}
     </section>
   );
 }
