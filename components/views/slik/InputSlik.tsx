@@ -457,7 +457,12 @@ export default function InputSlik() {
         )}
       </div>
       {selected && (
-        <CetakForm open={openForm} setOpen={setOpenForm} data={selected} />
+        <CetakForm
+          open={openForm}
+          setOpen={setOpenForm}
+          data={selected}
+          key={selected.id}
+        />
       )}
     </section>
   );

@@ -1122,7 +1122,12 @@ export default function MonitoringEntryData() {
         />
       )}
       {selectedData && (
-        <CetakForm open={openForm} setOpen={setOpenForm} data={selectedData} />
+        <CetakForm
+          open={openForm}
+          setOpen={setOpenForm}
+          data={selectedData}
+          key={selectedData.id}
+        />
       )}
     </div>
   );

@@ -37,14 +37,21 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           }}
         >
           <Text style={{ fontWeight: "bold", fontSize: 9 }}>
-            {process.env.NEXT_PUBLIC_APP_NAME || "KOPERASI PEMASARAN FADILLAH"}
+            {process.env.NEXT_PUBLIC_APP_FULL_NAME ||
+              "KOPERASI PEMASARAN FADILLAH"}
           </Text>
           <Text style={{ fontWeight: "bold", fontSize: 9 }}>
             FORMULIR PERMOHONAN PINJAMAN
           </Text>
         </View>
         <View style={{ width: 50, height: 40, backgroundColor: "white" }}>
-          <Image src={data.Bank.logo || "/assets/images/app_logo.png"} />
+          <Image
+            src={
+              !["KPF", "KOPJAS FAS", "KOPJASFAS"].includes(data.Bank.kode || "")
+                ? data.Bank.logo || "/assets/images/app_logo.png"
+                : "/assets/images/app_logo.png"
+            }
+          />
         </View>
       </View>
       <View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
@@ -1686,10 +1693,10 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <Text style={{ flex: 1.5, textAlign: "justify" }}>
           Demikian semua informasi yang diberikan sesuai keadaan yang
           sebenarnya. Dengan ini saya bersedia tunduk pada Peraturan dan
-          Persyaratan yang ditentukan oleh {process.env.NEXT_PUBLIC_APP_NAME}{" "}
-          termasuk mengizinkan {process.env.NEXT_PUBLIC_APP_NAME} dalam
-          melakukan verifikasi data tersebut dan memeriksa seluruh informasi
-          yang diperlukan.
+          Persyaratan yang ditentukan oleh{" "}
+          {process.env.NEXT_PUBLIC_APP_FULL_NAME} termasuk mengizinkan{" "}
+          {process.env.NEXT_PUBLIC_APP_FULL_NAME} dalam melakukan verifikasi
+          data tersebut dan memeriksa seluruh informasi yang diperlukan.
         </Text>
         <View
           style={{

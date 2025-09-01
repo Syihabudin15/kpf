@@ -6,7 +6,7 @@ import { formatNumber } from "../inputUtils";
 
 export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
   return (
-    <Page size={"A4"} style={{ padding: "20px 20px", fontSize: 8 }}>
+    <Page size={"A4"} style={{ padding: "20px 30px", fontSize: 8 }}>
       <View
         style={{
           border: "2px solid black",
@@ -174,7 +174,7 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
               {[
                 `${data.DataPengajuanAlamat.alamat} RT ${data.DataPengajuanAlamat.rt} RW ${data.DataPengajuanAlamat.rw}`,
                 `KEL. ${data.DataPengajuanAlamat.kelurahan} KEC. ${data.DataPengajuanAlamat.alamat}`,
-                `KOTA/KAB. ${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi}`,
+                `KOTA/KAB. ${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi} ${data.DataPengajuanAlamat.kode_pos}`,
               ].join(", ")}
             </Text>
           </View>

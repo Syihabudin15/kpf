@@ -1334,7 +1334,7 @@ export default function MonitoringPusat() {
         />
       )}
       {selected && (
-        <CetakForm open={openForm} setOpen={setOpenForm} data={selected} />
+        <CetakForm open={openForm} setOpen={setOpenForm} data={selected} key={selected.id}/>
       )}
     </div>
   );
