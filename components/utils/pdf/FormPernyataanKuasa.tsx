@@ -14,14 +14,17 @@ export default function FormPernyataanKuasa({
   data: DataDataPengajuan;
 }) {
   return (
-    <Page size={"A4"} style={{ padding: "20px 40px", fontSize: 8 }}>
+    <Page
+      size={"A4"}
+      style={{ padding: "20px 40px", fontSize: 8, ...stylesFont.root }}
+    >
       <Text
         style={{
           fontSize: 14,
-          ...stylesFont.bold,
           textDecoration: "underline",
           margin: 5,
           textAlign: "center",
+          fontWeight: "bold",
         }}
       >
         SURAT PERNYATAAN DAN KUASA
@@ -56,7 +59,9 @@ export default function FormPernyataanKuasa({
         <View style={{ flex: 1, borderBottom: "1px solid #aaa" }}>
           <Text>
             {data.DataPembiayaan.tempat_lahir + ","}{" "}
-            {moment(data.DataPembiayaan.tanggal_lahir).format("DD - MM - YYYY")}
+            {moment(data.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
+              "DD - MM - YYYY"
+            )}
           </Text>
         </View>
       </View>
@@ -188,7 +193,7 @@ export default function FormPernyataanKuasa({
             </View>
           </View>
           <View style={{ margin: "5px 0" }}>
-            <Text style={stylesFont.italic}>
+            <Text style={{ fontStyle: "italic" }}>
               *) Diisi apabila Peminjam bukan Janda/Duda
             </Text>
           </View>
@@ -357,7 +362,7 @@ export default function FormPernyataanKuasa({
               tunjangan pensiun (Janda/Duda ***) hilang.
             </Text>
           </View>
-          <Text style={{ marginTop: 5 }}>
+          <Text style={{ marginTop: 5, fontStyle: "italic" }}>
             ***) Dicoret apabila Peminjam bukan Janda/Duda
           </Text>
         </View>
@@ -385,8 +390,12 @@ export default function FormPernyataanKuasa({
         <Text
           style={{ textDecoration: "underline", textDecorationStyle: "dotted" }}
         >
-          {data.User.UnitCabang ? data.User.UnitCabang.name : ""},{" "}
-          {moment(data.DataPembiayaan.tanggal_input).format("DD - MM - YYYY")}
+          {data.User.UnitCabang
+            ? data.User.UnitCabang.name === "PUSAT"
+              ? "BANDUNG"
+              : data.User.UnitCabang.name
+            : ""}
+          , {moment(data.DataPembiayaan.tanggal_input).format("DD - MM - YYYY")}
         </Text>
       </View>
       <View
@@ -431,7 +440,7 @@ export default function FormPernyataanKuasa({
           </View>
         </View>
       </View>
-      <Text style={{ textAlign: "right", marginTop: 10 }}>
+      <Text style={{ textAlign: "right", marginTop: 10, fontStyle: "italic" }}>
         **) Coret yang tidak perlu dan diberi Paraf/Tandatangan.
       </Text>
     </Page>

@@ -12,6 +12,8 @@ import FormFlagging from "./pdf/FormFlagging";
 import FormTabungan from "./pdf/FormTabungan";
 import FormPernyataanDebitur from "./pdf/FormPErnyataanDeb";
 import FormMutasiTaspen from "./pdf/FormMutasiTaspen";
+import FormSP3R from "./pdf/FormSP3R";
+import FormAsabri from "./pdf/FormAsabri";
 
 Font.register({
   family: "Times-Roman",
@@ -23,11 +25,31 @@ Font.register({
   ],
 });
 
+Font.register({
+  family: "SourceSansPro",
+  fonts: [
+    {
+      src: "https://fonts.gstatic.com/s/sourcesanspro/v14/6xK3dSBYKcSV-LCoeQqfX1RYOo3aPw.ttf",
+    }, // font-style: normal, font-weight: normal
+    {
+      src: "https://fonts.gstatic.com/s/sourcesanspro/v14/6xKydSBYKcSV-LCoeQqfX1RYOo3i54rAkA.ttf",
+      fontWeight: 600,
+    },
+    {
+      src: "https://cdn.jsdelivr.net/npm/@openfonts/source-sans-pro_latin/files/source-sans-pro-latin-400-italic.woff",
+      fontStyle: "italic",
+    },
+  ],
+});
+
 export const stylesFont = StyleSheet.create({
   normal: { fontFamily: "Times-Roman" },
   bold: { fontFamily: "Times-Bold" },
   italic: { fontFamily: "Times-Italic" },
   boldItalic: { fontFamily: "Times-BoldItalic" },
+  root: {
+    fontFamily: "SourceSansPro",
+  },
 });
 
 export default function CetakForm({
@@ -63,7 +85,9 @@ export default function CetakForm({
               <FormFlagging data={data} />
               <FormTabungan data={data} />
               <FormPernyataanDebitur data={data} />
-              {/* <FormMutasiTaspen data={data} /> */}
+              <FormMutasiTaspen data={data} />
+              <FormSP3R data={data} />
+              <FormAsabri data={data} />
             </Document>
           </PDFViewer>
         </div>

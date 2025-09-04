@@ -7,7 +7,10 @@ import moment from "moment";
 
 export default function FormPemotongan({ data }: { data: DataDataPengajuan }) {
   return (
-    <Page size={"A4"} style={{ padding: "20px 40px", fontSize: 8 }}>
+    <Page
+      size={"A4"}
+      style={{ padding: "20px 40px", fontSize: 8, ...stylesFont.root }}
+    >
       <View
         style={{
           display: "flex",
@@ -19,10 +22,10 @@ export default function FormPemotongan({ data }: { data: DataDataPengajuan }) {
       >
         <Image src={"/assets/images/app_logo.png"} style={{ width: 80 }} />
         <View>
-          <Text style={{ ...stylesFont.bold, fontSize: 12, margin: "3px 0" }}>
+          <Text style={{ fontWeight: "bold", fontSize: 12, margin: "3px 0" }}>
             {process.env.NEXT_PUBLIC_APP_FULL_NAME}
           </Text>
-          <Text style={{ ...stylesFont.bold, fontSize: 11 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 11 }}>
             UNIT LAYANAN :{" "}
             {data.User.UnitCabang ? data.User.UnitCabang.name : ""}
           </Text>
@@ -36,10 +39,10 @@ export default function FormPemotongan({ data }: { data: DataDataPengajuan }) {
           margin: "15px 0",
         }}
       >
-        <Text style={{ textAlign: "center", fontSize: 11 }}>
+        <Text style={{ textAlign: "center", fontSize: 11, fontWeight: "bold" }}>
           SURAT KETERANGAN
         </Text>
-        <Text style={{ textAlign: "center", fontSize: 11 }}>
+        <Text style={{ textAlign: "center", fontSize: 11, fontWeight: "bold" }}>
           PERIHAL PEMOTONGAN GAJI DIATAS 70%
         </Text>
       </View>
@@ -173,7 +176,7 @@ export default function FormPemotongan({ data }: { data: DataDataPengajuan }) {
           margin: "3px 0",
         }}
       >
-        <Text style={{ width: 10 }}>1.</Text>
+        <Text style={{ width: 10 }}>2.</Text>
         <View style={{ flex: 1 }}>
           <Text>
             Saya bertanggungjawab atas pengambilan sisa gaji saya setiap
@@ -192,8 +195,12 @@ export default function FormPemotongan({ data }: { data: DataDataPengajuan }) {
           textDecorationStyle: "dotted",
         }}
       >
-        {data.User.UnitCabang ? data.User.UnitCabang.name : ""},{" "}
-        {moment(data.DataPembiayaan.tanggal_input).format("DD - MM - YYYY")}
+        {data.User.UnitCabang
+          ? data.User.UnitCabang.name === "PUSAT"
+            ? "BANDUNG"
+            : data.User.UnitCabang.name
+          : ""}
+        , {moment(data.DataPembiayaan.tanggal_input).format("DD - MM - YYYY")}
       </Text>
       <View
         style={{

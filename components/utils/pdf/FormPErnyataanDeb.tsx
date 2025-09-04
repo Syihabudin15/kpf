@@ -11,7 +11,10 @@ export default function FormPernyataanDebitur({
   data: DataDataPengajuan;
 }) {
   return (
-    <Page size={"A4"} style={{ padding: "40px 60px", fontSize: 8 }}>
+    <Page
+      size={"A4"}
+      style={{ padding: "40px 60px", fontSize: 8, ...stylesFont.root }}
+    >
       <Image
         src="/assets/images/Header.png"
         style={{
@@ -36,7 +39,7 @@ export default function FormPernyataanDebitur({
         <Text
           style={{
             textDecoration: "underline",
-            ...stylesFont.bold,
+            fontWeight: "bold",
             textAlign: "center",
             fontSize: 12,
           }}
@@ -86,7 +89,9 @@ export default function FormPernyataanDebitur({
         >
           <Text>
             {data.DataPembiayaan.tempat_lahir + ", "}{" "}
-            {moment(data.DataPembiayaan.tanggal_lahir).format("DD - MM - YYYY")}
+            {moment(data.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
+              "DD - MM - YYYY"
+            )}
           </Text>
         </View>
       </View>
@@ -212,7 +217,12 @@ export default function FormPernyataanDebitur({
               textDecorationStyle: "dotted",
             }}
           >
-            {data.User.UnitCabang ? data.User.UnitCabang.name : ""},{" "}
+            {data.User.UnitCabang
+              ? data.User.UnitCabang.name === "PUSAT"
+                ? "BANDUNG"
+                : data.User.UnitCabang.name
+              : ""}
+            ,{" "}
             {moment(data.DataPembiayaan.tanggal_input).format("DD - MM - YYYY")}
           </Text>
           <Text style={{ textAlign: "center" }}>Yang membuat pernyataan,</Text>

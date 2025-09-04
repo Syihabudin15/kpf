@@ -7,11 +7,14 @@ import moment from "moment";
 
 export default function FormFlagging({ data }: { data: DataDataPengajuan }) {
   return (
-    <Page size={"A4"} style={{ padding: "20px 40px", fontSize: 8 }}>
+    <Page
+      size={"A4"}
+      style={{ padding: "20px 40px", fontSize: 8, ...stylesFont.root }}
+    >
       <View>
         <Text
           style={{
-            ...stylesFont.bold,
+            fontWeight: "bold",
             fontSize: 12,
             margin: "3px 0",
             textAlign: "center",
@@ -19,7 +22,7 @@ export default function FormFlagging({ data }: { data: DataDataPengajuan }) {
         >
           SURAT PERNYATAAN DEBITUR
         </Text>
-        <Text style={{ ...stylesFont.bold, fontSize: 11, textAlign: "center" }}>
+        <Text style={{ fontWeight: "bold", fontSize: 11, textAlign: "center" }}>
           MITRA KERJA PT. POS INDONESIA (PERSERO)
         </Text>
       </View>
@@ -112,7 +115,9 @@ export default function FormFlagging({ data }: { data: DataDataPengajuan }) {
         >
           <Text>
             {data.DataPembiayaan.tempat_lahir + ", "}{" "}
-            {moment(data.DataPembiayaan.tanggal_lahir).format("DD - MM - YYYY")}
+            {moment(data.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
+              "DD - MM - YYYY"
+            )}
           </Text>
         </View>
       </View>
@@ -268,7 +273,17 @@ export default function FormFlagging({ data }: { data: DataDataPengajuan }) {
         <Text style={{ flex: 1, textAlign: "justify", lineHeight: 1.5 }}>
           Pada saat menerima pembayaran Manfaat Tabungan Hari Tua (THT) dan/atau
           Pensiun saya setiap bulan dari PT {data.jenis_pensiun} (PERSERO), agar
-          dibayarkan melalui rekening saya Nomor: .......... atas Nama{" "}
+          dibayarkan melalui rekening saya Nomor:{" "}
+          <Text
+            style={{
+              borderBottom: "1px solid #aaa",
+              borderBottomStyle: "dotted",
+              padding: "0px 2px 0px 2px",
+            }}
+          >
+            {data.DataPembiayaan.no_rekening}
+          </Text>{" "}
+          atas Nama{" "}
           <Text
             style={{
               textDecoration: "underline",
@@ -284,7 +299,7 @@ export default function FormFlagging({ data }: { data: DataDataPengajuan }) {
               textDecorationStyle: "dotted",
             }}
           >
-            {data.User.UnitCabang && data.User.UnitCabang.name}
+            ................
           </Text>{" "}
           sampai dengan kredit saya lunas.
         </Text>
@@ -306,7 +321,7 @@ export default function FormFlagging({ data }: { data: DataDataPengajuan }) {
               textDecorationStyle: "dotted",
             }}
           >
-            {data.User.UnitCabang && data.User.UnitCabang.name}
+            ...................
           </Text>{" "}
           untuk melakukan Pengecekan Data kepesertaan Saya dan sekaligus untuk
           mendaftarkan flagging Data Saya pada PT {data.jenis_pensiun} (PERSERO)
@@ -435,7 +450,12 @@ export default function FormFlagging({ data }: { data: DataDataPengajuan }) {
               textAlign: "right",
             }}
           >
-            {data.User.UnitCabang && data.User.UnitCabang.name},{" "}
+            {data.User.UnitCabang
+              ? data.User.UnitCabang.name === "PUSAT"
+                ? "BANDUNG"
+                : data.User.UnitCabang.name
+              : ""}
+            ,{" "}
             {moment(data.DataPembiayaan.tanggal_input).format("DD - MM - YYYY")}
           </Text>
           <View

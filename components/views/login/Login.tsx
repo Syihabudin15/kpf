@@ -9,7 +9,6 @@ import {
 import { Button, Form, Input, Modal, Spin } from "antd";
 import { useContext, useState } from "react";
 import { notifContext } from "@/components/NotifContext";
-import ReCAPTCHA from "react-google-recaptcha";
 
 export default function Login({ maintenance }: { maintenance: boolean }) {
   const { status } = useSession();
@@ -60,17 +59,33 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
     }
   };
   return (
-    <section className="login-wrap flex justify-around md:gap-32">
-      <div className="hidden md:block">
-        <img src="/assets/images/bg-login.png" alt="Login Screen" />
+    <section className="login-wrap flex justify-evenly md:gap-48 relative">
+      <video
+        src="/kpf-login-bg.mp4"
+        className="absolute inset-0 h-full w-full object-cover filter brightness-75 contrast-110 saturate-125 "
+        muted
+        autoPlay
+        loop
+      />
+      <div
+        className="hidden md:block z-10 text-gray-50 p-2 font-bold text-center"
+        style={{ lineHeight: 2 }}
+      >
+        <div className="text-3xl">
+          <p className="drop-shadow-lg my-2">KOPERASI JASA</p>
+          <p className="drop-shadow-lg">FADILLAH AQILA SEJAHTRA</p>
+        </div>
+        <div className="text-2xl italic mt-4">
+          <p>Be Optimictic Success to Surplus</p>
+        </div>
       </div>
       <Spin spinning={loading}>
         <div className="login-form">
           <div className="flex justify-center">
             <img
-              src={process.env.NEXT_PUBLIC_APP_LOGO}
+              src={"/assets/images/app_logo.png"}
               alt="Logo Kami"
-              width={80}
+              width={200}
             />
           </div>
           <div>
@@ -79,15 +94,12 @@ export default function Login({ maintenance }: { maintenance: boolean }) {
                 <Form.Item label="Username" name={"username"}>
                   <Input required onChange={() => setFeed("")} />
                 </Form.Item>
-                <Form.Item label="Password" name={"password"}>
+                <Form.Item label="Password" name={"password"} className="mb-10">
                   <Input.Password required onChange={() => setFeed("")} />
                 </Form.Item>
-                <div className="mt-20"></div>
+                <div className="mt-10"></div>
                 {feed && (
-                  <p
-                    className="italic text-red-600 mb-2"
-                    style={{ marginTop: -20 }}
-                  >
+                  <p className="italic text-red-600 my-5">
                     <InfoCircleOutlined className="mr-2" />
                     {feed}
                   </p>

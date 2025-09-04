@@ -4,73 +4,17 @@ import { Image, Page, Text, View } from "@react-pdf/renderer";
 import { DataDataPengajuan } from "../Interfaces";
 import { formatStatus, stylesFont } from "../CetakFormPengajuan";
 import moment from "moment";
-import { TablePdf, TablePdfBodies, TablePdfHeaders } from "./TablePdf";
 
 export default function FormPerbedaanIdentitas({
   data,
 }: {
   data: DataDataPengajuan;
 }) {
-  const bodies: TablePdfBodies[] = [
-    {
-      dokumen: "KTP",
-      nama: data.nama,
-      ttl: `${data.DataPembiayaan.tempat_lahir + ","} ${moment(
-        data.DataPembiayaan.tanggal_lahir
-      ).format("DD - MM - YYYY")}`,
-      statusKawin: formatStatus(data.status_kawin || ""),
-      namaPasangan: "-",
-      nik: data.nik,
-      style: { textAlign: "left" },
-    },
-    {
-      dokumen: "Kartu Keluarga",
-      nama: "",
-      ttl: "",
-      statusKawin: "",
-      namaPasangan: "",
-      nik: "",
-      style: { textAlign: "left" },
-    },
-    {
-      dokumen: "SK Pensiun",
-      nama: "",
-      ttl: "",
-      statusKawin: "",
-      namaPasangan: "",
-      nik: "",
-      style: { textAlign: "left" },
-    },
-    {
-      dokumen: "KARIP/Asabri",
-      nama: "",
-      ttl: "",
-      statusKawin: "",
-      namaPasangan: "",
-      nik: "",
-      style: { textAlign: "left" },
-    },
-    {
-      dokumen: "Struk Gaji",
-      nama: "",
-      ttl: "",
-      statusKawin: "",
-      namaPasangan: "-",
-      nik: "-",
-      style: { textAlign: "left" },
-    },
-    {
-      dokumen: "Buku Tabungan / Kwitansi Angsuran",
-      nama: "",
-      ttl: "",
-      statusKawin: "-",
-      namaPasangan: "-",
-      nik: "-",
-      style: { textAlign: "left" },
-    },
-  ];
   return (
-    <Page size={"A4"} style={{ padding: "20px 40px", fontSize: 8 }}>
+    <Page
+      size={"A4"}
+      style={{ padding: "20px 40px", fontSize: 8, ...stylesFont.root }}
+    >
       <View
         style={{
           display: "flex",
@@ -82,10 +26,10 @@ export default function FormPerbedaanIdentitas({
       >
         <Image src={"/assets/images/app_logo.png"} style={{ width: 80 }} />
         <View>
-          <Text style={{ ...stylesFont.bold, fontSize: 12, margin: "3px 0" }}>
+          <Text style={{ fontWeight: "bold", fontSize: 12, margin: "5px 0" }}>
             {process.env.NEXT_PUBLIC_APP_FULL_NAME}
           </Text>
-          <Text style={{ ...stylesFont.bold, fontSize: 11 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 11 }}>
             UNIT LAYANAN :{" "}
             {data.User.UnitCabang ? data.User.UnitCabang.name : ""}
           </Text>
@@ -99,10 +43,10 @@ export default function FormPerbedaanIdentitas({
           margin: "10px 0",
         }}
       >
-        <Text style={{ textAlign: "center", fontSize: 11 }}>
+        <Text style={{ textAlign: "center", fontSize: 11, fontWeight: "bold" }}>
           SURAT KETERANGAN
         </Text>
-        <Text style={{ textAlign: "center", fontSize: 11 }}>
+        <Text style={{ textAlign: "center", fontSize: 11, fontWeight: "bold" }}>
           PERIHAL PERBEDAAN IDENTITAS
         </Text>
       </View>
@@ -110,9 +54,169 @@ export default function FormPerbedaanIdentitas({
         Saya yang bertanda tangan dibawah ini, menerangkan bahwa benar terdapat
         perbedaan data identitas saya pada dokumen sebagai berikut :
       </Text>
-      <View>
-        <TablePdf dataHeader={header} dataBodies={bodies} />
+      <View style={{ display: "flex", flexDirection: "row" }}>
+        {[
+          "DOKUMEN",
+          "NAMA PEMOHON",
+          "TEMPAT/TANGGAL LAHIR",
+          "STATUS PERNIKAHAN",
+          "NAMA PASANGAN",
+          "NOMOR NIK",
+        ].map((v) => (
+          <View
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "row",
+              padding: 5,
+              alignItems: "center",
+              justifyContent: "center",
+              border: "1px solid #aaa",
+            }}
+            key={v}
+          >
+            <Text style={{ textAlign: "center", fontWeight: "bold" }}>{v}</Text>
+          </View>
+        ))}
       </View>
+      {[
+        {
+          label: "KTP",
+          nama: data.nama,
+          ttl: `${data.DataPembiayaan.tempat_lahir + ","} ${moment(
+            data.DataPembiayaan.tanggal_lahir,
+            "DD-MM-YYYY"
+          ).format("DD - MM - YYYY")}`,
+          statusKawin: "",
+          pasangan: "",
+          nik: "",
+        },
+        {
+          label: "Kartu Keluarga",
+          nama: "",
+          ttl: "",
+          statusKawin: "",
+          pasangan: "",
+          nik: "",
+        },
+        {
+          label: "SK Pensiun",
+          nama: data.nama_skep,
+          ttl: "",
+          statusKawin: "",
+          pasangan: "",
+          nik: "",
+        },
+        {
+          label: "KARIP/Asabri",
+          nama: "",
+          ttl: "",
+          statusKawin: "",
+          pasangan: "",
+          nik: "",
+        },
+        {
+          label: "Struk Gaji",
+          nama: "",
+          ttl: "",
+          statusKawin: "",
+          pasangan: "",
+          nik: "",
+        },
+        {
+          label: "Buku Tabungan / Kwitansi Angsuran",
+          nama: "",
+          ttl: "",
+          statusKawin: "",
+          pasangan: "",
+          nik: "",
+        },
+      ].map((v) => (
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+          key={v.label}
+        >
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <Text
+              style={{
+                ...stylesFont.bold,
+                flex: 1,
+                border: "1px solid #aaa",
+                padding: "3px 2px",
+              }}
+            >
+              {v.label}
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                border: "1px solid #aaa",
+                padding: "3px 2px",
+              }}
+            >
+              {v.nama}
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                border: "1px solid #aaa",
+                padding: "3px 2px",
+                ...(["Buku Tabungan / Kwitansi Angsuran"].includes(v.label) && {
+                  backgroundColor: "#fc4903",
+                }),
+              }}
+            >
+              {v.ttl}
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                border: "1px solid #aaa",
+                padding: "3px 2px",
+                ...(["Buku Tabungan / Kwitansi Angsuran"].includes(v.label) && {
+                  backgroundColor: "#fc4903",
+                }),
+              }}
+            >
+              {v.statusKawin}
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                border: "1px solid #aaa",
+                padding: "3px 2px",
+                ...([
+                  "Buku Tabungan / Kwitansi Angsuran",
+                  "KTP",
+                  "Struk Gaji",
+                ].includes(v.label) && {
+                  backgroundColor: "#fc4903",
+                }),
+              }}
+            >
+              {v.pasangan}
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                border: "1px solid #aaa",
+                padding: "3px 2px",
+                ...([
+                  "Buku Tabungan / Kwitansi Angsuran",
+                  "Struk Gaji",
+                ].includes(v.label) && {
+                  backgroundColor: "#fc4903",
+                }),
+              }}
+            >
+              {v.nik}
+            </Text>
+          </View>
+        </View>
+      ))}
       <Text style={{ margin: "10px 0", lineHeight: 1.5 }}>
         Dengan ini saya menerangkan bahwa atas perbedaan data identitas pada
         dokumen tersebut diatas, saya adalah orang yang sama. Adapun data
@@ -132,7 +236,7 @@ export default function FormPerbedaanIdentitas({
         <View style={{ flex: 1, borderBottom: "1px solid #aaa" }}>
           <Text>{data.nama}</Text>
         </View>
-        <Text style={stylesFont.italic}>
+        <Text style={{ fontStyle: "italic" }}>
           (* Sesuai dengan yang tertera pada KTP)
         </Text>
       </View>
@@ -149,7 +253,7 @@ export default function FormPerbedaanIdentitas({
         <View style={{ flex: 1, borderBottom: "1px solid #aaa" }}>
           <Text></Text>
         </View>
-        <Text style={stylesFont.italic}>
+        <Text style={{ fontStyle: "italic" }}>
           (* isi jika ada SINGKATAN & singkatan Dipanjangkan)
         </Text>
       </View>
@@ -167,10 +271,12 @@ export default function FormPerbedaanIdentitas({
           <Text>
             {data.DataPembiayaan.tempat_lahir &&
               data.DataPembiayaan.tempat_lahir + ","}{" "}
-            {moment(data.DataPembiayaan.tanggal_lahir).format("DD - MM - YYYY")}
+            {moment(data.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
+              "DD - MM - YYYY"
+            )}
           </Text>
         </View>
-        <Text style={stylesFont.italic}>(* Mengacu pada KTP)</Text>
+        <Text style={{ fontStyle: "italic" }}>(* Mengacu pada KTP)</Text>
       </View>
       <View
         style={{
@@ -183,7 +289,7 @@ export default function FormPerbedaanIdentitas({
         <Text style={{ width: 120 }}>Status Pernikahan</Text>
         <Text>:</Text>
         <View style={{ flex: 1, borderBottom: "1px solid #aaa" }}>
-          <Text>{formatStatus(data.status_kawin || "")}</Text>
+          <Text></Text>
         </View>
       </View>
       <View
@@ -219,7 +325,7 @@ export default function FormPerbedaanIdentitas({
             ].join(", ")}
           </Text>
         </View>
-        <Text style={stylesFont.italic}>(* Sesuai KTP)</Text>
+        <Text style={{ fontStyle: "italic" }}>(* Sesuai KTP)</Text>
       </View>
       <Text style={{ margin: "10px 0", lineHeight: 1.5 }}>
         Demikian Surat Keterangan ini saya buat dengan sebenar-benarnya untuk
@@ -237,7 +343,13 @@ export default function FormPerbedaanIdentitas({
         <Text style={{ width: 120 }}>Dibuat Di</Text>
         <Text>:</Text>
         <View style={{ flex: 1, borderBottom: "1px solid #aaa" }}>
-          <Text>{data.User.UnitCabang ? data.User.UnitCabang.name : ""}</Text>
+          <Text>
+            {data.User.UnitCabang
+              ? data.User.UnitCabang.name === "PUSAT"
+                ? "BANDUNG"
+                : data.User.UnitCabang.name
+              : ""}
+          </Text>
         </View>
       </View>
       <View
@@ -300,28 +412,3 @@ export default function FormPerbedaanIdentitas({
     </Page>
   );
 }
-
-const header: TablePdfHeaders[] = [
-  { title: "DOKUMEN", dataIndex: "dokumen", style: { textAlign: "center" } },
-  {
-    title: "NAMA PEMOHON",
-    dataIndex: "nama",
-    style: { textAlign: "center" },
-  },
-  {
-    title: "TEMPAT/TANGGAL LAHIR PEMOHON",
-    dataIndex: "ttl",
-    style: { textAlign: "center" },
-  },
-  {
-    title: "STATUS PERNIKAHAN PEMOHON",
-    dataIndex: "statusKawin",
-    style: { textAlign: "center" },
-  },
-  {
-    title: "NAMA PASANGAN PEMOHON",
-    dataIndex: "namaPasangan",
-    style: { textAlign: "center" },
-  },
-  { title: "NOMOR NIK", dataIndex: "nik", style: { textAlign: "center" } },
-];

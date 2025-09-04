@@ -2,7 +2,7 @@
 
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { LoadingOutlined, PrinterFilled } from "@ant-design/icons";
-import { Form, Input, Modal, Select, message } from "antd";
+import { Button, Form, Input, Modal, Select, message } from "antd";
 import { useEffect, useState } from "react";
 import { JadwalAngsuran } from "@prisma/client";
 import moment from "moment";
@@ -86,12 +86,12 @@ export default function CetakAkad({ data }: { data: DataDataPengajuan }) {
   return (
     <div>
       <div className="flex justify-center">
-        <button
+        <Button
           className="py-1 px-2 border rounded shadow hover:opacity-50"
           onClick={() => setOpen(true)}
-        >
-          <PrinterFilled />
-        </button>
+          size="small"
+          icon={<PrinterFilled />}
+        ></Button>
       </div>
       <Modal
         open={open}

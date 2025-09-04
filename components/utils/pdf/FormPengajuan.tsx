@@ -7,10 +7,14 @@ import { Agama, StatusKawin, StatusRumah } from "@prisma/client";
 import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling } from "./pdfUtil";
+import { stylesFont } from "../CetakFormPengajuan";
 
 export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
   return (
-    <Page size={"A4"} style={{ padding: "20px 20px", fontSize: 6 }}>
+    <Page
+      size={"A4"}
+      style={{ padding: "10px 15px", fontSize: 6, ...stylesFont.root }}
+    >
       <View
         style={{
           backgroundColor: "#fc4903",
@@ -36,7 +40,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             color: "white",
           }}
         >
-          <Text style={{ fontWeight: "bold", fontSize: 9 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 10 }}>
             {process.env.NEXT_PUBLIC_APP_FULL_NAME ||
               "KOPERASI PEMASARAN FADILLAH"}
           </Text>
@@ -66,7 +70,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           >
             <Text style={{ width: 80 }}>Tanggal</Text>
             <Text>:</Text>
-            <Text>
+            <Text style={styles.value}>
               {moment(data.DataPembiayaan.tanggal_input).format(
                 "DD - MM - YYYY"
               )}
@@ -95,7 +99,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           >
             <Text style={{ width: 80 }}>Nama Kantor Layanan</Text>
             <Text>:</Text>
-            <Text>{data.User.UnitCabang ? data.User.UnitCabang.name : ""}</Text>
+            <Text style={styles.value}>
+              {data.User.UnitCabang ? data.User.UnitCabang.name : ""}
+            </Text>
           </View>
           <View
             style={{
@@ -106,7 +112,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           >
             <Text style={{ width: 80 }}>MOC/SPV</Text>
             <Text>:</Text>
-            <Text>
+            <Text style={styles.value}>
               {data.User.first_name} {data.User.last_name}
             </Text>
           </View>
@@ -115,8 +121,8 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
       <View
         style={{
           backgroundColor: "#fc4903",
-          padding: "3px",
-          margin: "2px 0px",
+          padding: "2px",
+          margin: "1px 0px",
         }}
       >
         <Text style={{ color: "white" }}>
@@ -127,11 +133,13 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
       <View
         style={{
           backgroundColor: "#fc4903",
-          padding: "4px",
+          padding: "3px",
           margin: "2px 0px",
         }}
       >
-        <Text style={{ textAlign: "center", color: "white" }}>
+        <Text
+          style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+        >
           DATA IDENTITAS PEMOHON
         </Text>
       </View>
@@ -141,6 +149,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>NOPEN</Text>
@@ -148,7 +157,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "1", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.nopen}</Text>
+          <Text style={styles.value}>{data.nopen}</Text>
         </View>
       </View>
       <View
@@ -157,6 +166,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>No. KTP</Text>
@@ -164,7 +174,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "1", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.nik}</Text>
+          <Text style={styles.value}>{data.nik}</Text>
         </View>
         <View
           style={{
@@ -201,6 +211,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Nama Lengkap</Text>
@@ -208,7 +219,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "1", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.nama}</Text>
+          <Text style={styles.value}>{data.nama}</Text>
         </View>
       </View>
       <View
@@ -217,6 +228,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Tempat & Tanggal Lahir</Text>
@@ -224,7 +236,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "1", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.DataPembiayaan.tempat_lahir}</Text>
+          <Text style={styles.value}>{data.DataPembiayaan.tempat_lahir}</Text>
         </View>
         <View
           style={{
@@ -260,6 +272,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Status Pernikahan</Text>
@@ -322,6 +335,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Agama</Text>
@@ -361,6 +375,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Pekerjaan</Text>
@@ -368,7 +383,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "1", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.pekerjaan_sekarang}</Text>
+          <Text style={styles.value}>{data.pekerjaan_sekarang}</Text>
         </View>
       </View>
       <View
@@ -377,6 +392,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Alamat Sesuai KTP</Text>
@@ -384,7 +400,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "2", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.DataPembiayaan.alamat}</Text>
+          <Text style={styles.value}>{data.DataPembiayaan.alamat}</Text>
         </View>
         <View
           style={{
@@ -433,6 +449,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}></Text>
@@ -444,11 +461,12 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             width: "100%",
             display: "flex",
             flexDirection: "row",
+            alignItems: "center",
             gap: 4,
           }}
         >
           <Text>Kel.</Text>
-          <Text>{data.DataPengajuanAlamat.kelurahan}</Text>
+          <Text style={styles.value}>{data.DataPengajuanAlamat.kelurahan}</Text>
         </View>
         <View
           style={{
@@ -458,10 +476,11 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 4,
+            alignItems: "center",
           }}
         >
           <Text>Kec.</Text>
-          <Text>{data.DataPengajuanAlamat.kecamatan}</Text>
+          <Text style={styles.value}>{data.DataPengajuanAlamat.kecamatan}</Text>
         </View>
       </View>
       <View
@@ -470,6 +489,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}></Text>
@@ -482,10 +502,11 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 4,
+            alignItems: "center",
           }}
         >
           <Text>Kota/Kab.</Text>
-          <Text>{data.DataPengajuanAlamat.kota}</Text>
+          <Text style={styles.value}>{data.DataPengajuanAlamat.kota}</Text>
         </View>
         <View
           style={{
@@ -495,10 +516,11 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 4,
+            alignItems: "center",
           }}
         >
           <Text>Provinsi</Text>
-          <Text>{data.DataPengajuanAlamat.provinsi}</Text>
+          <Text style={styles.value}>{data.DataPengajuanAlamat.provinsi}</Text>
         </View>
         <View
           style={{
@@ -527,6 +549,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Alamat Domisili</Text>
@@ -534,7 +557,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "2", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.DataPengajuanAlamat.alamat_domisili}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanAlamat.alamat_domisili}
+          </Text>
         </View>
         <View
           style={{
@@ -583,6 +608,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}></Text>
@@ -595,10 +621,13 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 4,
+            alignItems: "center",
           }}
         >
           <Text>Kel.</Text>
-          <Text>{data.DataPengajuanAlamat.kelurahan_domisili}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanAlamat.kelurahan_domisili}
+          </Text>
         </View>
         <View
           style={{
@@ -608,10 +637,13 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 4,
+            alignItems: "center",
           }}
         >
           <Text>Kec.</Text>
-          <Text>{data.DataPengajuanAlamat.kecamatan_domisili}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanAlamat.kecamatan_domisili}
+          </Text>
         </View>
       </View>
       <View
@@ -620,6 +652,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}></Text>
@@ -635,7 +668,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           }}
         >
           <Text>Kota/Kab.</Text>
-          <Text>{data.DataPengajuanAlamat.kota_domisili}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanAlamat.kota_domisili}
+          </Text>
         </View>
         <View
           style={{
@@ -645,10 +680,13 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 4,
+            alignItems: "center",
           }}
         >
           <Text>Provinsi</Text>
-          <Text>{data.DataPengajuanAlamat.provinsi_domisili}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanAlamat.provinsi_domisili}
+          </Text>
         </View>
         <View
           style={{
@@ -679,14 +717,15 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
-        <Text style={{ width: 80 }}>Alamat Domisili</Text>
+        <Text style={{ width: 80 }}>No. Telepon/Hp Pemohon</Text>
         <Text>:</Text>
         <View
           style={{ flex: "2", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.no_telepon}</Text>
+          <Text style={styles.value}>{data.no_telepon}</Text>
         </View>
       </View>
       <View
@@ -695,6 +734,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Status Rumah</Text>
@@ -734,6 +774,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "center",
         }}
       >
         <Text style={{ width: 80 }}>Nama Ibu Kandung</Text>
@@ -741,7 +782,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "1", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.nama_ibu_kandung}</Text>
+          <Text style={styles.value}>{data.nama_ibu_kandung}</Text>
         </View>
       </View>
       <View
@@ -750,6 +791,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "flex-end",
         }}
       >
         <Text style={{ width: 80 }}>Nama Suami/Istri *)</Text>
@@ -757,7 +799,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{ flex: "1", borderBottom: "1px oslid #aaa", width: "100%" }}
         >
-          <Text>{data.DataPengajuanPasangan.nama_pasangan}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanPasangan.nama_pasangan}
+          </Text>
         </View>
       </View>
       <View
@@ -766,6 +810,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           flexDirection: "row",
           gap: 10,
           margin: "2px 0",
+          alignItems: "flex-end",
         }}
       >
         <Text style={{ width: 80 }}>Nama Ahli Waris</Text>
@@ -783,6 +828,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 5,
+            alignItems: "center",
           }}
         >
           <Text>No Telepon Ahli Waris:</Text>
@@ -796,7 +842,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           margin: "2px 0px",
         }}
       >
-        <Text style={{ textAlign: "center", color: "white" }}>
+        <Text
+          style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+        >
           DATA PENGHASILAN PEMOHON
         </Text>
       </View>
@@ -821,7 +869,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           }}
         >
           <Text>Rp. </Text>
-          <Text>
+          <Text style={styles.value}>
             {formatNumber(data.DataPembiayaan.gaji_bersih.toString())}
           </Text>
         </View>
@@ -834,7 +882,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 10,
           }}
         >
-          <Text style={{ width: 80 }}>Pengeluaran</Text>
+          <Text style={{ width: 50 }}>Pengeluaran</Text>
           <Text>:</Text>
           <View
             style={{
@@ -884,7 +932,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 10,
           }}
         >
-          <Text style={{ width: 80 }}>Total Angsuran</Text>
+          <Text style={{ width: 50 }}>Total Angsuran</Text>
           <Text>:</Text>
           <View
             style={{
@@ -933,7 +981,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 10,
           }}
         >
-          <Text style={{ width: 80 }}>Sisa Penghasilan</Text>
+          <Text style={{ width: 50 }}>Sisa Penghasilan</Text>
           <Text>:</Text>
           <View
             style={{
@@ -963,7 +1011,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         <View
           style={{
             flex: "1",
-            borderBottom: "1px oslid #aaa",
+            borderBottom: "1px solid #aaa",
             width: "100%",
             display: "flex",
             flexDirection: "row",
@@ -981,7 +1029,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           margin: "2px 0px",
         }}
       >
-        <Text style={{ textAlign: "center", color: "white" }}>
+        <Text
+          style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+        >
           DALAM KEADAAN DARURAT SIAPA YANG BISA DIHUBUNGI (KELUARGA/KERABAT
           TIDAK SERUMAH)
         </Text>
@@ -1006,7 +1056,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 3,
           }}
         >
-          <Text>{data.DataPengajuanPasangan.nama_keluarga_tidak_serumah}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanPasangan.nama_keluarga_tidak_serumah}
+          </Text>
         </View>
       </View>
       <View
@@ -1029,7 +1081,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 3,
           }}
         >
-          <Text>{data.DataPengajuanPasangan.alamat_keluarga}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanPasangan.alamat_keluarga}
+          </Text>
         </View>
       </View>
       <View
@@ -1098,7 +1152,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 3,
           }}
         >
-          <Text>{data.DataPengajuanPasangan.no_telepon_keluarga}</Text>
+          <Text style={styles.value}>
+            {data.DataPengajuanPasangan.no_telepon_keluarga}
+          </Text>
         </View>
       </View>
       <View
@@ -1108,7 +1164,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           margin: "2px 0px",
         }}
       >
-        <Text style={{ textAlign: "center", color: "white" }}>
+        <Text
+          style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+        >
           DATA PENSIUN
         </Text>
       </View>
@@ -1117,7 +1175,8 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           display: "flex",
           flexDirection: "row",
           gap: 10,
-          margin: "2px 0",
+          margin: "1px 0",
+          alignItems: "flex-end",
         }}
       >
         <Text style={{ width: 80 }}>Pengelola Pensiun</Text>
@@ -1132,15 +1191,15 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 3,
           }}
         >
-          <Text>{data.jenis_pensiun}</Text>
+          <Text style={styles.value}>{data.jenis_pensiun}</Text>
         </View>
         <View
           style={{
-            flex: 1,
+            flex: 2,
             display: "flex",
             flexDirection: "row",
             gap: 10,
-            margin: "2px 0",
+            margin: "1px 0",
           }}
         >
           <Text style={{ width: 80 }}>No. SK Pensiun</Text>
@@ -1155,7 +1214,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
               gap: 3,
             }}
           >
-            <Text>{data.nomor_sk_pensiun}</Text>
+            <Text style={styles.value}>{data.nomor_sk_pensiun}</Text>
           </View>
         </View>
       </View>
@@ -1164,7 +1223,8 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           display: "flex",
           flexDirection: "row",
           gap: 10,
-          margin: "2px 0",
+          margin: "1px 0",
+          alignItems: "flex-end",
         }}
       >
         <Text style={{ width: 80 }}>No. KARIP/Kartu ASABRI *)</Text>
@@ -1183,14 +1243,14 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
         </View>
         <View
           style={{
-            flex: 1,
+            flex: 2,
             display: "flex",
             flexDirection: "row",
             gap: 10,
-            margin: "2px 0",
+            margin: "1px 0",
           }}
         >
-          <Text style={{ width: 80 }}>Tanggal Terbit SK Pensiun</Text>
+          <Text style={{ width: 80 }}>Tgl Terbit SK Pensiun</Text>
           <Text>:</Text>
           <View
             style={{
@@ -1202,7 +1262,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
               gap: 3,
             }}
           >
-            <Text>
+            <Text style={styles.value}>
               {data.tanggal_sk_pensiun &&
                 moment(data.tanggal_sk_pensiun).format("DD - MM - YYYY")}
             </Text>
@@ -1214,7 +1274,8 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           display: "flex",
           flexDirection: "row",
           gap: 10,
-          margin: "2px 0",
+          margin: "1px 0",
+          alignItems: "flex-end",
         }}
       >
         <Text style={{ width: 80 }}>Kantor Juru Bayar</Text>
@@ -1229,15 +1290,17 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 3,
           }}
         >
-          <Text>{data.DataPembiayaan.juru_bayar_asal}</Text>
+          <Text style={styles.value}>
+            {data.DataPembiayaan.juru_bayar_asal}
+          </Text>
         </View>
         <View
           style={{
-            flex: 1,
+            flex: 2,
             display: "flex",
             flexDirection: "row",
             gap: 10,
-            margin: "2px 0",
+            margin: "1px 0",
           }}
         >
           <Text style={{ width: 80 }}>Penerbit SK Pensiun</Text>
@@ -1252,7 +1315,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
               gap: 3,
             }}
           >
-            <Text>{data.penerbit_sk}</Text>
+            <Text style={styles.value}>{data.penerbit_sk}</Text>
           </View>
         </View>
       </View>
@@ -1263,7 +1326,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           margin: "2px 0px",
         }}
       >
-        <Text style={{ textAlign: "center", color: "white" }}>
+        <Text
+          style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+        >
           DATA PEMBIAYAAN DI LEMBAGA KEUANGAN LAIN
         </Text>
       </View>
@@ -1272,7 +1337,8 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           display: "flex",
           flexDirection: "row",
           gap: 10,
-          margin: "2px 0",
+          margin: "1px 0",
+          alignItems: "flex-end",
         }}
       >
         <Text style={{ width: 80 }}>Nama Instansi</Text>
@@ -1287,7 +1353,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 3,
           }}
         >
-          <Text>{data.DataPembiayaan.pembiayaan_sebelumnya}</Text>
+          <Text style={styles.value}>
+            {data.DataPembiayaan.pembiayaan_sebelumnya}
+          </Text>
         </View>
         <View
           style={{
@@ -1295,7 +1363,8 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 10,
-            margin: "2px 0",
+            margin: "1px 0",
+            alignItems: "flex-end",
           }}
         >
           <Text style={{ width: 80 }}>Sisa Pinjaman</Text>
@@ -1311,7 +1380,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             }}
           >
             <Text>Rp.</Text>
-            <Text>
+            <Text style={styles.value}>
               {data.DataPembiayaan.pelunasan !== 0 &&
                 formatNumber(data.DataPembiayaan.pelunasan.toString() || "0")}
             </Text>
@@ -1334,7 +1403,8 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           display: "flex",
           flexDirection: "row",
           gap: 10,
-          margin: "2px 0",
+          margin: "1px 0",
+          alignItems: "flex-end",
         }}
       >
         <Text style={{ width: 80 }}></Text>
@@ -1357,7 +1427,8 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             display: "flex",
             flexDirection: "row",
             gap: 10,
-            margin: "2px 0",
+            margin: "1px 0",
+            alignItems: "flex-end",
           }}
         >
           <Text style={{ width: 80 }}>Sisa Pinjaman</Text>
@@ -1369,64 +1440,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
               width: "100%",
               display: "flex",
               flexDirection: "row",
-              gap: 3,
-            }}
-          >
-            <Text>Rp.</Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Checkbox />
-            <Checkbox />
-            <Text style={{ marginLeft: 2 }}>Bulan</Text>
-          </View>
-        </View>
-      </View>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          gap: 10,
-          margin: "2px 0",
-        }}
-      >
-        <Text style={{ width: 80 }}></Text>
-        <Text>:</Text>
-        <View
-          style={{
-            flex: "1",
-            borderBottom: "1px oslid #aaa",
-            width: "100%",
-            display: "flex",
-            flexDirection: "row",
-            gap: 3,
-          }}
-        >
-          <Text></Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "row",
-            gap: 10,
-            margin: "2px 0",
-          }}
-        >
-          <Text style={{ width: 80 }}>Sisa Pinjaman</Text>
-          <Text>:</Text>
-          <View
-            style={{
-              flex: "1",
-              borderBottom: "1px oslid #aaa",
-              width: "100%",
-              display: "flex",
-              flexDirection: "row",
+              alignItems: "flex-end",
               gap: 3,
             }}
           >
@@ -1452,7 +1466,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           margin: "2px 0px",
         }}
       >
-        <Text style={{ textAlign: "center", color: "white" }}>
+        <Text
+          style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+        >
           DATA PERMOHONAN PEMBIAYAAN
         </Text>
       </View>
@@ -1599,7 +1615,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           }}
         >
           <Text>Rp. </Text>
-          <Text>{formatNumber(data.DataPembiayaan.plafond.toString())}</Text>
+          <Text style={styles.value}>
+            {formatNumber(data.DataPembiayaan.plafond.toString())}
+          </Text>
         </View>
       </View>
       <View
@@ -1659,7 +1677,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           }}
         >
           <Text>Rp. </Text>
-          <Text>
+          <Text style={styles.value}>
             {formatNumber(
               ceiling(
                 parseInt(
@@ -1710,7 +1728,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           <View style={{ borderBottom: "1px solid #aaa" }}>
             <Text style={{ textAlign: "center" }}>MOC</Text>
           </View>
-          <Text style={{ textAlign: "center" }}>{data.moc}</Text>
+          <Text style={{ textAlign: "center", ...styles.value }}>
+            {data.moc}
+          </Text>
         </View>
         <View
           style={{
@@ -1726,7 +1746,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
               Supervisor Kantor Layanan
             </Text>
           </View>
-          <Text style={{ textAlign: "center" }}>
+          <Text style={{ textAlign: "center", ...styles.value }}>
             {data.User.first_name} {data.User.last_name}
           </Text>
         </View>
@@ -1742,7 +1762,9 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           <View style={{ borderBottom: "1px solid #aaa" }}>
             <Text style={{ textAlign: "center" }}>Pemohon</Text>
           </View>
-          <Text style={{ textAlign: "center" }}>{data.nama}</Text>
+          <Text style={{ textAlign: "center", ...styles.value }}>
+            {data.nama}
+          </Text>
         </View>
         <View
           style={{
@@ -1756,7 +1778,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           <View style={{ borderBottom: "1px solid #aaa" }}>
             <Text style={{ textAlign: "center" }}>Suami/Istri *)</Text>
           </View>
-          <Text style={{ textAlign: "center" }}>
+          <Text style={{ textAlign: "center", ...styles.value }}>
             {data.DataPengajuanPasangan.nama_pasangan}
           </Text>
         </View>
@@ -1768,9 +1790,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           margin: "2px 0px",
         }}
       >
-        <Text style={{ color: "white", fontStyle: "italic" }}>
-          *) Coret yg tidak perlu
-        </Text>
+        <Text style={{ color: "white" }}>*) Coret yg tidak perlu</Text>
       </View>
     </Page>
   );
@@ -1788,6 +1808,9 @@ const styles = StyleSheet.create({
     borderColor: "#000",
     justifyContent: "center",
     alignItems: "center",
+  },
+  value: {
+    fontSize: 7,
   },
 });
 

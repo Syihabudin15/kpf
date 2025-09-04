@@ -89,7 +89,7 @@ export default function ListMenuVer2({
         style={{
           overflowY: "auto",
           width: "100%",
-          height: open ? "72vh" : "60vh",
+          height: open ? "80vh" : "68vh",
         }}
         items={
           result &&

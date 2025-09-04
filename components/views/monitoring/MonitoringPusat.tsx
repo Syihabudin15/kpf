@@ -255,10 +255,11 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         const currPage = (page - 1) * pageSize;
         return <>{currPage + (index + 1)}</>;
@@ -272,11 +273,12 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      width: 150,
-      className: "text-center",
+      width: 120,
+      className: "text-center text-xs",
       render(value, record, index) {
         return (
           <>{record.area_pelayanan_berkas || record.User.UnitCabang.name}</>
@@ -293,10 +295,11 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return <>{record.DataPembiayaan.nopen}</>;
       },
@@ -309,20 +312,20 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
       fixed: window.innerWidth < 600 ? false : "left",
-      width: 150,
+      className: "text-xs",
+      width: 200,
       render(value, record, index) {
         return (
-          <>
-            <Tooltip
-              title={`Admin : ${record.DataPembiayaan.User.first_name} ${record.DataPembiayaan.User.last_name}`}
-            >
-              {record.DataPembiayaan.name}
-            </Tooltip>
-          </>
+          <Tooltip
+            title={`Admin : ${record.DataPembiayaan.User.first_name} ${record.DataPembiayaan.User.last_name}`}
+          >
+            {record.DataPembiayaan.name}
+          </Tooltip>
         );
       },
     },
@@ -330,15 +333,16 @@ export default function MonitoringPusat() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
-      width: 100,
+      width: 120,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return (
           <Tooltip
@@ -355,16 +359,19 @@ export default function MonitoringPusat() {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
+      fixed: window.innerWidth < 600 ? false : "left",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      width: 150,
+      width: 120,
+      className: "text-xs",
       render(value, record, index) {
-        return <>{record.Bank.name}</>;
+        return <>{record.Bank.kode}</>;
       },
     },
     {
@@ -375,10 +382,12 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
       width: 150,
+      className: "text-xs",
       render(value, record, index) {
         return <>{record.DataPembiayaan.Produk.name}</>;
       },
@@ -388,11 +397,12 @@ export default function MonitoringPusat() {
       dataIndex: "jenis_pembiayaan",
       key: "jenis_pembiayaan",
       width: 150,
-      className: "text-center",
+      className: "text-center text-xs",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -414,11 +424,12 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
       width: 100,
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return <>{record.DataPembiayaan.tenor} Bulan</>;
       },
@@ -431,11 +442,12 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      width: 150,
-      className: "text-center",
+      width: 130,
+      className: "text-right text-xs",
       sorter: (a, b) => a.DataPembiayaan.plafond - b.DataPembiayaan.plafond,
       render(value, record, index) {
         return <>{formatNumber(record.DataPembiayaan.plafond.toString())}</>;
@@ -449,11 +461,12 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
       width: 120,
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return (
           <div>
@@ -474,11 +487,12 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
       width: 120,
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return (
           <div>
@@ -496,6 +510,7 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
           className: "example-class-in-td bg-green-500 text-white",
         };
@@ -509,6 +524,7 @@ export default function MonitoringPusat() {
             return {
               ["style"]: {
                 textAlign: "center",
+                fontSize: 13,
               },
             };
           },
@@ -527,6 +543,7 @@ export default function MonitoringPusat() {
             return {
               ["style"]: {
                 textAlign: "center",
+                fontSize: 13,
               },
             };
           },
@@ -557,21 +574,22 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
       render(value, record, index) {
         return (
           <div className="flex justify-center">
-            <button
+            <Button
               className="py-1 px-2 rounded shadow border"
               onClick={() => {
                 setSelected(record);
                 setOpen(true);
               }}
-            >
-              <FileFilled />
-            </button>
+              size="small"
+              icon={<FileFilled />}
+            ></Button>
           </div>
         );
       },
@@ -585,6 +603,7 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 12,
           },
         };
       },
@@ -608,7 +627,7 @@ export default function MonitoringPusat() {
       key: "status",
       onHeaderCell: (text, record) => {
         return {
-          ["style"]: { background: "#22c55e", color: "#f3f4f6" },
+          ["style"]: { background: "#22c55e", color: "#f3f4f6", fontSize: 13 },
         };
       },
       children: [
@@ -623,6 +642,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#22c55e",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -659,6 +679,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#22c55e",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -695,6 +716,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#22c55e",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -731,6 +753,7 @@ export default function MonitoringPusat() {
             background: "#0284c7",
             color: "#f3f4f6",
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -746,6 +769,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#0284c7",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -754,9 +778,10 @@ export default function MonitoringPusat() {
             return (
               <Paragraph
                 ellipsis={{
-                  rows: 2,
+                  rows: 1,
                   expandable: "collapsible",
                 }}
+                style={{ fontSize: 12 }}
               >
                 {record.keterangan_slik}
               </Paragraph>
@@ -773,6 +798,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#0284c7",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -781,9 +807,10 @@ export default function MonitoringPusat() {
             return (
               <Paragraph
                 ellipsis={{
-                  rows: 2,
+                  rows: 1,
                   expandable: "collapsible",
                 }}
+                style={{ fontSize: 12 }}
               >
                 {record.keterangan_verifikasi}
               </Paragraph>
@@ -800,6 +827,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#0284c7",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -808,9 +836,10 @@ export default function MonitoringPusat() {
             return (
               <Paragraph
                 ellipsis={{
-                  rows: 2,
+                  rows: 1,
                   expandable: "collapsible",
                 }}
+                style={{ fontSize: 12 }}
               >
                 {record.keterangan_approval}
               </Paragraph>
@@ -829,6 +858,7 @@ export default function MonitoringPusat() {
             background: "#4b5563",
             color: "#f3f4f6",
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -837,7 +867,7 @@ export default function MonitoringPusat() {
           title: "SLIK",
           dataIndex: "nama_pemeriksa_slik",
           key: "nama_pemeriksa_slik",
-          className: "text-center",
+          className: "text-center text-xs",
           width: 150,
           onHeaderCell: (text, record) => {
             return {
@@ -845,6 +875,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#4b5563",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -853,7 +884,7 @@ export default function MonitoringPusat() {
           title: "VERIFIKASI",
           dataIndex: "nama_pemeriksa_verifikasi",
           key: "nama_pemeriksa_verifikasi",
-          className: "text-center",
+          className: "text-center text-xs",
           width: 150,
           onHeaderCell: (text, record) => {
             return {
@@ -861,6 +892,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#4b5563",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -869,7 +901,7 @@ export default function MonitoringPusat() {
           title: "APPROVAL",
           dataIndex: "nama_pemeriksa_approval",
           key: "nama_pemeriksa_approval",
-          className: "text-center",
+          className: "text-center text-xs",
           width: 150,
           onHeaderCell: (text, record) => {
             return {
@@ -877,6 +909,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 background: "#4b5563",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -908,12 +941,13 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 backgroundColor: "#f97316",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
           render(value, record, index) {
             return (
-              <div className="text-center">
+              <div className="text-center text-xs">
                 {record.tanggal_slik &&
                   moment(record.tanggal_slik).format("DD-MM-YYYY")}
               </div>
@@ -931,12 +965,13 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 backgroundColor: "#f97316",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
           render(value, record, index) {
             return (
-              <div className="text-center">
+              <div className="text-center text-xs">
                 {record.tanggal_verifikasi &&
                   moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
               </div>
@@ -954,12 +989,13 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 backgroundColor: "#f97316",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
           render(value, record, index) {
             return (
-              <div className="text-center">
+              <div className="text-center text-xs">
                 {record.tanggal_approval &&
                   moment(record.tanggal_approval).format("DD-MM-YYYY")}
               </div>
@@ -978,6 +1014,7 @@ export default function MonitoringPusat() {
             textAlign: "center",
             backgroundColor: "#ec4899",
             color: "#f3f4f6",
+            fontSize: 13,
           },
         };
       },
@@ -993,6 +1030,7 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 backgroundColor: "#ec4899",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
@@ -1033,12 +1071,13 @@ export default function MonitoringPusat() {
                 textAlign: "center",
                 backgroundColor: "#ec4899",
                 color: "#f3f4f6",
+                fontSize: 13,
               },
             };
           },
           render(value, record, index) {
             return (
-              <div className="text-center">
+              <div className="text-center text-xs">
                 {record.tanggal_pencairan &&
                   moment(record.tanggal_pencairan).format("DD-MM-YYYY")}
               </div>
@@ -1055,6 +1094,7 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
           className: "example-class-in-td bg-green-500 text-white",
         };
@@ -1064,9 +1104,10 @@ export default function MonitoringPusat() {
         return (
           <Paragraph
             ellipsis={{
-              rows: 2,
+              rows: 1,
               expandable: "collapsible",
             }}
+            style={{ fontSize: 12 }}
           >
             {record.DataPembiayaan.user_update}
           </Paragraph>
@@ -1078,11 +1119,11 @@ export default function MonitoringPusat() {
       key: "status_deviasi",
       dataIndex: "status_deviasi",
       width: 100,
-      fixed: window.innerWidth < 600 ? false : "right",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -1107,6 +1148,7 @@ export default function MonitoringPusat() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -1114,9 +1156,10 @@ export default function MonitoringPusat() {
         return (
           <Paragraph
             ellipsis={{
-              rows: 2,
+              rows: 1,
               expandable: "collapsible",
             }}
+            style={{ fontSize: 12 }}
           >
             {record.DataPembiayaan.is_deviasi &&
               record.DataPembiayaan.keterangan}
@@ -1144,26 +1187,30 @@ export default function MonitoringPusat() {
             <Button
               icon={<FolderFilled />}
               type="primary"
+              size="small"
               onClick={() => {
                 setSelected(record);
                 setOpenForm(true);
               }}
             ></Button>
-            <button
-              className="bg-green-500 hover:bg-green-600 text-white py-1 px-2 rounded shadow"
+            <Button
               onClick={() => {
                 setSelected(record);
                 setModalEdit(true);
               }}
-            >
-              <FormOutlined />
-            </button>
-            <button
+              size="small"
+              type="primary"
+              style={{ backgroundColor: "#19d120" }}
+              icon={<FormOutlined />}
+            ></Button>
+            <Button
               onClick={() => {
                 setSelected(record);
                 setModalHapus(true);
               }}
-              className="bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded shadow"
+              type="primary"
+              size="small"
+              danger
               disabled={
                 loading
                   ? true
@@ -1174,9 +1221,8 @@ export default function MonitoringPusat() {
               style={{
                 opacity: record.status_pencairan === "TRANSFER" ? 0.5 : 1,
               }}
-            >
-              {loading ? <LoadingOutlined /> : <DeleteOutlined />}
-            </button>
+              icon={<DeleteOutlined />}
+            ></Button>
           </div>
         );
       },
@@ -1249,7 +1295,7 @@ export default function MonitoringPusat() {
           columns={columns}
           dataSource={data}
           bordered
-          scroll={{ x: "max-content", y: "calc(61.5vh - 100px)" }}
+          scroll={{ x: "max-content", y: 340 }}
           size="small"
           loading={loading}
           pagination={{
@@ -1268,8 +1314,8 @@ export default function MonitoringPusat() {
               totalPLafond += pd.DataPembiayaan.plafond;
             });
             return (
-              <Table.Summary.Row className="bg-green-500 text-white text-center">
-                <Table.Summary.Cell index={1} className="text-center">
+              <Table.Summary.Row className="bg-green-500 text-white text-center text-xs">
+                <Table.Summary.Cell index={1} className="text-center text-xs">
                   Summary
                   <></>
                 </Table.Summary.Cell>
@@ -1281,7 +1327,7 @@ export default function MonitoringPusat() {
                 <Table.Summary.Cell index={7}></Table.Summary.Cell>
                 <Table.Summary.Cell index={8}></Table.Summary.Cell>
                 <Table.Summary.Cell index={9}></Table.Summary.Cell>
-                <Table.Summary.Cell index={10}>
+                <Table.Summary.Cell index={10} className="text-xs">
                   {formatNumber(totalPLafond.toFixed(0))}
                 </Table.Summary.Cell>
               </Table.Summary.Row>
@@ -1334,7 +1380,12 @@ export default function MonitoringPusat() {
         />
       )}
       {selected && (
-        <CetakForm open={openForm} setOpen={setOpenForm} data={selected} key={selected.id}/>
+        <CetakForm
+          open={openForm}
+          setOpen={setOpenForm}
+          data={selected}
+          key={selected.id}
+        />
       )}
     </div>
   );

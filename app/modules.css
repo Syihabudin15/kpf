@@ -58,7 +58,6 @@ nav {
 .login-wrap {
   width: 100vw;
   height: 100vh;
-  background-image: linear-gradient(90deg, #7178ce, rgba(23, 10, 208, 0.827));
   background-size: cover;
   display: flex;
   justify-content: center;
@@ -68,8 +67,7 @@ nav {
   width: 30vw;
   background: #fff;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px #efefef;
+  border-radius: 3px;
 }
 .analisa-simulasi {
   width: 70vw;

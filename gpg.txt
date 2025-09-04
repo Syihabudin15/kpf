@@ -78,3 +78,7 @@ password : @Today1234
 
 NOTE :
 Angsuran Abdul Razak
+
+
+ssh sipkpfi@103.127.97.143
+pw: Tsani182

@@ -16,7 +16,7 @@ export default function MenuWrapper({ user }: { user: any }) {
           }-500 text-white rounded p-2 ${collapse && "hidden"}`}
           style={{ flex: 2 }}
         >
-          <div style={{ width: 80 }}>
+          <div style={{ width: 70 }}>
             <img
               src={
                 user?.picture

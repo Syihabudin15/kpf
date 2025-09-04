@@ -3,6 +3,7 @@
 import { Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { DataDataPengajuan } from "../Interfaces";
 import { formatNumber } from "../inputUtils";
+import { stylesFont } from "../CetakFormPengajuan";
 
 export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
   return (
@@ -13,9 +14,17 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
           padding: "5px 0px",
         }}
       >
-        <View style={{ borderBottom: "2px solid black", padding: "3px" }}>
-          <Text style={{ fontSize: 12, textAlign: "center" }}>
-            FORM PERMOHONAN IDEB SLIK OJK{" "}
+        <View
+          style={{
+            borderBottom: "2px solid black",
+            padding: "3px",
+            ...stylesFont.root,
+          }}
+        >
+          <Text
+            style={{ fontSize: 12, textAlign: "center", fontWeight: "bold" }}
+          >
+            FORM PERMOHONAN IDEB SLIK OJK
           </Text>
         </View>
         <View
@@ -97,7 +106,9 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
             }}
           >
             <View style={{ display: "flex", flexDirection: "row" }}>
-              <Checkbox checked={data.DataPembiayaan.tanggal_lahir.charAt(0)} />
+              <Checkbox
+                checked={String(data.DataPembiayaan.tanggal_lahir.charAt(0))}
+              />
               <Checkbox checked={data.DataPembiayaan.tanggal_lahir.charAt(1)} />
             </View>
             <Text>-</Text>
@@ -174,7 +185,7 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
               {[
                 `${data.DataPengajuanAlamat.alamat} RT ${data.DataPengajuanAlamat.rt} RW ${data.DataPengajuanAlamat.rw}`,
                 `KEL. ${data.DataPengajuanAlamat.kelurahan} KEC. ${data.DataPengajuanAlamat.alamat}`,
-                `KOTA/KAB. ${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi} ${data.DataPengajuanAlamat.kode_pos}`,
+                `KOTA/KAB. ${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi}`,
               ].join(", ")}
             </Text>
           </View>
@@ -343,9 +354,10 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
           style={{
             display: "flex",
             flexDirection: "row",
-            gap: "2",
-            justifyContent: "space-evenly",
-            marginTop: 20,
+            gap: 30,
+            justifyContent: "space-around",
+            marginTop: 10,
+            padding: 20,
           }}
         >
           <View
@@ -353,7 +365,7 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
               flex: 1,
               display: "flex",
               flexDirection: "column",
-              gap: "50",
+              gap: 50,
               justifyContent: "space-between",
             }}
           >
@@ -378,7 +390,7 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
               flex: 1,
               display: "flex",
               flexDirection: "column",
-              gap: "50",
+              gap: 50,
               justifyContent: "space-between",
             }}
           >
@@ -405,7 +417,7 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
               flex: 1,
               display: "flex",
               flexDirection: "column",
-              gap: "50",
+              gap: 50,
               justifyContent: "space-between",
             }}
           >
@@ -464,15 +476,6 @@ const Checkbox = ({ checked }: { checked?: any }) => (
     </View>
   </View>
 );
-
-function npwpToArray(value: string): string[] {
-  const digits = value.replace(/\D/g, "");
-  const formatted = digits.replace(
-    /^(\d{2})(\d{3})(\d{3})(\d{1})(\d{3})(\d{3}).*/,
-    "$1.$2.$3.$4-$5.$6"
-  );
-  return formatted.split("");
-}
 
 const NPWP_TEMPLATE = [
   "#",

@@ -1,6 +1,6 @@
 "use client";
 import { FileFilled } from "@ant-design/icons";
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import { useState } from "react";
 
 export interface ModalBerkas {
@@ -14,16 +14,16 @@ export default function ModalBerkas({ data }: { data: ModalBerkas }) {
   return (
     <div>
       <div className="flex justify-center">
-        <button
+        <Button
           className="border rounded shadow py-1 px-2"
           style={{
             opacity: data.url ? 1 : 0.5,
           }}
           disabled={data.url ? false : true}
           onClick={() => setOpen(true)}
-        >
-          <FileFilled />
-        </button>
+          size="small"
+          icon={<FileFilled />}
+        ></Button>
       </div>
       <Modal
         title={data.title?.toUpperCase()}

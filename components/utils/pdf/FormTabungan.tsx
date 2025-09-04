@@ -7,7 +7,10 @@ import moment from "moment";
 
 export default function FormTabungan({ data }: { data: DataDataPengajuan }) {
   return (
-    <Page size={"A4"} style={{ padding: "40px 60px", fontSize: 8 }}>
+    <Page
+      size={"A4"}
+      style={{ padding: "40px 60px", fontSize: 8, ...stylesFont.root }}
+    >
       <View
         style={{
           display: "flex",
@@ -23,17 +26,17 @@ export default function FormTabungan({ data }: { data: DataDataPengajuan }) {
         />
         <View style={{ flex: 1, lineHeight: 1.5 }}>
           <Text
-            style={{ textAlign: "center", fontSize: 11, ...stylesFont.bold }}
+            style={{ textAlign: "center", fontSize: 11, fontWeight: "bold" }}
           >
             FORMULIR PENDAFTARAN ANGGOTA
           </Text>
           <Text
-            style={{ textAlign: "center", fontSize: 11, ...stylesFont.bold }}
+            style={{ textAlign: "center", fontSize: 11, fontWeight: "bold" }}
           >
             {process.env.NEXT_PUBLIC_APP_FULL_NAME}
           </Text>
           <Text
-            style={{ textAlign: "center", fontSize: 10, ...stylesFont.bold }}
+            style={{ textAlign: "center", fontSize: 10, fontWeight: "bold" }}
           >
             ({process.env.NEXT_PUBLIC_APP_NAME_HEADER})
           </Text>
@@ -109,7 +112,9 @@ export default function FormTabungan({ data }: { data: DataDataPengajuan }) {
         >
           <Text>
             {data.DataPembiayaan.tempat_lahir + ","}{" "}
-            {moment(data.DataPembiayaan.tanggal_lahir).format("DD - MM - YYYY")}
+            {moment(data.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
+              "DD - MM - YYYY"
+            )}
           </Text>
         </View>
       </View>
@@ -209,7 +214,12 @@ export default function FormTabungan({ data }: { data: DataDataPengajuan }) {
                 height: 5,
               }}
             >
-              {data.User.UnitCabang ? data.User.UnitCabang.name : ""},{" "}
+              {data.User.UnitCabang
+                ? data.User.UnitCabang.name === "PUSAT"
+                  ? "BANDUNG"
+                  : data.User.UnitCabang.name
+                : ""}
+              ,{" "}
               {moment(data.DataPembiayaan.tanggal_input).format(
                 "DD - MM - YYYY"
               )}
