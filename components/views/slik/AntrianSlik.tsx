@@ -1,12 +1,12 @@
 "use client";
 import { FormOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Input, Table, TableProps, DatePicker } from "antd";
+import { Input, Table, TableProps, DatePicker, Typography } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
-
+const { Paragraph } = Typography;
 const ViewBerkasPengajuan = dynamic(
   () => import("@/components/utils/ViewBerkasPengajuan"),
   {
@@ -55,7 +55,7 @@ export default function AntrianSlik() {
           },
         };
       },
-      className: "text-center",
+      className: "text-center  text-xs",
       render(value, record, index) {
         return <>{index + 1}</>;
       },
@@ -64,15 +64,16 @@ export default function AntrianSlik() {
       title: "TANGGAL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
-      width: 150,
+      width: 170,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center  text-xs",
       render(value, record, index) {
         return (
           <>{moment(record.DataPembiayaan.created_at).format("DD-MM-YYYY")}</>
@@ -89,9 +90,11 @@ export default function AntrianSlik() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
+      className: " text-xs",
       render(value, record, index) {
         return <>{record.DataPembiayaan && record.DataPembiayaan.name}</>;
       },
@@ -105,11 +108,13 @@ export default function AntrianSlik() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
+      className: " text-xs",
       render(value, record, index) {
-        return <>{record.Bank.name}</>;
+        return <>{record.Bank.kode}</>;
       },
     },
     {
@@ -121,10 +126,11 @@ export default function AntrianSlik() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center  text-xs",
       render(value, record, index) {
         return <>{formatNumber(record.DataPembiayaan.plafond.toFixed(0))}</>;
       },
@@ -138,16 +144,17 @@ export default function AntrianSlik() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center  text-xs",
       render(value, record, index) {
         return <>{record.DataPembiayaan.tenor} Bulan</>;
       },
     },
     {
-      title: "STATUS",
+      title: "STATUS SLIK",
       dataIndex: `status_slik`,
       key: "status_slik",
       width: 150,
@@ -155,10 +162,11 @@ export default function AntrianSlik() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center  text-xs",
       render(value, record, index) {
         return (
           <div className="flex justify-center text-xs font-bold italic">
@@ -182,6 +190,103 @@ export default function AntrianSlik() {
       },
     },
     {
+      title: "INFROSMASI VERIFIKASI",
+      dataIndex: "dataVerifikasi",
+      key: "dataVerifikasi",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: { background: "#22c55e", color: "#f3f4f6", fontSize: 13 },
+        };
+      },
+      children: [
+        {
+          title: "STATUS",
+          dataIndex: "statusVerif",
+          key: "statusVerif",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+                background: "#22c55e",
+                color: "#f3f4f6",
+                fontSize: 13,
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <div className="flex justify-center text-xs text-center font-bold italic">
+                {record.status_verifikasi && (
+                  <div
+                    className={`py-1 px-2 w-24 bg-${
+                      record.status_verifikasi === "SETUJU"
+                        ? "green"
+                        : record.status_verifikasi === "DITOLAK"
+                        ? "red"
+                        : record.status_verifikasi === "ANTRI"
+                        ? "orange"
+                        : "blue"
+                    }-500 text-gray-100 text-center`}
+                  >
+                    {record.status_verifikasi}
+                  </div>
+                )}
+              </div>
+            );
+          },
+        },
+        {
+          title: "KETERANGAN",
+          dataIndex: "keterangan_verifikasi",
+          key: "keterangan_verifikasi",
+          width: 300,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+                background: "#22c55e",
+                color: "#f3f4f6",
+                fontSize: 13,
+              },
+            };
+          },
+          render(value, record, index) {
+            return (
+              <Paragraph
+                ellipsis={{
+                  rows: 1,
+                  expandable: "collapsible",
+                }}
+                style={{ fontSize: 12, width: 300 }}
+              >
+                {record.keterangan_verifikasi}
+              </Paragraph>
+            );
+          },
+        },
+        {
+          title: "PEMERIKSA",
+          dataIndex: "pemeriksaVerif",
+          key: "pemeriksaVerif",
+          width: 150,
+          onHeaderCell: (text, record) => {
+            return {
+              ["style"]: {
+                textAlign: "center",
+                background: "#22c55e",
+                color: "#f3f4f6",
+                fontSize: 13,
+              },
+            };
+          },
+          render(value, record, index) {
+            return <>{record.nama_pemeriksa_verifikasi}</>;
+          },
+        },
+      ],
+    },
+    {
       title: "KOTA LAYANAN",
       dataIndex: "kota",
       key: "kota",
@@ -190,10 +295,11 @@ export default function AntrianSlik() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center  text-xs",
       render(value, record, index) {
         return (
           <>{record.area_pelayanan_berkas || record.User.UnitCabang.name}</>
@@ -204,15 +310,16 @@ export default function AntrianSlik() {
       title: "MITRA BANK",
       dataIndex: "mitra",
       key: "mitra",
-      width: 150,
+      width: 170,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return <>{record.DataPembiayaan.Refferal.name}</>;
       },
@@ -227,6 +334,7 @@ export default function AntrianSlik() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },

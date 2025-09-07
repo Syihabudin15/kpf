@@ -42,7 +42,12 @@ export const GET = async (req: NextRequest) => {
       },
     });
     si = await prisma.dataPencairan.count({
-      where: { status: false, berkas_si: { not: null }, bankId: user.bank_id },
+      where: {
+        status: false,
+        berkas_si: { not: null },
+        bankId: user.bank_id,
+        is_active: true,
+      },
     });
   } else {
     slik = await getNotifField("status_slik");
@@ -54,12 +59,13 @@ export const GET = async (req: NextRequest) => {
           { status_approval: "ANTRI" },
           { status_verifikasi: "SETUJU" },
           { status_slik: "SETUJU" },
+          { status_pencairan: { not: "BATAL" } },
           { is_active: true },
         ],
       },
     });
     si = await prisma.dataPencairan.count({
-      where: { berkas_si: null },
+      where: { berkas_si: null, is_active: true },
     });
   }
   let cair = await prisma.dataPengajuan.count({

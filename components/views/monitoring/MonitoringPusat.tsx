@@ -781,7 +781,7 @@ export default function MonitoringPusat() {
                   rows: 1,
                   expandable: "collapsible",
                 }}
-                style={{ fontSize: 12 }}
+                style={{ fontSize: 12, width: 300 }}
               >
                 {record.keterangan_slik}
               </Paragraph>
@@ -810,7 +810,7 @@ export default function MonitoringPusat() {
                   rows: 1,
                   expandable: "collapsible",
                 }}
-                style={{ fontSize: 12 }}
+                style={{ fontSize: 12, width: 300 }}
               >
                 {record.keterangan_verifikasi}
               </Paragraph>
@@ -836,10 +836,10 @@ export default function MonitoringPusat() {
             return (
               <Paragraph
                 ellipsis={{
-                  rows: 1,
+                  rows: 2,
                   expandable: "collapsible",
                 }}
-                style={{ fontSize: 12 }}
+                style={{ fontSize: 12, width: 300 }}
               >
                 {record.keterangan_approval}
               </Paragraph>
@@ -1107,7 +1107,7 @@ export default function MonitoringPusat() {
               rows: 1,
               expandable: "collapsible",
             }}
-            style={{ fontSize: 12 }}
+            style={{ fontSize: 12, width: 400 }}
           >
             {record.DataPembiayaan.user_update}
           </Paragraph>
@@ -1159,7 +1159,7 @@ export default function MonitoringPusat() {
               rows: 1,
               expandable: "collapsible",
             }}
-            style={{ fontSize: 12 }}
+            style={{ fontSize: 12, width: 200 }}
           >
             {record.DataPembiayaan.is_deviasi &&
               record.DataPembiayaan.keterangan}
