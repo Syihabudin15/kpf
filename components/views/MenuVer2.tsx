@@ -18,7 +18,6 @@ export default async function MenuVer({
     where: { email: session?.user?.email },
     include: { UnitCabang: true },
   });
-
   return (
     <div>
       <div className="flex justify-between px-5 py-4 shadow items-center bg-white border-b">
@@ -67,7 +66,7 @@ export default async function MenuVer({
             </div>
           </div>
           <div className="mt-3">
-            <ListMenuVer2 role={user?.role || "MARKETING"} open={false}/>
+            <ListMenuVer2 role={user?.role || "MARKETING"} open={false} />
           </div>
         </div>
         <div style={{ flex: 2 }} className="childWrap">
