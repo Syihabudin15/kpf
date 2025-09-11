@@ -1209,7 +1209,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             </div>
             <div className="flex justify-between border-b border-gray-200 py-1">
               <span>Produk Pembiayaan</span>
-              <span className="text-right">{produk.name}</span>
+              <span className="text-right">
+                {produk.name} ({bank.kode})
+              </span>
             </div>
             {bank.kode === "BPR SIP" && (
               <div className="flex justify-between border-b border-gray-200 py-1">

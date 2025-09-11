@@ -7,6 +7,10 @@ import dynamic from "next/dynamic";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import CetakDataPengajuan from "@/components/utils/CetakDataPengajuan";
+const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 
 const ViewBerkasPengajuan = dynamic(
   () => import("@/components/utils/ViewBerkasPengajuan"),
@@ -285,6 +289,34 @@ export default function MonitoringBank() {
               <FileFilled />
             </button>
           </div>
+        );
+      },
+    },
+    {
+      title: "AKAD",
+      dataIndex: "akad",
+      key: "akad",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+            fontSize: 13,
+          },
+        };
+      },
+      width: 80,
+      render(value, record, index) {
+        return (
+          <>
+            <ModalBerkas
+              data={{
+                url: record.BerkasPengajuan.berkas_akad || "",
+                type: "application/pdf",
+                title: `BERKAS AKAD ${record.DataPembiayaan.name}`,
+              }}
+              key={"akad" + record.id}
+            />
+          </>
         );
       },
     },

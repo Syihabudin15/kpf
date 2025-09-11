@@ -82,11 +82,8 @@ export default function FormPerbedaanIdentitas({
       {[
         {
           label: "KTP",
-          nama: data.nama,
-          ttl: `${data.DataPembiayaan.tempat_lahir + ","} ${moment(
-            data.DataPembiayaan.tanggal_lahir,
-            "DD-MM-YYYY"
-          ).format("DD - MM - YYYY")}`,
+          nama: "",
+          ttl: ``,
           statusKawin: "",
           pasangan: "",
           nik: "",
@@ -101,7 +98,7 @@ export default function FormPerbedaanIdentitas({
         },
         {
           label: "SK Pensiun",
-          nama: data.nama_skep,
+          nama: "",
           ttl: "",
           statusKawin: "",
           pasangan: "",
@@ -145,7 +142,7 @@ export default function FormPerbedaanIdentitas({
                 ...stylesFont.bold,
                 flex: 1,
                 border: "1px solid #aaa",
-                padding: "3px 2px",
+                padding: "4px 2px",
               }}
             >
               {v.label}
@@ -154,7 +151,7 @@ export default function FormPerbedaanIdentitas({
               style={{
                 flex: 1,
                 border: "1px solid #aaa",
-                padding: "3px 2px",
+                padding: "4px 2px",
               }}
             >
               {v.nama}
@@ -163,7 +160,7 @@ export default function FormPerbedaanIdentitas({
               style={{
                 flex: 1,
                 border: "1px solid #aaa",
-                padding: "3px 2px",
+                padding: "4px 2px",
                 ...(["Buku Tabungan / Kwitansi Angsuran"].includes(v.label) && {
                   backgroundColor: "#fc4903",
                 }),
@@ -175,7 +172,7 @@ export default function FormPerbedaanIdentitas({
               style={{
                 flex: 1,
                 border: "1px solid #aaa",
-                padding: "3px 2px",
+                padding: "4px 2px",
                 ...(["Buku Tabungan / Kwitansi Angsuran"].includes(v.label) && {
                   backgroundColor: "#fc4903",
                 }),
@@ -187,7 +184,7 @@ export default function FormPerbedaanIdentitas({
               style={{
                 flex: 1,
                 border: "1px solid #aaa",
-                padding: "3px 2px",
+                padding: "4px 2px",
                 ...([
                   "Buku Tabungan / Kwitansi Angsuran",
                   "KTP",
@@ -203,7 +200,7 @@ export default function FormPerbedaanIdentitas({
               style={{
                 flex: 1,
                 border: "1px solid #aaa",
-                padding: "3px 2px",
+                padding: "4px 2px",
                 ...([
                   "Buku Tabungan / Kwitansi Angsuran",
                   "Struk Gaji",
