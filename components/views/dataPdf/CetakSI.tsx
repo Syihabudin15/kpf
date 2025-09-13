@@ -16,6 +16,9 @@ const SIBprBds = dynamic(() => import("@/components/views/dataPdf/SIBprBds"), {
 export default function CetakSI({ data }: { data: DataDataPencairan }) {
   return (
     <>
+      {["BPR BBS", "BPR NBP 29", "BPR DASSA"].includes(
+        data.Bank.kode || ""
+      ) && <SIBprSip data={data} />}
       {data.Bank.kode === "BPR BDS" && <SIBprBds data={data} />}
       {data.Bank.kode === "BPR SIP" && <SIBprSip data={data} />}
       {data.Bank.kode === "BPR BNM" && <SIBprBNM data={data} />}

@@ -505,7 +505,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             alignItems: "center",
           }}
         >
-          <Text>Kota/Kab.</Text>
+          <Text></Text>
           <Text style={styles.value}>{data.DataPengajuanAlamat.kota}</Text>
         </View>
         <View
@@ -667,7 +667,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
             gap: 4,
           }}
         >
-          <Text>Kota/Kab.</Text>
+          <Text></Text>
           <Text style={styles.value}>
             {data.DataPengajuanAlamat.kota_domisili}
           </Text>
@@ -1602,7 +1602,7 @@ export default function FormPengajuan({ data }: { data: DataDataPengajuan }) {
           margin: "2px 0",
         }}
       >
-        <Text style={{ width: 80 }}>Plafon Pembiayaan</Text>
+        <Text style={{ width: 80 }}>Plafond Pembiayaan</Text>
         <Text>:</Text>
         <View
           style={{

@@ -3,7 +3,14 @@
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import { formatNumber } from "@/components/utils/inputUtils";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
-import { Document, PDFViewer, Page, Text, View } from "@react-pdf/renderer";
+import {
+  Document,
+  Image,
+  PDFViewer,
+  Page,
+  Text,
+  View,
+} from "@react-pdf/renderer";
 import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 import { stylePdf } from "@/components/utils/pdf/stylePdf";
 import moment from "moment";
@@ -71,29 +78,42 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
           <View style={{ border: "1px solid #aaa" }}>
             <View
               style={{
-                fontWeight: "bold",
-                textAlign: "center",
-                padding: 10,
-                lineHeight: 1.4,
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
             >
-              <Text>MEMORANDUM ANALISA DAN USULAN KREDIT</Text>
-              <Text>KREDIT BARU / TAMBAHAN / PERPANJANGAN / RESTRUKTUR</Text>
+              <View style={{ flex: 1 }}>
+                <Image src={"/logo_bpr_dassa.png"} style={{ width: 50 }} />
+              </View>
               <View
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: 10,
-                  justifyContent: "center",
+                  flex: 2,
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  padding: 10,
+                  lineHeight: 1.4,
                 }}
               >
-                <Text>No.</Text>
-                <Text>......</Text>
-                <Text>
-                  MK/{data.Bank.kode}/PP/{new Date().getMonth() + 1}/
-                  {new Date().getFullYear()}
-                </Text>
+                <Text>MEMORANDUM ANALISA DAN USULAN KREDIT</Text>
+                <Text>KREDIT BARU / TAMBAHAN / PERPANJANGAN / RESTRUKTUR</Text>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 10,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text>No.</Text>
+                  <Text>......</Text>
+                  <Text>
+                    MK/{data.Bank.kode}/PP/{moment().format("MM/YYYY")}
+                  </Text>
+                </View>
               </View>
+              <View style={{ flex: 1 }}></View>
             </View>
             {/* BIODATA */}
             <View style={{ display: "flex", flexDirection: "row" }}>
@@ -266,6 +286,15 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                     lineHeight: 1.4,
                   }}
                 >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      marginBottom: 5,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    DATA PASANGAN PEMOHON
+                  </Text>
                   <View style={{ display: "flex", flexDirection: "row" }}>
                     <Text style={{ width: "40%" }}>Nama</Text>
                     <Text style={{ width: "10%" }}>:</Text>
@@ -332,7 +361,7 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                     TUJUAN PENGAJUAN PINJAMAN
                   </Text>
                   <Text>
-                    Pemohon mengajukan pinjaman sebesar Rp
+                    Pemohon mengajukan pinjaman sebesar Rp.{" "}
                     {formatNumber(data.DataPembiayaan.plafond.toFixed(0))} yang
                     dipergunakan untuk kebutuhan multiguna
                   </Text>
@@ -356,8 +385,8 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                   <View>
                     <Text>
                       {" "}
-                      Pemohon adalah Pensiunan TASPEN dengan data sbb : No
-                      Pensiun : {data.DataPembiayaan.nopen} No SK :{" "}
+                      Pemohon adalah Pensiunan {data.jenis_pensiun} dengan data
+                      sbb : No Pensiun : {data.DataPembiayaan.nopen} No SK :{" "}
                       {data.nomor_sk_pensiun} Penerbit SK: {data.penerbit_sk}
                     </Text>
                   </View>
@@ -442,7 +471,7 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                     {formatNumber(
                       (
                         data.DataPembiayaan.plafond *
-                        (data.DataPembiayaan.mg_bunga / 100)
+                        (data.DataPembiayaan.by_asuransi / 100)
                       ).toFixed(0)
                     )}
                   </Text>

@@ -271,7 +271,9 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   display: "flex",
                 }}
               >
-                <Text>ADHI SOFYAR PRAMUDYA</Text>
+                <Text>
+                  {process.env.NEXT_PUBLIC_APP_SI_TTD || "ADHI SOFYAR PRAMUDYA"}
+                </Text>
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>

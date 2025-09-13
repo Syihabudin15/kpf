@@ -331,27 +331,6 @@ export default function FormSP3R({ data }: { data: DataDataPengajuan }) {
           }}
         >
           <Text style={{ width: 10 }}></Text>
-          <Text style={{ width: 200 }}>Kelurahan / Desa *)</Text>
-          <Text>:</Text>
-          <View
-            style={{
-              flex: 1,
-              borderBottom: "1px solid #111",
-              borderBottomStyle: "dotted",
-            }}
-          >
-            <Text>{data.DataPengajuanAlamat.kelurahan}</Text>
-          </View>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            gap: 5,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ width: 10 }}></Text>
           <Text style={{ width: 200 }}>Kecamatan</Text>
           <Text>:</Text>
           <View

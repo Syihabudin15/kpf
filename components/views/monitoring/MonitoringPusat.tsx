@@ -324,7 +324,13 @@ export default function MonitoringPusat() {
           <Tooltip
             title={`Admin : ${record.DataPembiayaan.User.first_name} ${record.DataPembiayaan.User.last_name}`}
           >
-            {record.DataPembiayaan.name}
+            <span
+              style={{
+                ...(record.status_pencairan === "BATAL" && { color: "red" }),
+              }}
+            >
+              {record.DataPembiayaan.name}
+            </span>
           </Tooltip>
         );
       },

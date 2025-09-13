@@ -2,7 +2,6 @@
 
 import { formatNumber } from "@/components/utils/inputUtils";
 import { DataDataPencairan } from "@/components/utils/Interfaces";
-import { LoadingOutlined } from "@ant-design/icons";
 import { Button, Modal } from "antd";
 import { useState } from "react";
 
@@ -24,16 +23,17 @@ export default function ModalProsesCair({
   };
   return (
     <div>
-      <button
+      <Button
         onClick={() => setOpen(true)}
-        className="bg-green-500 hover:bg-green-600 text-white py-2 px-3 text-center rounded shadow text-xs"
         disabled={loading ? true : data.status ? true : false}
         style={{
           opacity: data.status ? 0.5 : 1,
         }}
+        type="primary"
+        size="small"
       >
-        PROSES {loading && <LoadingOutlined />}
-      </button>
+        PROSES
+      </Button>
       <Modal
         title={`Proses Pencairan ${data.nomor_surat}`}
         onClose={() => setOpen(false)}

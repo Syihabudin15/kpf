@@ -116,10 +116,11 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         const currPage = (page - 1) * pageSize;
         return <>{currPage + (index + 1)}</>;
@@ -134,10 +135,11 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return (
           <div className="flex justify-center text-xs font-bold italic">
@@ -153,7 +155,7 @@ export default function PencairanBank() {
       },
     },
     {
-      title: "TANGGAL CETAK",
+      title: "TANGGAL CETAK SI",
       dataIndex: "tanggal_cetak",
       key: "tanggal_cetak",
       width: 100,
@@ -161,10 +163,11 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return <>{moment(record.tanggal_cetak).format("DD-MM-YYYY")}</>;
       },
@@ -173,30 +176,33 @@ export default function PencairanBank() {
       title: "NOMOR SURAT",
       dataIndex: "nomor_surat",
       key: "nomor_surat",
-      width: 200,
+      width: 250,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
     },
     {
       title: "SUMBER DANA",
       dataIndex: "sumber_dana",
       key: "sumber_dana",
-      width: 200,
+      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
+      className: "text-xs",
       render(value, record, index) {
-        return <>{record.Bank.name}</>;
+        return <>{record.Bank.kode}</>;
       },
     },
     {
@@ -208,6 +214,7 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -248,6 +255,7 @@ export default function PencairanBank() {
             return {
               ["style"]: {
                 textAlign: "center",
+                fontSize: 13,
               },
             };
           },
@@ -269,6 +277,7 @@ export default function PencairanBank() {
             return {
               ["style"]: {
                 textAlign: "center",
+                fontSize: 13,
               },
             };
           },
@@ -295,6 +304,7 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -320,6 +330,7 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -341,6 +352,7 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -362,6 +374,7 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
@@ -396,10 +409,11 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         let plaf = 0;
         record.DataPengajuan.forEach((p) => {
@@ -417,10 +431,11 @@ export default function PencairanBank() {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         let totalplaf = 0;
         let totalBiaya = 0;
@@ -429,26 +444,26 @@ export default function PencairanBank() {
 
           let admin =
             d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
+
+          const angsuran = ceiling(
+            parseInt(
+              getAngsuranPerBulan(
+                d.DataPembiayaan.mg_bunga,
+                d.DataPembiayaan.tenor,
+                d.DataPembiayaan.plafond,
+                false,
+                false,
+                d.Bank.kode
+              )
+            ),
+            d.DataPembiayaan.pembulatan
+          );
+          const blokir = angsuran * d.DataPembiayaan.blokir;
           totalBiaya +=
             d.DataPembiayaan.by_buka_rekening +
             d.DataPembiayaan.by_provisi +
-            admin;
-          if (d.Bank.kode === "BPR BNM" || d.Bank.kode === "BPR SIP") {
-            const angsuran = ceiling(
-              parseInt(
-                getAngsuranPerBulan(
-                  d.DataPembiayaan.mg_bunga,
-                  d.DataPembiayaan.tenor,
-                  d.DataPembiayaan.plafond,
-                  false,
-                  false,
-                  d.Bank.kode
-                )
-              ),
-              d.DataPembiayaan.pembulatan
-            );
-            totalBiaya += angsuran * d.DataPembiayaan.blokir;
-          }
+            admin +
+            blokir;
         });
         return <>{formatNumberTitik((totalplaf - totalBiaya).toFixed(0))}</>;
       },
@@ -494,7 +509,7 @@ export default function PencairanBank() {
           size="small"
           pagination={{
             pageSize: pageSize,
-            pageSizeOptions: [20, 50, 100, 200, 500, 1000, 1000],
+            pageSizeOptions: [50, 100, 200, 500, 1000, 1000],
             total,
             onChange(page, pageSize) {
               setPage(page);

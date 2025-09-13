@@ -115,8 +115,8 @@ export default function FormPernyataanDebitur({
           <Text>
             {[
               `${data.DataPengajuanAlamat.alamat} RT ${data.DataPengajuanAlamat.rt} RW ${data.DataPengajuanAlamat.rw}`,
-              `KEL. ${data.DataPengajuanAlamat.kelurahan} KEC. ${data.DataPengajuanAlamat.alamat}`,
-              `KOTA/KAB. ${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi} ${data.DataPengajuanAlamat.kode_pos}`,
+              `KEL. ${data.DataPengajuanAlamat.kelurahan} KEC. ${data.DataPengajuanAlamat.kecamatan}`,
+              ` ${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi} ${data.DataPengajuanAlamat.kode_pos}`,
             ].join(", ")}
           </Text>
         </View>
@@ -185,7 +185,7 @@ export default function FormPernyataanDebitur({
       <Text style={{ margin: "3px 0", lineHeight: 1.5, textAlign: "justify" }}>
         Saya menyatakan dengan sesungguhnya bahwa setelah dilakukan akad kredit
         di {process.env.NEXT_PUBLIC_APP_FULL_NAME} (
-        {process.env.NEXT_PUBLIC_APP_HEADER_NAME}) saya tidak akan membatalkan
+        {process.env.NEXT_PUBLIC_APP_NAME_HEADER}) saya tidak akan membatalkan
         kredit tersebut.
       </Text>
       <Text style={{ margin: "3px 0", lineHeight: 1.5, textAlign: "justify" }}>

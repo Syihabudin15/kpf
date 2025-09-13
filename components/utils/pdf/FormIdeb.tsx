@@ -184,8 +184,8 @@ export default function FormIdeb({ data }: { data: DataDataPengajuan }) {
             <Text>
               {[
                 `${data.DataPengajuanAlamat.alamat} RT ${data.DataPengajuanAlamat.rt} RW ${data.DataPengajuanAlamat.rw}`,
-                `KEL. ${data.DataPengajuanAlamat.kelurahan} KEC. ${data.DataPengajuanAlamat.alamat}`,
-                `KOTA/KAB. ${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi}`,
+                `KEL. ${data.DataPengajuanAlamat.kelurahan} KEC. ${data.DataPengajuanAlamat.kecamatan}`,
+                `${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi}`,
               ].join(", ")}
             </Text>
           </View>

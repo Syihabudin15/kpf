@@ -4,8 +4,9 @@ import { redirect } from "next/navigation";
 import prisma from "@/components/prisma";
 import Logout from "@/components/views/Logout";
 import MobileMenuVer2 from "@/components/utils/menu/MobileMenuVer2";
-import NotifVer2 from "@/components/utils/menu/NotifVer2";
+// import NotifVer2 from "@/components/utils/menu/NotifVer2";
 import MenuWrapper from "@/components/utils/menu/MenuWrapper";
+import { IUserNotif, Notif } from "@/components/v1/INotif";
 
 export default async function UserLayout({
   children,
@@ -55,7 +56,8 @@ export default async function UserLayout({
             </span>
           </div>
           <div className="hidden md:flex md:items-center gap-2">
-            <NotifVer2 role={user?.role || "MARKETING"} />
+            {/* <NotifVer2 role={user?.role || "MARKETING"} /> */}
+            <Notif user={user as IUserNotif} />
             <div style={{ marginLeft: 20, color: "red" }}>
               <Logout />
             </div>

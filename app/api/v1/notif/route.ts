@@ -6,12 +6,15 @@ export const GET = async (req: NextRequest) => {
   const sumdanId: string | null = req.nextUrl.searchParams.get("sumdanId");
 
   const slik = await getNotifField(
-    { status_verifikasi: "SETUJU", status_slik: "ANTRI" },
+    {
+      status_verifikasi: "SETUJU",
+      OR: [{ status_slik: "ANTRI" }, { status_slik: "PENDING" }],
+    },
     sumdanId,
     areaId
   );
   const verif = await getNotifField(
-    { status_verifikasi: "ANTRI" },
+    { OR: [{ status_verifikasi: "ANTRI" }, { status_verifikasi: "PENDING" }] },
     sumdanId,
     areaId
   );
@@ -19,7 +22,7 @@ export const GET = async (req: NextRequest) => {
     {
       status_verifikasi: "SETUJU",
       status_slik: "SETUJU",
-      status_approval: "ANTRI",
+      OR: [{ status_approval: "ANTRI" }, { status_approval: "PENDING" }],
     },
     sumdanId,
     areaId
@@ -69,7 +72,7 @@ const getNotifField = async (
   const find = await prisma.dataPengajuan.count({
     where: {
       is_active: true,
-      status_pencairan: { not: "BATAL" },
+      OR: [{ status_pencairan: { not: "BATAL" } }, { status_pencairan: null }],
       ...field,
       ...(sumdanId && { bankId: sumdanId }),
       ...(areaId && {
