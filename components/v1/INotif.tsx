@@ -30,7 +30,7 @@ export const Notif = ({ user }: { user: IUserNotif }) => {
     })();
     setInterval(async () => {
       await getData();
-    }, 60000);
+    }, 60000 * 5);
   }, [user]);
 
   return (

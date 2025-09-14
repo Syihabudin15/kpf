@@ -914,12 +914,7 @@ export default function FormAsabri({ data }: { data: DataDataPengajuan }) {
                   borderBottom: "1px solid #111",
                   borderBottomStyle: "dotted",
                 }}
-              >
-                {data.DataPembiayaan.tempat_lahir + ", "}{" "}
-                {moment(data.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
-                  "DD - MM - YYYY"
-                )}
-              </Text>
+              ></Text>
               <View
                 style={{
                   flex: 1,

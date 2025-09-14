@@ -85,7 +85,10 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
               }}
             >
               <View style={{ flex: 1 }}>
-                <Image src={"/logo_bpr_dassa.png"} style={{ width: 50 }} />
+                <Image
+                  src={data.Bank.logo || "/assets/images/app_logo.png"}
+                  style={{ width: 50 }}
+                />
               </View>
               <View
                 style={{
