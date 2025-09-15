@@ -441,7 +441,10 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   }}
                 >
                   <Text>Biaya Layanan</Text>
-                  <Text>Kredit & Rekening (Rp)</Text>
+                  <Text>
+                    Kredit {data.Bank.by_buka_rekening !== 0 && "& Rekening"}{" "}
+                    (Rp)
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -556,7 +559,9 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     textAlign: "center",
                   }}
                 >
-                  <Text>{formatNumber(totalProvisi.toFixed(0))}</Text>
+                  <Text>
+                    {formatNumber((totalProvisi + totalRekening).toFixed(0))}
+                  </Text>
                 </View>
                 <View
                   style={{
@@ -617,7 +622,10 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                     alignItems: "center",
                   }}
                 >
-                  <Text>Adhi Sofyar Pramudya</Text>
+                  <Text>
+                    {process.env.NEXT_PUBLIC_APP_SI_TTD ||
+                      "ADHI SOFYAR PRAMUDYA"}
+                  </Text>
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
