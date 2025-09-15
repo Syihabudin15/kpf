@@ -272,17 +272,6 @@ export const angsuranAnuitas = (
 ) => {
   let table: any[] = [];
 
-  // const angsuran = ceiling(
-  //   parseInt(getAngsuranPerBulan(bungaKoperasi, tenor, plafond)),
-  //   pembulatan
-  // );
-  // const angsuranBank = ceiling(
-  //   parseInt(getAngsuranPerBulan(bungaBank, tenor, plafond)),
-  //   pembulatan
-  // );
-  // const colfee = angsuran - angsuranBank;
-  // let total = plafond;
-
   let montly_rate = bungaKoperasi / 12 / 100;
 
   // let monthly_installment =
@@ -341,22 +330,12 @@ export const angsuranAnuitas = (
         principal -= Math.abs(total);
         total = 0; // Set sisa pokok menjadi nol
       }
-      // const margin = parseInt(
-      //   getAngsuranPerBulan(bungaKoperasi / 12, tenor, total)
-      // );
-      // const pokok = angsuran - margin;
-      // total -= pokok;
+
       table.push({
         angsuran_ke: i,
         angsuran: rounded_installment.toFixed(0),
         pokok: principal.toFixed(0),
         margin: (rounded_installment - principal).toFixed(0),
-        // margin_bank: parseFloat(
-        //   (
-        //     (bungaBank / bungaKoperasi) *
-        //     (rounded_installment - principal)
-        //   ).toFixed(2)
-        // ),
         margin_bank: angsuranBank,
         tanggal_bayar: moment(tanggal).add(i, "M").format("YYYY-MM-DD"),
         collfee: (rounded_installment - angsuranBank).toFixed(0),

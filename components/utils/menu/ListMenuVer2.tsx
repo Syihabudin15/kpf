@@ -6,11 +6,7 @@ import { Menus, menusV2 } from "./daftarMenuV2";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  BankOutlined,
-  MoneyCollectFilled,
-  MoneyCollectOutlined,
-} from "@ant-design/icons";
+import { BankOutlined, MoneyCollectOutlined } from "@ant-design/icons";
 import { GiroPos } from "../Interfaces";
 
 export default function ListMenuVer2({
@@ -100,11 +96,11 @@ export default function ListMenuVer2({
                 return {
                   label: (
                     <Link
-                      className={
+                      className={`text-sm ${
                         pathname === child.url
                           ? "text-blue-500"
                           : "text-gray-800"
-                      }
+                      }`}
                       href={child.url}
                     >
                       {child.label}
@@ -118,11 +114,11 @@ export default function ListMenuVer2({
               return {
                 label: (
                   <span
-                    className={
+                    className={`text-sm ${
                       child.map((an) => an.key).includes(pathname)
                         ? "text-blue-500"
                         : "text-gray-800"
-                    }
+                    }`}
                   >
                     {menu.label}
                   </span>
@@ -135,9 +131,9 @@ export default function ListMenuVer2({
               return {
                 label: (
                   <Link
-                    className={
+                    className={`text-sm ${
                       pathname === menu.url ? "text-blue-500" : "text-gray-800"
-                    }
+                    }`}
                     href={menu.url}
                   >
                     {menu.label}

@@ -74,7 +74,11 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
       { data: formatNumber(d.DataPembiayaan.plafond.toFixed(0)), width: 100 },
       { data: formatNumber(newAdmin.toFixed(0)), width: 100 },
       {
-        data: formatNumber(d.DataPembiayaan.by_provisi.toFixed(0)),
+        data: formatNumber(
+          (
+            d.DataPembiayaan.by_provisi + d.DataPembiayaan.by_buka_rekening
+          ).toFixed(0)
+        ),
         width: 100,
       },
       { data: "1 Bulan", width: 100 },
@@ -437,7 +441,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   }}
                 >
                   <Text>Biaya Layanan</Text>
-                  <Text>Kredit (Rp)</Text>
+                  <Text>Kredit & Rekening (Rp)</Text>
                 </View>
                 <View
                   style={{

@@ -71,6 +71,12 @@ export const menusV2: Menus[] = [
         role: ["MASTER", "ENTRY_DATA", "MARKETING"],
         icon: <DiffOutlined />,
       },
+      {
+        label: "Pinjaman Anggota",
+        url: "/simulasi/pinjaman-anggota",
+        role: ["MASTER", "ENTRY_DATA", "OPERASIONAL"],
+        icon: <ExperimentOutlined />,
+      },
     ],
   },
   {

@@ -23,10 +23,6 @@ const CetakUPPINJ = dynamic(() => import("../CetakUppinj"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
-const UploadBerkas = dynamic(() => import("./UploadBerkas"), {
-  ssr: false,
-  loading: () => <LoadingOutlined />,
-});
 const ModalProsesCair = dynamic(() => import("./ModalProsesCair"), {
   ssr: false,
   loading: () => <LoadingOutlined />,

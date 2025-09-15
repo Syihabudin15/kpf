@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal, Select } from "antd";
+import { Input, Modal, Select } from "antd";
 import { DataDataPengajuan } from "../utils/Interfaces";
 
 export const FilterOption = ({
@@ -70,14 +70,93 @@ export const ViewBerkas = ({
   );
 };
 
+export const FormInput = ({
+  label,
+  value,
+  type,
+  disabled,
+  width,
+  options,
+  onChange,
+  prefix,
+  suffix,
+  mode,
+  className,
+}: {
+  label: string;
+  value: any;
+  type?: "number" | "area" | "date" | "options";
+  disabled?: boolean;
+  width?: number;
+  options?: { label: any; value: any }[];
+  onChange?: Function;
+  prefix?: any;
+  suffix?: any;
+  mode?: "row" | "col";
+  className?: string;
+}) => {
+  return (
+    <div
+      className={`w-full flex ${
+        mode === "row" ? "flex-row gap-4 items-center" : "flex-col gap-1"
+      } ${className ? className : ""}`}
+    >
+      <p style={{ width: width || 150 }}>{label}</p>
+      <div className="flex-1">
+        {!type && (
+          <Input
+            value={value}
+            disabled={disabled}
+            onChange={(e) => onChange && onChange(e.target.value)}
+            prefix={prefix}
+            suffix={suffix}
+            style={{ width: "100%", color: "black" }}
+          />
+        )}
+        {type && ["date", "number"].includes(type) && (
+          <Input
+            value={value}
+            disabled={disabled}
+            type={type}
+            onChange={(e) => onChange && onChange(e.target.value)}
+            prefix={prefix}
+            suffix={suffix}
+            style={{ width: "100%", color: "black" }}
+          />
+        )}
+        {type && type === "area" && (
+          <Input.TextArea
+            value={value}
+            disabled={disabled}
+            onChange={(e) => onChange && onChange(e.target.value)}
+            prefix={prefix}
+            style={{ width: "100%", color: "black" }}
+          />
+        )}
+        {type && type === "options" && (
+          <Select
+            options={options}
+            value={value}
+            disabled={disabled}
+            onChange={(e) => onChange && onChange(e)}
+            style={{ width: "100%", color: "black" }}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
 export const ViewBerkasPengajuan = ({
   open,
   setOpen,
   data,
+  isEdit,
 }: {
   open: boolean;
   setOpen: Function;
   data: DataDataPengajuan;
+  isEdit?: boolean;
 }) => {
   return (
     <div>

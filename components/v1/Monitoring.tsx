@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { DataDataPengajuan } from "../utils/Interfaces";
-import { Table, TableProps, DatePicker, Input, Button, Typography } from "antd";
+import {
+  Table,
+  TableProps,
+  DatePicker,
+  Input,
+  Button,
+  Typography,
+  Modal,
+} from "antd";
 import { formatNumber } from "../utils/inputUtils";
 import { getAngsuranPerBulan } from "../views/simulasi/simulasiUtil";
 import { ceiling } from "../utils/pdf/pdfUtil";
@@ -14,13 +22,15 @@ import {
   FormOutlined,
   PlayCircleFilled,
   PrinterFilled,
+  RobotFilled,
 } from "@ant-design/icons";
-import { Bank, StatusPencairan } from "@prisma/client";
+import { Bank, Role, StatusPencairan } from "@prisma/client";
 import { FilterOption } from "./viewUtils";
 import moment from "moment";
 import { IUserNotif } from "./INotif";
-import { ViewBerkas, ViewBerkasPengajuan } from ".";
-import { FormCetak } from "./pdf";
+import { FormInput, ViewBerkas, ViewBerkasPengajuan } from ".";
+import { AkadKredit, FormCetak } from "./pdf";
+import { generateTableAngsuran } from "./appUtils";
 const { RangePicker } = DatePicker;
 const { Paragraph } = Typography;
 
@@ -48,19 +58,13 @@ export default function MonitoringUI({ user }: { user: IUserNotif }) {
     title: null,
     type: "pdf",
   });
-  const [berkasPengajuan, setBerkasPengajuan] = useState<{
-    open: boolean;
-    data: DataDataPengajuan | undefined;
-  }>({
-    open: false,
-    data: undefined,
-  });
-  const [openForm, setOpenForm] = useState<{
-    open: boolean;
-    data: DataDataPengajuan | undefined;
-  }>({
-    open: false,
-    data: undefined,
+  const [selected, setSelected] = useState<DataDataPengajuan>();
+  const [openModal, setOpenModal] = useState({
+    berkasPengajuan: false,
+    form: false,
+    delete: false,
+    update: false,
+    akad: false,
   });
 
   const getData = async () => {
@@ -346,12 +350,17 @@ export default function MonitoringUI({ user }: { user: IUserNotif }) {
       render(value, record, index) {
         return (
           <div className="flex justify-center gap-2 items-center">
-            {record.status_approval === "SETUJU" &&
+            {["MASTER", "OPERAISONAL", "ENTRY_DATA"].includes(user.role) &&
+              record.status_approval === "SETUJU" &&
               record.status_pencairan !== "BATAL" && (
                 <Button
                   icon={<PrinterFilled />}
                   size="small"
                   type="primary"
+                  onClick={() => {
+                    setSelected(record);
+                    setOpenModal({ ...openModal, akad: true });
+                  }}
                 ></Button>
               )}
             {record.BerkasPengajuan.berkas_akad && (
@@ -370,7 +379,19 @@ export default function MonitoringUI({ user }: { user: IUserNotif }) {
               ></Button>
             )}
             {record.BerkasPengajuan.video_akad && (
-              <Button icon={<PlayCircleFilled />} size="small"></Button>
+              <Button
+                icon={<PlayCircleFilled />}
+                size="small"
+                onClick={() =>
+                  setViewFile({
+                    ...viewFile,
+                    open: true,
+                    url: record.BerkasPengajuan.video_akad,
+                    type: "video",
+                    title: "VIDEO AKAD " + record.nama,
+                  })
+                }
+              ></Button>
             )}
           </div>
         );
@@ -390,19 +411,29 @@ export default function MonitoringUI({ user }: { user: IUserNotif }) {
           },
         };
       },
+      hidden: user.bank_id !== null,
       render(value, record, index) {
         return (
-          <div className="flex justify-center gap-2">
+          <div
+            className="flex justify-center gap-2"
+            onClick={() => setSelected(record)}
+          >
             <Button
               icon={<FileFilled />}
               size="small"
-              onClick={() => setBerkasPengajuan({ open: true, data: record })}
+              onClick={() =>
+                setOpenModal({
+                  ...openModal,
+                  berkasPengajuan: true,
+                  update: false,
+                })
+              }
             ></Button>
             <Button
               icon={<FolderFilled />}
               size="small"
               type="primary"
-              onClick={() => setOpenForm({ open: true, data: record })}
+              onClick={() => setOpenModal({ ...openModal, form: true })}
             ></Button>
           </div>
         );
@@ -866,17 +897,32 @@ export default function MonitoringUI({ user }: { user: IUserNotif }) {
                 icon={<FolderFilled />}
                 type="primary"
                 size="small"
-                onClick={() => setBerkasPengajuan({ open: true, data: record })}
+                onClick={() =>
+                  setOpenModal({
+                    ...openModal,
+                    berkasPengajuan: true,
+                    update: false,
+                  })
+                }
               ></Button>
             )}
-            {!user.bank_id && (
+            {["MASTER", "VERIFIKASI", "OPERASIONAL", "ENTRY_DATA"].includes(
+              user.role
+            ) && (
               <Button
                 icon={<FormOutlined />}
                 type="primary"
                 size="small"
+                onClick={() =>
+                  setOpenModal({
+                    ...openModal,
+                    berkasPengajuan: true,
+                    update: true,
+                  })
+                }
               ></Button>
             )}
-            {!user.bank_id && (
+            {["MASTER", "VERIFIKASI", "OPERASIONAL"].includes(user.role) && (
               <Button
                 icon={<DeleteFilled />}
                 type="primary"
@@ -965,25 +1011,170 @@ export default function MonitoringUI({ user }: { user: IUserNotif }) {
         setOpen={(value: boolean) => setViewFile({ ...viewFile, open: value })}
         type={viewFile.type || "pdf"}
       />
-      {berkasPengajuan.data && (
-        <ViewBerkasPengajuan
-          open={berkasPengajuan.open}
-          setOpen={(value: boolean) =>
-            setBerkasPengajuan({ ...berkasPengajuan, open: false })
-          }
-          data={berkasPengajuan.data}
-        />
-      )}
-      {openForm.data && (
-        <FormCetak
-          open={openForm.open}
-          setOpen={(value: boolean) =>
-            setOpenForm({ ...openForm, open: value })
-          }
-          data={openForm.data}
-          key={openForm.data.id}
-        />
+      {selected && (
+        <>
+          <ViewBerkasPengajuan
+            open={openModal.berkasPengajuan}
+            setOpen={(value: boolean) =>
+              setOpenModal({ ...openModal, berkasPengajuan: value })
+            }
+            data={selected}
+            key={selected.id}
+            isEdit={openModal.update}
+          />
+          <FormCetak
+            open={openModal.form}
+            setOpen={(value: boolean) =>
+              setOpenModal({ ...openModal, form: value })
+            }
+            data={selected}
+            key={selected.id}
+          />
+          <CetakAkad
+            open={openModal.akad}
+            setOpen={(value: boolean) =>
+              setOpenModal({ ...openModal, akad: value })
+            }
+            data={selected}
+            key={selected.id}
+            setData={setSelected}
+          />
+        </>
       )}
     </div>
   );
 }
+
+const CetakAkad = ({
+  open,
+  setOpen,
+  data,
+  setData,
+}: {
+  open: boolean;
+  setOpen: Function;
+  data: DataDataPengajuan;
+  setData: Function;
+}) => {
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+  const [angsurans, setAngsurans] = useState<any[]>([]);
+
+  const generateRefCode = async () => {
+    setLoading(true);
+    await fetch("/api/v1/generate?sumdan=" + data.Bank.kode)
+      .then((res) => res.json())
+      .then((res) => {
+        setData({
+          ...data,
+          nomor_akad: `${res.data}/FAS-${
+            data.User.UnitCabang ? data.User.UnitCabang.kode_area : "PUSAT"
+          }/${moment().format("DDMMYYYY")}`,
+        });
+      });
+    setLoading(false);
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    await fetch("/api/v1/pengajuan", {
+      method: "PUT",
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        const generateAngsuran = generateTableAngsuran(data);
+        setAngsurans(generateAngsuran);
+        setOpen(false);
+        setShow(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        Modal.error({ title: "ERROR!!", content: "Internal Server Error" });
+      });
+    setLoading(false);
+  };
+
+  return (
+    <div>
+      <Modal
+        open={open}
+        onCancel={() => setOpen(false)}
+        onClose={() => setOpen(false)}
+        loading={loading}
+        title={"CETAK AKAD " + data.nama}
+        onOk={() => handleSubmit()}
+      >
+        <div className="flex flex-col gap-2 my-5">
+          <FormInput
+            label="Tanggal Akad"
+            value={moment(data.tanggal_cetak_akad || new Date()).format(
+              "YYYY-MM-DD"
+            )}
+            type="date"
+            onChange={(e: any) =>
+              setData({ ...data, tanggal_cetak_akad: new Date(e) })
+            }
+          />
+          <FormInput
+            label="Nomor Akad"
+            value={data.nomor_akad}
+            onChange={(e: any) => setData({ ...data, nomor_akad: e })}
+            suffix={
+              <Button
+                size="small"
+                type="primary"
+                icon={<RobotFilled />}
+                onClick={() => generateRefCode()}
+              ></Button>
+            }
+          />
+          <FormInput
+            label="Jenis Margin"
+            value={data.jenis_margin}
+            type="options"
+            options={[
+              { label: "FLAT", value: "FLAT" },
+              { label: "ANUITAS", value: "ANUITAS" },
+            ]}
+            onChange={(e: any) => setData({ ...data, jenis_margin: e })}
+          />
+          <FormInput
+            label="Margin Bunga"
+            value={data.DataPembiayaan.mg_bunga}
+            type="number"
+            onChange={(e: any) =>
+              setData({
+                ...data,
+                DataPembiayaan: { ...data.DataPembiayaan, mg_bunga: Number(e) },
+              })
+            }
+          />
+          <FormInput
+            label="Jenis Pembiayaan"
+            value={data.DataPembiayaan.JenisPembiayaan.name || "Sisa Gaji"}
+            disabled
+          />
+          <FormInput
+            label="Produk Pembiayaan"
+            value={`${data.DataPembiayaan.Produk.name} (${data.Bank.kode})`}
+            disabled
+          />
+        </div>
+      </Modal>
+      <Modal
+        open={show}
+        onClose={() => setShow(false)}
+        onCancel={() => setShow(false)}
+        title={"AKAD " + data.nama}
+        style={{ top: 20 }}
+        width={"95vw"}
+        footer={[]}
+      >
+        <div className="h-[80vh]">
+          <AkadKredit data={data} angsurans={angsurans} />
+        </div>
+      </Modal>
+    </div>
+  );
+};

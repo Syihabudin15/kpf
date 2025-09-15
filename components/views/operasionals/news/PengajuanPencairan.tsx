@@ -324,36 +324,34 @@ export default function PengajuanPencairan() {
             d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
           total -= plaf + d.DataPembiayaan.by_buka_rekening;
           total -= d.DataPembiayaan.by_provisi;
-          if (d.Bank.kode === "BPR SIP" || d.Bank.kode === "BPR BNM") {
-            const angsuran =
-              d.jenis_margin === "FLAT"
-                ? ceiling(
-                    parseInt(
-                      getAngsuranPerBulan(
-                        d.DataPembiayaan.mg_bunga,
-                        d.DataPembiayaan.tenor,
-                        d.DataPembiayaan.plafond,
-                        false,
-                        true
-                      )
-                    ),
-                    d.DataPembiayaan.pembulatan
-                  )
-                : ceiling(
-                    parseInt(
-                      getAngsuranPerBulan(
-                        d.DataPembiayaan.mg_bunga,
-                        d.DataPembiayaan.tenor,
-                        d.DataPembiayaan.plafond,
-                        false,
-                        false,
-                        d.Bank.kode
-                      )
-                    ),
-                    d.DataPembiayaan.pembulatan
-                  );
-            total -= angsuran * d.DataPembiayaan.blokir;
-          }
+          const angsuran =
+            d.jenis_margin === "FLAT"
+              ? ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      d.DataPembiayaan.mg_bunga,
+                      d.DataPembiayaan.tenor,
+                      d.DataPembiayaan.plafond,
+                      false,
+                      true
+                    )
+                  ),
+                  d.DataPembiayaan.pembulatan
+                )
+              : ceiling(
+                  parseInt(
+                    getAngsuranPerBulan(
+                      d.DataPembiayaan.mg_bunga,
+                      d.DataPembiayaan.tenor,
+                      d.DataPembiayaan.plafond,
+                      false,
+                      false,
+                      d.Bank.kode
+                    )
+                  ),
+                  d.DataPembiayaan.pembulatan
+                );
+          total -= angsuran * d.DataPembiayaan.blokir;
         });
         return <>{formatNumberTitik(total.toFixed(0))}</>;
       },

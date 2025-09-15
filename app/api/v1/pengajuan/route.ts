@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/components/prisma";
 import { StatusPencairan } from "@prisma/client";
+import { DataDataPengajuan } from "@/components/utils/Interfaces";
 
 export const GET = async (req: NextRequest) => {
   const areaId: string | null = req.nextUrl.searchParams.get("areaId");
@@ -41,14 +42,15 @@ export const GET = async (req: NextRequest) => {
       ...(status && {
         status_pencairan: (status as any) === "null" ? null : status,
       }),
-      ...(backdate && {
-        DataPembiayaan: {
-          tanggal_input: {
-            gte: new Date(backdate.split(",")[0]),
-            lte: new Date(backdate.split(",")[1]),
+      ...(backdate &&
+        backdate.split(",").length === 2 && {
+          DataPembiayaan: {
+            tanggal_input: {
+              gte: new Date(backdate.split(",")[0]),
+              lte: new Date(backdate.split(",")[1]),
+            },
           },
-        },
-      }),
+        }),
     },
     include: {
       DataPembiayaan: {
@@ -119,4 +121,53 @@ export const GET = async (req: NextRequest) => {
   });
 
   return NextResponse.json({ data: find, total, status: 200 }, { status: 200 });
+};
+
+export const PUT = async (req: NextRequest) => {
+  const data: DataDataPengajuan = await req.json();
+
+  try {
+    const {
+      id,
+      Bank,
+      DataPembiayaan,
+      DataPencairan,
+      BerkasPengajuan,
+      DataPengajuanAlamat,
+      DataPengajuanPasangan,
+      DataTaspen,
+      User,
+      JadwalAngsuran,
+      PenyerahanBerkas,
+      PenyerahanJaminan,
+      ...savePengajuan
+    } = data;
+    const {
+      id: Pembiayaan,
+      Produk,
+      JenisPembiayaan,
+      User: UserPembiayaan,
+      Refferal,
+      ...savePembiayaan
+    } = data.DataPembiayaan;
+
+    await prisma.$transaction([
+      prisma.dataPengajuan.update({
+        where: { id: data.id },
+        data: savePengajuan,
+      }),
+      prisma.dataPembiayaan.update({
+        where: { id: data.data_pembiayaan_id },
+        data: savePembiayaan,
+      }),
+    ]);
+
+    return NextResponse.json({ msg: "OK", status: 200 }, { status: 200 });
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      { msg: "Internal Server Error", status: 500 },
+      { status: 500 }
+    );
+  }
 };
