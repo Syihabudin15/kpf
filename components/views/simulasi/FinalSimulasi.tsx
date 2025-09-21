@@ -12,7 +12,7 @@ import {
 } from "@/components/utils/Interfaces";
 import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { JenisPembiayaan, Produk } from "@prisma/client";
-import { Input, Modal, Select, Tooltip } from "antd";
+import { Button, Input, Modal, Select, Tooltip } from "antd";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import {
@@ -22,6 +22,8 @@ import {
   newGetMaxTenor,
 } from "./simulasiUtil";
 import Image from "next/image";
+import html2canvas from "html2canvas";
+import { CameraFilled } from "@ant-design/icons";
 
 export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
   const [bank, setBank] = useState<ITempBank>({
@@ -189,13 +191,6 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             parseInt(`${tahun}.${bulan}`) >= p.min_age &&
             parseInt(`${tahun}.${bulan}`) < p.max_age
           ) {
-            console.log({
-              usia: parseFloat(`${tahun}.${bulan}`),
-              usiProduk: {
-                min: p.min_age,
-                max: p.max_age,
-              },
-            });
             temp.push(p);
             tempProduk.push(p.name);
           }
@@ -206,7 +201,6 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
         });
       });
       setProductAvailable(bankProduk);
-      console.log(productAvailable);
       setProdukSesuai(tempProduk);
       return { resTgl: validDate, tahun, bulan, hari };
     } else {
@@ -330,6 +324,28 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
     tempTatalaksana,
     tempProvisi,
   ]);
+
+  const handleScreenshot = async () => {
+    // Cari element modal wrap dari DOM
+    const modalWrap = document.querySelector(".ant-modal-wrap") as HTMLElement;
+
+    if (modalWrap) {
+      const canvas = await html2canvas(modalWrap, {
+        useCors: true,
+        width: modalWrap.scrollWidth,
+        height: modalWrap.scrollHeight,
+        windowWidth: modalWrap.scrollWidth,
+        windowHeight: modalWrap.scrollHeight,
+        ignoreElements: (el: any) => el.classList.contains("ant-modal-footer"), // exclude footer
+      } as any);
+
+      const dataUrl = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.href = dataUrl;
+      link.download = `${moment().format("DDMMHH:mm")}_simulasi.png`;
+      link.click();
+    }
+  };
 
   return (
     <div className="bg-white rounded text-sm">
@@ -1146,11 +1162,21 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
         open={open}
         onCancel={() => setOpen(false)}
         onClose={() => setOpen(false)}
-        footer={[]}
-        width={window.innerWidth < 600 ? "90vw" : "80vw"}
-        style={{ top: 30 }}
+        footer={[
+          <Button
+            icon={<CameraFilled />}
+            type="primary"
+            size="small"
+            onClick={() => handleScreenshot()}
+            key={"capture"}
+          >
+            Capture
+          </Button>,
+        ]}
+        width={window.innerWidth < 600 ? "95vw" : "80vw"}
+        style={{ top: 20 }}
         title={
-          <div className="flex text-center sm:text-left gap-2 items-center">
+          <div className="flex gap-2 items-center">
             <Image
               src={"/assets/images/logo_kpf.jpg"}
               alt="KPF Logo"

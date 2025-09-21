@@ -9,6 +9,7 @@ import React from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import { DataDataPengajuan } from "./Interfaces";
 import Mauk from "../views/dataPdf/Mauk";
+import MaukDassa from "../views/dataPdf/MaukDassa";
 import ViewBerkas from "./VewBerkas";
 
 const DataPembanding = dynamic(
@@ -221,7 +222,11 @@ export default function BerkasTabsPengajuan({
                         key: data.id + "mauk",
                         children: (
                           <div style={{ height: "70vh" }}>
-                            <Mauk data={data} />
+                            {data.Bank.kode === "BPR DASSA" ? (
+                              <MaukDassa data={data} />
+                            ) : (
+                              <Mauk data={data} />
+                            )}
                           </div>
                         ),
                       },

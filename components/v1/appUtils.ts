@@ -242,3 +242,36 @@ export function rounded(number: number, precision: number) {
   var roundedTempNumber = Math.round(tempNumber);
   return roundedTempNumber / factor;
 }
+
+export const IDRFormat = (number: number) => {
+  const temp = new Intl.NumberFormat("de-DE", {
+    style: "decimal",
+    currency: "IDR",
+  }).format(number);
+  return temp;
+};
+
+export const IDRToNumber = (str: string) => {
+  return parseInt(str.replace(/\D/g, ""));
+};
+
+export const AngsuranAnuitas = (
+  plafond: number,
+  tenor: number,
+  bunga: number,
+  rounded: number,
+  khusus?: boolean
+) => {
+  const r = bunga / 12 / 100;
+
+  let angsuran =
+    (plafond * (r * Math.pow(1 + r, tenor))) / (Math.pow(1 + r, tenor) - 1);
+  const pokok = plafond / tenor;
+  const margin = angsuran - pokok;
+  if (khusus) angsuran += 500;
+  return {
+    angsuran: Math.ceil(angsuran / rounded) * rounded,
+    pokok,
+    margin,
+  };
+};

@@ -10,6 +10,7 @@ import {
   Button,
   Typography,
   Modal,
+  PaginationProps,
 } from "antd";
 import { formatNumber } from "../utils/inputUtils";
 import { getAngsuranPerBulan } from "../views/simulasi/simulasiUtil";
@@ -24,7 +25,7 @@ import {
   PrinterFilled,
   RobotFilled,
 } from "@ant-design/icons";
-import { Bank, Role, StatusPencairan } from "@prisma/client";
+import { Bank, StatusPencairan } from "@prisma/client";
 import { FilterOption } from "./viewUtils";
 import moment from "moment";
 import { IUserNotif } from "./INotif";
@@ -979,27 +980,29 @@ export default function MonitoringUI({ user }: { user: IUserNotif }) {
           columns={columns}
           dataSource={data}
           scroll={{ x: "max-content", y: 335 }}
-          pagination={{
-            size: "small",
-            total: total,
-            pageSizeOptions: [50, 100, 500, 1000, 10000],
-            defaultPageSize: pageSize,
-            onChange(page, pageSize) {
-              setPage(page);
-              setPageSize(pageSize);
-            },
-            showTotal(total, range) {
-              return (
-                <div className="flex gap-2 text-xs italic">
-                  <span>show</span>
-                  <span>{range[0]}</span>
-                  <span>-</span>
-                  <span>{range[1]}</span>
-                  <span>dari : {total}</span>
-                </div>
-              );
-            },
-          }}
+          pagination={
+            {
+              size: "small",
+              total: total,
+              pageSizeOptions: [50, 100, 500, 1000, 10000],
+              defaultPageSize: pageSize,
+              onChange(page: any, pageSize: any) {
+                setPage(page);
+                setPageSize(pageSize);
+              },
+              showTotal(total: any, range: any) {
+                return (
+                  <div className="flex gap-2 text-xs italic">
+                    <span>show</span>
+                    <span>{range[0]}</span>
+                    <span>-</span>
+                    <span>{range[1]}</span>
+                    <span>dari : {total}</span>
+                  </div>
+                );
+              },
+            } as PaginationProps
+          }
           loading={loading}
         />
       </div>
@@ -1115,6 +1118,7 @@ const CetakAkad = ({
             onChange={(e: any) =>
               setData({ ...data, tanggal_cetak_akad: new Date(e) })
             }
+            mode="row"
           />
           <FormInput
             label="Nomor Akad"
@@ -1128,6 +1132,7 @@ const CetakAkad = ({
                 onClick={() => generateRefCode()}
               ></Button>
             }
+            mode="row"
           />
           <FormInput
             label="Jenis Margin"
@@ -1138,6 +1143,7 @@ const CetakAkad = ({
               { label: "ANUITAS", value: "ANUITAS" },
             ]}
             onChange={(e: any) => setData({ ...data, jenis_margin: e })}
+            mode="row"
           />
           <FormInput
             label="Margin Bunga"
@@ -1149,16 +1155,19 @@ const CetakAkad = ({
                 DataPembiayaan: { ...data.DataPembiayaan, mg_bunga: Number(e) },
               })
             }
+            mode="row"
           />
           <FormInput
             label="Jenis Pembiayaan"
             value={data.DataPembiayaan.JenisPembiayaan.name || "Sisa Gaji"}
             disabled
+            mode="row"
           />
           <FormInput
             label="Produk Pembiayaan"
             value={`${data.DataPembiayaan.Produk.name} (${data.Bank.kode})`}
             disabled
+            mode="row"
           />
         </div>
       </Modal>

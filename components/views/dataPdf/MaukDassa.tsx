@@ -15,7 +15,7 @@ import { getAngsuranPerBulan } from "../simulasi/simulasiUtil";
 import { stylePdf } from "@/components/utils/pdf/stylePdf";
 import moment from "moment";
 
-export default function Mauk({ data }: { data: DataDataPengajuan }) {
+export default function MaukDassa({ data }: { data: DataDataPengajuan }) {
   const angsuranBulanan =
     data.jenis_margin === "FLAT"
       ? ceiling(
@@ -514,9 +514,31 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                 border: "1px solid #aaa",
               }}
             >
-              <Text>Diusulkan</Text>
-              <View style={{ height: 60, border: "1px solid #aaa" }}></View>
-              <Text>Account Officer</Text>
+              <Text>Mengetahui</Text>
+              <View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
+                <View
+                  style={{
+                    textAlign: "center",
+                    padding: 5,
+                    flex: 1,
+                    border: "1px solid #aaa",
+                  }}
+                >
+                  <View style={{ height: 60, border: "1px solid #aaa" }}></View>
+                  <Text>Admin</Text>
+                </View>
+                <View
+                  style={{
+                    textAlign: "center",
+                    padding: 5,
+                    flex: 1,
+                    border: "1px solid #aaa",
+                  }}
+                >
+                  <View style={{ height: 60, border: "1px solid #aaa" }}></View>
+                  <Text>Analis</Text>
+                </View>
+              </View>
             </View>
             <View
               style={{
@@ -526,33 +548,9 @@ export default function Mauk({ data }: { data: DataDataPengajuan }) {
                 border: "1px solid #aaa",
               }}
             >
-              <Text>Direkomendasikan</Text>
-              <View style={{ height: 60, border: "1px solid #aaa" }}></View>
-              <Text>Team Credit Review</Text>
-            </View>
-            <View
-              style={{
-                textAlign: "center",
-                padding: 5,
-                flex: 1,
-                border: "1px solid #aaa",
-              }}
-            >
-              <Text>Disetujui / Ditolak</Text>
-              <View style={{ height: 60, border: "1px solid #aaa" }}></View>
-              <Text>Wakil Ketua KK</Text>
-            </View>
-            <View
-              style={{
-                textAlign: "center",
-                padding: 5,
-                flex: 1,
-                border: "1px solid #aaa",
-              }}
-            >
-              <Text>Disetujui / Ditolak</Text>
-              <View style={{ height: 60, border: "1px solid #aaa" }}></View>
-              <Text>Ketua Komite Kredit</Text>
+              <Text>Approval</Text>
+              <View style={{ height: 70, border: "1px solid #aaa" }}></View>
+              <Text>Kadiv Bisnis</Text>
             </View>
           </View>
           <View style={{ border: "1px solid #aaa", padding: 5 }}>

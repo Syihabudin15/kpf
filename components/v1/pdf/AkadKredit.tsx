@@ -16,6 +16,7 @@ import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import AnalisaPerhitungan from "@/components/utils/pdf/AnalisaPerhitungan";
 import TandaTerimaDebitur from "@/components/utils/pdf/TandaTerimaDebitur";
 import ChanelingAkad from "@/components/utils/pdf/ChanelingAkad";
+import PKDassa from "@/components/utils/pdf/PKDassa";
 
 export default function AkadKredit({
   data,
@@ -28,7 +29,7 @@ export default function AkadKredit({
     <div className="w-full h-full">
       <PDFViewer className="w-full h-full">
         <Document title="Akad Pinjaman">
-          <AnalisaPerhitungan data={data} />
+          {/* <AnalisaPerhitungan data={data} />
           <JadwalAngsuran data={data} isFor="DEBITUR" angsurans={angsurans} />
           <JadwalAngsuran
             data={data}
@@ -60,7 +61,8 @@ export default function AkadKredit({
           <TandaTerima data={data} />
           {data.Bank.kode === "BPR BDS" && <TandaTerimaDebitur data={data} />}
           <KelengkapanDokumen data={data} />
-          <DokumenCeklis data={data} />
+          <DokumenCeklis data={data} /> */}
+          {data.Bank.kode === "BPR DASSA" && <PKDassa data={data} />}
         </Document>
       </PDFViewer>
     </div>

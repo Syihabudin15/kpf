@@ -163,7 +163,6 @@ export default function AlternatifCost() {
           bordered
           loading={loading}
           pagination={{
-            pageSize: 20,
             total: total,
             onChange(page, pageSize) {
               setPage(page);
