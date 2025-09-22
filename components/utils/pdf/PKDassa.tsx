@@ -199,7 +199,9 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
             ></Text>
             <Text style={{ width: 100 }}>Bunga</Text>
             <Text style={{ width: 10 }}>:</Text>
-            <Text style={{ flex: 1 }}>{data.DataPembiayaan.margin_bank}</Text>
+            <Text style={{ flex: 1 }}>
+              {data.DataPembiayaan.margin_bank}.00 % effektif pertahun
+            </Text>
           </View>
           <View style={{ display: "flex", flexDirection: "row", gap: 13 }}>
             <Text
@@ -457,7 +459,7 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
           <View style={{ display: "flex", flexDirection: "row", gap: 4 }}>
             <Text style={{ width: 100 }}>Nomor Rekening</Text>
             <Text style={{ width: 10 }}>:</Text>
-            <Text style={{ flex: 1 }}></Text>
+            <Text style={{ flex: 1 }}>013201001538308</Text>
           </View>
           <View style={{ display: "flex", flexDirection: "row", gap: 4 }}>
             <Text style={{ width: 100 }}>Atas Nama</Text>
