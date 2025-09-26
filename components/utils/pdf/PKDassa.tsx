@@ -263,7 +263,7 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
         ></Text>
         <Text>
           Dilakukan blokir sebanyak {data.DataPembiayaan.blokir} (
-          {angka[data.DataPembiayaan.blokir + 1]}) kali angsuran yang disimpan
+          {angka[data.DataPembiayaan.blokir - 1]}) kali angsuran yang disimpan
           pada rekening tabungan Debitur di Kreditur, untuk proses take over.
         </Text>
       </View>
