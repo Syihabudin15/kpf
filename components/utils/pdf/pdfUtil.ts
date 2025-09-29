@@ -519,7 +519,7 @@ export const docChecklist = (kode: string) => {
     [
       { data: "13", width: 30 },
       {
-        data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 BulanTerakhir",
+        data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 Bulan Terakhir",
         width: 120,
       },
       { data: "", width: 40 },
@@ -583,7 +583,7 @@ export const docChecklist = (kode: string) => {
     [
       { data: "17", width: 30 },
       {
-        data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia",
+        data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia/Bank DP Taspen",
         width: 120,
       },
       { data: "", width: 40 },
@@ -731,7 +731,7 @@ export const docChecklist = (kode: string) => {
     [
       { data: "11", width: 30 },
       {
-        data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 BulanTerakhir",
+        data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 Bulan Terakhir",
         width: 120,
       },
       { data: "", width: 40 },
@@ -795,7 +795,7 @@ export const docChecklist = (kode: string) => {
     [
       { data: "15", width: 30 },
       {
-        data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia",
+        data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia/Bank DP Taspen",
         width: 120,
       },
       { data: "", width: 40 },
@@ -931,7 +931,7 @@ export const docChecklist = (kode: string) => {
     [
       { data: "10", width: 30 },
       {
-        data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 BulanTerakhir",
+        data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 Bulan Terakhir",
         width: 120,
       },
       { data: "", width: 40 },
@@ -995,7 +995,7 @@ export const docChecklist = (kode: string) => {
     [
       { data: "14", width: 30 },
       {
-        data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia",
+        data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia/Bank DP Taspen",
         width: 120,
       },
       { data: "", width: 40 },

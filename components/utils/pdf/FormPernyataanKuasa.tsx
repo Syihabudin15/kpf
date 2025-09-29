@@ -254,6 +254,7 @@ export default function FormPernyataanKuasa({
         bulan berturut-turut, mulai bulan{" "}
         <Text style={{ textDecoration: "underline" }}>
           {moment(data.DataPembiayaan.tanggal_input)
+            .add(1, "month")
             .get("month")
             .toString()
             .padStart(2, "0")
@@ -266,7 +267,7 @@ export default function FormPernyataanKuasa({
         s/d bulan{" "}
         <Text style={{ textDecoration: "underline" }}>
           {moment(data.DataPembiayaan.tanggal_input)
-            .add(data.DataPembiayaan.tenor, "month")
+            .add(data.DataPembiayaan.tenor + 1, "month")
             .get("month")
             .toString()
             .padStart(2, "0")
