@@ -1,4 +1,10 @@
-import { Bank, Produk } from "@prisma/client";
+import {
+  Bank,
+  DataPembiayaan,
+  DataPengajuan,
+  JadwalAngsuran,
+  Produk,
+} from "@prisma/client";
 
 export interface ISumdan extends Bank {
   Produk: Produk[];
@@ -15,4 +21,11 @@ export interface IKreditKaryawan {
   cAdmin: number;
 
   createdAt: Date;
+}
+
+interface IDataPengajuan extends DataPengajuan {
+  DataPembiayaan: DataPembiayaan;
+}
+export interface IJadwalAngsuran extends JadwalAngsuran {
+  DataPengajuan: IDataPengajuan;
 }

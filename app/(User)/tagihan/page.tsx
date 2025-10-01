@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { handleRoute } from "@/components/utils/menuUtils";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
+import { TagihanUI } from "@/components/v1";
 
 export const metadata: Metadata = {
   title: `Tagihan Debitur`,
@@ -20,14 +21,15 @@ export default async function page() {
 
   return (
     <section className="rounded border shadow bg-white">
-      <div
+      {/* <div
         className={`bg-${process.env.NEXT_PUBLIC_APP_BG_TABLE}-500 p-2 rounded`}
       >
         <h1 className="text-1xl font-semibold text-gray-200">
           TAGIHAN BULANAN
         </h1>
       </div>
-      <TagihanDebitur />
+      <TagihanDebitur /> */}
+      <TagihanUI />
     </section>
   );
 }

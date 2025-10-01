@@ -14,6 +14,11 @@ export const KreditKaryawan = dynamic(() => import("./KreditKaryawan"), {
   loading: () => <LoadingOutlined />,
 });
 
+export const TagihanUI = dynamic(() => import("./Tagihan"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
+
 // UTILS
 export const ViewBerkas = dynamic(
   () => import("./viewUtils").then((d) => d.ViewBerkas),
