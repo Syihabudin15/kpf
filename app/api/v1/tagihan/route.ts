@@ -95,23 +95,38 @@ export const POST = async (req: NextRequest) => {
     const result: any[] = XLSX.utils.sheet_to_json(sheetbook);
     const resposne: { nopen: string; name: string; msg: string[] }[] = [];
 
-    const allData = await prisma.jadwalAngsuran.findMany({
+    let allData = await prisma.dataPengajuan.findMany({
       where: {
-        DataPengajuan: { tagihan_manual: false },
-        tanggal_pelunasan: null,
-        tanggal_bayar: {
-          gte: moment(month || new Date())
-            .startOf("month")
-            .toDate(),
-          lte: moment(month || new Date())
-            .endOf("month")
-            .toDate(),
+        is_active: true,
+        status_pencairan: "TRANSFER",
+        tagihan_manual: false,
+        status_lunas: false,
+        JadwalAngsuran: {
+          some: {
+            tanggal_bayar: {
+              gte: moment(month || new Date())
+                .startOf("month")
+                .toDate(),
+              lte: moment(month || new Date())
+                .endOf("month")
+                .toDate(),
+            },
+            tanggal_pelunasan: null,
+          },
         },
       },
       include: {
-        DataPengajuan: {
-          include: {
-            DataPembiayaan: true,
+        JadwalAngsuran: {
+          where: {
+            tanggal_bayar: {
+              gte: moment(month || new Date())
+                .startOf("month")
+                .toDate(),
+              lte: moment(month || new Date())
+                .endOf("month")
+                .toDate(),
+            },
+            tanggal_pelunasan: null,
           },
         },
       },
@@ -158,56 +173,61 @@ export const POST = async (req: NextRequest) => {
       }
       if (plafond !== find.DataPengajuan.DataPembiayaan.plafond) {
         msg.push(
-          `Plafond tidak sesuai! ${plafond}/${find.DataPengajuan.DataPembiayaan.plafond}`
+          `Plafond tidak sesuai! ${plafond} | ${find.DataPengajuan.DataPembiayaan.plafond}`
         );
       }
-      if (name !== find.DataPengajuan.nama) {
+      if (
+        name !== find.DataPengajuan.nama &&
+        name !== find.DataPengajuan.nama_skep
+      ) {
         msg.push(
-          `Nama Pemohon tidak sesuai! ${name}/${find.DataPengajuan.nama}`
+          `Nama Pemohon tidak sesuai! ${name} | KTP:${find.DataPengajuan.nama} | SK:${find.DataPengajuan.nama_skep}`
         );
       }
       if (tenor !== find.DataPengajuan.DataPembiayaan.tenor) {
         msg.push(
-          `Tenor tidak sesuai! ${tenor}/${find.DataPengajuan.DataPembiayaan.tenor}`
+          `Tenor tidak sesuai! ${tenor} | ${find.DataPengajuan.DataPembiayaan.tenor}`
         );
       }
       if (periode != moment(find.tanggal_bayar).format("YYYYMM")) {
         msg.push(
-          `Periode tidak sesuai! ${periode}/${moment(find.tanggal_bayar).format(
-            "YYYYMM"
-          )}`
+          `Periode tidak sesuai! ${periode} | ${moment(
+            find.tanggal_bayar
+          ).format("YYYYMM")}`
         );
       }
       if (noSKEP !== find.DataPengajuan.nomor_sk_pensiun) {
         msg.push(
-          `No SKEP tidak sesuai! ${noSKEP}/${find.DataPengajuan.nomor_sk_pensiun}`
+          `No SKEP tidak sesuai! ${noSKEP} | ${find.DataPengajuan.nomor_sk_pensiun}`
         );
       }
-      const ins = find.DataPengajuan.jenis_pensiun === "TASPEN" ? "01" : "02";
+      const ins = find.DataPengajuan.jenis_pensiun?.includes("TASPEN")
+        ? "01"
+        : "02";
       if (instansi !== ins) {
         msg.push(
-          `Instansi tidak sesuai! ${instansi}/${ins} (${find.DataPengajuan.jenis_pensiun})`
+          `Instansi tidak sesuai! ${instansi} | ${ins} (${find.DataPengajuan.jenis_pensiun})`
         );
       }
       if (angsuran !== find.angsuran) {
-        msg.push(`Angsuran tidak sesuai! ${angsuran}/${find.angsuran}`);
+        const temp = angsuran - find.angsuran;
+        if (temp > 100 || temp < -100) {
+          msg.push(`Angsuran tidak sesuai! ${angsuran} | ${find.angsuran}`);
+        }
       }
       if (angsuranke !== find.angsuran_ke) {
-        msg.push(`Angsuran ke tidak sesuai! ${angsuranke}/${find.angsuran_ke}`);
+        msg.push(
+          `Angsuran ke tidak sesuai! ${angsuranke} | ${find.angsuran_ke}`
+        );
       }
       resposne.push({ name, nopen, msg });
+      allData = allData.filter((ad) => ad.nopen !== nopen);
     }
-
-    const newSet = new Set(resposne.map((item) => item.nopen));
-    const filters = allData.filter(
-      (a) => !newSet.has(a.DataPengajuan.DataPembiayaan.nopen)
-    );
-
     return NextResponse.json(
       {
         msg: "OK",
-        data: resposne,
-        filters,
+        data: resposne.filter((r) => r.msg.length !== 0),
+        allData,
       },
       { status: 200 }
     );
@@ -215,4 +235,27 @@ export const POST = async (req: NextRequest) => {
     console.log(err);
     return NextResponse.json({ msg: "Internal Server Error" }, { status: 500 });
   }
+};
+
+const getDetail = async (nopen: string, month: string) => {
+  const find = await prisma.jadwalAngsuran.findMany({
+    where: {
+      DataPengajuan: {
+        nopen,
+        status_pencairan: "TRANSFER",
+        is_active: true,
+        status_lunas: false,
+        tagihan_manual: false,
+      },
+      tanggal_bayar: {
+        gte: moment(month || new Date())
+          .startOf("month")
+          .toDate(),
+        lte: moment(month || new Date())
+          .endOf("month")
+          .toDate(),
+      },
+    },
+    include: { DataPengajuan: true },
+  });
 };

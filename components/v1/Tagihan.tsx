@@ -4,16 +4,18 @@ import {
   Button,
   DatePicker,
   Input,
+  Modal,
   Select,
   Table,
   TableProps,
+  Tabs,
   Upload,
 } from "antd";
 import { IJadwalAngsuran } from "./IInterfaces";
 import { useEffect, useState } from "react";
 import { getBase64, IDRFormat } from "./appUtils";
 import moment from "moment";
-import { Bank } from "@prisma/client";
+import { Bank, DataPengajuan } from "@prisma/client";
 import { CloudUploadOutlined, PrinterFilled } from "@ant-design/icons";
 
 export default function Tagihan() {
@@ -27,6 +29,11 @@ export default function Tagihan() {
   const [sumdanId, setSumdanId] = useState<string>();
   const [sumdans, setSumdans] = useState<Bank[]>([]);
   const [status, setStatus] = useState<string>();
+  const [uploadResult, setUploadResutl] = useState<
+    { nopen: string; name: string; msg: string[] }[]
+  >([]);
+  const [notIncludes, setNotIncludes] = useState<DataPengajuan[]>([]);
+  const [open, setOpen] = useState(false);
 
   const getData = async () => {
     setLoading(true);
@@ -71,7 +78,9 @@ export default function Tagihan() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log({ res });
+        setUploadResutl(res.data);
+        setNotIncludes(res.allData);
+        setOpen(true);
       })
       .catch((err) => {
         console.log(err);
@@ -274,6 +283,47 @@ export default function Tagihan() {
         }}
         loading={loading}
       />
+      <Modal
+        title={
+          "HASIL CHECK TAGIHAN PERIODE " + moment(backdate).format("MMYYYY")
+        }
+        open={open}
+        onCancel={() => setOpen(false)}
+        style={{ top: 10 }}
+        width={window && window.innerWidth > 600 ? "80vw" : "98vw"}
+        footer={[]}
+      >
+        <Tabs
+          items={[
+            {
+              label: "KETERANGAN",
+              key: "keterangan",
+              children: (
+                <ul className="text-xs list-decimal">
+                  {uploadResult.map((r, i) => (
+                    <li key={i} className="italic">
+                      {r.name} ({r.nopen}) : {r.msg.join(", ")}
+                    </li>
+                  ))}
+                </ul>
+              ),
+            },
+            {
+              label: "TIDAK MASUK LIST",
+              key: "notIncludes",
+              children: (
+                <div className="text-xs list-decimal flex gap-2 flex-wrap justify-between items-center">
+                  {notIncludes.map((r, i) => (
+                    <p key={i} className="italic">
+                      {r.nama} ({r.nopen})
+                    </p>
+                  ))}
+                </div>
+              ),
+            },
+          ]}
+        />
+      </Modal>
     </div>
   );
 }
