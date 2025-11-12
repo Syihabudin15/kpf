@@ -77,8 +77,8 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
           <Text style={{ width: 150 }}>Plafond & Jangka Waktu</Text>
           <Text style={{ width: 10 }}>:</Text>
           <Text>
-            {IDRFormat(data.DataPembiayaan.plafond)} &{" "}
-            {data.DataPembiayaan.tenor}
+            Rp. {IDRFormat(data.DataPembiayaan.plafond)} &{" "}
+            {data.DataPembiayaan.tenor} Bulan
           </Text>
         </View>
         <View style={{ display: "flex", flexDirection: "row", gap: 4 }}>
