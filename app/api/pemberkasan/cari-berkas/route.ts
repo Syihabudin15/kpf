@@ -8,94 +8,149 @@ export const GET = async (req: NextRequest) => {
   const name = req.nextUrl.searchParams.get("name");
   const skip = (page - 1) * 20;
 
-  let result: DataDataPengajuan[] = [];
-  if (name) {
-    result = <any>await prisma.dataPengajuan.findMany({
-      where: {
-        AND: [
-          { status_pencairan: "TRANSFER" },
-          {
-            DataPembiayaan: {
-              OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
-            },
-          },
+  const result = await prisma.dataPengajuan.findMany({
+    where: {
+      is_active: true,
+      status_approval: "SETUJU",
+      ...(name && {
+        OR: [
+          { nama: { contains: name } },
+          { nopen: { contains: name } },
+          { nomor_sk_pensiun: { contains: name } },
+          { nomor_akad: { contains: name } },
         ],
+      }),
+    },
+    include: {
+      DataPembiayaan: {
+        include: {
+          User: {
+            include: { UnitCabang: { include: { UnitPelayanan: true } } },
+          },
+          Produk: { include: { Bank: true } },
+          JenisPembiayaan: true,
+          Refferal: true,
+        },
       },
-      include: {
-        DataPembiayaan: {
-          include: {
-            User: {
-              include: { UnitCabang: { include: { UnitPelayanan: true } } },
-            },
-            Produk: { include: { Bank: true } },
-            JenisPembiayaan: true,
-            Refferal: true,
-          },
-        },
-        User: {
-          include: { UnitCabang: { include: { UnitPelayanan: true } } },
-        },
-        Bank: true,
-        BerkasPengajuan: true,
-        DataTaspen: {
-          include: {
-            DataKeluarga: true,
-            Domisili: true,
-            DataPasangan: true,
-            TunjanganPotongan: true,
-          },
-        },
-        DataPengajuanAlamat: true,
-        DataPengajuanPasangan: true,
-        DataPencairan: true,
+      User: {
+        include: { UnitCabang: { include: { UnitPelayanan: true } } },
       },
-      skip: skip,
-      take: 20,
-      orderBy: { tanggal_pencairan: "desc" },
-    });
-  } else {
-    result = <any>await prisma.dataPengajuan.findMany({
-      where: { status_pencairan: "TRANSFER" },
-      include: {
-        DataPembiayaan: {
-          include: {
-            User: {
-              include: { UnitCabang: { include: { UnitPelayanan: true } } },
-            },
-            Produk: { include: { Bank: true } },
-            JenisPembiayaan: true,
-            Refferal: true,
-          },
+      Bank: true,
+      BerkasPengajuan: true,
+      DataTaspen: {
+        include: {
+          DataKeluarga: true,
+          Domisili: true,
+          DataPasangan: true,
+          TunjanganPotongan: true,
         },
-        User: {
-          include: { UnitCabang: { include: { UnitPelayanan: true } } },
-        },
-        Bank: true,
-        BerkasPengajuan: true,
-        DataTaspen: {
-          include: {
-            DataKeluarga: true,
-            Domisili: true,
-            DataPasangan: true,
-            TunjanganPotongan: true,
-          },
-        },
-        DataPengajuanAlamat: true,
-        DataPengajuanPasangan: true,
-        DataPencairan: true,
       },
-      skip: skip,
-      take: 20,
-      orderBy: { tanggal_pencairan: "desc" },
-    });
-  }
+      DataPengajuanAlamat: true,
+      DataPengajuanPasangan: true,
+      DataPencairan: true,
+    },
+    skip: skip,
+    take: 20,
+    orderBy: { tanggal_cetak_akad: "desc" },
+  });
   const total = await prisma.dataPengajuan.count({
     where: {
-      status_pencairan: "TRANSFER",
+      is_active: true,
+      status_approval: "SETUJU",
+      ...(name && {
+        OR: [
+          { nama: { contains: name } },
+          { nopen: { contains: name } },
+          { nomor_sk_pensiun: { contains: name } },
+          { nomor_akad: { contains: name } },
+        ],
+      }),
     },
   });
-  return NextResponse.json(
-    { data: result, total: name ? result.length : total },
-    { status: 200 }
-  );
+  // if (name) {
+  //   result = <any>await prisma.dataPengajuan.findMany({
+  //     where: {
+  //       AND: [
+  //         { status_pencairan: "TRANSFER" },
+  //         {
+  //           DataPembiayaan: {
+  //             OR: [{ name: { contains: name } }, { nopen: { contains: name } }],
+  //           },
+  //         },
+  //       ],
+  //     },
+  //     include: {
+  //       DataPembiayaan: {
+  //         include: {
+  //           User: {
+  //             include: { UnitCabang: { include: { UnitPelayanan: true } } },
+  //           },
+  //           Produk: { include: { Bank: true } },
+  //           JenisPembiayaan: true,
+  //           Refferal: true,
+  //         },
+  //       },
+  //       User: {
+  //         include: { UnitCabang: { include: { UnitPelayanan: true } } },
+  //       },
+  //       Bank: true,
+  //       BerkasPengajuan: true,
+  //       DataTaspen: {
+  //         include: {
+  //           DataKeluarga: true,
+  //           Domisili: true,
+  //           DataPasangan: true,
+  //           TunjanganPotongan: true,
+  //         },
+  //       },
+  //       DataPengajuanAlamat: true,
+  //       DataPengajuanPasangan: true,
+  //       DataPencairan: true,
+  //     },
+  //     skip: skip,
+  //     take: 20,
+  //     orderBy: { tanggal_pencairan: "desc" },
+  //   });
+  // } else {
+  //   result = <any>await prisma.dataPengajuan.findMany({
+  //     where: { status_pencairan: "TRANSFER" },
+  //     include: {
+  //       DataPembiayaan: {
+  //         include: {
+  //           User: {
+  //             include: { UnitCabang: { include: { UnitPelayanan: true } } },
+  //           },
+  //           Produk: { include: { Bank: true } },
+  //           JenisPembiayaan: true,
+  //           Refferal: true,
+  //         },
+  //       },
+  //       User: {
+  //         include: { UnitCabang: { include: { UnitPelayanan: true } } },
+  //       },
+  //       Bank: true,
+  //       BerkasPengajuan: true,
+  //       DataTaspen: {
+  //         include: {
+  //           DataKeluarga: true,
+  //           Domisili: true,
+  //           DataPasangan: true,
+  //           TunjanganPotongan: true,
+  //         },
+  //       },
+  //       DataPengajuanAlamat: true,
+  //       DataPengajuanPasangan: true,
+  //       DataPencairan: true,
+  //     },
+  //     skip: skip,
+  //     take: 20,
+  //     orderBy: { tanggal_pencairan: "desc" },
+  //   });
+  // }
+  // const total = await prisma.dataPengajuan.count({
+  //   where: {
+  //     status_pencairan: "TRANSFER",
+  //   },
+  // });
+  return NextResponse.json({ data: result, total }, { status: 200 });
 };

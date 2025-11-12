@@ -180,7 +180,7 @@ export default function CariBerkasPembiayaan() {
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return <>{record.nomor_akad}</>;
       },
