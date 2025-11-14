@@ -4,7 +4,6 @@ import { formatNumber } from "../inputUtils";
 import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 import { ceiling, docChecklist } from "./pdfUtil";
 import { DataDataPengajuan } from "../Interfaces";
-import { useEffect } from "react";
 
 export default function KelengkapanDokumen({
   data,

@@ -34,9 +34,13 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
         }}
       >
+        <Image
+          src={data.Bank.logo || "/assets/images/logo_kpf.jpg"}
+          style={{ width: 50, height: 50 }}
+        />
         <Image
           src={"/assets/images/logo_kpf.jpg"}
           style={{ width: 50, height: 50 }}
@@ -62,6 +66,11 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
           <Text style={{ width: 150 }}>Nopin</Text>
           <Text style={{ width: 10 }}>:</Text>
           <Text>{}</Text>
+        </View>
+        <View style={{ display: "flex", flexDirection: "row", gap: 4 }}>
+          <Text style={{ width: 150 }}>Nopen</Text>
+          <Text style={{ width: 10 }}>:</Text>
+          <Text>{data.nopen}</Text>
         </View>
         <View style={{ display: "flex", flexDirection: "row", gap: 4 }}>
           <Text style={{ width: 150 }}>Nomor SK Pensiun</Text>

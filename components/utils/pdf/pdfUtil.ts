@@ -1336,7 +1336,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 93 },
     ],
     [
-      { data: "3", width: 30 },
+      { data: "2", width: 30 },
       { data: "Bukti Pencairan Pembiayaan", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
@@ -1344,7 +1344,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 93 },
     ],
     [
-      { data: "4", width: 30 },
+      { data: "3", width: 30 },
       { data: "Tanda terima penyeraan jaminan", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
@@ -1352,7 +1352,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 93 },
     ],
     [
-      { data: "5", width: 30 },
+      { data: "4", width: 30 },
       { data: "Suran Penyataan Pemotongan Gaji > 70% ", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
