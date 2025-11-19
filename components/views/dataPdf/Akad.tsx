@@ -18,6 +18,7 @@ import AnalisaPerhitungan from "@/components/utils/pdf/AnalisaPerhitungan";
 import TandaTerimaDebitur from "@/components/utils/pdf/TandaTerimaDebitur";
 import ChanelingAkad from "@/components/utils/pdf/ChanelingAkad";
 import PKDassa from "@/components/utils/pdf/PKDassa";
+import PKDassa2 from "@/components/utils/pdf/PKDassa2";
 
 export default function Akad({
   data,
@@ -64,6 +65,7 @@ export default function Akad({
           <KelengkapanDokumen data={data} />
           <DokumenCeklis data={data} />
           {data.Bank.kode === "BPR DASSA" && <PKDassa data={data} />}
+          {data.Bank.kode === "BPR DASSA" && <PKDassa2 data={data} />}
         </Document>
       </PDFViewer>
     </div>
