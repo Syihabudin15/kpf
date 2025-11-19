@@ -237,25 +237,25 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-const getDetail = async (nopen: string, month: string) => {
-  const find = await prisma.jadwalAngsuran.findMany({
-    where: {
-      DataPengajuan: {
-        nopen,
-        status_pencairan: "TRANSFER",
-        is_active: true,
-        status_lunas: false,
-        tagihan_manual: false,
-      },
-      tanggal_bayar: {
-        gte: moment(month || new Date())
-          .startOf("month")
-          .toDate(),
-        lte: moment(month || new Date())
-          .endOf("month")
-          .toDate(),
-      },
-    },
-    include: { DataPengajuan: true },
-  });
-};
+// const getDetail = async (nopen: string, month: string) => {
+//   const find = await prisma.jadwalAngsuran.findMany({
+//     where: {
+//       DataPengajuan: {
+//         nopen,
+//         status_pencairan: "TRANSFER",
+//         is_active: true,
+//         status_lunas: false,
+//         tagihan_manual: false,
+//       },
+//       tanggal_bayar: {
+//         gte: moment(month || new Date())
+//           .startOf("month")
+//           .toDate(),
+//         lte: moment(month || new Date())
+//           .endOf("month")
+//           .toDate(),
+//       },
+//     },
+//     include: { DataPengajuan: true },
+//   });
+// };
