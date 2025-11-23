@@ -11,6 +11,7 @@ import { DataDataPengajuan } from "./Interfaces";
 import Mauk from "../views/dataPdf/Mauk";
 import MaukDassa from "../views/dataPdf/MaukDassa";
 import ViewBerkas from "./VewBerkas";
+import MaukBDS from "../views/dataPdf/MaukBDS";
 
 const DataPembanding = dynamic(
   () => import("@/components/views/dataPdf/DataPembanding"),
@@ -224,6 +225,8 @@ export default function BerkasTabsPengajuan({
                           <div style={{ height: "70vh" }}>
                             {data.Bank.kode === "BPR DASSA" ? (
                               <MaukDassa data={data} />
+                            ) : data.Bank.kode === "BPR BDS" ? (
+                              <MaukBDS data={data} />
                             ) : (
                               <Mauk data={data} />
                             )}
