@@ -865,7 +865,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "5", width: 30 },
-      { data: "Perjanjian Kredit halaman 1, 2 dan 3", width: 120 },
+      { data: "Surat Nikah", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -878,7 +878,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "6", width: 30 },
-      { data: `Jadwal Angsuran untuk ${kode}`, width: 120 },
+      { data: "Surat Kematian", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -891,7 +891,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "7", width: 30 },
-      { data: "Surat Pernyataan DSR 70%", width: 120 },
+      { data: "Foto Debitur", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -904,7 +904,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "8", width: 30 },
-      { data: "Surat Pernyataan dan Kesanggupan", width: 120 },
+      { data: "Perjanjian Kredit halaman 1, 2 dan 3", width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -917,7 +917,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "9", width: 30 },
-      { data: "KARIP/Buku ASABRI", width: 120 },
+      { data: `Jadwal Angsuran untuk ${kode}`, width: 120 },
       { data: "", width: 40 },
       { data: "", width: 40 },
       { data: "", width: 40 },
@@ -930,6 +930,45 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "10", width: 30 },
+      { data: "Surat Pernyataan DSR 70%", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "11", width: 30 },
+      { data: "Surat Pernyataan dan Kesanggupan", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "12", width: 30 },
+      { data: "KARIP/Buku ASABRI", width: 120 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+      { data: "", width: 40 },
+    ],
+    [
+      { data: "13", width: 30 },
       {
         data: "Slip Gaji (POS)/Rekening Koran (Bank)/Print Out Butab (Bank) 3 Bulan Terakhir",
         width: 120,
@@ -945,7 +984,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 40 },
     ],
     [
-      { data: "11", width: 30 },
+      { data: "14", width: 30 },
       {
         data: "Analisa Perhitungan/Simulasi",
         width: 120,
@@ -961,7 +1000,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 40 },
     ],
     [
-      { data: "12", width: 30 },
+      { data: "15", width: 30 },
       {
         data: "Form Permohonan Pembiayaan Pensiun",
         width: 120,
@@ -977,7 +1016,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 40 },
     ],
     [
-      { data: "13", width: 30 },
+      { data: "16", width: 30 },
       {
         data: "Surat Keterangan dan Pernyataan Perihal Perbedaan Identitas",
         width: 120,
@@ -993,7 +1032,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 40 },
     ],
     [
-      { data: "14", width: 30 },
+      { data: "17", width: 30 },
       {
         data: "Surat Pernyataan DEBITUR Mitra Kerja PT. Pos Indonesia/Bank DP Taspen",
         width: 120,
@@ -1009,7 +1048,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 40 },
     ],
     [
-      { data: "15", width: 30 },
+      { data: "18", width: 30 },
       {
         data: "Tanda Terima Uang Oleh Nasabah",
         width: 120,
@@ -1285,7 +1324,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "5", width: 30 },
-      { data: "Tanda terima penyeraan jaminan", width: 120 },
+      { data: "Tanda terima penyerahan jaminan", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },
@@ -1360,6 +1399,7 @@ export const docChecklist = (kode: string) => {
       { data: "", width: 93 },
     ],
   ];
+
   if (kode === "BPR BNM") {
     return { top: bodiesBNM, bottom: bodyDocBNM };
   } else if (kode === "BPR BDS") {
