@@ -1332,7 +1332,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "6", width: 30 },
-      { data: "Suran Penyataan Pemotongan Gaji > 70% ", width: 120 },
+      { data: "Surat Penyataan Pemotongan Gaji > 70% ", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },
@@ -1358,7 +1358,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "3", width: 30 },
-      { data: "Suran Penyataan Pemotongan Gaji > 70% ", width: 120 },
+      { data: "Surat Penyataan Pemotongan Gaji > 70% ", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },
@@ -1392,7 +1392,7 @@ export const docChecklist = (kode: string) => {
     ],
     [
       { data: "4", width: 30 },
-      { data: "Suran Penyataan Pemotongan Gaji > 70% ", width: 120 },
+      { data: "Surat Penyataan Pemotongan Gaji > 70% ", width: 120 },
       { data: "ASLI", width: 80 },
       { data: "", width: 93 },
       { data: "", width: 93 },
