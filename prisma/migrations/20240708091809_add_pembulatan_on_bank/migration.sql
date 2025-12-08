@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `bank` ADD COLUMN `pembulatan` INTEGER NOT NULL DEFAULT 1;

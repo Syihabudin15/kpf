@@ -1,0 +1,54 @@
+# App Desc
+NEXT_PUBLIC_APP_SHORTNAME="KOPJAS FAS"
+NEXT_PUBLIC_APP_FULLNAME="Koperasi Jasa Fadillah Aqila Sejahtra"
+NEXT_PUBLIC_APP_ADDRESS="JL. Perum Pondok Permai Lestari Blok G-4 No.9 RT.003/011 Kec. Panenjoan Kel. Cicalengka Kabupaten Bandung"
+
+# Akad
+NEXT_PUBLIC_APP_AKAD_TTD="Nandang Hermawan"
+NEXT_PUBLIC_APP_AKAD_POSITION="Direktur Pengelola"
+NEXT_PUBLIC_APP_AKAD_COMPANY="Koperasi Jasa Fadillah Aqila Sejahtra"
+
+# Operasional
+NEXT_PUBLIC_APP_OPS_TTD="Adhi Sofyar Pramudya"
+NEXT_PUBLIC_APP_OPS_POSITION="Kepala Operasional"
+
+# Dropping
+NEXT_PUBLIC_APP_DROPPING_TTD="Aushnoor Maya Roshlinda"
+NEXT_PUBLIC_APP_DROPPING_POSITION="Manager Keuangan"
+
+# Berkas
+NEXT_PUBLIC_APP_BERKAS_TTD="Putri Novi Intani"
+NEXT_PUBLIC_APP_BERKAS_POSITION="Manager Dokumen"
+
+# Database
+DATABASE_URL="mysql://root:@localhost:3306/kpfdvv2"
+
+# Authentication
+NEXT_PUBLIC_APP_NAME="KPF"
+NEXT_PUBLIC_APP_NAME_HEADER="KPF"
+NEXT_PUBLIC_APP_FULL_NAME="Koperasi Pemasaran Fadillah"
+NEXT_PUBLIC_APP_DIREKTUR="Lodewijk HF Lantang"
+NEXT_PUBLIC_APP_MANAJER_KEUANGAN="Lulu"
+NEXT_PUBLIC_APP_NAMA_BANK="BANK RAKYAT INDONESIA"
+NEXT_PUBLIC_APP_SINGKATAN_BANK="BRI"
+NEXT_PUBLIC_APP_ATAS_NAMA_BANK="KOPERASI PEMASARAN FADILLAH"
+NEXT_PUBLIC_APP_NO_REK="013201001538308"
+NEXT_PUBLIC_APP_NO_TELEPON="(022) 42835402"
+NEXT_PUBLIC_APP_EMAIL="koperasipemasaranfadillah@gmail.com"
+NEXT_PUBLIC_APP_ALAMAT="JL. Perum Pondok Permai Lestari Blok G-4 No.9 RT.003/011 Kec.Panenjoan Kel. Cicalengka Kabupaten Bandung"
+NEXT_PUBLIC_APP_LOGO="/assets/images/logo_kpf.jpg"
+NEXT_PUBLIC_APP_START_YEAR="2024"
+NEXT_PUBLIC_APP_PEMBULATAN="100"
+
+NEXT_PUBLIC_APP_VER="Testing"
+NEXT_PUBLIC_APP_BG_TABLE="orange"
+NEXT_PUBLIC_APP_BG_BIO="green"
+NEXT_PUBLIC_APP_BG_UPLOAD="green"
+NEXT_PUBLIC_APP_BG_MENU="white" #Jika bukan white wajib menggunakan -500 -> (orange-500)
+NEXT_PUBLIC_APP_BG_DASHBOARD_HARI_INI="green"
+NEXT_PUBLIC_APP_BG_DASHBOARD_TOTAL="blue"
+NEXT_PUBLIC_APP_JUDUL_ANALISA="green"
+
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET="eK0tliPmNCp82HCvyl23dL6PMzdrNtn8rB16atT4sAk="
+
