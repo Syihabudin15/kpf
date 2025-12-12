@@ -1,12 +1,26 @@
 "use client";
-import { FileFilled, LoadingOutlined } from "@ant-design/icons";
-import { Input, Table, TableProps, DatePicker, Typography, Select } from "antd";
+import {
+  ArrowRightOutlined,
+  FileFilled,
+  LoadingOutlined,
+} from "@ant-design/icons";
+import {
+  Input,
+  Table,
+  TableProps,
+  DatePicker,
+  Typography,
+  Select,
+  Tag,
+  Tooltip,
+} from "antd";
 import moment from "moment-timezone";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { formatNumber } from "@/components/utils/inputUtils";
 import { DataDataPengajuan } from "@/components/utils/Interfaces";
 import CetakDataPengajuan from "@/components/utils/CetakDataPengajuan";
+import { Button } from "antd";
+import { IDRFormat } from "@/components/Utils";
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
@@ -112,182 +126,138 @@ export default function MonitoringBank() {
       },
     },
     {
-      title: "NO PENSIUN",
-      dataIndex: "nopen",
-      key: "nopen",
-      width: 150,
+      title: "UNIT PELAYANAN",
+      dataIndex: "unit",
+      key: "unit",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      width: 150,
+      className: "text-xs",
       render(value, record, index) {
-        return <>{record.DataPembiayaan.nopen}</>;
+        return (
+          <div>
+            <p>{record.area_pelayanan_berkas || record.User.UnitCabang.name}</p>
+            <p className="text-xs opacity-70">
+              {record.User.UnitCabang.UnitPelayanan.kode_area}
+            </p>
+          </div>
+        );
       },
     },
     {
-      title: "NAMA PEMOHON",
+      title: "DATA PEMOHON",
       dataIndex: "name",
       key: "name",
-      fixed: window.innerWidth < 600 ? false : "left",
-      width: 200,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
+      fixed: window.innerWidth < 600 ? false : "left",
+      className: "text-xs",
+      width: 200,
       render(value, record, index) {
-        return <>{record.DataPembiayaan.name}</>;
+        return (
+          <div>
+            <p
+              style={{
+                ...(record.status_pencairan === "BATAL" && { color: "red" }),
+              }}
+            >
+              {record.DataPembiayaan.name}
+            </p>
+            <p className="opacity-70 italic">{record.DataPembiayaan.nopen}</p>
+          </div>
+        );
       },
     },
     {
-      title: "TANGGAL PENGAJUAN",
+      title: "TGL PENGAJUAN",
       dataIndex: "created_at",
       key: "created_at",
-      width: 150,
-      render(value, record, index) {
-        return (
-          <>{moment(record.DataPembiayaan.created_at).format("DD-MM-YYYY")}</>
-        );
-      },
-    },
-    {
-      title: "UNIT PELAYANAN",
-      dataIndex: "Unit Cabang",
-      key: "Unit Cabang",
-      width: 150,
+      width: 120,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      className: "text-center text-xs",
       render(value, record, index) {
         return (
-          <>{record.area_pelayanan_berkas || record.User.UnitCabang.name}</>
+          <Tooltip
+            title={`Last Update: ${moment(
+              record.DataPembiayaan.updated_at
+            ).format("DD-MM-YYYY")}`}
+          >
+            {moment(record.DataPembiayaan.created_at).format("DD-MM-YYYY")}
+          </Tooltip>
         );
-      },
-    },
-    {
-      title: "SUMBER DANA",
-      dataIndex: "sumber_dana",
-      key: "sumber_dana",
-      width: 200,
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      render(value, record, index) {
-        return <>{record.Bank.name}</>;
       },
     },
     {
       title: "PRODUK PEMBIAYAAN",
       dataIndex: "produk_pembiayaan",
       key: "produk_pembiayaan",
-      width: 150,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      render(value, record, index) {
-        return <>{record.DataPembiayaan.Produk.name}</>;
-      },
-    },
-    {
-      title: "JENIS PEMBIAYAAN",
-      dataIndex: "jenis_pembiayaan",
-      key: "jenis_pembiayaan",
-      width: 150,
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
+      width: 180,
+      className: "text-xs",
       render(value, record, index) {
         return (
-          <>
-            {record.DataPembiayaan.jenis_pembiayaan_id
-              ? record.DataPembiayaan.JenisPembiayaan.name
-              : "Sisa Gaji"}
-          </>
+          <div>
+            <p>
+              {record.DataPembiayaan.Produk.name}{" "}
+              <span className="opacity-70 italic">({record.Bank.kode})</span>
+            </p>
+            <p className="opacity-70 italic">
+              {record.DataPembiayaan.jenis_pembiayaan_id
+                ? record.DataPembiayaan.JenisPembiayaan.name
+                : "Sisa Gaji"}
+            </p>
+          </div>
         );
       },
     },
     {
-      title: "TENOR",
-      dataIndex: "tenor",
-      key: "tenor",
-      width: 100,
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      className: "text-center",
-      render(value, record, index) {
-        return <>{record.DataPembiayaan.tenor} Bulan</>;
-      },
-    },
-    {
-      title: "PLAFOND",
+      title: "PEMBIAYAAN",
       dataIndex: "plafond",
       key: "plafond",
-      width: 100,
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             textAlign: "center",
+            fontSize: 13,
           },
         };
       },
-      className: "text-center",
+      width: 130,
+      className: "text-right text-xs",
       sorter: (a, b) => a.DataPembiayaan.plafond - b.DataPembiayaan.plafond,
       render(value, record, index) {
-        return <>{formatNumber(record.DataPembiayaan.plafond.toString())}</>;
-      },
-    },
-    {
-      title: "BERKAS PENGAJUAN",
-      dataIndex: "berkas_pengajuan",
-      key: "berkas_pengajuan",
-      width: 100,
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-          },
-        };
-      },
-      render(value, record, index) {
         return (
-          <div className="flex justify-center">
-            <button
-              className="py-1 px-2 rounded shadow border"
-              onClick={() => {
-                setSelected(record);
-                setOpen(true);
-              }}
-            >
-              <FileFilled />
-            </button>
+          <div>
+            <p>{IDRFormat(record.DataPembiayaan.plafond)}</p>
+            <p className="opacity-70 italic">
+              {record.DataPembiayaan.tenor} Bulan
+            </p>
           </div>
         );
       },
@@ -302,12 +272,13 @@ export default function MonitoringBank() {
             textAlign: "center",
             fontSize: 13,
           },
+          className: "example-class-in-td bg-green-500 text-white",
         };
       },
-      width: 80,
+      width: 100,
       render(value, record, index) {
         return (
-          <>
+          <div className="flex gap-2 items-center">
             <ModalBerkas
               data={{
                 url: record.BerkasPengajuan.berkas_akad || "",
@@ -316,454 +287,272 @@ export default function MonitoringBank() {
               }}
               key={"akad" + record.id}
             />
-          </>
+          </div>
         );
       },
     },
     {
-      title: "STATUS PENGAJUAN",
-      dataIndex: "status",
-      key: "status",
+      title: "BERKAS",
+      dataIndex: "berkas_pengajuan",
+      key: "berkas_pengajuan",
+      width: 100,
       onHeaderCell: (text, record) => {
         return {
-          ["style"]: { background: "#22c55e", color: "#f3f4f6" },
+          ["style"]: {
+            textAlign: "center",
+            fontSize: 13,
+          },
         };
       },
-      children: [
-        {
-          title: "SLIK",
-          dataIndex: "status_slik",
-          key: "status_slik",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#22c55e",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs text-center font-bold italic">
-                {record.status_slik && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_slik === "SETUJU"
-                        ? "green"
-                        : record.status_slik === "DITOLAK"
-                        ? "red"
-                        : record.status_slik === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_slik}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          title: "VERIFIKASI",
-          dataIndex: "status_verifikasi",
-          key: "status_verifikasi",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#22c55e",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs text-center font-bold italic">
-                {record.status_verifikasi && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_verifikasi === "SETUJU"
-                        ? "green"
-                        : record.status_verifikasi === "DITOLAK"
-                        ? "red"
-                        : record.status_verifikasi === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_verifikasi}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          title: "APPROVAL",
-          dataIndex: "status_approval",
-          key: "status_approval",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#22c55e",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs text-center font-bold italic">
-                {record.status_approval && (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_approval === "SETUJU"
-                        ? "green"
-                        : record.status_approval === "DITOLAK"
-                        ? "red"
-                        : record.status_approval === "ANTRI"
-                        ? "orange"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_approval}
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-      ],
+      render(value, record, index) {
+        return (
+          <div className="flex justify-center">
+            <Button
+              className="py-1 px-2 rounded shadow border"
+              onClick={() => {
+                setSelected(record);
+                setOpen(true);
+              }}
+              size="small"
+              icon={<FileFilled />}
+            ></Button>
+          </div>
+        );
+      },
     },
     {
-      title: "KETERANGAN PROSES PENGAJUAN",
-      key: "keterangan",
+      title: "STATUS VERIFIKASI",
+      dataIndex: "verif",
+      key: "verif",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            background: "#22c55e",
+            color: "#f3f4f6",
+            fontSize: 13,
+            textAlign: "center",
+          },
+        };
+      },
+      width: 200,
+      render(value, record, index) {
+        const status = record.status_verifikasi;
+        return (
+          <div className="flex gap-2">
+            {status && (
+              <Tag
+                color={
+                  status === "SETUJU"
+                    ? "green-inverse"
+                    : ["ANTRI", "PENDING"].includes(status)
+                    ? "orange-inverse"
+                    : "red-inverse"
+                }
+                style={{ width: 70, textAlign: "center" }}
+                className="font-bold"
+              >
+                {status}
+              </Tag>
+            )}
+            {record.keterangan_verifikasi && (
+              <Paragraph
+                ellipsis={{
+                  rows: 1,
+                  expandable: "collapsible",
+                }}
+                style={{ fontSize: 11, width: 150 }}
+              >
+                {record.keterangan_verifikasi} - (
+                {moment(record.tanggal_verifikasi).format("DD/MM/YYYY HH:mm")}{" "}
+                By {record.nama_pemeriksa_verifikasi})
+              </Paragraph>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      title: "STATUS SLIK",
+      dataIndex: "slik",
+      key: "slik",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             background: "#0284c7",
             color: "#f3f4f6",
+            fontSize: 13,
             textAlign: "center",
           },
         };
       },
-      dataIndex: "keterangan",
-      children: [
-        {
-          title: "SLIK",
-          dataIndex: "keterangan_slik",
-          key: "keterangan_slik",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#0284c7",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          width: 300,
-          render(value, record, index) {
-            return (
+      width: 200,
+      render(value, record, index) {
+        const status = record.status_slik;
+        return (
+          <div className="flex gap-2">
+            {status && (
+              <Tag
+                color={
+                  status === "SETUJU"
+                    ? "green-inverse"
+                    : ["ANTRI", "PENDING"].includes(status)
+                    ? "orange-inverse"
+                    : "red-inverse"
+                }
+                style={{ width: 70, textAlign: "center" }}
+                className="font-bold"
+              >
+                {status}
+              </Tag>
+            )}
+            {record.keterangan_slik && (
               <Paragraph
                 ellipsis={{
-                  rows: 2,
+                  rows: 1,
                   expandable: "collapsible",
                 }}
+                style={{ fontSize: 11, width: 150 }}
               >
-                {record.keterangan_slik}
+                {record.keterangan_slik} - (
+                {moment(record.tanggal_slik).format("DD/MM/YYYY HH:mm")} By{" "}
+                {record.nama_pemeriksa_slik})
               </Paragraph>
-            );
-          },
-        },
-        {
-          title: "VERIFIKASI",
-          dataIndex: "keterangan_verifikasi",
-          key: "keterangan_verifikasi",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#0284c7",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          width: 300,
-          render(value, record, index) {
-            return (
-              <Paragraph
-                ellipsis={{
-                  rows: 2,
-                  expandable: "collapsible",
-                }}
-              >
-                {record.keterangan_verifikasi}
-              </Paragraph>
-            );
-          },
-        },
-        {
-          title: "APPROVAL",
-          dataIndex: "keterangan_approval",
-          key: "keterangan_approval",
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#0284c7",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          width: 300,
-          render(value, record, index) {
-            return (
-              <Paragraph
-                ellipsis={{
-                  rows: 2,
-                  expandable: "collapsible",
-                }}
-              >
-                {record.keterangan_approval}
-              </Paragraph>
-            );
-          },
-        },
-      ],
+            )}
+          </div>
+        );
+      },
     },
     {
-      title: "PEMERIKSA PENGAJUAN",
-      key: "pemeriksa",
-      dataIndex: "pemeriksa",
+      title: "STATUS APPROVAL",
+      dataIndex: "approval",
+      key: "approval",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
             background: "#4b5563",
             color: "#f3f4f6",
+            fontSize: 13,
             textAlign: "center",
           },
         };
       },
-      children: [
-        {
-          title: "SLIK",
-          dataIndex: "nama_pemeriksa_slik",
-          key: "nama_pemeriksa_slik",
-          className: "text-center",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#4b5563",
-                color: "#f3f4f6",
-              },
-            };
-          },
-        },
-        {
-          title: "VERIFIKASI",
-          dataIndex: "nama_pemeriksa_verifikasi",
-          key: "nama_pemeriksa_verifikasi",
-          className: "text-center",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#4b5563",
-                color: "#f3f4f6",
-              },
-            };
-          },
-        },
-        {
-          title: "APPROVAL",
-          dataIndex: "nama_pemeriksa_approval",
-          key: "nama_pemeriksa_approval",
-          className: "text-center",
-          width: 150,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                background: "#4b5563",
-                color: "#f3f4f6",
-              },
-            };
-          },
-        },
-      ],
-    },
-    {
-      title: "TANGGAL PERIKSA PENGAJUAN",
-      key: "tanggal",
-      dataIndex: "tanggal",
-      onHeaderCell: (text, record) => {
-        return {
-          ["style"]: {
-            textAlign: "center",
-            backgroundColor: "#f97316",
-            color: "#f3f4f6",
-          },
-        };
+      width: 200,
+      render(value, record, index) {
+        const status = record.status_approval;
+        return (
+          <div className="flex gap-2">
+            {status && (
+              <Tag
+                color={
+                  status === "SETUJU"
+                    ? "green-inverse"
+                    : ["ANTRI", "PENDING"].includes(status)
+                    ? "orange-inverse"
+                    : "red-inverse"
+                }
+                style={{ width: 70, textAlign: "center" }}
+                className="font-bold"
+              >
+                {status}
+              </Tag>
+            )}
+            {record.keterangan_approval && (
+              <Paragraph
+                ellipsis={{
+                  rows: 1,
+                  expandable: "collapsible",
+                }}
+                style={{ fontSize: 11, width: 150 }}
+              >
+                {record.keterangan_approval} - (
+                {moment(record.tanggal_approval).format("DD/MM/YYYY HH:mm")} By{" "}
+                {record.nama_pemeriksa_approval})
+              </Paragraph>
+            )}
+          </div>
+        );
       },
-      children: [
-        {
-          title: "SLIK",
-          key: "tanggal_slik",
-          dataIndex: "tanggal_slik",
-          width: 100,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                backgroundColor: "#f97316",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="text-center">
-                {record.tanggal_slik &&
-                  moment(record.tanggal_slik).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-        {
-          title: "VERIFIKASI",
-          key: "tanggal_verifikasi",
-          dataIndex: "tanggal_verifikasi",
-          width: 100,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                backgroundColor: "#f97316",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="text-center">
-                {record.tanggal_verifikasi &&
-                  moment(record.tanggal_verifikasi).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-        {
-          title: "APPROVAL",
-          key: "tanggal_approval",
-          dataIndex: "tanggal_approval",
-          width: 100,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                backgroundColor: "#f97316",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="text-center">
-                {record.tanggal_approval &&
-                  moment(record.tanggal_approval).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-      ],
     },
     {
-      title: "DATA PENCAIRAN",
-      key: "pencairan",
-      dataIndex: "pencairan",
+      title: "STATUS DROPPING",
+      dataIndex: "dropping",
+      key: "dropping",
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
-            textAlign: "center",
             backgroundColor: "#ec4899",
             color: "#f3f4f6",
+            fontSize: 13,
+            textAlign: "center",
           },
         };
       },
-      children: [
-        {
-          title: "STATUS",
-          key: "status_pencairan",
-          dataIndex: "status_pencairan",
-          width: 100,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                backgroundColor: "#ec4899",
-                color: "#f3f4f6",
-              },
-            };
+      width: 200,
+      render(value, record, index) {
+        const status = record.status_pencairan;
+        return (
+          <div className="flex gap-2">
+            {status && (
+              <Tag
+                color={
+                  !status
+                    ? "orange"
+                    : status === "TRANSFER"
+                    ? "green-inverse"
+                    : status === "PROSES"
+                    ? "blue-inverse"
+                    : "red-inverse"
+                }
+                style={{ width: 70, textAlign: "center" }}
+                className="font-bold"
+              >
+                {status || "ANTRI"}
+              </Tag>
+            )}
+            {record.tanggal_pencairan &&
+              moment(record.tanggal_pencairan).format("DD/MM/YYYY HH:mm")}
+          </div>
+        );
+      },
+    },
+    {
+      title: "MUTASI / TAKEOVER",
+      dataIndex: "mutasitakeover",
+      key: "mutasitakeover",
+      onHeaderCell: (text, record) => {
+        return {
+          ["style"]: {
+            textAlign: "center",
+            fontSize: 13,
           },
-          render(value, record, index) {
-            return (
-              <div className="flex justify-center text-xs text-center font-bold italic">
-                {record.status_pencairan ? (
-                  <div
-                    className={`py-1 px-2 w-24 bg-${
-                      record.status_pencairan === "TRANSFER"
-                        ? "green"
-                        : record.status_pencairan === "BATAL"
-                        ? "red"
-                        : "blue"
-                    }-500 text-gray-100 text-center`}
-                  >
-                    {record.status_pencairan}
-                  </div>
-                ) : (
-                  <div
-                    className={`py-1 px-2 w-24 bg-orange-500 text-gray-100 text-center`}
-                  >
-                    ANTRI
-                  </div>
-                )}
-              </div>
-            );
-          },
-        },
-        {
-          title: "TANGGAL",
-          key: "tanggal_pencairan",
-          dataIndex: "tanggal_pencairan",
-          width: 100,
-          onHeaderCell: (text, record) => {
-            return {
-              ["style"]: {
-                textAlign: "center",
-                backgroundColor: "#ec4899",
-                color: "#f3f4f6",
-              },
-            };
-          },
-          render(value, record, index) {
-            return (
-              <div className="text-center">
-                {record.tanggal_pencairan &&
-                  moment(record.tanggal_pencairan).format("DD-MM-YYYY")}
-              </div>
-            );
-          },
-        },
-      ],
+        };
+      },
+      // width: 200,
+      className: "text-xs",
+      render(value, record, index) {
+        return (
+          <div className="flex flex-col">
+            {record.DataPembiayaan.pelunasan &&
+            record.DataPembiayaan.pelunasan !== 0 ? (
+              <Tag color="blue" style={{ fontSize: 10 }}>
+                Takeover : {record.DataPembiayaan.pembiayaan_sebelumnya}
+              </Tag>
+            ) : (
+              ""
+            )}
+            {record.DataPembiayaan.by_mutasi &&
+            record.DataPembiayaan.by_mutasi !== 0 ? (
+              <Tag color="purple" style={{ fontSize: 10 }}>
+                Mutasi : {record.DataPembiayaan.juru_bayar_asal}{" "}
+                <ArrowRightOutlined style={{ fontSize: 10 }} />{" "}
+                {record.DataPembiayaan.juru_bayar_tujuan}
+              </Tag>
+            ) : (
+              ""
+            )}
+          </div>
+        );
+      },
     },
   ];
 

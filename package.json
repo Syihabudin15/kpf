@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "postinstall": "prisma generate",
-    "dev": "next dev",
+    "dev": "node index.js",
     "build": "next build",
-    "start": "next start",
+    "start": "node index.js",
     "lint": "next lint"
   },
   "prisma": {
@@ -15,6 +15,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.0",
     "@ant-design/nextjs-registry": "^1.0.0",
+    "@azure/storage-blob": "^12.29.1",
     "@formulajs/formulajs": "^4.4.1",
     "@prisma/client": "^5.11.0",
     "@react-pdf/renderer": "^3.4.4",
@@ -26,6 +27,7 @@
     "cssnano": "^7.0.4",
     "exceljs": "^4.4.0",
     "express": "^4.19.2",
+    "formdata-node": "^6.0.3",
     "html2canvas": "^1.4.1",
     "leaflet": "^1.9.4",
     "moment": "^2.30.1",
