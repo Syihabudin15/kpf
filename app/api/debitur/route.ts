@@ -95,19 +95,45 @@ export const GET = async (req: NextRequest) => {
 
           const berkas: BerkasPengajuan = {
             ...dpg.BerkasPengajuan,
-            berkas_slik: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.berkas_slik}`,
-            berkas_pengajuan: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.berkas_pengajuan}`,
-            video_wawancara: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_wawancara}`,
-            video_asuransi: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_asuransi}`,
-            berkas_akad: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.berkas_akad}`,
-            video_akad: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_akad}`,
-            pelunasan: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.pelunasan}`,
-            berkas_flagging: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.berkas_flagging}`,
-            bukti_cair: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.bukti_cair}`,
-            video_cair: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_cair}`,
-            video_cair2: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_cair2}`,
-            video_cair3: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_cair3}`,
-            mutasi: `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.mutasi}`,
+            berkas_slik: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.berkas_slik}`
+              : null,
+            berkas_pengajuan: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.berkas_pengajuan}`
+              : null,
+            video_wawancara: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_wawancara}`
+              : null,
+            video_asuransi: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_asuransi}`
+              : null,
+            berkas_akad: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.berkas_akad}`
+              : null,
+            video_akad: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_akad}`
+              : null,
+            pelunasan: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.pelunasan}`
+              : null,
+            berkas_flagging: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.berkas_flagging}`
+              : null,
+            bukti_cair: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.bukti_cair}`
+              : null,
+            video_cair: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_cair}`
+              : null,
+            video_cair2: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_cair2}`
+              : null,
+            video_cair3: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.video_cair3}`
+              : null,
+            mutasi: dpg.BerkasPengajuan
+              ? `https://earsip.blob.core.windows.net/kpfi${dpg.BerkasPengajuan?.mutasi}`
+              : null,
           } as BerkasPengajuan;
 
           return {
@@ -225,15 +251,15 @@ export interface IArea extends INewData<UnitPelayanan> {
 }
 
 const gettingName = (role: Role) => {
-  if (role === "MASTER") "RL001";
-  if (role === "BISNIS") "RL002";
-  if (role === "ENTRY_DATA") "RL003";
-  if (role === "OPERASIONAL") "RL004";
-  if (role === "VERIFIKASI") "RL005";
-  if (role === "BANK") "RL006";
-  if (role === "APPROVAL") "RL007";
-  if (role === "AUDIT") "RL008";
-  if (role === "MARKETING") "RL009";
+  if (role === "MASTER") return "RL001";
+  if (role === "BISNIS") return "RL002";
+  if (role === "ENTRY_DATA") return "RL003";
+  if (role === "OPERASIONAL") return "RL004";
+  if (role === "VERIFIKASI") return "RL005";
+  if (role === "BANK") return "RL006";
+  if (role === "APPROVAL") return "RL007";
+  if (role === "AUDIT") return "RL008";
+  if (role === "MARKETING") return "RL009";
   return "RL010";
 };
 
@@ -242,4 +268,25 @@ const genNIP = (aId: string, cId: string, uId: number, join: Date) => {
     "KL",
     ""
   )}${String(uId + 1).padStart(3, "0")}`;
+};
+
+export const PATCH = async (req: NextRequest) => {
+  const nopen = req.nextUrl.searchParams.get("nopen") || "nopen";
+  const find = await prisma.dataTaspen.findFirst({
+    where: { nopen },
+    include: {
+      DataPasangan: true,
+      Domisili: true,
+    },
+  });
+  if (!find)
+    return NextResponse.json(
+      { status: 404, msg: "Nopen tidak ditemukan di database!" },
+      { status: 404 }
+    );
+
+  return NextResponse.json(
+    { status: 200, msg: "Berhasil ditemukan!", data: find },
+    { status: 200 }
+  );
 };

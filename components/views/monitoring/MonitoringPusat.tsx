@@ -416,13 +416,13 @@ export default function MonitoringPusat() {
           },
         };
       },
-      width: 150,
+      width: 180,
       className: "text-xs",
       render(value, record, index) {
         return (
           <div>
-            <p className="underline">{record.moc && `/ ${record.moc}`}</p>
-            <p>
+            <p className="underline">{record.moc && `${record.moc}`}</p>
+            <p className="text-xs">
               {record.User.first_name} {record.User.last_name}{" "}
               <span className="italic opacity-70" style={{ fontSize: 10 }}>
                 ({record.User.unit_cabang_id && record.User.UnitCabang.name})
