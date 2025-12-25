@@ -6,7 +6,7 @@
     "postinstall": "prisma generate",
     "dev": "next dev",
     "build": "next build",
-    "start": "node index.js",
+    "start": "next start",
     "lint": "next lint"
   },
   "prisma": {
