@@ -1678,7 +1678,7 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
                 >
                   NANDANG HERMAWAN
                 </Text>
-                <Text>Direktur Pengelolas</Text>
+                <Text>Direktur Pengelola</Text>
               </View>
             </View>
             <View
