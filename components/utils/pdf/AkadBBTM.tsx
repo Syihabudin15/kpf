@@ -234,7 +234,7 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
             <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
               <Text style={{ width: 100 }}>Pekerjaan</Text>
               <Text style={{ width: 20 }}>:</Text>
-              <Text>{data.pekerjaan_sekarang}</Text>
+              <Text>PENSIUNAN</Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
               <Text style={{ width: 100 }}>Alamat</Text>
