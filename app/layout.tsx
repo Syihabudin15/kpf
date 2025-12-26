@@ -8,11 +8,11 @@ import Script from "next/script";
 
 export const metadata: Metadata = {
   title: {
-    default: `${process.env.NEXT_PUBLIC_APP_NAME_HEADER}`,
-    template: `%s | ${process.env.NEXT_PUBLIC_APP_NAME_HEADER}`,
+    default: `${process.env.NEXT_PUBLIC_APP_NAME_HEADER || ""}`,
+    template: `%s | ${process.env.NEXT_PUBLIC_APP_NAME_HEADER || ""}`,
   },
   icons: new URL(
-    `${process.env.NEXTAUTH_URL}${process.env.NEXT_PUBLIC_APP_LOGO}`
+    `${process.env.NEXTAUTH_URL || ""}${process.env.NEXT_PUBLIC_APP_LOGO || ""}`
   ),
 };
 

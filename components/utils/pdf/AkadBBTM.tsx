@@ -173,9 +173,7 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
             >
               <Text style={{ width: 100 }}>Nama</Text>
               <Text style={{ width: 20 }}>:</Text>
-              <Text>
-                {process.env.NEXT_PUBLIC_APP_DIREKTUR || "Lodewijk HF Lantang"}
-              </Text>
+              <Text>Nandang Hermawan</Text>
             </View>
             <View
               style={{
@@ -188,7 +186,7 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
             >
               <Text style={{ width: 100 }}>Jabatan</Text>
               <Text style={{ width: 20 }}>:</Text>
-              <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
+              <Text>Direktur Pengelola</Text>
             </View>
             <View
               style={{
@@ -731,13 +729,16 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
                   style={{ display: "flex", flexDirection: "row", gap: 10 }}
                 >
                   <Text>4.</Text>
-                  <Text>
-                    Asli{" "}
-                    <Text style={{ fontWeight: "bold" }}>
-                      Asli Polis Individu yang tercover oleh Asuransi. yang
-                      Selanjutnya disebut sebagai JAMINAN.
-                    </Text>
+                  Asli{" "}
+                  <Text style={{ fontWeight: "bold" }}>
+                    Polis Individu yang tercover oleh Asuransi.
                   </Text>
+                </View>
+                <View
+                  style={{ display: "flex", flexDirection: "row", gap: 10 }}
+                >
+                  <Text></Text>
+                  <Text>yang selanjutnya disebut sebagai JAMINAN.</Text>
                 </View>
               </View>
             </View>
@@ -1398,16 +1399,13 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
         </View>
         <View style={{ padding: "5px 10px" }}>
           <Text style={{ fontWeight: "bold" }}>
-            {process.env.NEXT_PUBLIC_APP_FULL_NAME ||
-              "KOPERASI PEMASARAN FADILLAH"}
+            KOPERASI JASA FADILLAH AQILA SEJAHTRA
           </Text>
           <View style={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
               <Text style={{ width: 100 }}>Up</Text>
               <Text style={{ width: 20 }}>:</Text>
-              <Text>
-                {process.env.NEXT_PUBLIC_APP_DIREKTUR || "Lodewijk HF Lantang"}
-              </Text>
+              <Text>Nandang Hermawan</Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
               <Text style={{ width: 100 }}>Alamat</Text>
@@ -1660,9 +1658,7 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
               }}
             >
               <Text>
-                {data.Bank.name ||
-                  process.env.NEXT_PUBLIC_APP_FULL_NAME ||
-                  "KOPJAS FAS"}
+                {data.Bank.name || "KOPERASI JASA FADILLAH AQILA SEJAHTRA"}
               </Text>
               <View style={{ height: 50 }}></View>
               <View
@@ -1680,10 +1676,9 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
                     margin: "0 auto",
                   }}
                 >
-                  {process.env.NEXT_PUBLIC_APP_DIREKTUR ||
-                    "Lodewijk HF Lantang"}
+                  NANDANG HERMAWAN
                 </Text>
-                <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
+                <Text>Direktur Pengelolas</Text>
               </View>
             </View>
             <View
