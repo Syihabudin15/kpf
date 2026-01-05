@@ -952,6 +952,7 @@ export default function FormEditPengajuan({
                     { label: "HINDU", value: "HINDU" },
                     { label: "BUDHA", value: "BUDHA" },
                     { label: "ATHEIS", value: "ATHEIS" },
+                    { label: "KRISTEN", value: "KRISTEN" },
                     { label: "LAINNYA", value: "LAINNYA" },
                   ]}
                   onChange={() =>

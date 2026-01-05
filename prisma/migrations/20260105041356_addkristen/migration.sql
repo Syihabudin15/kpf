@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `datapengajuan` MODIFY `agama` ENUM('ISLAM', 'KATHOLIK', 'KONGHUCU', 'HINDU', 'BUDHA', 'ATHEIS', 'KRISTEN', 'LAINNYA') NULL;
+
+-- AlterTable
+ALTER TABLE `datataspen` MODIFY `agama` ENUM('ISLAM', 'KATHOLIK', 'KONGHUCU', 'HINDU', 'BUDHA', 'ATHEIS', 'KRISTEN', 'LAINNYA') NULL;
