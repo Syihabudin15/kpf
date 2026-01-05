@@ -23,7 +23,6 @@ import {
 import moment from "moment-timezone";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { formatNumber } from "@/components/utils/inputUtils";
 import {
   BankOpt,
   Cabang,
@@ -402,7 +401,7 @@ export default function MonitoringEntryData() {
       render(value, record, index) {
         return (
           <div>
-            <p className="underline">{record.moc && `/ ${record.moc}`}</p>
+            <p className="underline">{record.moc && `${record.moc} /`}</p>
             <p>
               {record.User.first_name} {record.User.last_name}{" "}
               <span className="italic opacity-70" style={{ fontSize: 10 }}>
@@ -639,7 +638,7 @@ export default function MonitoringEntryData() {
           },
         };
       },
-      width: 200,
+      width: 220,
       render(value, record, index) {
         const status = record.status_pencairan;
         return (

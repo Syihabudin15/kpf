@@ -17,6 +17,7 @@ import AnalisaPerhitungan from "@/components/utils/pdf/AnalisaPerhitungan";
 // import AkadChanneling from "@/components/utils/pdf/AkadChanneling";
 import TandaTerimaDebitur from "@/components/utils/pdf/TandaTerimaDebitur";
 import ChanelingAkad from "@/components/utils/pdf/ChanelingAkad";
+import AkadBBTM from "@/components/utils/pdf/AkadBBTM";
 import PKDassa from "@/components/utils/pdf/PKDassa";
 import PKDassa2 from "@/components/utils/pdf/PKDassa2";
 
@@ -45,10 +46,11 @@ export default function Akad({
             </>
           ) : (
             <>
-              {data.Bank.kode === "BPR BDS" ? (
+              {data.Bank.kode === "BPR BDS" && (
                 <PerjanjianKreditNonFlash data={data} />
-              ) : (
-                // <AkadChanneling data={data} />
+              )}
+              {data.Bank.kode === "BPR BBTM" && <AkadBBTM data={data} />}
+              {!["BPR BDS", "BPR BBTM"].includes(data.Bank.kode || "") && (
                 <ChanelingAkad data={data} />
               )}
             </>

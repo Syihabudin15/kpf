@@ -10,16 +10,55 @@ app.prepare().then(() => {
   const server = express();
   server.use("/category", express.static(__dirname + "/storage/category"));
   server.use("/blog", express.static(__dirname + "/storage/blog"));
-  server.use("/mutasi", express.static(__dirname + "/storage/mutasi"));
-  server.use("/flagging", express.static(__dirname + "/storage/flagging"));
   server.use("/akad", express.static(__dirname + "/storage/akad"));
+  server.use("/asuransi", express.static(__dirname + "/storage/asuransi"));
   server.use("/slik", express.static(__dirname + "/storage/slik"));
   server.use("/pengajuan", express.static(__dirname + "/storage/pengajuan"));
   server.use("/wawancara", express.static(__dirname + "/storage/wawancara"));
-  server.use("/asuransi", express.static(__dirname + "/storage/asuransi"));
   server.use(
     "/bukti_transfer2",
     express.static(__dirname + "/storage/bukti_transfer2")
+  );
+  server.use("/cair", express.static(__dirname + "/storage/cair"));
+  server.use("/profile", express.static(__dirname + "/storage/profile"));
+  server.use("/si", express.static(__dirname + "/storage/si"));
+  server.use("/bank_logo", express.static(__dirname + "/storage/bank_logo"));
+  server.use(
+    "/surat_berkas",
+    express.static(__dirname + "/storage/surat_berkas")
+  );
+  server.use("/pelunasan", express.static(__dirname + "/storage/pelunasan"));
+  server.use("/jaminan", express.static(__dirname + "/storage/jaminan"));
+  server.use("/rekening", express.static(__dirname + "/storage/rekening"));
+  server.use("/mutasi", express.static(__dirname + "/storage/mutasi"));
+  server.use("/flagging", express.static(__dirname + "/storage/flagging"));
+  server.use("/video_akad", express.static(__dirname + "/storage/video_akad"));
+  server.use("/video_cair", express.static(__dirname + "/storage/video_cair"));
+  server.use(
+    "/video_cair2",
+    express.static(__dirname + "/storage/video_cair2")
+  );
+  server.use(
+    "/video_cair3",
+    express.static(__dirname + "/storage/video_cair3")
+  );
+  server.use(
+    "/bukti_transfer",
+    express.static(__dirname + "/storage/bukti_transfer")
+  );
+  server.use(
+    "/bukti_transfer2",
+    express.static(__dirname + "/storage/bukti_transfer2")
+  );
+  server.use("/epotpen", express.static(__dirname + "/storage/epotpen"));
+  server.use("/idpb", express.static(__dirname + "/storage/idpb"));
+  server.use(
+    "/berkas_flagging",
+    express.static(__dirname + "/storage/berkas_flagging")
+  );
+  server.use(
+    "/berkas_pelunasan",
+    express.static(__dirname + "/storage/berkas_pelunasan")
   );
 
   server.all("*", (req, res) => {
