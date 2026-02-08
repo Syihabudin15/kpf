@@ -66,6 +66,7 @@ enum Agama {
   HINDU
   BUDHA
   ATHEIS
+  KRISTEN
   LAINNYA
 }
 

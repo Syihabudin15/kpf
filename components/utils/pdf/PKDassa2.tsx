@@ -1,22 +1,8 @@
 import { Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { stylePdf } from "./stylePdf";
 import { DataDataPengajuan } from "../Interfaces";
-import { AngsuranAnuitas, IDRFormat } from "@/components/v1/appUtils";
-import moment from "moment";
-const angkaTerbilang = require("angka-menjadi-terbilang");
+import { IDRFormat } from "@/components/v1/appUtils";
 
-const angka = [
-  "satu",
-  "dua",
-  "tiga",
-  "empat",
-  "lima",
-  "enam",
-  "tujuh",
-  "delapan",
-  "sembilan",
-  "sepuluh",
-];
 export default function PKDassa({ data }: { data: DataDataPengajuan }) {
   return (
     <Page

@@ -857,9 +857,10 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
           oleh Kreditur.
         </Text>
       </View>
+      <View style={{ marginTop: 40 }}></View>
       <View
         style={{
-          margin: "10px 0px",
+          margin: "10px 0px ",
           textAlign: "center",
           fontWeight: "bold",
           flexDirection: "column",
@@ -936,7 +937,7 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
       </View>
       <View
         style={{
-          margin: "10px 0px",
+          margin: "7px 0px",
           textAlign: "center",
           fontWeight: "bold",
           flexDirection: "column",
@@ -1122,7 +1123,7 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
       </View>
       <View
         style={{
-          margin: "10px 0px",
+          margin: "7px 0px",
           textAlign: "center",
           fontWeight: "bold",
           flexDirection: "column",
@@ -1175,7 +1176,7 @@ export default function PKDassa({ data }: { data: DataDataPengajuan }) {
       </Text>
       <View
         style={{
-          marginTop: 30,
+          marginTop: 15,
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",

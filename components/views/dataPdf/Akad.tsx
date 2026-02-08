@@ -20,6 +20,7 @@ import ChanelingAkad from "@/components/utils/pdf/ChanelingAkad";
 import AkadBBTM from "@/components/utils/pdf/AkadBBTM";
 import PKDassa from "@/components/utils/pdf/PKDassa";
 import PKDassa2 from "@/components/utils/pdf/PKDassa2";
+import PKHM from "@/components/utils/pdf/PKHM";
 
 export default function Akad({
   data,
@@ -32,7 +33,7 @@ export default function Akad({
     <div className="w-full h-full">
       <PDFViewer className="w-full h-full">
         <Document title="Akad Pinjaman">
-          <AnalisaPerhitungan data={data} />
+          {/* <AnalisaPerhitungan data={data} />
           <JadwalAngsuran data={data} isFor="DEBITUR" angsurans={angsurans} />
           <JadwalAngsuran
             data={data}
@@ -67,7 +68,8 @@ export default function Akad({
           <KelengkapanDokumen data={data} />
           <DokumenCeklis data={data} />
           {data.Bank.kode === "BPR DASSA" && <PKDassa data={data} />}
-          {data.Bank.kode === "BPR DASSA" && <PKDassa2 data={data} />}
+          {data.Bank.kode === "BPR DASSA" && <PKDassa2 data={data} />} */}
+          {data.Bank.kode === "BPR HM" && <PKHM data={data} />}
         </Document>
       </PDFViewer>
     </div>

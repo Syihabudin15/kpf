@@ -12,6 +12,10 @@ const SIBprDassa = dynamic(() => import("@/components/views/dataPdf/SIBprDs"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+const SIBprHM = dynamic(() => import("@/components/views/dataPdf/SIBprHM"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 const SIBprBBS = dynamic(() => import("@/components/views/dataPdf/SIBprBBS"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
@@ -28,12 +32,15 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
         <SIBprSip data={data} />
       )}
       {data.Bank.kode === "BPR BBS" && <SIBprBBS data={data} />}
+      {data.Bank.kode === "BPR BBTM" && <SIBprDassa data={data} />}
       {data.Bank.kode === "BPR DASSA" && <SIBprDassa data={data} />}
+      {data.Bank.kode === "BPR MAB" && <SIBprBBS data={data} />}
       {data.Bank.kode === "BPR BDS" && <SIBprBds data={data} />}
-      {/* {data.Bank.kode === "BPR SIP" && <SIBprSip data={data} />} */}
+      {data.Bank.kode === "BPR HM" && <SIBprHM data={data} />}
       {data.Bank.kode === "BPR BNM" && <SIBprBNM data={data} />}
-      {data.Bank.kode === "KOPJASFAS" ||
-        (data.Bank.kode === "KPF" && <SIBprBNM data={data} />)}
+      {(data.Bank.kode === "KOPJASFAS" || data.Bank.kode === "KPF") && (
+        <SIBprBNM data={data} />
+      )}
     </>
   );
 }
