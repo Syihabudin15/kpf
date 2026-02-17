@@ -17,14 +17,7 @@ export default function MenuWrapper({ user }: { user: any }) {
           style={{ flex: 2 }}
         >
           <div style={{ width: 70 }}>
-            <img
-              src={
-                user?.picture
-                  ? user.picture
-                  : "/assets/images/profile_default.svg"
-              }
-              alt=""
-            />
+            <img src={"default_profile.png"} alt="" />
           </div>
           <div>
             <div className="font-bold">
@@ -43,8 +36,8 @@ export default function MenuWrapper({ user }: { user: any }) {
                     {user?.role === "ENTRY_DATA"
                       ? user?.UnitCabang?.UnitPelayanan?.kode_area
                       : user?.unit_cabang_id
-                      ? user.UnitCabang?.kode_area
-                      : "PUSAT"}
+                        ? user.UnitCabang?.kode_area
+                        : "PUSAT"}
                   </span>
                 </span>
               )}

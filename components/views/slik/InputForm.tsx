@@ -108,7 +108,7 @@ export default function InputForm({
 
   const handleChangeProvince = async (e: string, type: string) => {
     const res = await fetch(
-      `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${e}.json`
+      `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${e}.json`,
     );
     const result = await res.json();
     const resultMap = result.map((e: any, ind: number) => {
@@ -140,7 +140,7 @@ export default function InputForm({
 
     const findProvince = provinsi.filter((data) => data.value === e.provinsi);
     const findProvinceDomisili = provinsi.filter(
-      (data) => data.value === e.provinsi_domisili
+      (data) => data.value === e.provinsi_domisili,
     );
     e.Domisili = {
       alamat_domisili: domisiliSama ? e.alamat : e.alamat_domisili,
@@ -152,8 +152,8 @@ export default function InputForm({
       provinsi_domisili: domisiliSama
         ? findProvince[0].label
         : findProvinceDomisili[0]
-        ? findProvinceDomisili[0].label
-        : findProvince[0].label,
+          ? findProvinceDomisili[0].label
+          : findProvince[0].label,
       kode_pos_domisili: domisiliSama ? e.kode_pos : e.kode_pos_domisili,
       geo_location: e.geo_location,
       alamat: e.alamat || null,
@@ -166,18 +166,12 @@ export default function InputForm({
       kode_pos: e.kode_pos || null,
     };
     e.DataKeluarga = {
-      nama_pasangan: statusKawinDisable ? null : e.nama_pasangan,
-      tempat_lahir_pasangan: statusKawinDisable
-        ? null
-        : e.tempat_lahir_pasangan,
-      tanggal_lahir_pasangan: statusKawinDisable
-        ? null
-        : moment(e.tanggal_lahir_pasangan).toISOString(),
-      nik_pasangan: statusKawinDisable ? null : e.nik_pasangan,
-      masa_ktp_pasangan: statusKawinDisable
-        ? null
-        : moment(e.masa_ktp_pasangan).toISOString(),
-      pekerjaan_pasangan: statusKawinDisable ? null : e.pekerjaan_pasangan,
+      nama_pasangan: e.nama_pasangan,
+      tempat_lahir_pasangan: e.tempat_lahir_pasangan,
+      tanggal_lahir_pasangan: moment(e.tanggal_lahir_pasangan).toISOString(),
+      nik_pasangan: e.nik_pasangan,
+      masa_ktp_pasangan: moment(e.masa_ktp_pasangan).toISOString(),
+      pekerjaan_pasangan: e.pekerjaan_pasangan,
       nama_keluarga_tidak_serumah: e.keluarga_tidak_serumah || null,
       hubungan: e.hubungan_keluarga || null,
       no_telepon_keluarga: e.no_telepon_keluarga || null,
@@ -196,7 +190,7 @@ export default function InputForm({
     e.status_verifikasi = isSend ? "ANTRI" : null;
     e.margin_bank = selectedBank?.margin_bank;
     e.pembulatan = parseInt(
-      selectedBank ? selectedBank.pembulatan.toString() : "1"
+      selectedBank ? selectedBank.pembulatan.toString() : "1",
     );
     e.tanggal_sk_pensiun = moment(e.tanggal_sk_pensiun).toISOString();
     e.masa_ktp = moment(e.masa_ktp).toISOString();
@@ -901,65 +895,93 @@ export default function InputForm({
                 </Form.Item>
                 <div className="block md:flex md:flex-1 gap-5 items-end">
                   <Form.Item
-                    label="Nama Pasangan"
+                    label="Nama Ahliwaris"
                     name={"nama_pasangan"}
                     className="flex-1"
-                    required={!statusKawinDisable}
                   >
-                    <Input
-                      disabled={isDisable ? isDisable : statusKawinDisable}
-                      required={!statusKawinDisable}
-                    />
+                    <Input />
                   </Form.Item>
                   <Form.Item
                     className="flex-1"
-                    label="Tempat Lahir Pasangan"
+                    label="Tempat Lahir Ahliwaris"
                     name={"tempat_lahir_pasangan"}
-                    required={!statusKawinDisable}
                   >
-                    <Input
-                      disabled={isDisable ? isDisable : statusKawinDisable}
-                      required={!statusKawinDisable}
-                    />
+                    <Input />
                   </Form.Item>
                 </div>
               </div>
               <div className="block md:flex gap-5 justify-between items-end">
                 <Form.Item
-                  label="No NIK Pasangan"
+                  label="NIK Ahliwaris"
                   name={"nik_pasangan"}
                   className="w-full md:flex-1"
-                  // required={!statusKawinDisable}
                 >
-                  <Input
-                    disabled={isDisable ? isDisable : statusKawinDisable}
-                    required={!statusKawinDisable}
-                  />
+                  <Input />
                 </Form.Item>
                 <div className="flex-1 md:flex gap-5 items-end">
                   <Form.Item
-                    label="Tanggal Lahir Pasangan"
+                    label="Tanggal Lahir Ahliwaris"
                     name={"tanggal_lahir_pasangan"}
                     className="flex-1"
-                    required={!statusKawinDisable}
                   >
-                    <Input
-                      type="date"
-                      disabled={isDisable ? isDisable : statusKawinDisable}
-                      required={!statusKawinDisable}
-                    />
+                    <Input type="date" />
                   </Form.Item>
                   <Form.Item
-                    label="Masa Berlaku KTP Pasangan"
+                    label="Masa KTP Ahliwaris"
                     name={"masa_ktp_pasangan"}
                     className="flex-1"
-                    required={!statusKawinDisable}
                   >
-                    <Input
-                      type="date"
-                      disabled={isDisable ? isDisable : statusKawinDisable}
-                      required={!statusKawinDisable}
-                    />
+                    <Input type="date" />
+                  </Form.Item>
+                </div>
+              </div>
+              <div className="block md:flex gap-5 justify-between items-end">
+                <Form.Item
+                  label="Alamat Ahliwaris"
+                  name={"alamat_pasangan"}
+                  className="w-full md:flex-1"
+                >
+                  <Input.TextArea />
+                </Form.Item>
+                <div className="flex-1 md:flex gap-5 items-end">
+                  <Form.Item
+                    label="Kelurahan Ahliwaris"
+                    name={"kelurahan_pasangan"}
+                    className="flex-1"
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Kecamatan Ahliwaris"
+                    name={"kecamatan_pasangan"}
+                    className="flex-1"
+                  >
+                    <Input />
+                  </Form.Item>
+                </div>
+              </div>
+              <div className="block md:flex gap-5 justify-between items-end">
+                <Form.Item
+                  label="Kota Ahliwaris"
+                  name={"kota_pasangan"}
+                  className="w-full md:flex-1"
+                >
+                  <Input />
+                </Form.Item>
+                <div className="flex-1 md:flex gap-5 items-end">
+                  <Form.Item
+                    label="Provinsi Ahliwaris"
+                    name={"provinsi_pasangan"}
+                    className="flex-1"
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    label="Kode Pos Ahliwaris"
+                    name={"kode_pos_pasangan"}
+                    className="flex-1"
+                  >
+                    <Input />
                   </Form.Item>
                 </div>
               </div>
@@ -967,13 +989,9 @@ export default function InputForm({
                 <Form.Item
                   label="Pekerjaan Saat Ini"
                   name={"pekerjaan_pasangan"}
-                  required={!statusKawinDisable}
                   className="flex-1"
                 >
-                  <Input
-                    disabled={isDisable ? isDisable : statusKawinDisable}
-                    required={!statusKawinDisable}
-                  />
+                  <Input />
                 </Form.Item>
                 <div className="flex-1 block md:flex gap-5 items-end">
                   <Form.Item

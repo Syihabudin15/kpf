@@ -51,7 +51,7 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
         }}
       >
         <View>
-          <Image src={data.Bank.logo || ""} style={{ width: 80 }} />
+          <Image src={data.Bank.logo || ""} style={{ width: 70 }} />
         </View>
         <View>
           <Text style={{ fontWeight: "bold", fontSize: 14 }}>
@@ -113,9 +113,7 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
               <Text style={{ width: 5 }}>:</Text>
               <Text>
                 {data.DataPembiayaan.tempat_lahir},{" "}
-                {moment(data.DataPembiayaan.tanggal_lahir).format(
-                  "DD - MM - YYYY",
-                )}
+                {data.DataPembiayaan.tanggal_lahir}
               </Text>
             </View>
             <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
@@ -145,22 +143,27 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
             <View style={{ display: "flex", gap: 2, flexDirection: "row" }}>
               <Text style={{ width: 100 }}>Nama</Text>
               <Text style={{ width: 5 }}>:</Text>
-              <Text></Text>
+              <Text>{data.DataPengajuanPasangan.nama_pasangan}</Text>
             </View>
             <View style={{ display: "flex", gap: 2, flexDirection: "row" }}>
               <Text style={{ width: 100 }}>NIK</Text>
               <Text style={{ width: 5 }}>:</Text>
-              <Text></Text>
+              <Text>{data.DataPengajuanPasangan.nik_pasangan}</Text>
             </View>
             <View style={{ display: "flex", gap: 2, flexDirection: "row" }}>
               <Text style={{ width: 100 }}>Tempat/Tanggal Lahir</Text>
               <Text style={{ width: 5 }}>:</Text>
-              <Text></Text>
+              <Text>
+                {data.DataPengajuanPasangan.tempat_lahir_pasangan},{" "}
+                {moment(
+                  data.DataPengajuanPasangan.tanggal_lahir_pasangan,
+                ).format("DD-MM-YYYY")}
+              </Text>
             </View>
             <View style={{ display: "flex", gap: 2, flexDirection: "row" }}>
               <Text style={{ width: 100 }}>Pekerjaan</Text>
               <Text style={{ width: 5 }}>:</Text>
-              <Text></Text>
+              <Text>{data.DataPengajuanPasangan.pekerjaan_pasangan}</Text>
             </View>
             <View
               style={{
@@ -172,7 +175,14 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
             >
               <Text style={{ width: 100 }}>Alamat</Text>
               <Text style={{ width: 5 }}>:</Text>
-              <Text></Text>
+              <Text>
+                {data.DataPengajuanPasangan.alamat_pasangan} KELURAHAN{" "}
+                {data.DataPengajuanPasangan.kelurahan_pasangan} KECAMATAN{" "}
+                {data.DataPengajuanPasangan.kecamatan_pasangan}{" "}
+                {data.DataPengajuanPasangan.kota_pasangan}{" "}
+                {data.DataPengajuanPasangan.provinsi_pasangan}{" "}
+                {data.DataPengajuanPasangan.kode_pos_pasangan}
+              </Text>
             </View>
             <View style={{ margin: "10px 0px" }}>
               <Text>
@@ -778,7 +788,7 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
               <Text>
                 Setiap pemberitahuan atau komunikasi lainnya yang berhubungan
                 dengan Perjanjian Pembiayaan ini dapat dikirimkan ke alamat
-                sebagai berikut :
+                sebagai berikut:
               </Text>
               <View style={{ margin: "5px 0px" }}>
                 <Text>KOPERASI JASA FADILLAH AQILA SEJAHTRA</Text>
@@ -931,8 +941,10 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
       </View>
       <View style={{ marginTop: 20 }}>
         <Text>
-          {data.User.UnitCabang.name},
-          {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}
+          {(data.DataPengajuanAlamat.kota || "")
+            .replace("KOTA", "")
+            .replace("KABUPATEN", "")}
+          ,{moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}
         </Text>
         <View
           style={{
@@ -961,15 +973,13 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontWeight: "bold" }}>Menyetujui</Text>
-            <View style={{ height: 80 }}></View>
-            <View
-              style={{
-                width: "100%",
-                borderBottom: "1px solid #eee",
-                height: 12,
-              }}
-            ></View>
-            <Text>Suami/Istri/Ahli Waris</Text>
+            <View style={{ height: 80 }}>
+              <Text style={{ fontSize: 8, opacity: 0.6, marginTop: 20 }}></Text>
+            </View>
+            <Text style={{ borderBottom: "1px solid #eee" }}>
+              {data.DataPengajuanPasangan.nama_pasangan}
+            </Text>
+            <Text>Suami/istri/ahliwaris</Text>
           </View>
         </View>
       </View>

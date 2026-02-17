@@ -25,7 +25,7 @@ const NewEditBiaya = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 // const EditBiaya = dynamic(
 //   () => import("@/components/views/pengajuan/EditBiaya"),
@@ -39,7 +39,7 @@ const UploadDoc = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 export default function FormEditPengajuan({
@@ -110,7 +110,7 @@ export default function FormEditPengajuan({
 
   const handleChangeProvince = async (e: string, type: string) => {
     const res = await fetch(
-      `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${e}.json`
+      `https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${e}.json`,
     );
     const result = await res.json();
     const resultMap = result.map((e: any, ind: number) => {
@@ -158,14 +158,14 @@ export default function FormEditPengajuan({
           nopen: pembiayaan?.nopen,
           alamat: pembiayaan?.alamat,
           refferal: pembiayaan?.refferal_id,
-        }
+        },
       );
       setLoading(false);
       return message.error("Mohon lengkapi data pembiayaan terlebih dahulu!");
     }
     const findProvince = provinsi.filter((data) => data.value === e.provinsi);
     const findProvinceDomisili = provinsi.filter(
-      (data) => data.value === e.provinsi_domisili
+      (data) => data.value === e.provinsi_domisili,
     );
     setBerkas((prev: any) => {
       return { ...prev, id: currData.berkasPengajuanId };
@@ -186,8 +186,8 @@ export default function FormEditPengajuan({
           ? findProvince[0].label
           : currData.DataPengajuanAlamat.provinsi
         : findProvinceDomisili[0]
-        ? findProvinceDomisili[0].label
-        : currData.DataPengajuanAlamat.provinsi_domisili,
+          ? findProvinceDomisili[0].label
+          : currData.DataPengajuanAlamat.provinsi_domisili,
       kode_pos_domisili: domisiliSama ? e.kode_pos : e.kode_pos_domisili,
       geo_location: e.geo_location,
       alamat: alamat || null,
@@ -207,6 +207,11 @@ export default function FormEditPengajuan({
       tempat_lahir_pasangan: e.tempat_lahir_pasangan || null,
       tanggal_lahir_pasangan: e.tanggal_lahir_pasangan || null,
       nik_pasangan: e.nik_pasangan || null,
+      alamat_pasangan: e.alamat_pasangan || null,
+      kelurahan_pasangan: e.kelurahan_pasangan || null,
+      kota_pasangan: e.kota_pasangan || null,
+      provinsi_pasangan: e.provinsi_pasangan || null,
+      kode_pos_pasangan: e.kode_pos_pasangan || null,
       masa_ktp_pasangan: e.masa_ktp_pasangan || null,
       pekerjaan_pasangan: e.pekerjaan_pasangan || null,
       nama_keluarga_tidak_serumah: e.keluarga_tidak_serumah || null,
@@ -258,11 +263,11 @@ export default function FormEditPengajuan({
           label: u.first_name + " " + u.last_name,
           value: u.id,
         };
-      })
+      }),
     );
 
     const filte = fullCabang.filter(
-      (e) => e.unit === currData.area_pelayanan_berkas
+      (e) => e.unit === currData.area_pelayanan_berkas,
     );
     form.setFieldsValue({
       nama: currData.DataPembiayaan.name,
@@ -307,27 +312,29 @@ export default function FormEditPengajuan({
       tempat_lahir_pasangan:
         currData.DataPengajuanPasangan.tempat_lahir_pasangan || "-",
       nik_pasangan: currData.DataPengajuanPasangan.nik_pasangan,
+      alamat_pasangan: currData.DataPengajuanPasangan.alamat_pasangan,
+      kelurahan_pasangan: currData.DataPengajuanPasangan.kelurahan_pasangan,
+      kecamatan_pasangan: currData.DataPengajuanPasangan.kecamatan_pasangan,
+      kota_pasangan: currData.DataPengajuanPasangan.kota_pasangan,
+      provinsi_pasangan: currData.DataPengajuanPasangan.provinsi_pasangan,
+      kode_pos_pasangan: currData.DataPengajuanPasangan.kode_pos_pasangan,
       pekerjaan_pasangan: currData.DataPengajuanPasangan.pekerjaan_pasangan,
       no_sk_pensiun: currData.nomor_sk_pensiun,
       penerbit_sk: currData.penerbit_sk,
       jenis_pensiun: currData.jenis_pensiun,
-      tanggal_lahir_pasangan:
-        currData.status_kawin === "KAWIN" &&
-        moment(currData.DataPengajuanPasangan.tanggal_lahir_pasangan).format(
-          "YYYY-MM-DD"
-        ),
-      masa_ktp_pasangan:
-        currData.status_kawin === "KAWIN" &&
-        moment(currData.DataPengajuanPasangan.masa_ktp_pasangan).format(
-          "YYYY-MM-DD"
-        ),
+      tanggal_lahir_pasangan: moment(
+        currData.DataPengajuanPasangan.tanggal_lahir_pasangan,
+      ).format("YYYY-MM-DD"),
+      masa_ktp_pasangan: moment(
+        currData.DataPengajuanPasangan.masa_ktp_pasangan,
+      ).format("YYYY-MM-DD"),
       keluarga_tidak_serumah:
         currData.DataPengajuanPasangan.nama_keluarga_tidak_serumah,
       hubungan_keluarga: currData.DataPengajuanPasangan.hubungan,
       no_telepon_keluarga: currData.DataPengajuanPasangan.no_telepon_keluarga,
       alamat_keluarga: currData.DataPengajuanPasangan.alamat_keluarga,
       tanggal_sk_pensiun: moment(currData.tanggal_sk_pensiun).format(
-        "YYYY-MM-DD"
+        "YYYY-MM-DD",
       ),
       tmt_pensiun: moment(currData.tmt_pensiun).format("YYYY-MM-DD"),
       tujuan_penggunaan1: currData.tujuan_penggunaan1,
@@ -1163,14 +1170,11 @@ export default function FormEditPengajuan({
             <div className="block md:flex gap-5 justify-between items-end">
               <div className="block md:flex md:flex-1 gap-5 items-end">
                 <Form.Item
-                  label="Nama Pasangan"
+                  label="Nama Ahliwaris"
                   name={"nama_pasangan"}
                   className="flex-1"
-                  required={!statusKawinDisable}
                 >
                   <Input
-                    disabled={statusKawinDisable}
-                    required={!statusKawinDisable}
                     onChange={() =>
                       setlastActivity((prev: string | undefined) => {
                         if (prev && prev.includes(`Edit Nama Pasangan`)) {
@@ -1186,13 +1190,10 @@ export default function FormEditPengajuan({
                 </Form.Item>
                 <Form.Item
                   className="flex-1"
-                  label="Tempat Lahir Pasangan"
+                  label="Tempat Lahir Ahliwaris"
                   name={"tempat_lahir_pasangan"}
-                  required={!statusKawinDisable}
                 >
                   <Input
-                    disabled={statusKawinDisable}
-                    required={!statusKawinDisable}
                     onChange={() =>
                       setlastActivity((prev: string | undefined) => {
                         if (
@@ -1212,14 +1213,11 @@ export default function FormEditPengajuan({
               </div>
             </div>
             <Form.Item
-              label="No NIK Pasangan"
+              label="No NIK Ahliwaris"
               name={"nik_pasangan"}
               className="w-full md:flex-1"
-              required={!statusKawinDisable}
             >
               <Input
-                disabled={statusKawinDisable}
-                required={!statusKawinDisable}
                 onChange={() =>
                   setlastActivity((prev: string | undefined) => {
                     if (prev && prev.includes(`Edit NIK Pasangan`)) {
@@ -1234,15 +1232,12 @@ export default function FormEditPengajuan({
             <div className="block md:flex gap-5 justify-between items-end">
               <div className="flex-1 md:flex gap-5 items-end">
                 <Form.Item
-                  label="Tanggal Lahir Pasangan"
+                  label="Tanggal Lahir Ahliwaris"
                   name={"tanggal_lahir_pasangan"}
                   className="flex-1"
-                  required={!statusKawinDisable}
                 >
                   <Input
                     type="date"
-                    disabled={statusKawinDisable}
-                    required={!statusKawinDisable}
                     onChange={() =>
                       setlastActivity((prev: string | undefined) => {
                         if (
@@ -1260,15 +1255,147 @@ export default function FormEditPengajuan({
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Masa Berlaku KTP Pasangan"
+                  label="Masa KTP Ahliwaris"
                   name={"masa_ktp_pasangan"}
                   className="flex-1"
-                  required={!statusKawinDisable}
                 >
                   <Input
                     type="date"
-                    disabled={statusKawinDisable}
-                    required={!statusKawinDisable}
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Masa KTP Pasangan`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Masa KTP Pasangan,`;
+                        }
+                      })
+                    }
+                  />
+                </Form.Item>
+              </div>
+            </div>
+            <div className="block md:flex gap-5 justify-between items-end">
+              <div className="flex-1 md:flex gap-5 items-end">
+                <Form.Item
+                  label="Alamat ahliwaris"
+                  name={"alamat_pasangan"}
+                  className="flex-1"
+                >
+                  <Input.TextArea
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (
+                          prev &&
+                          prev.includes(`Edit Tanggal Lahir Pasangan`)
+                        ) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Tanggal Lahir Pasangan,`;
+                        }
+                      })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Kelurahan Pasangan"
+                  name={"kelurahan_pasangan"}
+                  className="flex-1"
+                >
+                  <Input
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Masa KTP Pasangan`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Masa KTP Pasangan,`;
+                        }
+                      })
+                    }
+                  />
+                </Form.Item>
+              </div>
+            </div>
+            <div className="block md:flex gap-5 justify-between items-end">
+              <div className="flex-1 md:flex gap-5 items-end">
+                <Form.Item
+                  label="Kecamatan ahliwaris"
+                  name={"kecamatan_pasangan"}
+                  className="flex-1"
+                >
+                  <Input
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (
+                          prev &&
+                          prev.includes(`Edit Tanggal Lahir Pasangan`)
+                        ) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Tanggal Lahir Pasangan,`;
+                        }
+                      })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Kota Pasangan"
+                  name={"kota_pasangan"}
+                  className="flex-1"
+                >
+                  <Input
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (prev && prev.includes(`Edit Masa KTP Pasangan`)) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Masa KTP Pasangan,`;
+                        }
+                      })
+                    }
+                  />
+                </Form.Item>
+              </div>
+            </div>
+            <div className="block md:flex gap-5 justify-between items-end">
+              <div className="flex-1 md:flex gap-5 items-end">
+                <Form.Item
+                  label="Provinsi ahliwaris"
+                  name={"provinsi_pasangan"}
+                  className="flex-1"
+                >
+                  <Input
+                    onChange={() =>
+                      setlastActivity((prev: string | undefined) => {
+                        if (
+                          prev &&
+                          prev.includes(`Edit Tanggal Lahir Pasangan`)
+                        ) {
+                          return prev;
+                        } else {
+                          return `${
+                            prev ? prev + " " : ""
+                          } Edit Tanggal Lahir Pasangan,`;
+                        }
+                      })
+                    }
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="Kodepos Pasangan"
+                  name={"kode_pos_pasangan"}
+                  className="flex-1"
+                >
+                  <Input
                     onChange={() =>
                       setlastActivity((prev: string | undefined) => {
                         if (prev && prev.includes(`Edit Masa KTP Pasangan`)) {
@@ -1287,12 +1414,9 @@ export default function FormEditPengajuan({
             <Form.Item
               label="Pekerjaan Saat Ini"
               name={"pekerjaan_pasangan"}
-              required={!statusKawinDisable}
               className="flex-1"
             >
               <Input
-                disabled={statusKawinDisable}
-                required={!statusKawinDisable}
                 onChange={() =>
                   setlastActivity((prev: string | undefined) => {
                     if (prev && prev.includes(`Edit Pekerjaan Pasangan`)) {

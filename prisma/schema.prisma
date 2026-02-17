@@ -382,6 +382,11 @@ model DataPengajuanKeluarga {
   nik_pasangan                String?
   masa_ktp_pasangan           String?
   pekerjaan_pasangan          String?
+  kelurahan_pasangan          String?
+  kecamatan_pasangan          String?
+  kota_pasangan               String?
+  provinsi_pasangan           String?
+  kode_pos_pasangan           String?
   nama_keluarga_tidak_serumah String?
   hubungan                    String?
   no_telepon_keluarga         String?
