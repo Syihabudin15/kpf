@@ -956,10 +956,13 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
         >
           <View style={{ flex: 1 }}>
             <Text style={{ fontWeight: "bold" }}>PT. BPR HARTA MULIA</Text>
-            <View style={{ height: 95 }}></View>
-            <View
-              style={{ width: "100%", borderBottom: "1px solid #eee" }}
-            ></View>
+            <View style={{ height: 80 }}>
+              <Text style={{ fontSize: 8, opacity: 0.6, marginTop: 20 }}></Text>
+            </View>
+            <Text style={{ borderBottom: "1px solid #eee" }}>
+              NANDANG HERMAWAN
+            </Text>
+            <Text>Direktur Pengelola</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Text style={{ fontWeight: "bold" }}>Debitur</Text>

@@ -209,6 +209,7 @@ export default function FormEditPengajuan({
       nik_pasangan: e.nik_pasangan || null,
       alamat_pasangan: e.alamat_pasangan || null,
       kelurahan_pasangan: e.kelurahan_pasangan || null,
+      kecamatan_pasangan: e.kecamatan_pasangan || null,
       kota_pasangan: e.kota_pasangan || null,
       provinsi_pasangan: e.provinsi_pasangan || null,
       kode_pos_pasangan: e.kode_pos_pasangan || null,
@@ -1279,7 +1280,7 @@ export default function FormEditPengajuan({
             <div className="block md:flex gap-5 justify-between items-end">
               <div className="flex-1 md:flex gap-5 items-end">
                 <Form.Item
-                  label="Alamat ahliwaris"
+                  label="Alamat Ahliwaris"
                   name={"alamat_pasangan"}
                   className="flex-1"
                 >
@@ -1301,7 +1302,7 @@ export default function FormEditPengajuan({
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Kelurahan Pasangan"
+                  label="Kelurahan Ahliwaris"
                   name={"kelurahan_pasangan"}
                   className="flex-1"
                 >
@@ -1324,7 +1325,7 @@ export default function FormEditPengajuan({
             <div className="block md:flex gap-5 justify-between items-end">
               <div className="flex-1 md:flex gap-5 items-end">
                 <Form.Item
-                  label="Kecamatan ahliwaris"
+                  label="Kecamatan Ahliwaris"
                   name={"kecamatan_pasangan"}
                   className="flex-1"
                 >
@@ -1346,7 +1347,7 @@ export default function FormEditPengajuan({
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Kota Pasangan"
+                  label="Kota Ahilwaris"
                   name={"kota_pasangan"}
                   className="flex-1"
                 >
@@ -1369,7 +1370,7 @@ export default function FormEditPengajuan({
             <div className="block md:flex gap-5 justify-between items-end">
               <div className="flex-1 md:flex gap-5 items-end">
                 <Form.Item
-                  label="Provinsi ahliwaris"
+                  label="Provinsi Ahliwaris"
                   name={"provinsi_pasangan"}
                   className="flex-1"
                 >
@@ -1391,7 +1392,7 @@ export default function FormEditPengajuan({
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Kodepos Pasangan"
+                  label="Kodepos Ahilwaris"
                   name={"kode_pos_pasangan"}
                   className="flex-1"
                 >
@@ -1412,7 +1413,7 @@ export default function FormEditPengajuan({
               </div>
             </div>
             <Form.Item
-              label="Pekerjaan Saat Ini"
+              label="Pekerjaan Ahilwaris"
               name={"pekerjaan_pasangan"}
               className="flex-1"
             >
