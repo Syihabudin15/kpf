@@ -513,11 +513,10 @@ model User {
   simpanan_bulanan Float?
 
   DataPembiayaan DataPembiayaan[]
-
   unit_cabang_id String?
-  UnitCabang     UnitCabang?     @relation(fields: [unit_cabang_id], references: [id])
+  UnitCabang     UnitCabang?      @relation(fields: [unit_cabang_id], references: [id])
   DataPengajuan  DataPengajuan[]
-  Bank           Bank?           @relation(fields: [bank_id], references: [id])
+  Bank           Bank?            @relation(fields: [bank_id], references: [id])
   bank_id        String?
   Cost           Cost[]
 }

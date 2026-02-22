@@ -6,6 +6,7 @@ import { DataDataPengajuan } from "../Interfaces";
 import moment from "moment";
 import { IDRFormat } from "@/components/v1/appUtils";
 import { getAngsuran } from "@/components/Utils";
+import { getAngsuranPerBulan } from "@/components/views/simulasi/simulasiUtil";
 const angkaTerbilang = require("angka-menjadi-terbilang");
 
 export default function PKHM({ data }: { data: DataDataPengajuan }) {
@@ -16,13 +17,16 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
     data.DataPembiayaan.pembulatan,
     data.jenis_margin,
   ).angsuran;
-  const angsSudan = getAngsuran(
-    data.DataPembiayaan.plafond,
-    data.DataPembiayaan.tenor,
+  const ands = getAngsuranPerBulan(
     data.DataPembiayaan.margin_bank,
-    1,
-    data.jenis_margin,
-  ).angsuran;
+    data.DataPembiayaan.tenor,
+    data.DataPembiayaan.plafond,
+    false,
+    false,
+    data.Bank.kode,
+    false,
+  );
+  const angsSudan = Math.round(Number(ands));
   const admin =
     data.DataPembiayaan.plafond *
     ((data.DataPembiayaan.by_admin + data.DataPembiayaan.by_admin_bank) / 100);
@@ -124,7 +128,7 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
             <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
               <Text style={{ width: 100 }}>Alamat</Text>
               <Text style={{ width: 5 }}>:</Text>
-              <Text style={{ width: 300 }}>
+              <Text style={{ width: 350 }}>
                 {data.DataPengajuanAlamat.alamat} RT{" "}
                 {data.DataPengajuanAlamat.rt} RW {data.DataPengajuanAlamat.rw}{" "}
                 KELURAHAN {data.DataPengajuanAlamat.kelurahan} KECAMATAN{" "}
@@ -175,7 +179,7 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
             >
               <Text style={{ width: 100 }}>Alamat</Text>
               <Text style={{ width: 5 }}>:</Text>
-              <Text>
+              <Text style={{ width: 350 }}>
                 {data.DataPengajuanPasangan.alamat_pasangan} KELURAHAN{" "}
                 {data.DataPengajuanPasangan.kelurahan_pasangan} KECAMATAN{" "}
                 {data.DataPengajuanPasangan.kecamatan_pasangan}{" "}
@@ -565,7 +569,7 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
         <View>
           <View style={{ textAlign: "center", fontWeight: "bold", margin: 10 }}>
             <Text>Pasal 6</Text>
-            <Text>KEWAJIBAN NASABAH</Text>
+            <Text>PEMBAYARAN KEMBALI KREDIT</Text>
           </View>
           <View>
             <View style={{ display: "flex", gap: 4, flexDirection: "row" }}>
@@ -624,7 +628,7 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
             </View>
           </View>
 
-          <View>
+          <View style={{ marginTop: 10 }}>
             <View
               style={{ textAlign: "center", fontWeight: "bold", margin: 10 }}
             >

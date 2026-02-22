@@ -345,14 +345,14 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Nama Pasangan" name={"nama_pasangan"}>
+              <Form.Item label="Nama Ahliwaris" name={"nama_pasangan"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
               <Form.Item
-                label="Tempat Lahir Pasangan"
+                label="Tempat Lahir Ahliwaris"
                 name={"tempat_lahir_pasangan"}
               >
                 <Input
@@ -360,19 +360,58 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Nomor NIK Pasangan" name={"nik_pasangan"}>
+              <Form.Item label="Nomor NIK Ahliwaris" name={"nik_pasangan"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Masa KTP Pasangan" name={"masa_ktp_pasangan"}>
+              <Form.Item label="Masa KTP Ahliwaris" name={"masa_ktp_pasangan"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Pekerjaan Saat Ini" name={"pekerjaan_pasangan"}>
+              <Form.Item
+                label="Pekerjaan Ahliwaris"
+                name={"pekerjaan_pasangan"}
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Alamat Ahliwaris" name={"alamat_pasangan"}>
+                <Input.TextArea
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Kelurahan Ahliwaris"
+                name={"kelurahan_pasangan"}
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Kecamatan Ahliwaris"
+                name={"kecamatan_pasangan"}
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Provinsi Ahliwaris" name={"provinsi_pasangan"}>
+                <Input.TextArea
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Kodepos Ahliwaris" name={"kode_pos_pasangan"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -986,14 +1025,14 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Nama Pasangan" name={"nama_pasangan"}>
+              <Form.Item label="Nama Ahliwaris" name={"nama_pasangan"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
               <Form.Item
-                label="Tempat Lahir Pasangan"
+                label="Tempat Lahir Ahliwaris"
                 name={"tempat_lahir_pasangan"}
               >
                 <Input
@@ -1001,19 +1040,73 @@ export default function TabsForm({
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Nomor NIK Pasangan" name={"nik_pasangan"}>
+              <Form.Item
+                label="Tanggal Lahir Ahilwaris"
+                name={"tanggal_lahir_pasangan"}
+              >
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Masa KTP Pasangan" name={"masa_ktp_pasangan"}>
+              <Form.Item label="NIK Ahliwaris" name={"nik_pasangan"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </Form.Item>
-              <Form.Item label="Pekerjaan Saat Ini" name={"pekerjaan_pasangan"}>
+              <Form.Item label="Masa KTP Ahliwairs" name={"masa_ktp_pasangan"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Pekerjaan Ahliwairs"
+                name={"pekerjaan_pasangan"}
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Alamat Ahliwairs" name={"alamat_pasangan"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Kelurahan Ahliwairs"
+                name={"kelurahan_pasangan"}
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item
+                label="Kecamatan Ahliwairs"
+                name={"kecamatan_pasangan"}
+              >
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Kota Ahliwairs" name={"kota_pasangan"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Provinsi Ahliwairs" name={"provinsi_pasangan"}>
+                <Input
+                  disabled
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </Form.Item>
+              <Form.Item label="Kodepos Ahliwairs" name={"kode_pos_pasangan"}>
                 <Input
                   disabled
                   style={{ backgroundColor: "white", color: "black" }}
@@ -1383,10 +1476,10 @@ export default function TabsForm({
                 data?.DataPembiayaan.tenor,
                 data?.DataPembiayaan.plafond,
                 false,
-                true
-              )
+                true,
+              ),
             ),
-            data?.DataPembiayaan.pembulatan
+            data?.DataPembiayaan.pembulatan,
           )
         : ceiling(
             parseInt(
@@ -1397,10 +1490,10 @@ export default function TabsForm({
                 false,
                 false,
                 data.Bank.kode,
-                data.DataPembiayaan.pembulatanKhusus
-              )
+                data.DataPembiayaan.pembulatanKhusus,
+              ),
             ),
-            data?.DataPembiayaan.pembulatan
+            data?.DataPembiayaan.pembulatan,
           );
     const kotor =
       (data?.DataPembiayaan.plafond || 0) -
@@ -1430,7 +1523,7 @@ export default function TabsForm({
       juru_bayar_tujuan: data?.DataPembiayaan.juru_bayar_tujuan || "",
       tanggal_lahir: data?.DataPembiayaan.tanggal_lahir || "",
       gaji_bersih: formatNumber(
-        (data?.DataPembiayaan.gaji_bersih || 0).toString()
+        (data?.DataPembiayaan.gaji_bersih || 0).toString(),
       ),
       produk_pembiayaan: data?.DataPembiayaan.Produk.name || "",
       jenis_pembiayaan: data?.DataPembiayaan.jenis_pembiayaan_id
@@ -1442,7 +1535,7 @@ export default function TabsForm({
         (
           (data?.DataPembiayaan.plafond || 0) *
           (data?.DataPembiayaan.fee ? data?.DataPembiayaan.fee / 100 : 0)
-        ).toFixed(0)
+        ).toFixed(0),
       ),
       tenor: data?.DataPembiayaan.tenor || 0,
       plafond: formatNumber((data?.DataPembiayaan.plafond || 0).toString()),
@@ -1454,48 +1547,48 @@ export default function TabsForm({
           ((data?.DataPembiayaan.by_admin || 0) / 100)
         )
           .toFixed(0)
-          .toString()
+          .toString(),
       ),
       biaya_admin_bank: formatNumber(
         (
           (data?.DataPembiayaan.plafond || 0) *
           ((data?.DataPembiayaan.by_admin_bank || 0) / 100)
-        ).toString()
+        ).toString(),
       ),
       biaya_lainnya: formatNumber(
         (
           (data?.DataPembiayaan.plafond || 0) *
           ((data?.DataPembiayaan.by_lainnya || 0) / 100)
-        ).toString()
+        ).toString(),
       ),
       biaya_asuransi: formatNumber(
         (
           (data?.DataPembiayaan.plafond || 0) *
           ((data?.DataPembiayaan.by_asuransi || 0) / 100)
-        ).toFixed(0)
+        ).toFixed(0),
       ),
       biaya_tatalaksana: formatNumber(
-        (data?.DataPembiayaan.by_tatalaksana || 0).toString()
+        (data?.DataPembiayaan.by_tatalaksana || 0).toString(),
       ),
       biaya_mutasi: formatNumber(
-        (data?.DataPembiayaan.by_mutasi || 0).toString()
+        (data?.DataPembiayaan.by_mutasi || 0).toString(),
       ),
       biaya_provisi: formatNumber(
-        (data?.DataPembiayaan.by_provisi || 0).toString()
+        (data?.DataPembiayaan.by_provisi || 0).toString(),
       ),
       biaya_materai: formatNumber(
-        (data?.DataPembiayaan.by_materai || 0).toString()
+        (data?.DataPembiayaan.by_materai || 0).toString(),
       ),
       biaya_data_informasi: formatNumber(
         (
           data.DataPembiayaan.by_epotpen + data.DataPembiayaan.by_flagging
-        ).toFixed(0)
+        ).toFixed(0),
       ),
       biaya_buka_rekening: formatNumber(
-        (data?.DataPembiayaan.by_buka_rekening || 0).toString()
+        (data?.DataPembiayaan.by_buka_rekening || 0).toString(),
       ),
       blokir_angsuran: formatNumber(
-        ((data?.DataPembiayaan.blokir || 0) * angs).toString()
+        ((data?.DataPembiayaan.blokir || 0) * angs).toString(),
       ),
       terima_kotor: formatNumber(kotor.toString()),
       bpp: formatNumber((data?.DataPembiayaan.bpp || 0).toString()),
@@ -1504,10 +1597,10 @@ export default function TabsForm({
         (
           kotor -
           ((data?.DataPembiayaan.bpp || 0) + data.DataPembiayaan.pelunasan || 0)
-        ).toString()
+        ).toString(),
       ),
       sisa_gaji: formatNumber(
-        ((data?.DataPembiayaan.gaji_bersih || 0) - angs).toString()
+        ((data?.DataPembiayaan.gaji_bersih || 0) - angs).toString(),
       ),
       unit_pelayanan: data.area_pelayanan_berkas || data?.User.UnitCabang.name,
       marketing:
@@ -1563,16 +1656,21 @@ export default function TabsForm({
       alamat_pasangan: data.DataPengajuanPasangan.alamat_pasangan,
       tanggal_lahir_pasangan: data?.DataPengajuanPasangan.tanggal_lahir_pasangan
         ? moment(data?.DataPengajuanPasangan.tanggal_lahir_pasangan).format(
-            "DD-MM-YYYY"
+            "DD-MM-YYYY",
           )
         : "",
       nik_pasangan: data?.DataPengajuanPasangan.nik_pasangan,
       masa_ktp_pasangan: data?.DataPengajuanPasangan.masa_ktp_pasangan
         ? moment(data?.DataPengajuanPasangan.masa_ktp_pasangan).format(
-            "DD-MM-YYYY"
+            "DD-MM-YYYY",
           )
         : "",
       pekerjaan_pasangan: data?.DataPengajuanPasangan.pekerjaan_pasangan,
+      kelurahan_pasangan: data?.DataPengajuanPasangan.kelurahan_pasangan,
+      kecamatan_pasangan: data?.DataPengajuanPasangan.kecamatan_pasangan,
+      kota_pasangan: data?.DataPengajuanPasangan.kota_pasangan,
+      provinsi_pasangan: data?.DataPengajuanPasangan.provinsi_pasangan,
+      kode_pos_pasangan: data?.DataPengajuanPasangan.kode_pos_pasangan,
       nama_keluarga_tidak_serumah:
         data?.DataPengajuanPasangan.nama_keluarga_tidak_serumah,
       hubungan: data?.DataPengajuanPasangan.hubungan,

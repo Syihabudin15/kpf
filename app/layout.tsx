@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: `%s | ${process.env.NEXT_PUBLIC_APP_NAME_HEADER || ""}`,
   },
   icons: new URL(
-    `${process.env.NEXTAUTH_URL || ""}${process.env.NEXT_PUBLIC_APP_LOGO || ""}`
+    `${process.env.NEXTAUTH_URL || ""}${process.env.NEXT_PUBLIC_APP_LOGO || ""}`,
   ),
 };
 
@@ -23,8 +23,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <body className={inter.className}> */}
-
       <body>
         <AuthProvider>
           <AntdRegistry>
