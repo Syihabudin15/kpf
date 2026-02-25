@@ -25,6 +25,7 @@ import PKHasamitra from "@/components/utils/pdf/PKHasamitra";
 import PKHasamitra2 from "@/components/utils/pdf/PKHasamitra2";
 import PKSaga from "@/components/utils/pdf/PKSaga";
 import PKHasamitra3 from "@/components/utils/pdf/PKHasamitra3";
+import JadwalAngsuranSaga from "@/components/utils/pdf/JadwalAngsuranSaga";
 
 export default function Akad({
   data,
@@ -38,12 +39,28 @@ export default function Akad({
       <PDFViewer className="w-full h-full">
         <Document title="Akad Pinjaman">
           <AnalisaPerhitungan data={data} />
-          <JadwalAngsuran data={data} isFor="DEBITUR" angsurans={angsurans} />
-          <JadwalAngsuran
-            data={data}
-            isFor={data.Bank.kode || "BPRS"}
-            angsurans={angsurans}
-          />
+          {data.Bank.kode === "BPR SAGA" ? (
+            <JadwalAngsuranSaga
+              data={data}
+              isFor="DEBITUR"
+              angsurans={angsurans}
+            />
+          ) : (
+            <JadwalAngsuran data={data} isFor="DEBITUR" angsurans={angsurans} />
+          )}
+          {data.Bank.kode === "BPR SAGA" ? (
+            <JadwalAngsuranSaga
+              data={data}
+              isFor={data.Bank.kode || "BPRS"}
+              angsurans={angsurans}
+            />
+          ) : (
+            <JadwalAngsuran
+              data={data}
+              isFor={data.Bank.kode || "BPRS"}
+              angsurans={angsurans}
+            />
+          )}
           {data.DataPembiayaan.Produk.name === "Flash Sisa Gaji" ? (
             <>
               <PerjanjianKreditFlashPage1 data={data} />
