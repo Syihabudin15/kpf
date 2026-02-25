@@ -79,7 +79,7 @@ export default function PKHasamitra3({ data }: { data: DataDataPengajuan }) {
       >
         <Text style={{ width: 8 }}>II.</Text>
         <Text>
-          Eva Dajar Nurhasanah dalam jabatannya selaku Ketua KOPERASI JASA
+          Eva Fajar Nurhasanah dalam jabatannya selaku Ketua KOPERASI JASA
           FADILLAH AQILA SEJAHTRA, berdasarkan Perjanjian Kerjasama No.
           027/FAS/PKS/II/2026 dan No. 023/BPR-HM-JB/PKS/II/2026. tanggal
           …………………………………………………… antara KOPERASI JASA FADILLAH AQILA SEJAHTRA dan
