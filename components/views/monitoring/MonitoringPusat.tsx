@@ -42,7 +42,7 @@ const EditPengajuan = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 const CetakAkad = dynamic(
@@ -50,7 +50,7 @@ const CetakAkad = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
@@ -63,7 +63,7 @@ const CetakForm = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 const ViewBerkasPengajuan = dynamic(
@@ -71,7 +71,7 @@ const ViewBerkasPengajuan = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 export default function MonitoringPusat() {
@@ -102,7 +102,7 @@ export default function MonitoringPusat() {
   useEffect(() => {
     (async () => {
       const resProvinsi = await fetch(
-        "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"
+        "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json",
       );
       const dataProvinsi = await resProvinsi.json();
       setProvinsi(
@@ -111,7 +111,7 @@ export default function MonitoringPusat() {
             label: data.name,
             value: data.id,
           };
-        })
+        }),
       );
 
       const resUp = await fetch("/api/master/unit/pelayanan");
@@ -145,7 +145,7 @@ export default function MonitoringPusat() {
     const res = await fetch(
       `/api/monitoring/pusat?page=${page}&pageSize=${pageSize}${
         nameOrNopen ? "&name=" + nameOrNopen : ""
-      }${from ? "&from=" + from : ""}${to ? "&to=" + to : ""}`
+      }${from ? "&from=" + from : ""}${to ? "&to=" + to : ""}`,
     );
     const { data, total, banks } = await res.json();
     const newBank =
@@ -163,7 +163,7 @@ export default function MonitoringPusat() {
         currData &&
         currData.filter(
           (d: DataDataPengajuan) =>
-            d.DataPembiayaan.jenis_pembiayaan_id === null
+            d.DataPembiayaan.jenis_pembiayaan_id === null,
         );
     }
     if (group === "REGULER") {
@@ -171,7 +171,7 @@ export default function MonitoringPusat() {
         currData &&
         currData.filter(
           (d: DataDataPengajuan) =>
-            d.DataPembiayaan.jenis_pembiayaan_id !== null
+            d.DataPembiayaan.jenis_pembiayaan_id !== null,
         );
     }
     if (pencairan === "PROSES") {
@@ -179,7 +179,7 @@ export default function MonitoringPusat() {
         currData &&
         currData.filter(
           (d: DataDataPengajuan) =>
-            d.status_approval === "SETUJU" && d.status_pencairan !== "TRANSFER"
+            d.status_approval === "SETUJU" && d.status_pencairan !== "TRANSFER",
         );
     }
     if (pencairan === "ANTRI") {
@@ -190,21 +190,21 @@ export default function MonitoringPusat() {
             (d.status_approval === "ANTRI" ||
               d.status_slik === "ANTRI" ||
               d.status_verifikasi === "ANTRI") &&
-            d.status_pencairan !== "BATAL"
+            d.status_pencairan !== "BATAL",
         );
     }
     if (pencairan === "CAIR") {
       currData =
         currData &&
         currData.filter(
-          (d: DataDataPengajuan) => d.status_pencairan === "TRANSFER"
+          (d: DataDataPengajuan) => d.status_pencairan === "TRANSFER",
         );
     }
     if (pencairan === "BATAL") {
       currData =
         currData &&
         currData.filter(
-          (d: DataDataPengajuan) => d.status_pencairan === "BATAL"
+          (d: DataDataPengajuan) => d.status_pencairan === "BATAL",
         );
     }
     if (selectedBank) {
@@ -216,7 +216,7 @@ export default function MonitoringPusat() {
     setData(
       currData.map((d: DataDataPengajuan) => {
         return { ...d, key: d.id };
-      })
+      }),
     );
     setTotal(total);
     setLoading(false);
@@ -340,7 +340,7 @@ export default function MonitoringPusat() {
         return (
           <Tooltip
             title={`Last Update: ${moment(
-              record.DataPembiayaan.updated_at
+              record.DataPembiayaan.updated_at,
             ).format("DD-MM-YYYY")}`}
           >
             {moment(record.DataPembiayaan.created_at).format("DD-MM-YYYY")}
@@ -480,7 +480,8 @@ export default function MonitoringPusat() {
               }}
               key={"akad" + record.id}
             />
-            {record.status_approval === "SETUJU" && <CetakAkad data={record} />}
+            {/* {record.status_approval === "SETUJU" && <CetakAkad data={record} />} */}
+            <CetakAkad data={record} />
           </div>
         );
       },
@@ -539,8 +540,8 @@ export default function MonitoringPusat() {
                   status === "SETUJU"
                     ? "green-inverse"
                     : ["ANTRI", "PENDING"].includes(status)
-                    ? "orange-inverse"
-                    : "red-inverse"
+                      ? "orange-inverse"
+                      : "red-inverse"
                 }
                 style={{ width: 70, textAlign: "center" }}
                 className="font-bold"
@@ -590,8 +591,8 @@ export default function MonitoringPusat() {
                   status === "SETUJU"
                     ? "green-inverse"
                     : ["ANTRI", "PENDING"].includes(status)
-                    ? "orange-inverse"
-                    : "red-inverse"
+                      ? "orange-inverse"
+                      : "red-inverse"
                 }
                 style={{ width: 70, textAlign: "center" }}
                 className="font-bold"
@@ -641,8 +642,8 @@ export default function MonitoringPusat() {
                   status === "SETUJU"
                     ? "green-inverse"
                     : ["ANTRI", "PENDING"].includes(status)
-                    ? "orange-inverse"
-                    : "red-inverse"
+                      ? "orange-inverse"
+                      : "red-inverse"
                 }
                 style={{ width: 70, textAlign: "center" }}
                 className="font-bold"
@@ -692,10 +693,10 @@ export default function MonitoringPusat() {
                   !status
                     ? "orange"
                     : status === "TRANSFER"
-                    ? "green-inverse"
-                    : status === "PROSES"
-                    ? "blue-inverse"
-                    : "red-inverse"
+                      ? "green-inverse"
+                      : status === "PROSES"
+                        ? "blue-inverse"
+                        : "red-inverse"
                 }
                 style={{ width: 70, textAlign: "center" }}
                 className="font-bold"
@@ -862,8 +863,8 @@ export default function MonitoringPusat() {
                 loading
                   ? true
                   : record.status_pencairan === "TRANSFER"
-                  ? true
-                  : false
+                    ? true
+                    : false
               }
               style={{
                 opacity: record.status_pencairan === "TRANSFER" ? 0.5 : 1,

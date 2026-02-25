@@ -21,6 +21,10 @@ import AkadBBTM from "@/components/utils/pdf/AkadBBTM";
 import PKDassa from "@/components/utils/pdf/PKDassa";
 import PKDassa2 from "@/components/utils/pdf/PKDassa2";
 import PKHM from "@/components/utils/pdf/PKHM";
+import PKHasamitra from "@/components/utils/pdf/PKHasamitra";
+import PKHasamitra2 from "@/components/utils/pdf/PKHasamitra2";
+import PKSaga from "@/components/utils/pdf/PKSaga";
+import PKHasamitra3 from "@/components/utils/pdf/PKHasamitra3";
 
 export default function Akad({
   data,
@@ -70,6 +74,10 @@ export default function Akad({
           {data.Bank.kode === "BPR DASSA" && <PKDassa data={data} />}
           {data.Bank.kode === "BPR DASSA" && <PKDassa2 data={data} />}
           {data.Bank.kode === "BPR HM" && <PKHM data={data} />}
+          {data.Bank.kode === "BPR HASAMITRA" && <PKHasamitra3 data={data} />}
+          {data.Bank.kode === "BPR HASAMITRA" && <PKHasamitra data={data} />}
+          {data.Bank.kode === "BPR HASAMITRA" && <PKHasamitra2 data={data} />}
+          {data.Bank.kode === "BPR SAGA" && <PKSaga data={data} />}
         </Document>
       </PDFViewer>
     </div>

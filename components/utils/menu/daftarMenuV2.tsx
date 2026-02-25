@@ -162,13 +162,13 @@ export const menusV2: Menus[] = [
   },
   {
     label: "Pengajuan SI",
-    role: ["BANK"],
+    role: ["BANK", "APPROVAL"],
     url: "/pencairan-bank",
     icon: <BankOutlined />,
     child: [
       {
         label: "Pengajuan Pencairan",
-        role: ["BANK"],
+        role: ["BANK", "APPROVAL"],
         url: "/slik/pencairan",
         icon: <MoneyCollectOutlined />,
       },

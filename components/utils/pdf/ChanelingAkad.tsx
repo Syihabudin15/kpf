@@ -48,10 +48,10 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
               data.DataPembiayaan.tenor,
               data.DataPembiayaan.plafond,
               false,
-              true
-            )
+              true,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         ).toString()
       : ceiling(
           parseInt(
@@ -62,14 +62,14 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
               false,
               false,
               data.Bank.kode,
-              data.DataPembiayaan.pembulatanKhusus
-            )
+              data.DataPembiayaan.pembulatanKhusus,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         ).toString();
   const angsuranPokok = ceiling(
     data.DataPembiayaan.plafond / data.DataPembiayaan.tenor,
-    data.DataPembiayaan.pembulatan
+    data.DataPembiayaan.pembulatan,
   ).toString();
   const angsuranBank =
     data.jenis_margin === "FLAT"
@@ -80,10 +80,10 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
               data.DataPembiayaan.tenor,
               data.DataPembiayaan.plafond,
               false,
-              true
-            )
+              true,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         ).toString()
       : ceiling(
           parseInt(
@@ -94,10 +94,10 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
               false,
               false,
               data.Bank.kode,
-              data.DataPembiayaan.pembulatanKhusus
-            )
+              data.DataPembiayaan.pembulatanKhusus,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         ).toString();
 
   const colfee = (
@@ -158,286 +158,168 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
           </View>
         </View>
         <Text>Yang bertanda tangan di bawah ini :</Text>
-        <View style={{ display: "flex", flexDirection: "row", gap: 8 }}>
-          <Text style={{ padding: "5px 0" }}>I. </Text>
-          <View>
-            <View>
-              <View
-                style={{
-                  padding: "5px 0",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 2,
-                }}
-              >
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: 5,
-                    fontWeight: "bold",
-                  }}
-                >
-                  <Text style={{ width: 100 }}>Nama</Text>
-                  <Text style={{ width: 20 }}>:</Text>
-                  <Text>
-                    {process.env.NEXT_PUBLIC_APP_DIREKTUR ||
-                      "Lodewijk HF Lantang"}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: 5,
-                    fontWeight: "bold",
-                    marginBottom: 5,
-                  }}
-                >
-                  <Text style={{ width: 100 }}>Jabatan</Text>
-                  <Text style={{ width: 20 }}>:</Text>
-                  <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
-                </View>
-                <View
-                  style={{
-                    textAlign: "justify",
-                    lineHeight: 1.2,
-                    width: 490,
-                  }}
-                >
-                  <Text>
-                    Bertindak dalam hal ini berdasarkan Perjanjian Kerjasama
-                    tentang pemberian kredit kepada pensiunan dalam bentuk
-                    penerusan (Channeling) {data.Bank.sk_akad}, yang selanjutnya
-                    disebut{" "}
-                    <View style={{ fontWeight: "bold" }}>
-                      <Text style={{ fontWeight: "bold" }}>{'"BANK"'}</Text>
-                    </View>
-                    .
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    gap: 8,
-                    marginTop: 8,
-                    lineHeight: 1.2,
-                  }}
-                >
-                  <Text> </Text>
-                  <View>
-                    <Text>I.</Text>
-                  </View>
-                  <View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>Nama</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text>{data.DataPembiayaan.name}</Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>NIK</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text>{data.nik}</Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>Tempat/Tanggal Lahir</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text>
-                        {data.DataPembiayaan.tempat_lahir}
-                        {", "}
-                        {data.DataPembiayaan.tanggal_lahir}
-                      </Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>Alamat</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text style={{ width: 300 }}>
-                        {data.DataPengajuanAlamat.alamat}{" "}
-                        {data.DataPengajuanAlamat.rt}/
-                        {data.DataPengajuanAlamat.rw},{" "}
-                        {data.DataPengajuanAlamat.kelurahan}{" "}
-                        {data.DataPengajuanAlamat.kecamatan},{" "}
-                        {data.DataPengajuanAlamat.kota}{" "}
-                        {data.DataPengajuanAlamat.provinsi}{" "}
-                        {data.DataPengajuanAlamat.kode_pos}
-                      </Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>Pekerjaan</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text>{data.pekerjaan_sekarang}</Text>
-                    </View>
-
-                    {/* Data Istri */}
-                    <Text style={{ marginTop: 5 }}>
-                      Dan untuk tindakan hukum ini telah mendapat persetujuan
-                      suami/isterinya :
-                    </Text>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>Nama</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text>{data.DataPengajuanPasangan.nama_pasangan}</Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>NIK</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text>{data.DataPengajuanPasangan.nik_pasangan}</Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>Tempat/Tanggal Lahir</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text>
-                        {data.DataPengajuanPasangan.tempat_lahir_pasangan}{" "}
-                        {data.DataPengajuanPasangan.tanggal_lahir_pasangan}
-                      </Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>Alamat</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text style={{ width: 300 }}>
-                        {data.DataPengajuanPasangan.alamat_pasangan}
-                      </Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text style={{ width: 100 }}>Pekerjaan</Text>
-                      <Text style={{ width: 20 }}>:</Text>
-                      <Text>
-                        {data.DataPengajuanPasangan.pekerjaan_pasangan}
-                      </Text>
-                    </View>
-                    <View style={{ margin: "8px 0" }}>
-                      <Text>
-                        Selanjutnya disebut{" "}
-                        <View style={{ fontWeight: "bold" }}>
-                          <Text style={{ fontWeight: "bold" }}>
-                            {'"DEBITUR"'}
-                          </Text>
-                        </View>
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View style={{ width: 490, lineHeight: 1.2 }}>
+        <View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
+          <Text style={{ width: "8" }}>I. </Text>
+          <View style={{ flex: 1 }}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 5,
+                fontWeight: "bold",
+              }}
+            >
+              <Text style={{ width: 100 }}>Nama</Text>
+              <Text style={{ width: 20 }}>:</Text>
               <Text>
-                Selanjutnya BANK dan DEBITUR terlebih dahulu menerangkan dengan
-                ini telah sepakat untuk mengadakan Perjanjian Kredit
-                (selanjutnya disebut “Perjanjian”) dengan syarat-syarat dan
-                ketentuan-ketentuan sebagai berikut:
+                {process.env.NEXT_PUBLIC_APP_DIREKTUR || "Lodewijk HF Lantang"}
               </Text>
-              <View
-                style={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  marginTop: 10,
-                  marginBottom: 3,
-                  padding: "3px 0",
-                }}
-              >
-                <Text>Pasal 1</Text>
-                <Text>FASILITAS KREDIT</Text>
-              </View>
-              <View>
-                <Text>
-                  BANK dengan ini menyetujui memberikan suatu kredit kepada
-                  DEBITUR dan DEBITUR menyetujui untuk menerima fasilitas kredit
-                  yang disebut Kredit Channeling dengan Plafond Kredit sebesar{" "}
-                  <Text style={{ fontWeight: "bold" }}>
-                    Rp. {formatNumber(data.DataPembiayaan.plafond.toFixed(0))} (
-                    {angkaTerbilang(data.DataPembiayaan.plafond)
-                      .split(" ")
-                      .map(function (word: string) {
-                        return word
-                          .charAt(0)
-                          .toUpperCase()
-                          .concat(word.substr(1));
-                      })
-                      .join(" ")}{" "}
-                    Rupiah).
-                  </Text>
-                </Text>
-              </View>
-              <View
-                style={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  marginTop: 10,
-                  marginBottom: 3,
-                  padding: "3px 0",
-                }}
-              >
-                <Text>Pasal 2</Text>
-                <Text>TUJUAN PENGGUNAAN & JANGKA WAKTU</Text>
-              </View>
-              {/* <View>
-                <Text>
-                  Bahwa perjanjian ini berlaku unutk masa{" "}
-                  {data.DataPembiayaan.tenor} (
-                  {angkaTerbilang(data.DataPembiayaan.tenor)
-                    .split(" ")
-                    .map(function (word: string) {
-                      return word
-                        .charAt(0)
-                        .toUpperCase()
-                        .concat(word.substr(1));
-                    })
-                    .join(" ")}
-                  ) bulan, terhitung sejak ditandatanganinya perjanjian ini
-                  tanggal {moment(data.tanggal_cetak_akad).format("DD-MM-YYYY")}{" "}
-                  dan akan berkhir pada tanggal{" "}
-                  {"25-" +
-                    moment(data.tanggal_cetak_akad)
-                      .add(data.DataPembiayaan.tenor, "M")
-                      .format("MM-YYYY")}
-                </Text>
-                <Text>
-                  Bahwa untuk jumlah pinjaman tersebut akan dikenakan bunga
-                  pinjaman kepada debitur dan harus dibayar oleh debitur sebesar{" "}
-                  {data.DataPembiayaan.mg_bunga}% Eff (
-                  {angkaTerbilang(data.DataPembiayaan.mg_bunga)
-                    .split(" ")
-                    .map(function (word: string) {
-                      return word
-                        .charAt(0)
-                        .toUpperCase()
-                        .concat(word.substr(1));
-                    })
-                    .join(" ")}{" "}
-                  Persen) untuk {data.DataPembiayaan.tenor} (
-                  {angkaTerbilang(data.DataPembiayaan.tenor)
-                    .split(" ")
-                    .map(function (word: string) {
-                      return word
-                        .charAt(0)
-                        .toUpperCase()
-                        .concat(word.substr(1));
-                    })
-                    .join(" ")}
-                  ) bulan dari jumlah nominal pinjaman menurut perjanjian ini
-                  yang dihitung secara eff sehingga jumlah seluruh pinjaman yang
-                  harus dibayar kembali oleh debitur kepada Bank menjadi sebesar
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 5,
+                fontWeight: "bold",
+                marginBottom: 5,
+              }}
+            >
+              <Text style={{ width: 100 }}>Jabatan</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>{process.env.NEXT_PUBLIC_APP_JABATAN}</Text>
+            </View>
+            <View
+              style={{
+                textAlign: "justify",
+                lineHeight: 1.2,
+                width: 490,
+              }}
+            >
+              <Text>
+                Bertindak dalam hal ini berdasarkan Perjanjian Kerjasama tentang
+                pemberian kredit kepada pensiunan dalam bentuk penerusan
+                (Channeling) {data.Bank.sk_akad}, yang selanjutnya disebut{" "}
+                <View style={{ fontWeight: "bold" }}>
+                  <Text style={{ fontWeight: "bold" }}>{'"BANK"'}</Text>
+                </View>
+                .
+              </Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
+          <Text style={{ width: "8" }}>II. </Text>
+          <View style={{ flex: 1 }}>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>Nama</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>{data.DataPembiayaan.name}</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>NIK</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>{data.nik}</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>Tempat/Tanggal Lahir</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>
+                {data.DataPembiayaan.tempat_lahir}
+                {", "}
+                {data.DataPembiayaan.tanggal_lahir}
+              </Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>Alamat</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text style={{ width: 300 }}>
+                {data.DataPengajuanAlamat.alamat} {data.DataPengajuanAlamat.rt}/
+                {data.DataPengajuanAlamat.rw},{" "}
+                {data.DataPengajuanAlamat.kelurahan}{" "}
+                {data.DataPengajuanAlamat.kecamatan},{" "}
+                {data.DataPengajuanAlamat.kota}{" "}
+                {data.DataPengajuanAlamat.provinsi}{" "}
+                {data.DataPengajuanAlamat.kode_pos}
+              </Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>Pekerjaan</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>{data.pekerjaan_sekarang}</Text>
+            </View>
+
+            {/* Data Istri */}
+            <Text style={{ marginTop: 5 }}>
+              Dan untuk tindakan hukum ini telah mendapat persetujuan
+              suami/isteri/ahliwairsnya :
+            </Text>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>Nama</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>{data.DataPengajuanPasangan.nama_pasangan}</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>NIK</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>{data.DataPengajuanPasangan.nik_pasangan}</Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>Tempat/Tanggal Lahir</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>
+                {data.DataPengajuanPasangan.tempat_lahir_pasangan}{" "}
+                {data.DataPengajuanPasangan.tanggal_lahir_pasangan}
+              </Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>Alamat</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text style={{ width: 300 }}>
+                {data.DataPengajuanPasangan.alamat_pasangan}
+              </Text>
+            </View>
+            <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+              <Text style={{ width: 100 }}>Pekerjaan</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text>{data.DataPengajuanPasangan.pekerjaan_pasangan}</Text>
+            </View>
+            <View style={{ margin: "8px 0" }}>
+              <Text>
+                Selanjutnya disebut{" "}
+                <View style={{ fontWeight: "bold" }}>
+                  <Text style={{ fontWeight: "bold" }}>{'"DEBITUR"'}</Text>
+                </View>
+              </Text>
+            </View>
+          </View>
+        </View>
+        <Text style={{ marginTop: 3, marginBottom: 3 }}>
+          Selanjutnya BANK dan DEBITUR terlebih dahulu menerangkan dengan ini
+          telah sepakat untuk mengadakan Perjanjian Kredit (selanjutnya disebut
+          “Perjanjian”) dengan syarat-syarat dan ketentuan-ketentuan sebagai
+          berikut:
+        </Text>
+
+        <View>
+          <View style={{ width: 490, lineHeight: 1.2 }}>
+            <View
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 10,
+                marginBottom: 3,
+                padding: "3px 0",
+              }}
+            >
+              <Text>Pasal 1</Text>
+              <Text>FASILITAS KREDIT</Text>
+            </View>
+            <View>
+              <Text>
+                BANK dengan ini menyetujui memberikan suatu kredit kepada
+                DEBITUR dan DEBITUR menyetujui untuk menerima fasilitas kredit
+                yang disebut Kredit Channeling dengan Plafond Kredit sebesar{" "}
+                <Text style={{ fontWeight: "bold" }}>
                   Rp. {formatNumber(data.DataPembiayaan.plafond.toFixed(0))} (
                   {angkaTerbilang(data.DataPembiayaan.plafond)
                     .split(" ")
@@ -448,322 +330,212 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
                         .concat(word.substr(1));
                     })
                     .join(" ")}{" "}
-                  Rupiah). Bahwa besarnya suku bunga tersebut diatas
-                  sewaktu-waktu dapat dirubah oleh pihak Bank.
+                  Rupiah).
                 </Text>
+              </Text>
+            </View>
+            <View
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 10,
+                marginBottom: 3,
+                padding: "3px 0",
+              }}
+            >
+              <Text>Pasal 2</Text>
+              <Text>TUJUAN PENGGUNAAN & JANGKA WAKTU</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: 5,
+                marginTop: 7,
+              }}
+            >
+              <Text style={{ width: 20 }}>2.1</Text>
+              <Text style={{ width: 100, fontWeight: "bold" }}>
+                Jangka Waktu
+              </Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <View>
                 <Text>
-                  Bahwa pembayaran kembali pinjaman ini akan dilakukan oleh
-                  DEBITUR kepada BANK dalam {data.DataPembiayaan.tenor}(
-                  {angkaTerbilang(data.DataPembiayaan.tenor)
-                    .split(" ")
-                    .map(function (word: string) {
-                      return word
-                        .charAt(0)
-                        .toUpperCase()
-                        .concat(word.substr(1));
-                    })
-                    .join(" ")}
-                  ) kali angsuran dengan jumlah masing-masing angsuran sebesar
-                  Rp. {formatNumber(angsuranBulanan)} (
-                  {angkaTerbilang(parseInt(angsuranBulanan))
-                    .split(" ")
-                    .map(function (word: string) {
-                      return word
-                        .charAt(0)
-                        .toUpperCase()
-                        .concat(word.substr(1));
-                    })
-                    .join(" ")}{" "}
-                  Rupiah) yang terdiri dari pokok pinjaman berikut bunganya dan
-                  telah disetujui oleh kedua belah pihak bahwa masing-masing
-                  angsuran akan dibulatkan keatas lima ribu rupiah terdekat.
-                  Dimana pembulatan tersebut diperhitungkan sebagai bunga.
-                </Text>
-              </View> */}
-              {/* <View>
-                <Text>
-                  Bahwa perjanjian ini berlaku unutk masa{" "}
-                  {data.DataPembiayaan.tenor} (
-                  {angkaTerbilang(data.DataPembiayaan.tenor)
-                    .split(" ")
-                    .map(function (word: string) {
-                      return word
-                        .charAt(0)
-                        .toUpperCase()
-                        .concat(word.substr(1));
-                    })
-                    .join(" ")}
-                  ) bulan, terhitung sejak ditandatanganinya perjanjian ini
-                  tanggal ................... dan akan berkhir pada tanggal
-                  ...................
-                </Text>
-                <Text style={{ marginTop: 7, marginBottom: 7 }}>
-                  Bahwa untuk jumlah pinjaman tersebut akan dikenakan bunga
-                  pinjaman kepada debitur dan harus dibayar oleh debitur sebesar{" "}
-                  ........... % Eff ( ............................. Persen)
-                  untuk ............ ( ..................... ) bulan dari jumlah
-                  nominal pinjaman menurut perjanjian ini yang dihitung secara
-                  eff sehingga jumlah seluruh pinjaman yang harus dibayar
-                  kembali oleh debitur kepada Bank menjadi sebesar Rp.
-                  .................... (..................................).
-                  Bahwa besarnya suku bunga tersebut diatas sewaktu-waktu dapat
-                  dirubah oleh pihak Bank.
-                </Text>
-                <Text>
-                  Bahwa pembayaran kembali pinjaman ini akan dilakukan oleh
-                  DEBITUR kepada BANK dalam ..............
-                  (...............................) kali angsuran dengan jumlah
-                  masing-masing angsuran sebesar Rp. ................
-                  (.................................) yang terdiri dari pokok
-                  pinjaman berikut bunganya dan telah disetujui oleh kedua belah
-                  pihak bahwa masing-masing angsuran akan dibulatkan keatas lima
-                  ribu rupiah terdekat. Dimana pembulatan tersebut
-                  diperhitungkan sebagai bunga.
-                </Text>
-              </View> */}
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: 5,
-                  marginTop: 7,
-                }}
-              >
-                <Text style={{ width: 20 }}>2.1</Text>
-                <Text style={{ width: 100, fontWeight: "bold" }}>
-                  Jangka Waktu
-                </Text>
-                <Text style={{ width: 20 }}>:</Text>
-                <View>
-                  <Text>
-                    <Text style={{ fontWeight: "bold" }}>
-                      {data.DataPembiayaan.tenor}
-                    </Text>{" "}
-                    Bulan sejak (
-                    <Text style={{ fontWeight: "bold" }}>
-                      {moment(data.tanggal_cetak_akad).format("DD/MM/YYYY")}
-                    </Text>{" "}
-                    -{" "}
-                    <Text style={{ fontWeight: "bold" }}>
-                      {`25/${moment(data.tanggal_cetak_akad)
-                        .add(data.DataPembiayaan.tenor, "M")
-                        .format("MM/YYYY")}`}
-                    </Text>
-                    )
-                  </Text>
-                </View>
-              </View>
-              <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                <Text style={{ width: 20 }}>2.2</Text>
-                <Text style={{ width: 100, fontWeight: "bold" }}>Angsuran</Text>
-                <Text style={{ width: 20 }}>:</Text>
-                <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                  <Text style={{ width: 50, fontWeight: "bold" }}>Rp.</Text>
                   <Text style={{ fontWeight: "bold" }}>
-                    {formatNumber(angsuranBulanan)} / Bulan
-                  </Text>
-                </View>
-              </View>
-              {data.Bank.kode !== "BPR SIP" && (
-                <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                  <Text style={{ width: 20 }}>2.3</Text>
-                  <Text style={{ width: 100 }}>Fee Collection</Text>
-                  <Text style={{ width: 20 }}>:</Text>
-                  <View
-                    style={{ display: "flex", gap: 5, flexDirection: "row" }}
-                  >
-                    <Text style={{ width: 50 }}></Text>
-                    <Text>{formatNumber(colfee)} / Bulan</Text>
-                  </View>
-                </View>
-              )}
-              <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                <Text style={{ width: 20 }}>2.3</Text>
-                <Text style={{ width: 100, fontWeight: "bold" }}>GP</Text>
-                <Text style={{ width: 20 }}>:</Text>
-                <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
-                  <Text>1 Bulan</Text>
-                  {/* <Text style={{ width: 50, fontWeight: "bold" }}>
-                    {formatNumber(angsuranPokok)}
-                  </Text> */}
-                </View>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>2.4</Text>
-                <Text style={{ width: 100, fontWeight: "bold" }}>
-                  Tanggal Pembayaran
-                </Text>
-                <Text style={{ width: 20 }}>:</Text>
-                <View style={{ fontWeight: "bold" }}>
-                  <Text>
+                    {data.DataPembiayaan.tenor}
+                  </Text>{" "}
+                  Bulan sejak (
+                  <Text style={{ fontWeight: "bold" }}>
+                    {moment(data.tanggal_cetak_akad).format("DD/MM/YYYY")}
+                  </Text>{" "}
+                  -{" "}
+                  <Text style={{ fontWeight: "bold" }}>
                     {`25/${moment(data.tanggal_cetak_akad)
-                      .add(1, "M")
+                      .add(data.DataPembiayaan.tenor, "M")
                       .format("MM/YYYY")}`}
                   </Text>
-                </View>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>2.5</Text>
-                <Text style={{ width: 100, fontWeight: "bold" }}>
-                  Suku Bunga {data.jenis_margin === "FLAT" ? "Flat" : "Efektif"}
+                  )
                 </Text>
-                <Text style={{ width: 20 }}>:</Text>
+              </View>
+            </View>
+            <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
+              <Text style={{ width: 20 }}>2.2</Text>
+              <Text style={{ width: 100, fontWeight: "bold" }}>Angsuran</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
+                <Text style={{ width: 50, fontWeight: "bold" }}>Rp.</Text>
                 <Text style={{ fontWeight: "bold" }}>
-                  {data.DataPembiayaan.mg_bunga}% / Tahun
+                  {formatNumber(angsuranBulanan)} / Bulan
                 </Text>
               </View>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>2.6</Text>
-                <Text style={{ width: 100, fontWeight: "bold" }}>
-                  Tujuan Penggunaan
-                </Text>
+            </View>
+            {data.Bank.kode !== "BPR SIP" && (
+              <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
+                <Text style={{ width: 20 }}>2.3</Text>
+                <Text style={{ width: 100 }}>Fee Collection</Text>
                 <Text style={{ width: 20 }}>:</Text>
-                <View style={{ fontWeight: "bold" }}>
-                  <Text>
-                    {data.tujuan_penggunaan1 && `- ${data.tujuan_penggunaan1}`}
-                  </Text>
-                  {data.tujuan_penggunaan2 &&
-                    data.tujuan_penggunaan2 !== "-" && (
-                      <Text>- {data.tujuan_penggunaan2}</Text>
-                    )}
+                <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
+                  <Text style={{ width: 50 }}></Text>
+                  <Text>{formatNumber(colfee)} / Bulan</Text>
                 </View>
               </View>
-              <View
-                style={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  marginTop: 10,
-                  marginBottom: 3,
-                  padding: "3px 0",
-                }}
-              >
-                <Text>Pasal 3</Text>
-                <Text>BIAYA - BIAYA</Text>
+            )}
+            <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
+              <Text style={{ width: 20 }}>2.3</Text>
+              <Text style={{ width: 100, fontWeight: "bold" }}>GP</Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <View style={{ display: "flex", gap: 5, flexDirection: "row" }}>
+                <Text>1 Bulan</Text>
+                {/* <Text style={{ width: 50, fontWeight: "bold" }}>
+                    {formatNumber(angsuranPokok)}
+                  </Text> */}
               </View>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  width: 470,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>3.1</Text>
-                <View>
-                  <Text>
-                    DEBITUR berjanji dan dengan ini mengikat diri untuk
-                    menanggung seluruh biaya yang diperlukan berkenaan dengan
-                    pelaksanaan Akad ini sepanjang hal ini diberitahukan BANK
-                    kepada DEBITUR sebelum ditandatangani Akad ini dan DEBITUR
-                    menyatakan persetujuannya. Adapun biaya-biaya tersebut
-                    adalah sebagai berikut
-                  </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                gap: 5,
+                flexDirection: "row",
+              }}
+            >
+              <Text style={{ width: 20 }}>2.4</Text>
+              <Text style={{ width: 100, fontWeight: "bold" }}>
+                Tanggal Pembayaran
+              </Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <View style={{ fontWeight: "bold" }}>
+                <Text>
+                  {`25/${moment(data.tanggal_cetak_akad)
+                    .add(1, "M")
+                    .format("MM/YYYY")}`}
+                </Text>
+              </View>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                gap: 5,
+                flexDirection: "row",
+              }}
+            >
+              <Text style={{ width: 20 }}>2.5</Text>
+              <Text style={{ width: 100, fontWeight: "bold" }}>
+                Suku Bunga {data.jenis_margin === "FLAT" ? "Flat" : "Efektif"}
+              </Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <Text style={{ fontWeight: "bold" }}>
+                {data.DataPembiayaan.mg_bunga}% / Tahun
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                gap: 5,
+                flexDirection: "row",
+              }}
+            >
+              <Text style={{ width: 20 }}>2.6</Text>
+              <Text style={{ width: 100, fontWeight: "bold" }}>
+                Tujuan Penggunaan
+              </Text>
+              <Text style={{ width: 20 }}>:</Text>
+              <View style={{ fontWeight: "bold" }}>
+                <Text>
+                  {data.tujuan_penggunaan1 && `- ${data.tujuan_penggunaan1}`}
+                </Text>
+                {data.tujuan_penggunaan2 && data.tujuan_penggunaan2 !== "-" && (
+                  <Text>- {data.tujuan_penggunaan2}</Text>
+                )}
+              </View>
+            </View>
+            <View
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 10,
+                marginBottom: 3,
+                padding: "3px 0",
+              }}
+            >
+              <Text>Pasal 3</Text>
+              <Text>BIAYA - BIAYA</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                gap: 5,
+                width: 470,
+                flexDirection: "row",
+              }}
+            >
+              <Text style={{ width: 20 }}>3.1</Text>
+              <View>
+                <Text>
+                  DEBITUR berjanji dan dengan ini mengikat diri untuk menanggung
+                  seluruh biaya yang diperlukan berkenaan dengan pelaksanaan
+                  Akad ini sepanjang hal ini diberitahukan BANK kepada DEBITUR
+                  sebelum ditandatangani Akad ini dan DEBITUR menyatakan
+                  persetujuannya. Adapun biaya-biaya tersebut adalah sebagai
+                  berikut
+                </Text>
+                <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+                  <Text>a. </Text>
+                  <Text style={{ width: 130 }}>Administrasi</Text>
+                  <Text>:</Text>
                   <View
-                    style={{ display: "flex", flexDirection: "row", gap: 5 }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 10,
+                      fontWeight: "bold",
+                    }}
                   >
-                    <Text>a. </Text>
-                    <Text style={{ width: 130 }}>Administrasi</Text>
-                    <Text>:</Text>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 10,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <Text style={{ width: 50 }}>Rp.</Text>
-                      <Text>{formatNumber(byAdmin.toFixed(0))}</Text>
-                    </View>
+                    <Text style={{ width: 50 }}>Rp.</Text>
+                    <Text>{formatNumber(byAdmin.toFixed(0))}</Text>
                   </View>
+                </View>
+                <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+                  <Text>b. </Text>
+                  <Text style={{ width: 130 }}>Asuransi Jiwa / Kredit</Text>
+                  <Text>:</Text>
                   <View
-                    style={{ display: "flex", flexDirection: "row", gap: 5 }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 10,
+                      fontWeight: "bold",
+                    }}
                   >
-                    <Text>b. </Text>
-                    <Text style={{ width: 130 }}>Asuransi Jiwa / Kredit</Text>
-                    <Text>:</Text>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 10,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <Text style={{ width: 50 }}>Rp.</Text>
-                      <Text>{formatNumber(byAsuransi.toFixed(0))}</Text>
-                    </View>
+                    <Text style={{ width: 50 }}>Rp.</Text>
+                    <Text>{formatNumber(byAsuransi.toFixed(0))}</Text>
                   </View>
-                  {data.Bank.kode === "BPR SIP" ? (
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text>c. </Text>
-                      <Text style={{ width: 130 }}>Layanan Kredit</Text>
-                      <Text>:</Text>
-                      <View
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          gap: 10,
-                          fontWeight: "bold",
-                        }}
-                      >
-                        <Text style={{ width: 50 }}>Rp.</Text>
-                        <Text>
-                          {formatNumber(
-                            data.DataPembiayaan.by_provisi.toFixed(0)
-                          )}
-                        </Text>
-                      </View>
-                    </View>
-                  ) : (
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 5 }}
-                    >
-                      <Text>c. </Text>
-                      <Text style={{ width: 130 }}>Pembukaan Tabungan</Text>
-                      <Text>:</Text>
-                      <View
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          gap: 10,
-                          fontWeight: "bold",
-                        }}
-                      >
-                        <Text style={{ width: 50 }}>Rp.</Text>
-                        <Text>
-                          {formatNumber(
-                            data.DataPembiayaan.by_buka_rekening.toFixed(0)
-                          )}
-                        </Text>
-                      </View>
-                    </View>
-                  )}
+                </View>
+                {data.Bank.kode === "BPR SIP" ? (
                   <View
                     style={{ display: "flex", flexDirection: "row", gap: 5 }}
                   >
-                    <Text>d. </Text>
-                    <Text style={{ width: 130 }}>Materai</Text>
+                    <Text>c. </Text>
+                    <Text style={{ width: 130 }}>Layanan Kredit</Text>
                     <Text>:</Text>
                     <View
                       style={{
@@ -776,16 +548,17 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
                       <Text style={{ width: 50 }}>Rp.</Text>
                       <Text>
                         {formatNumber(
-                          data.DataPembiayaan.by_materai.toFixed(0)
+                          data.DataPembiayaan.by_provisi.toFixed(0),
                         )}
                       </Text>
                     </View>
                   </View>
+                ) : (
                   <View
                     style={{ display: "flex", flexDirection: "row", gap: 5 }}
                   >
-                    <Text>e. </Text>
-                    <Text style={{ width: 130 }}>Biaya Lain-lain</Text>
+                    <Text>c. </Text>
+                    <Text style={{ width: 130 }}>Pembukaan Tabungan</Text>
                     <Text>:</Text>
                     <View
                       style={{
@@ -797,45 +570,63 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
                     >
                       <Text style={{ width: 50 }}>Rp.</Text>
                       <Text>
-                        {data.Bank.kode === "BPR SIP"
-                          ? formatNumber(
-                              (
-                                byLainLain +
-                                data.DataPembiayaan.by_buka_rekening
-                              ).toFixed(0)
-                            )
-                          : formatNumber(
-                              (
-                                byLainLain + data.DataPembiayaan.by_provisi
-                              ).toFixed(0)
-                            )}
+                        {formatNumber(
+                          data.DataPembiayaan.by_buka_rekening.toFixed(0),
+                        )}
                       </Text>
                     </View>
                   </View>
+                )}
+                <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+                  <Text>d. </Text>
+                  <Text style={{ width: 130 }}>Materai</Text>
+                  <Text>:</Text>
                   <View
-                    style={{ display: "flex", flexDirection: "row", gap: 5 }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 10,
+                      fontWeight: "bold",
+                    }}
                   >
-                    <Text style={{ width: 7 }}> </Text>
-                    <Text style={{ width: 130 }}> </Text>
-                    <Text>:</Text>
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 5,
-                        fontWeight: "bold",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          width: 85,
-                          textDecoration: "underline",
-                          borderBottom: "1px solid #888",
-                        }}
-                      ></Text>
-                      <Text>+</Text>
-                    </View>
+                    <Text style={{ width: 50 }}>Rp.</Text>
+                    <Text>
+                      {formatNumber(data.DataPembiayaan.by_materai.toFixed(0))}
+                    </Text>
                   </View>
+                </View>
+                <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+                  <Text>e. </Text>
+                  <Text style={{ width: 130 }}>Biaya Lain-lain</Text>
+                  <Text>:</Text>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 10,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    <Text style={{ width: 50 }}>Rp.</Text>
+                    <Text>
+                      {data.Bank.kode === "BPR SIP"
+                        ? formatNumber(
+                            (
+                              byLainLain + data.DataPembiayaan.by_buka_rekening
+                            ).toFixed(0),
+                          )
+                        : formatNumber(
+                            (
+                              byLainLain + data.DataPembiayaan.by_provisi
+                            ).toFixed(0),
+                          )}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>
+                  <Text style={{ width: 7 }}> </Text>
+                  <Text style={{ width: 130 }}> </Text>
+                  <Text>:</Text>
                   <View
                     style={{
                       display: "flex",
@@ -844,142 +635,146 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
                       fontWeight: "bold",
                     }}
                   >
-                    <Text style={{ width: 7 }}> </Text>
-                    <Text style={{ width: 130 }}>Total Biaya</Text>
-                    <Text>:</Text>
-                    <View
+                    <Text
                       style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        gap: 10,
+                        width: 85,
+                        textDecoration: "underline",
+                        borderBottom: "1px solid #888",
                       }}
-                    >
-                      <Text style={{ width: 50 }}>Rp.</Text>
-                      <Text>
-                        {formatNumber(
-                          (
-                            byAdmin +
-                            byAsuransi +
-                            byLainLain +
-                            data.DataPembiayaan.by_buka_rekening +
-                            data.DataPembiayaan.by_materai +
-                            data.DataPembiayaan.by_provisi
-                          ).toFixed(0)
-                        )}
-                      </Text>
-                    </View>
+                    ></Text>
+                    <Text>+</Text>
                   </View>
-                  <View style={{ marginTop: 5 }}>
+                </View>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 5,
+                    fontWeight: "bold",
+                  }}
+                >
+                  <Text style={{ width: 7 }}> </Text>
+                  <Text style={{ width: 130 }}>Total Biaya</Text>
+                  <Text>:</Text>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: 10,
+                    }}
+                  >
+                    <Text style={{ width: 50 }}>Rp.</Text>
                     <Text>
-                      Segala biaya yang timbul sehubungan dengan Akad ini
-                      merupakan tanggung jawab dan wajib dibayar oleh{" "}
-                      <Text style={{ fontWeight: "bold" }}>DEBITUR.</Text>
+                      {formatNumber(
+                        (
+                          byAdmin +
+                          byAsuransi +
+                          byLainLain +
+                          data.DataPembiayaan.by_buka_rekening +
+                          data.DataPembiayaan.by_materai +
+                          data.DataPembiayaan.by_provisi
+                        ).toFixed(0),
+                      )}
+                    </Text>
+                  </View>
+                </View>
+                <View style={{ marginTop: 5 }}>
+                  <Text>
+                    Segala biaya yang timbul sehubungan dengan Akad ini
+                    merupakan tanggung jawab dan wajib dibayar oleh{" "}
+                    <Text style={{ fontWeight: "bold" }}>DEBITUR.</Text>
+                  </Text>
+                </View>
+              </View>
+            </View>
+            {/* Pasal 4 */}
+            <View
+              style={{
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 15,
+                marginBottom: 3,
+                padding: "3px 0",
+              }}
+            >
+              <Text>Pasal 4</Text>
+              <Text>JAMINAN</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                gap: 5,
+                width: 470,
+                flexDirection: "row",
+              }}
+            >
+              <Text style={{ width: 20 }}>4.1</Text>
+              <View
+                style={{ display: "flex", flexDirection: "column", gap: 5 }}
+              >
+                <Text>
+                  Bahwa guna menjamin lebih lanjut pembayaran kembali kewajiban
+                  DEBITUR kepada BANK seperti yang disebut pada perjanjian ini,
+                  perubahan dan/atau novasi atau Perjanjian Kredit yang dibuat
+                  dikemudian hari atau sebab apapun juga, maka DEBITUR
+                  menyerahkan jaminan kepada BANK berupa :
+                </Text>
+                <View style={{ display: "flex", flexDirection: "column" }}>
+                  <View
+                    style={{ display: "flex", flexDirection: "row", gap: 10 }}
+                  >
+                    <Text>a.</Text>
+                    <Text>
+                      Asli{" "}
+                      <Text style={{ fontWeight: "bold" }}>
+                        Surat Keputusan (SK) Pensiun : Nomor{" "}
+                        {data.nomor_sk_pensiun}
+                      </Text>{" "}
+                      tertanggal :{" "}
+                      <Text style={{ fontWeight: "bold" }}>
+                        {moment(data.tanggal_sk_pensiun).format(
+                          "DD-MM-YYYY",
+                        )}{" "}
+                      </Text>
+                      atas nama :{" "}
+                      <Text style={{ fontWeight: "bold" }}>
+                        {data.DataPembiayaan.name}
+                      </Text>
+                    </Text>
+                  </View>
+                  <View
+                    style={{ display: "flex", flexDirection: "row", gap: 10 }}
+                  >
+                    <Text>b.</Text>
+                    <Text>
+                      Asli{" "}
+                      <Text style={{ fontWeight: "bold" }}>
+                        Surat Pernyataan Kuasa Potong Gaji
+                      </Text>{" "}
+                      atas nama :{" "}
+                      <Text style={{ fontWeight: "bold" }}>
+                        {data.DataPembiayaan.name}
+                      </Text>
                     </Text>
                   </View>
                 </View>
               </View>
-              {/* Pasal 4 */}
-              <View
-                style={{
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  marginTop: 15,
-                  marginBottom: 3,
-                  padding: "3px 0",
-                }}
-              >
-                <Text>Pasal 4</Text>
-                <Text>JAMINAN</Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  width: 470,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>4.1</Text>
-                <View
-                  style={{ display: "flex", flexDirection: "column", gap: 5 }}
-                >
-                  <Text>
-                    Bahwa guna menjamin lebih lanjut pembayaran kembali
-                    kewajiban DEBITUR kepada BANK seperti yang disebut pada
-                    perjanjian ini, perubahan dan/atau novasi atau Perjanjian
-                    Kredit yang dibuat dikemudian hari atau sebab apapun juga,
-                    maka DEBITUR menyerahkan jaminan kepada BANK berupa :
-                  </Text>
-                  <View style={{ display: "flex", flexDirection: "column" }}>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 10 }}
-                    >
-                      <Text>a.</Text>
-                      <Text>
-                        Asli{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          Surat Keputusan (SK) Pensiun : Nomor{" "}
-                          {data.nomor_sk_pensiun}
-                        </Text>{" "}
-                        tertanggal :{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          {moment(data.tanggal_sk_pensiun).format("DD-MM-YYYY")}{" "}
-                        </Text>
-                        atas nama :{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          {data.DataPembiayaan.name}
-                        </Text>
-                      </Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 10 }}
-                    >
-                      <Text>b.</Text>
-                      <Text>
-                        Asli{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          Surat Pernyataan Kuasa Potong Gaji
-                        </Text>{" "}
-                        atas nama :{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          {data.DataPembiayaan.name}
-                        </Text>
-                      </Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 10 }}
-                    >
-                      <Text>c.</Text>
-                      <Text>
-                        Asli{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          Bukti Flagging Pos
-                        </Text>{" "}
-                        atas nama :{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          {data.DataPembiayaan.name}
-                        </Text>
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  gap: 5,
-                  width: 470,
-                  flexDirection: "row",
-                }}
-              >
-                <Text style={{ width: 20 }}>4.2</Text>
-                <View>
-                  <Text>
-                    DEBITUR memberi kuasa kepada BANK untuk melakukan tindakan
-                    dan perbuatan hukum yang dianggap wajar dan perlu oleh BANK
-                    yang berkaitan dengan pemberian jaminan tersebut diatas.
-                  </Text>
-                </View>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                gap: 5,
+                width: 470,
+                flexDirection: "row",
+              }}
+            >
+              <Text style={{ width: 20 }}>4.2</Text>
+              <View>
+                <Text>
+                  DEBITUR memberi kuasa kepada BANK untuk melakukan tindakan dan
+                  perbuatan hukum yang dianggap wajar dan perlu oleh BANK yang
+                  berkaitan dengan pemberian jaminan tersebut diatas.
+                </Text>
               </View>
             </View>
           </View>
