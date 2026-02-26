@@ -152,7 +152,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
   const getTglDetail = (
     tglmulai: string,
     setTgl: Function,
-    tglakhir?: Date
+    tglakhir?: Date,
   ) => {
     var ar = tglmulai.split("");
     const filter = ar.filter((e) => e == "-");
@@ -220,24 +220,24 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
     const tglMasuk = getTglDetail(
       tgl,
       setTgl,
-      tglRes ? tglRes.resTgl : inputDapem.tanggal_simulasi
+      tglRes ? tglRes.resTgl : inputDapem.tanggal_simulasi,
     );
     const { tanggalLunas, tahun, bulan, hari } = getUsiaTanggalLunas(
       tglRes
         ? tglRes.resTgl.toString()
         : inputDapem.tanggal_simulasi.toString(),
       tgl,
-      inputDapem.tenor
+      inputDapem.tenor,
     );
     const max_tenor = newGetMaxTenor(
       produk.max_usia_lunas,
       tglMasuk ? parseInt(tglMasuk.tahun?.toString() || "0") : inputDapem.tahun,
-      inputDapem.bulan
+      inputDapem.bulan,
     );
     const max_plafond = getMaxPlafond(
       produk.mg_bunga,
       inputDapem.tenor,
-      inputDapem.gaji * (bank.by_angsuran / 100)
+      inputDapem.gaji * (bank.by_angsuran / 100),
     );
     const angsuran =
       produk.name === "Flash Sisa Gaji" ||
@@ -251,10 +251,10 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 inputDapem.tenor,
                 inputDapem.plafond,
                 false,
-                true
-              )
+                true,
+              ),
             ),
-            bank.pembulatan
+            bank.pembulatan,
           )
         : ceiling(
             parseInt(
@@ -264,10 +264,10 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 inputDapem.plafond,
                 false,
                 false,
-                bank.kode
-              )
+                bank.kode,
+              ),
             ),
-            bank.pembulatan
+            bank.pembulatan,
           );
     const admin =
       inputDapem.plafond * ((bank.by_admin + bank.by_admin_bank) / 100);
@@ -292,7 +292,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
       inputDapem.gaji - angsuran < 100000
     ) {
       setModalErr(
-        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!"
+        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!",
       );
     }
     return setInputDapem((prev) => {
@@ -394,7 +394,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
               />
             </div>
           </div>
-          <div className="flex flex-col gap-1 my-2">
+          {/* <div className="flex flex-col gap-1 my-2">
             <span>Alamat</span>
             <Input.TextArea
               onChange={(e) =>
@@ -406,7 +406,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 })
               }
             />
-          </div>
+          </div> */}
           <div className="flex gap-3 my-2">
             <div className="flex-1 flex flex-col gap-1">
               <span>Tanggal Lahir</span>
@@ -457,7 +457,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     return {
                       ...prev,
                       gaji: inputTextToDecimal(
-                        e.target.value.replace(/\D/g, "") || "0"
+                        e.target.value.replace(/\D/g, "") || "0",
                       ),
                     };
                   })
@@ -520,7 +520,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   for (let i = 0; i < dataBank.length; i++) {
                     for (let j = 0; j < dataBank[i].products.length; j++) {
                       const temp = dataBank[i].products.filter(
-                        (p) => p.id === e
+                        (p) => p.id === e,
                       );
                       if (temp.length !== 0) {
                         if (
@@ -534,7 +534,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                               produkSesuai
                                 .filter((e, i, o) => o.indexOf(e) === i)
                                 .join(", ")
-                            }`
+                            }`,
                           );
                         }
                         setProduk((prev) => {
@@ -604,7 +604,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                         } else {
                           setTempProvisi(
                             inputDapem.plafond *
-                              ((dataBank[i].by_provisi || 0) / 100)
+                              ((dataBank[i].by_provisi || 0) / 100),
                           );
                         }
                       }
@@ -661,7 +661,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                       };
                     });
                     return setModalErr(
-                      `Maaf tenor yang diinput tidak dapat melebihi maksimal tenor yang tersedia!`
+                      `Maaf tenor yang diinput tidak dapat melebihi maksimal tenor yang tersedia!`,
                     );
                   }
                   setInputDapem((prev) => {
@@ -703,7 +703,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                       };
                     });
                     return setModalErr(
-                      `Maaf plafond yang diinput tidak dapat melebihi maksimal plafond yang tersedia!`
+                      `Maaf plafond yang diinput tidak dapat melebihi maksimal plafond yang tersedia!`,
                     );
                   }
                   if (produk.name === "Flash Sisa Gaji") {
@@ -716,14 +716,14 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   } else {
                     setTempProvisi(
                       inputTextToDecimal(e.target.value || "0") *
-                        (bank.by_provisi / 100)
+                        (bank.by_provisi / 100),
                     );
                   }
                   return setInputDapem((prev) => {
                     return {
                       ...prev,
                       plafond: inputTextToDecimal(
-                        e.target.value.replace(/\D/g, "") || "0"
+                        e.target.value.replace(/\D/g, "") || "0",
                       ),
                     };
                   });
@@ -753,7 +753,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
               <Input
                 disabled
                 value={formatNumber(
-                  (inputDapem.gaji * (bank.by_angsuran / 100)).toFixed(0)
+                  (inputDapem.gaji * (bank.by_angsuran / 100)).toFixed(0),
                 )}
                 style={{ color: "black", backgroundColor: "white" }}
               />
@@ -814,7 +814,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   (
                     inputDapem.plafond *
                     ((bank.by_admin + bank.by_admin_bank) / 100)
-                  ).toFixed(0)
+                  ).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -846,7 +846,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0)
+                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0),
                 )}
                 onChange={(e) =>
                   setProduk((prev) => {
@@ -857,7 +857,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                           (parseInt(e.target.value.replace(/\D/g, "")) /
                             inputDapem.plafond) *
                           100
-                        ).toString()
+                        ).toString(),
                       ),
                     };
                   })
@@ -878,7 +878,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
                   setTempTatalaksana(
-                    inputTextToDecimal(e.target.value.replace(/\D/g, "") || "0")
+                    inputTextToDecimal(
+                      e.target.value.replace(/\D/g, "") || "0",
+                    ),
                   )
                 }
               />
@@ -899,7 +901,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     return {
                       ...prev,
                       by_buka_rekening: inputTextToDecimal(
-                        e.target.value.replace(/\D/g, "") || "0"
+                        e.target.value.replace(/\D/g, "") || "0",
                       ),
                     };
                   })
@@ -922,7 +924,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     return {
                       ...prev,
                       by_materai: inputTextToDecimal(
-                        e.target.value.replace(/\D/g, "") || "0"
+                        e.target.value.replace(/\D/g, "") || "0",
                       ),
                     };
                   })
@@ -945,7 +947,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                       return {
                         ...prev,
                         by_epotpen: inputTextToDecimal(
-                          e.target.value.replace(/\D/g, "") || "0"
+                          e.target.value.replace(/\D/g, "") || "0",
                         ),
                       };
                     })
@@ -964,7 +966,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                       return {
                         ...prev,
                         by_flagging: inputTextToDecimal(
-                          e.target.value.replace(/\D/g, "") || "0"
+                          e.target.value.replace(/\D/g, "") || "0",
                         ),
                       };
                     })
@@ -988,7 +990,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     return {
                       ...prev,
                       by_mutasi: inputTextToDecimal(
-                        e.target.value.replace(/\D/g, "") || "0"
+                        e.target.value.replace(/\D/g, "") || "0",
                       ),
                     };
                   })
@@ -1008,7 +1010,9 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 style={{ color: "black", backgroundColor: "white" }}
                 onChange={(e) =>
                   setTempProvisi(
-                    inputTextToDecimal(e.target.value.replace(/\D/g, "") || "0")
+                    inputTextToDecimal(
+                      e.target.value.replace(/\D/g, "") || "0",
+                    ),
                   )
                 }
               />
@@ -1038,7 +1042,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0)
+                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1073,7 +1077,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     return {
                       ...prev,
                       bpp: inputTextToDecimal(
-                        e.target.value.replace(/\D/g, "") || "0"
+                        e.target.value.replace(/\D/g, "") || "0",
                       ),
                     };
                   })
@@ -1096,7 +1100,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     return {
                       ...prev,
                       pelunasan: inputTextToDecimal(
-                        e.target.value.replace(/\D/g, "") || "0"
+                        e.target.value.replace(/\D/g, "") || "0",
                       ),
                     };
                   })
@@ -1125,7 +1129,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0)
+                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1239,12 +1243,10 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                 {produk.name} ({bank.kode})
               </span>
             </div>
-            {bank.kode === "BPR SIP" && (
-              <div className="flex justify-between border-b border-gray-200 py-1">
-                <span>Margin Bunga</span>
-                <span className="text-right">{produk.mg_bunga}</span>
-              </div>
-            )}
+            <div className="flex justify-between border-b border-gray-200 py-1">
+              <span>Margin Bunga</span>
+              <span className="text-right">{produk.mg_bunga}</span>
+            </div>
             <div className="flex justify-between border-b border-gray-200 py-1">
               <span>Jenis Pembiayaan</span>
               <span className="text-right">{jenis.name}</span>
@@ -1277,7 +1279,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   (
                     inputDapem.plafond *
                     ((bank.by_admin + bank.by_admin_bank) / 100)
-                  ).toFixed(0)
+                  ).toFixed(0),
                 )}
               </span>
             </div>
@@ -1285,7 +1287,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
               <span>Biaya Asuransi</span>
               <span className="text-right">
                 {formatNumber(
-                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0)
+                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0),
                 )}
               </span>
             </div>
@@ -1335,7 +1337,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
               </span>
               <span className="text-right">
                 {formatNumber(
-                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0)
+                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0),
                 )}
               </span>
             </div>
@@ -1367,7 +1369,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
               <span>Sisa Gaji</span>
               <span className="text-right">
                 {formatNumber(
-                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0)
+                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0),
                 )}
               </span>
             </div>

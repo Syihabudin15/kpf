@@ -20,11 +20,31 @@ import {
   User,
 } from "@prisma/client";
 
+export interface IActionTable<T> {
+  upsert: boolean;
+  delete: boolean;
+  proses: boolean;
+  selected: T | undefined;
+}
+
+export interface IPageProps<T> {
+  page: number;
+  limit: number;
+  search: string;
+  total: number;
+  data: T[];
+  [key: string]: any;
+}
+
 export interface ICabang extends UnitCabang {
   UnitPelayanan: UnitPelayanan;
 }
 export interface IUser extends User {
   UnitCabang: ICabang;
+}
+
+export interface IBankPembiayaan extends Bank {
+  products: Produk[];
 }
 
 export interface IProduk extends Produk {
