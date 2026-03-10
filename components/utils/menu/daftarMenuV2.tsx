@@ -349,27 +349,6 @@ export const menusV2: Menus[] = [
       },
     ],
   },
-  // ADMP
-  // {
-  //   label: "ADMP",
-  //   url: "/admp",
-  //   role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
-  //   icon: <DiffOutlined />,
-  //   child: [
-  //     {
-  //       label: "ADMP SK",
-  //       url: "/admp/sk",
-  //       role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
-  //       icon: <DiffOutlined />,
-  //     },
-  //     {
-  //       label: "ADMP Express",
-  //       url: "/admp/express",
-  //       role: ["MASTER", "BISNIS", "ADMP", "PEMBERKASAN"],
-  //       icon: <DiffOutlined />,
-  //     },
-  //   ],
-  // },
   {
     label: "Laporan Administrasi",
     url: "/laporan-administrasi",
@@ -418,30 +397,6 @@ export const menusV2: Menus[] = [
         icon: <DiffOutlined />,
       },
       {
-        label: "Laporan Bulanan",
-        url: "/laporan-administrasi/laporan-bulanan",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "Fixed Cost",
-        url: "/laporan-administrasi/fixed-cost",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "Alternatif Cost",
-        url: "/laporan-administrasi/alternatif-cost",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
-        icon: <DiffOutlined />,
-      },
-      {
-        label: "Pembayaran Asuransi",
-        url: "/laporan-administrasi/pembayaran-asuransi",
-        role: ["MASTER", "BISNIS", "KEUANGAN", "OPERASIONAL"],
-        icon: <DiffOutlined />,
-      },
-      {
         label: "Pelunasan Debitur",
         url: "/laporan-administrasi/pelunasan",
         role: ["MASTER", "REPAYMENT"],
@@ -452,26 +407,6 @@ export const menusV2: Menus[] = [
         url: "/laporan-administrasi/pelunasan-debitur",
         role: ["BANK", "APPROVAL", "BANK"],
         icon: <DiffOutlined />,
-      },
-    ],
-  },
-  {
-    label: "Keuangan",
-    url: "/keuangan",
-    role: ["MASTER", "KEUANGAN"],
-    icon: <WalletOutlined />,
-    child: [
-      {
-        label: "Neraca",
-        url: "/keuangan/neraca",
-        role: ["MASTER", "KEUANGAN"],
-        icon: <DollarCircleOutlined />,
-      },
-      {
-        label: "Inventaris",
-        url: "/keuangan/inventaris",
-        role: ["MASTER", "KEUANGAN"],
-        icon: <FolderOutlined />,
       },
     ],
   },
@@ -506,12 +441,6 @@ export const menusV2: Menus[] = [
         icon: <DiffOutlined />,
       },
     ],
-  },
-  {
-    label: "Management",
-    url: "/management",
-    role: ["MASTER"],
-    icon: <DiffOutlined />,
   },
   {
     label: "Master Data",
@@ -574,12 +503,6 @@ export const menusV2: Menus[] = [
     url: "/artikel",
     role: "MASTER",
     icon: <BookOutlined />,
-  },
-  {
-    label: "Cek Database",
-    url: "/cek-database",
-    role: ["MASTER", "VERIFIKASI", "ENTRY_DATA"],
-    icon: <DatabaseOutlined />,
   },
   {
     label: "Tagihan",

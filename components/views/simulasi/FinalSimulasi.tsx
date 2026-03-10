@@ -14,7 +14,7 @@ import { ceiling } from "@/components/utils/pdf/pdfUtil";
 import { JenisPembiayaan, Produk } from "@prisma/client";
 import { Button, Input, Modal, Select, Tooltip } from "antd";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   DateDiffUsiaMasuk,
   getAngsuranPerBulan,
@@ -22,10 +22,11 @@ import {
   newGetMaxTenor,
 } from "./simulasiUtil";
 import Image from "next/image";
-import html2canvas from "html2canvas";
 import { CameraFilled } from "@ant-design/icons";
+import { toPng } from "html-to-image";
 
 export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
+  const contentRef = useRef<HTMLDivElement>(null);
   const [bank, setBank] = useState<ITempBank>({
     id: "",
     name: "",
@@ -326,24 +327,34 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
   ]);
 
   const handleScreenshot = async () => {
-    // Cari element modal wrap dari DOM
-    const modalWrap = document.querySelector(".ant-modal-wrap") as HTMLElement;
+    if (!contentRef.current) return;
 
-    if (modalWrap) {
-      const canvas = await html2canvas(modalWrap, {
-        useCors: true,
-        width: modalWrap.scrollWidth,
-        height: modalWrap.scrollHeight,
-        windowWidth: modalWrap.scrollWidth,
-        windowHeight: modalWrap.scrollHeight,
-        ignoreElements: (el: any) => el.classList.contains("ant-modal-footer"), // exclude footer
-      } as any);
+    try {
+      const dataUrl = await toPng(contentRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+        backgroundColor: "#ffffff",
+        // OPSI KRUSIAL: Memaksa elemen di-render sebagai desktop di dalam canvas
+        style: {
+          width: "1200px",
+          height: "auto",
+          transform: "scale(1)", // Pastikan tidak ada scaling dari mobile
+          flexDirection: "row", // Memaksa flex-col menjadi flex-row (desktop)
+        },
+        // Filter untuk menghindari error pada elemen UI yang tidak perlu
+        filter: (node) => {
+          const isButton = node.tagName === "BUTTON";
+          return !isButton; // Jangan bawa tombol capture ke dalam gambar
+        },
+      });
 
-      const dataUrl = canvas.toDataURL("image/png");
       const link = document.createElement("a");
+      link.download = `Analisa-${inputDapem.nama_pemohon || "Pembiayaan"}.png`;
       link.href = dataUrl;
-      link.download = `${moment().format("DDMMHH:mm")}_simulasi.png`;
       link.click();
+    } catch (err) {
+      console.error("Gagal capture:", err);
+      alert("Gagal mengambil gambar, silakan coba lagi.");
     }
   };
 
@@ -499,14 +510,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                     value: e.id,
                     options: e.products.map((p) => {
                       return {
-                        label: (
-                          <div className="flex justify-between items-center">
-                            <span>{p.name}</span>
-                            <span className="text-xs italic opacity-50 text-blue-500">
-                              ({e.kode})
-                            </span>
-                          </div>
-                        ),
+                        label: `${p.name} (${e.kode})`,
                         value: p.id,
                       };
                     }),
@@ -1177,9 +1181,10 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             Capture
           </Button>,
         ]}
-        width={window.innerWidth < 600 ? "95vw" : "80vw"}
-        style={{ top: 20 }}
-        title={
+        width={window.innerWidth < 600 ? 1000 : "80vw"}
+        style={{ top: 10 }}
+      >
+        <div ref={contentRef} className="p-2 mb-2">
           <div className="flex gap-2 items-center">
             <Image
               src={"/assets/images/logo_kpf.jpg"}
@@ -1189,189 +1194,192 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             />
             <span className="font-bold">ANALISA PERHITUNGAN</span>
           </div>
-        }
-      >
-        <div className="flex flex-col sm:flex-row gap-5">
-          <div className="flex-1">
-            <div className="text-center font-bold bg-green-500 text-white p-2">
-              DATA PEMBIAYAAN
+          <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex-1">
+              <div className="text-center font-bold bg-green-500 text-white p-2">
+                DATA PEMBIAYAAN
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Tanggal Simulasi</span>
+                <span className="text-right">
+                  {moment(inputDapem.tanggal_simulasi).format("DD-MM-YYYY")}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Nomor Pensiun</span>
+                <span className="text-right">{inputDapem.nopen}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Nama Pemohon</span>
+                <span className="text-right">{inputDapem.nama_pemohon}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Tanggal Lahir</span>
+                <span className="text-right">
+                  {moment(inputDapem.tanggal_lahir).format("DD-MM-YYYY")}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Usia Masuk</span>
+                <span className="text-right">
+                  {inputDapem.tahun} Tahun {inputDapem.bulan} Bulan{" "}
+                  {inputDapem.hari} Hari
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
+                <span>Tanggal Lunas</span>
+                <span className="text-right">{inputDapem.tanggal_lunas}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
+                <span>Usia Lunas</span>
+                <span className="text-right">{inputDapem.usia_lunas}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1 font-bold text-green-500">
+                <span>Gaji Bersih</span>
+                <span className="text-right">
+                  {formatNumber(inputDapem.gaji.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Produk Pembiayaan</span>
+                <span className="text-right">
+                  {produk.name} ({bank.kode})
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Margin Bunga</span>
+                <span className="text-right">{produk.mg_bunga}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Jenis Pembiayaan</span>
+                <span className="text-right">{jenis.name}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Tenor</span>
+                <span className="text-right">{inputDapem.tenor}</span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Plafond</span>
+                <span className="text-right">
+                  {formatNumber(inputDapem.plafond.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Angsuran</span>
+                <span className="text-right">
+                  {formatNumber(inputDapem.angsuran.toFixed(0))}
+                </span>
+              </div>
             </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Tanggal Simulasi</span>
-              <span className="text-right">
-                {moment(inputDapem.tanggal_simulasi).format("DD-MM-YYYY")}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Nomor Pensiun</span>
-              <span className="text-right">{inputDapem.nopen}</span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Nama Pemohon</span>
-              <span className="text-right">{inputDapem.nama_pemohon}</span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Tanggal Lahir</span>
-              <span className="text-right">
-                {moment(inputDapem.tanggal_lahir).format("DD-MM-YYYY")}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Usia Masuk</span>
-              <span className="text-right">
-                {inputDapem.tahun} Tahun {inputDapem.bulan} Bulan{" "}
-                {inputDapem.hari} Hari
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
-              <span>Tanggal Lunas</span>
-              <span className="text-right">{inputDapem.tanggal_lunas}</span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
-              <span>Usia Lunas</span>
-              <span className="text-right">{inputDapem.usia_lunas}</span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1 font-bold text-green-500">
-              <span>Gaji Bersih</span>
-              <span className="text-right">
-                {formatNumber(inputDapem.gaji.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Produk Pembiayaan</span>
-              <span className="text-right">
-                {produk.name} ({bank.kode})
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Margin Bunga</span>
-              <span className="text-right">{produk.mg_bunga}</span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Jenis Pembiayaan</span>
-              <span className="text-right">{jenis.name}</span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Tenor</span>
-              <span className="text-right">{inputDapem.tenor}</span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Plafond</span>
-              <span className="text-right">
-                {formatNumber(inputDapem.plafond.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Angsuran</span>
-              <span className="text-right">
-                {formatNumber(inputDapem.angsuran.toFixed(0))}
-              </span>
-            </div>
-          </div>
-          <div className="flex-1">
-            <div className="text-center font-bold bg-green-500 text-white p-2">
-              RINCIAN PEMBIAYAAN
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Biaya Administrasi</span>
-              <span className="text-right">
-                {formatNumber(
-                  (
-                    inputDapem.plafond *
-                    ((bank.by_admin + bank.by_admin_bank) / 100)
-                  ).toFixed(0),
-                )}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Biaya Asuransi</span>
-              <span className="text-right">
-                {formatNumber(
-                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0),
-                )}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Biaya Tatalaksana</span>
-              <span className="text-right">
-                {formatNumber((tempTatalaksana || 0).toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Biaya {labelTabungan}</span>
-              <span className="text-right">
-                {formatNumber(bank.by_buka_rekening.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Biaya Materai</span>
-              <span className="text-right">
-                {formatNumber(bank.by_materai.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>
-                Biaya {bank.kode === "BPR SIP" ? "Layanan Kredit" : "Provisi"}
-              </span>
-              <span className="text-right">
-                {formatNumber((tempProvisi || 0).toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Biaya Data Informasi</span>
-              <span className="text-right">
-                {formatNumber((bank.by_epotpen + bank.by_flagging).toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Biaya Mutasi</span>
-              <span className="text-right">
-                {formatNumber(jenis.by_mutasi.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Blokir Angsuran</span>
-              <span className="text-center">
-                {inputDapem.blokir} x{" "}
-                {formatNumber(inputDapem.angsuran.toFixed(0))}
-              </span>
-              <span className="text-right">
-                {formatNumber(
-                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0),
-                )}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Terima Kotor</span>
-              <span className="text-right">
-                {formatNumber(inputDapem.kotor.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1 text-red-500 font-bold">
-              <span>BPP</span>
-              <span className="text-right">
-                {formatNumber(inputDapem.bpp.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Pelunasan</span>
-              <span className="text-right">
-                {formatNumber(inputDapem.pelunasan.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
-              <span>Terima Bersih</span>
-              <span className="text-right">
-                {formatNumber(inputDapem.bersih.toFixed(0))}
-              </span>
-            </div>
-            <div className="flex justify-between border-b border-gray-200 py-1">
-              <span>Sisa Gaji</span>
-              <span className="text-right">
-                {formatNumber(
-                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0),
-                )}
-              </span>
+            <div className="flex-1">
+              <div className="text-center font-bold bg-green-500 text-white p-2">
+                RINCIAN PEMBIAYAAN
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Biaya Administrasi</span>
+                <span className="text-right">
+                  {formatNumber(
+                    (
+                      inputDapem.plafond *
+                      ((bank.by_admin + bank.by_admin_bank) / 100)
+                    ).toFixed(0),
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Biaya Asuransi</span>
+                <span className="text-right">
+                  {formatNumber(
+                    (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(
+                      0,
+                    ),
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Biaya Tatalaksana</span>
+                <span className="text-right">
+                  {formatNumber((tempTatalaksana || 0).toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Biaya {labelTabungan}</span>
+                <span className="text-right">
+                  {formatNumber(bank.by_buka_rekening.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Biaya Materai</span>
+                <span className="text-right">
+                  {formatNumber(bank.by_materai.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>
+                  Biaya {bank.kode === "BPR SIP" ? "Layanan Kredit" : "Provisi"}
+                </span>
+                <span className="text-right">
+                  {formatNumber((tempProvisi || 0).toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Biaya Data Informasi</span>
+                <span className="text-right">
+                  {formatNumber(
+                    (bank.by_epotpen + bank.by_flagging).toFixed(0),
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Biaya Mutasi</span>
+                <span className="text-right">
+                  {formatNumber(jenis.by_mutasi.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Blokir Angsuran</span>
+                <span className="text-center">
+                  {inputDapem.blokir} x{" "}
+                  {formatNumber(inputDapem.angsuran.toFixed(0))}
+                </span>
+                <span className="text-right">
+                  {formatNumber(
+                    (inputDapem.blokir * inputDapem.angsuran).toFixed(0),
+                  )}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Terima Kotor</span>
+                <span className="text-right">
+                  {formatNumber(inputDapem.kotor.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1 text-red-500 font-bold">
+                <span>BPP</span>
+                <span className="text-right">
+                  {formatNumber(inputDapem.bpp.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Pelunasan</span>
+                <span className="text-right">
+                  {formatNumber(inputDapem.pelunasan.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1 font-bold">
+                <span>Terima Bersih</span>
+                <span className="text-right">
+                  {formatNumber(inputDapem.bersih.toFixed(0))}
+                </span>
+              </div>
+              <div className="flex justify-between border-b border-gray-200 py-1">
+                <span>Sisa Gaji</span>
+                <span className="text-right">
+                  {formatNumber(
+                    (inputDapem.gaji - inputDapem.angsuran).toFixed(0),
+                  )}
+                </span>
+              </div>
             </div>
           </div>
         </div>

@@ -34,7 +34,7 @@ export default function DataMarketing() {
     const res = await fetch(
       `/api/data-karyawan?page=${page}${name ? "&name=" + name : ""}${
         pageSize ? "&pageSize=" + pageSize : ""
-      }`
+      }`,
     );
     const { data, total, jumlah } = await res.json();
     setTotal(total);
@@ -63,7 +63,7 @@ export default function DataMarketing() {
       setCabang(
         Unit.map((unit) => {
           return { label: unit.name, value: unit.id };
-        })
+        }),
       );
       setLoading(false);
     })();
