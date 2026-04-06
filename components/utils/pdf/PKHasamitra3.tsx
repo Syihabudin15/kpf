@@ -79,8 +79,8 @@ export default function PKHasamitra3({ data }: { data: DataDataPengajuan }) {
       >
         <Text style={{ width: 8 }}>II.</Text>
         <Text>
-          Eva Fajar Nurhasanah dalam jabatannya selaku Ketua KOPERASI JASA
-          FADILLAH AQILA SEJAHTRA, berdasarkan Perjanjian Kerjasama No.
+          Nandang Hermawan dalam jabatannya selaku Direktur Pengelola KOPERASI
+          JASA FADILLAH AQILA SEJAHTRA, berdasarkan Perjanjian Kerjasama No.
           027/FAS/PKS/II/2026 dan No. 023/BPR-HM-JB/PKS/II/2026. tanggal
           …………………………………………………… antara KOPERASI JASA FADILLAH AQILA SEJAHTRA dan
           PT. BPR HASAMITRA JAWA BARAT dan Surat Kuasa Nomor
@@ -784,9 +784,9 @@ export default function PKHasamitra3({ data }: { data: DataDataPengajuan }) {
             <Text>KOPERASI JASA FADILLAH AQILA SEJAHTRA</Text>
             <View style={{ height: 70 }}></View>
             <Text style={{ textDecoration: "underline" }}>
-              EVA FAJAR NURHASANAH
+              NANDANG HERMAWAN
             </Text>
-            <Text>Ketua </Text>
+            <Text>Direktur Pengelola</Text>
           </View>
           <View style={{ flex: 1 }}>
             <Text>Debitur</Text>

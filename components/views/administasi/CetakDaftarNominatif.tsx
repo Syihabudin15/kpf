@@ -61,10 +61,10 @@ export default function CetakDaftarNominatif({
                     d.DataPembiayaan.tenor,
                     d.DataPembiayaan.plafond,
                     false,
-                    true
-                  )
+                    true,
+                  ),
                 ),
-                d.DataPembiayaan.pembulatan
+                d.DataPembiayaan.pembulatan,
               )
             : ceiling(
                 parseInt(
@@ -75,10 +75,10 @@ export default function CetakDaftarNominatif({
                     false,
                     false,
                     d.Bank.kode,
-                    d.DataPembiayaan.pembulatanKhusus
-                  )
+                    d.DataPembiayaan.pembulatanKhusus,
+                  ),
                 ),
-                d.DataPembiayaan.pembulatan
+                d.DataPembiayaan.pembulatan,
               );
         const angsuranBank =
           d.jenis_margin === "FLAT"
@@ -89,10 +89,10 @@ export default function CetakDaftarNominatif({
                     d.DataPembiayaan.tenor,
                     d.DataPembiayaan.plafond,
                     false,
-                    true
-                  )
+                    true,
+                  ),
                 ),
-                d.DataPembiayaan.pembulatan
+                d.DataPembiayaan.pembulatan,
               )
             : ceiling(
                 parseInt(
@@ -103,20 +103,20 @@ export default function CetakDaftarNominatif({
                     false,
                     false,
                     d.Bank.kode,
-                    d.DataPembiayaan.pembulatanKhusus
-                  )
+                    d.DataPembiayaan.pembulatanKhusus,
+                  ),
                 ),
-                d.DataPembiayaan.pembulatan
+                d.DataPembiayaan.pembulatan,
               );
         const angsuranKoperasi = angsuran - angsuranBank;
         const blokir = d.DataPembiayaan.blokir * angsuran;
         const takeOver = d.DataPembiayaan.pelunasan + d.DataPembiayaan.bpp;
         const { tahun, bulan } = getUsiaMasuk(
           d.DataPembiayaan.tanggal_lahir,
-          (d.tanggal_cetak_akad || moment()).toString()
+          (d.tanggal_cetak_akad || moment()).toString(),
         );
         const asRate = AsuransiRate.filter(
-          (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`))
+          (a) => a.usia == Math.round(parseFloat(`${tahun}.${bulan}`)),
         );
 
         const inda = Math.floor(d.DataPembiayaan.tenor / 12);
@@ -166,7 +166,8 @@ export default function CetakDaftarNominatif({
             NO: ind + 1,
             "AREA PELAYANAN": d.User.UnitCabang.UnitPelayanan.name,
             "UNIT PELAYANAN": d.User.UnitCabang.name,
-            MARKETING: d.User.first_name + " " + d.User.last_name,
+            SPV: d.User.first_name + " " + d.User.last_name,
+            MOC: d.moc,
             NOPEN: d.DataPembiayaan.nopen,
             "NO SK PENSIUN": d.nomor_sk_pensiun,
             "NAMA PEMOHON": d.nama,
@@ -180,7 +181,7 @@ export default function CetakDaftarNominatif({
               : "Sisa Gaji",
             "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD/MM/YYYY"),
             "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format(
-              "DD/MM/YYYY"
+              "DD/MM/YYYY",
             ),
             "TANGGAL LUNAS": moment(d.tanggal_cetak_akad)
               .add(d.DataPembiayaan.tenor, "M")
@@ -209,7 +210,8 @@ export default function CetakDaftarNominatif({
             NO: ind + 1,
             "AREA PELAYANAN": d.User.UnitCabang.UnitPelayanan.name,
             "UNIT PELAYANAN": d.User.UnitCabang.name,
-            MARKETING: `${d.User.first_name} ${d.User.last_name}`,
+            SPV: d.User.first_name + " " + d.User.last_name,
+            MOC: d.moc,
             NOPEN: d.DataPembiayaan.nopen,
             "NO SK PENSIUN": d.nomor_sk_pensiun,
             "NAMA PEMOHON": d.nama,
@@ -223,7 +225,7 @@ export default function CetakDaftarNominatif({
               : "Sisa Gaji",
             "TANGGAL AKAD": moment(d.tanggal_cetak_akad).format("DD/MM/YYYY"),
             "TANGGAL PENCAIRAN": moment(d.tanggal_pencairan).format(
-              "DD/MM/YYYY"
+              "DD/MM/YYYY",
             ),
             "TANGGAL LUNAS": moment(d.tanggal_cetak_akad)
               .add(d.DataPembiayaan.tenor, "M")
@@ -255,7 +257,8 @@ export default function CetakDaftarNominatif({
         NO: "TOTAL",
         "AREA PELAYANAN": "-",
         "UNIT PELAYANAN": "-",
-        MARKETING: "-",
+        SPV: "-",
+        MOC: "-",
         NOPEN: "-",
         "NO SK PENSIUN": "-",
         "NAMA PEMOHON": "-",
@@ -291,7 +294,7 @@ export default function CetakDaftarNominatif({
       XLSX.utils.book_append_sheet(
         wb,
         ws,
-        "NOMINATIF " + new Date().getFullYear()
+        "NOMINATIF " + new Date().getFullYear(),
       );
       XLSX.writeFile(wb, `NOMINATIF ${new Date().getFullYear()}.xlsx`);
     } catch (err) {

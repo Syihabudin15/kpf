@@ -28,10 +28,10 @@ export default function TandaTerimaDebitur({
               data.DataPembiayaan.tenor,
               data.DataPembiayaan.plafond,
               false,
-              true
-            )
+              true,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         )
       : ceiling(
           parseInt(
@@ -42,10 +42,10 @@ export default function TandaTerimaDebitur({
               false,
               false,
               data.Bank.kode,
-              data.DataPembiayaan.pembulatanKhusus
-            )
+              data.DataPembiayaan.pembulatanKhusus,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         );
   const blokir = data.DataPembiayaan.blokir * angsuran;
 
@@ -59,7 +59,8 @@ export default function TandaTerimaDebitur({
       data.DataPembiayaan.by_mutasi +
       data.DataPembiayaan.by_epotpen +
       data.DataPembiayaan.by_flagging +
-      data.DataPembiayaan.by_provisi);
+      data.DataPembiayaan.by_provisi +
+      blokir);
   const bersih =
     kotor - (data.DataPembiayaan.bpp + data.DataPembiayaan.pelunasan);
   return (

@@ -13,7 +13,7 @@ export default function KreditKaryawan() {
   useEffect(() => {
     setTables([]);
     const temps: ITable[] = [];
-    for (let i = 1; i <= data.tenor; i++) {
+    for (let i = 0; i <= data.tenor + 1; i++) {
       const angsuran = getAngsuran(data.plafon, data.tenor, data.bunga);
       temps.push({
         no: i,
@@ -92,8 +92,8 @@ export default function KreditKaryawan() {
             label="Angsuran"
             value={formatNumber(
               String(
-                getAngsuran(data.plafon, data.tenor, data.bunga).angsuran || 0
-              )
+                getAngsuran(data.plafon, data.tenor, data.bunga).angsuran || 0,
+              ),
             )}
             mode="row"
             disabled
@@ -108,7 +108,7 @@ export default function KreditKaryawan() {
           <FormInput
             label="Terima Bersih"
             value={formatNumber(
-              String(data.plafon - data.plafon * (data.cAdmin / 100))
+              String(data.plafon - data.plafon * (data.cAdmin / 100)),
             )}
             mode="row"
             disabled
