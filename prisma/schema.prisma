@@ -28,6 +28,7 @@ enum Role {
   KEUANGAN
   MANAGEMENT
   AUDIT
+  ADMINISTRASI
 }
 
 enum StatusPengajuan {
@@ -140,6 +141,7 @@ model Bank {
   by_epotpen       Int     @default(35000)
   by_provisi       Int?    @default(0)
   margin_bank      Float?  @default(14)
+  tbo              Int?    @default(0)
   is_syariah       Boolean @default(false)
   is_flash         Boolean @default(false)
 
@@ -176,6 +178,7 @@ model JenisPembiayaan {
   id         String   @id @default(uuid())
   name       String   @unique
   by_mutasi  Int
+  blokir     Int      @default(0)
   is_active  Boolean  @default(true)
   created_at DateTime @default(now())
 
@@ -196,42 +199,44 @@ model Refferal {
 }
 
 model DataPembiayaan {
-  id                    String   @id @default(uuid())
-  nopen                 String
-  name                  String
-  keterangan            String?
-  alamat                String
-  tanggal_lahir         String
-  tempat_lahir          String?
-  juru_bayar_asal       String?
-  juru_bayar_tujuan     String?
-  pembiayaan_sebelumnya String?
-  no_rekening           String?
-  nama_bank             String?
-  tanggal_input         DateTime @default(now())
-  gaji_bersih           Int
-  by_tatalaksana        Int
-  by_mutasi             Int
-  by_provisi            Int
-  mg_bunga              Float
-  by_admin              Float
-  by_admin_bank         Float    @default(0)
-  by_lainnya            Float    @default(0)
-  by_asuransi           Float
-  by_buka_rekening      Int
-  by_materai            Int
-  by_flagging           Int      @default(20000)
-  by_epotpen            Int      @default(35000)
-  tenor                 Int
-  plafond               Int
-  retensi               Int      @default(0)
-  blokir                Int      @default(0)
-  bpp                   Int      @default(0)
-  pelunasan             Int      @default(0)
-  fee                   Int      @default(0)
-  margin_bank           Int      @default(0)
-  pembulatan            Int      @default(100)
-  pembulatanKhusus      Boolean  @default(false)
+  id                     String    @id @default(uuid())
+  nopen                  String
+  name                   String
+  keterangan             String?
+  alamat                 String
+  tanggal_lahir          String
+  tempat_lahir           String?
+  juru_bayar_asal        String?
+  juru_bayar_tujuan      String?
+  pembiayaan_sebelumnya  String?
+  pembiayaan_sebelumnya2 String?
+  est_takeover           DateTime?
+  no_rekening            String?
+  nama_bank              String?
+  tanggal_input          DateTime  @default(now())
+  gaji_bersih            Int
+  by_tatalaksana         Int
+  by_mutasi              Int
+  by_provisi             Int
+  mg_bunga               Float
+  by_admin               Float
+  by_admin_bank          Float     @default(0)
+  by_lainnya             Float     @default(0)
+  by_asuransi            Float
+  by_buka_rekening       Int
+  by_materai             Int
+  by_flagging            Int       @default(20000)
+  by_epotpen             Int       @default(35000)
+  tenor                  Int
+  plafond                Int
+  retensi                Int       @default(0)
+  blokir                 Int       @default(0)
+  bpp                    Int       @default(0)
+  pelunasan              Int       @default(0)
+  fee                    Int       @default(0)
+  margin_bank            Int       @default(0)
+  pembulatan             Int       @default(100)
+  pembulatanKhusus       Boolean   @default(false)
 
   is_simulasi Boolean
   is_deviasi  Boolean @default(false)

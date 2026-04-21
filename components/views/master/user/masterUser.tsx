@@ -82,7 +82,7 @@ export default function MasterUser() {
     const res = await fetch(
       `/api/master/user?page=${page}${search ? "&search=" + search : ""}${
         pageSize ? "&pageSize=" + pageSize : ""
-      }`
+      }`,
     );
     const { data, totalLength } = await res.json();
     const pelayanan = await fetch("/api/master/unit/pelayanan");
@@ -109,7 +109,7 @@ export default function MasterUser() {
         "Content-Type": "Application/json",
       },
       body: JSON.stringify(
-        url ? { ...postData, picture: url["picture"] } : { ...postData }
+        url ? { ...postData, picture: url["picture"] } : { ...postData },
       ),
     });
     const res = await result.json();
@@ -131,7 +131,7 @@ export default function MasterUser() {
         "Content-Type": "Application/json",
       },
       body: JSON.stringify(
-        url ? { ...putData, picture: url["picture"] } : { ...putData }
+        url ? { ...putData, picture: url["picture"] } : { ...putData },
       ),
     });
     const res = await result.json();
@@ -585,10 +585,11 @@ export default function MasterUser() {
                     { value: "ENTRY_DATA", label: "ENTRY DATA" },
                     { value: "VERIFIKASI", label: "VERIFIKASI" },
                     { value: "BANK", label: "SLIK" },
+                    { value: "ADMINISTRASI", label: "ADMINISTRASI" },
+                    { value: "APPROVAL", label: "APPROVAL" },
                     // { value: "CHECKER", label: "CHECKER" },
                     // { value: "MAKER", label: "MAKER" },
                     { value: "OPERASIONAL", label: "OPERASIONAL" },
-                    { value: "APPROVAL", label: "APPROVAL" },
                     { value: "MARKETING", label: "MARKETING" },
                     { value: "PEMBERKKASAN", label: "PEMBERKASAN" },
                     { value: "KEUANGAN", label: "KEUANGAN" },
