@@ -175,7 +175,7 @@ export default function InputForm({
       kecamatan_pasangan: e.kecamatan_pasangan,
       kota_pasangan: e.kota_pasangan,
       provinsi_pasangan: e.provinsi_pasangan,
-      kodepos_pasangan: e.kodepos_pasangan,
+      kode_pos_pasangan: e.kode_pos_pasangan,
       masa_ktp_pasangan: moment(e.masa_ktp_pasangan).toISOString(),
       pekerjaan_pasangan: e.pekerjaan_pasangan,
       nama_keluarga_tidak_serumah: e.keluarga_tidak_serumah || null,

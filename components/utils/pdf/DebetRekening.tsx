@@ -148,7 +148,7 @@ export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
             data.DataPengajuanPasangan.tempat_lahir_pasangan + ","}{" "}
           {data.DataPengajuanPasangan.tanggal_lahir_pasangan &&
             moment(data.DataPengajuanPasangan.tanggal_lahir_pasangan).format(
-              "DD-MM-YYYY"
+              "DD-MM-YYYY",
             )}
         </Text>
       </View>
@@ -165,7 +165,12 @@ export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
         <Text style={{ width: 130 }}>Alamat Lengkap</Text>
         <Text style={{ width: 20 }}>:</Text>
         <Text style={{ width: 300 }}>
-          {data.DataPengajuanPasangan.alamat_pasangan}
+          {data.DataPengajuanPasangan.alamat_pasangan},
+          {data.DataPengajuanPasangan.kelurahan_pasangan}
+          {data.DataPengajuanPasangan.kecamatan_pasangan},
+          {data.DataPengajuanPasangan.kota_pasangan}
+          {data.DataPengajuanPasangan.provinsi_pasangan}
+          {data.DataPengajuanPasangan.kode_pos_pasangan}
         </Text>
       </View>
       <View
@@ -261,10 +266,10 @@ export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
                           data.DataPembiayaan.tenor,
                           data.DataPembiayaan.plafond,
                           false,
-                          true
-                        )
+                          true,
+                        ),
                       ),
-                      data.DataPembiayaan.pembulatan
+                      data.DataPembiayaan.pembulatan,
                     ).toString()
                   : ceiling(
                       parseInt(
@@ -275,11 +280,11 @@ export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
                           false,
                           false,
                           data.Bank.kode,
-                          data.DataPembiayaan.pembulatanKhusus
-                        )
+                          data.DataPembiayaan.pembulatanKhusus,
+                        ),
                       ),
-                      data.DataPembiayaan.pembulatan
-                    ).toString()
+                      data.DataPembiayaan.pembulatan,
+                    ).toString(),
               )}
             </Text>{" "}
             sampai dengan pinjaman/kewajiban saya lunas dan hasil potongan

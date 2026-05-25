@@ -50,7 +50,7 @@ export const menusV2: Menus[] = [
   {
     label: "Simulasi",
     url: "simulasi",
-    role: ["MASTER", "ENTRY_DATA", "MARKETING", "OPERASIONAL"],
+    role: ["MASTER", "ENTRY_DATA", "MARKETING", "OPERASIONAL", "KEUANGAN"],
     icon: <CalculatorOutlined />,
     child: [
       {
@@ -74,7 +74,7 @@ export const menusV2: Menus[] = [
       {
         label: "Pinjaman Anggota",
         url: "/simulasi/pinjaman-anggota",
-        role: ["MASTER", "ENTRY_DATA", "OPERASIONAL"],
+        role: ["MASTER", "ENTRY_DATA", "OPERASIONAL", "KEUANGAN"],
         icon: <ExperimentOutlined />,
       },
     ],
@@ -110,7 +110,7 @@ export const menusV2: Menus[] = [
   {
     label: "Pengajuan Disimpan",
     url: "/save-pengajuan",
-    role: ["OPERASIONAL"],
+    role: ["OPERASIONAL", "MASTER"],
     icon: <FolderOpenOutlined />,
   },
   // Entry Data
@@ -162,13 +162,13 @@ export const menusV2: Menus[] = [
   },
   {
     label: "Pengajuan SI",
-    role: ["BANK", "APPROVAL"],
+    role: ["BANK", "APPROVAL", "KEUANGAN"],
     url: "/pencairan-bank",
     icon: <BankOutlined />,
     child: [
       {
         label: "Pengajuan Pencairan",
-        role: ["BANK", "APPROVAL"],
+        role: ["BANK", "APPROVAL", "KEUANGAN"],
         url: "/slik/pencairan",
         icon: <MoneyCollectOutlined />,
       },
@@ -181,7 +181,7 @@ export const menusV2: Menus[] = [
       {
         label: "Pencairan Tahap 2",
         url: "/operasional/pencairan-tahap-2",
-        role: ["MASTER", "OPERASIONAL", "BANK"],
+        role: ["MASTER", "OPERASIONAL", "BANK", "KEUANGAN"],
         icon: <FormOutlined />,
       },
       {
@@ -236,37 +236,43 @@ export const menusV2: Menus[] = [
   {
     label: "Pengajuan  SI",
     url: "/operasional",
-    role: ["MASTER", "OPERASIONAL", "PEMBERKASAN", "ENTRY_DATA"],
+    role: ["MASTER", "OPERASIONAL", "PEMBERKASAN", "ENTRY_DATA", "KEUANGAN"],
     icon: <DiffOutlined />,
     child: [
       {
         label: "Cetak SI Pencairan",
         url: "/operasional/cetak-si",
-        role: ["MASTER", "OPERASIONAL"],
+        role: ["MASTER", "OPERASIONAL", "KEUANGAN"],
         icon: <FormOutlined />,
       },
       {
         label: "Pengajuan Pencairan",
         url: "/operasional/pencairan",
-        role: ["MASTER", "OPERASIONAL"],
+        role: ["MASTER", "OPERASIONAL", "KEUANGAN"],
         icon: <FormOutlined />,
       },
       {
         label: "Pencairan Tahap 2",
         url: "/operasional/pencairan-tahap-2",
-        role: ["MASTER", "OPERASIONAL", "BANK"],
+        role: ["MASTER", "OPERASIONAL", "BANK", "KEUANGAN"],
         icon: <FormOutlined />,
       },
       {
         label: "Riwayat Pengajuan Bank",
         url: "/operasional/riwayat-pengajuan-bank",
-        role: ["MASTER", "OPERASIONAL"],
+        role: ["MASTER", "OPERASIONAL", "KEUANGAN"],
         icon: <BookOutlined />,
       },
       {
         label: "Dokumen Pengajuan Mitra",
         url: "/operasional/pengajuan-mitra",
-        role: ["MASTER", "OPERASIONAL", "PEMBERKASAN", "ENTRY_DATA"],
+        role: [
+          "MASTER",
+          "OPERASIONAL",
+          "PEMBERKASAN",
+          "ENTRY_DATA",
+          "KEUANGAN",
+        ],
         icon: <FolderOpenOutlined />,
       },
     ],
@@ -495,7 +501,7 @@ export const menusV2: Menus[] = [
   {
     label: "Mutasi & Flagging",
     url: "/mutasi-flagging",
-    role: ["MASTER", "BISNIS", "PEMBERKASAN", "OPERASIONAL"],
+    role: ["MASTER", "BISNIS", "PEMBERKASAN", "OPERASIONAL", "KEUANGAN"],
     icon: <BookOutlined />,
   },
   {
@@ -507,13 +513,13 @@ export const menusV2: Menus[] = [
   {
     label: "Tagihan",
     url: "/tagihan",
-    role: ["MASTER", "OPERASIONAL"],
+    role: ["MASTER", "OPERASIONAL", "KEUANGAN"],
     icon: <AccountBookOutlined />,
   },
   {
     label: "Sosial Link",
     url: "/link",
-    role: ["MASTER", "OPERASIONAL", "PEMBERKASAN", "ENTRY_DATA"],
+    role: ["MASTER", "OPERASIONAL", "PEMBERKASAN", "ENTRY_DATA", "KEUANGAN"],
     icon: <PieChartOutlined />,
   },
 ];

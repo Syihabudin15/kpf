@@ -47,10 +47,10 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               data.DataPembiayaan.tenor,
               data.DataPembiayaan.plafond,
               false,
-              true
-            )
+              true,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         ).toString()
       : ceiling(
           parseInt(
@@ -61,14 +61,14 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               false,
               false,
               data.Bank.kode,
-              data.DataPembiayaan.pembulatanKhusus
-            )
+              data.DataPembiayaan.pembulatanKhusus,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         ).toString();
   const angsuranPokok = ceiling(
     data.DataPembiayaan.plafond / data.DataPembiayaan.tenor,
-    data.DataPembiayaan.pembulatan
+    data.DataPembiayaan.pembulatan,
   ).toString();
   const angsuranBank =
     data.jenis_margin === "FLAT"
@@ -79,10 +79,10 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               data.DataPembiayaan.tenor,
               data.DataPembiayaan.plafond,
               false,
-              true
-            )
+              true,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         ).toString()
       : ceiling(
           parseInt(
@@ -93,14 +93,14 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
               false,
               false,
               data.Bank.kode,
-              data.DataPembiayaan.pembulatanKhusus
-            )
+              data.DataPembiayaan.pembulatanKhusus,
+            ),
           ),
-          data.DataPembiayaan.pembulatan
+          data.DataPembiayaan.pembulatan,
         ).toString();
 
   const colfee = (parseInt(angsuranBulanan) - parseInt(angsuranBank)).toFixed(
-    0
+    0,
   );
   return (
     <Page size={"A4"} style={stylePdf.root} wrap>
@@ -249,8 +249,8 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       <Text style={{ width: 300 }}>
                         {data.DataPengajuanAlamat.alamat}{" "}
                         {data.DataPengajuanAlamat.rt}/
-                        {data.DataPengajuanAlamat.rw},{" "}
-                        {data.DataPengajuanAlamat.kelurahan}{" "}
+                        {data.DataPengajuanAlamat.rw}, KELURAHAN{" "}
+                        {data.DataPengajuanAlamat.kelurahan} KECAMATAN{" "}
                         {data.DataPengajuanAlamat.kecamatan},{" "}
                         {data.DataPengajuanAlamat.kota}{" "}
                         {data.DataPengajuanAlamat.provinsi}{" "}
@@ -300,7 +300,13 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       <Text style={{ width: 100 }}>Alamat</Text>
                       <Text style={{ width: 20 }}>:</Text>
                       <Text style={{ width: 300 }}>
-                        {data.DataPengajuanPasangan.alamat_pasangan}
+                        {data.DataPengajuanPasangan.alamat_pasangan}, KELURAHAN{" "}
+                        {data.DataPengajuanPasangan.kelurahan_pasangan}{" "}
+                        KECAMATAN{" "}
+                        {data.DataPengajuanPasangan.kecamatan_pasangan},
+                        {data.DataPengajuanPasangan.kota_pasangan}
+                        {data.DataPengajuanPasangan.provinsi_pasangan}
+                        {data.DataPengajuanPasangan.kode_pos_pasangan}
                       </Text>
                     </View>
                     <View
@@ -716,7 +722,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                         <Text style={{ width: 50 }}>Rp.</Text>
                         <Text>
                           {formatNumber(
-                            data.DataPembiayaan.by_provisi.toFixed(0)
+                            data.DataPembiayaan.by_provisi.toFixed(0),
                           )}
                         </Text>
                       </View>
@@ -739,7 +745,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                         <Text style={{ width: 50 }}>Rp.</Text>
                         <Text>
                           {formatNumber(
-                            data.DataPembiayaan.by_buka_rekening.toFixed(0)
+                            data.DataPembiayaan.by_buka_rekening.toFixed(0),
                           )}
                         </Text>
                       </View>
@@ -762,7 +768,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       <Text style={{ width: 50 }}>Rp.</Text>
                       <Text>
                         {formatNumber(
-                          data.DataPembiayaan.by_materai.toFixed(0)
+                          data.DataPembiayaan.by_materai.toFixed(0),
                         )}
                       </Text>
                     </View>
@@ -788,12 +794,12 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                               (
                                 byLainLain +
                                 data.DataPembiayaan.by_buka_rekening
-                              ).toFixed(0)
+                              ).toFixed(0),
                             )
                           : formatNumber(
                               (
                                 byLainLain + data.DataPembiayaan.by_provisi
-                              ).toFixed(0)
+                              ).toFixed(0),
                             )}
                       </Text>
                     </View>
@@ -850,7 +856,7 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                             data.DataPembiayaan.by_buka_rekening +
                             data.DataPembiayaan.by_materai +
                             data.DataPembiayaan.by_provisi
-                          ).toFixed(0)
+                          ).toFixed(0),
                         )}
                       </Text>
                     </View>
@@ -909,7 +915,9 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                         </Text>{" "}
                         tertanggal :{" "}
                         <Text style={{ fontWeight: "bold" }}>
-                          {moment(data.tanggal_sk_pensiun).format("DD-MM-YYYY")}{" "}
+                          {moment(data.tanggal_sk_pensiun).format(
+                            "DD-MM-YYYY",
+                          )}{" "}
                         </Text>
                         atas nama :{" "}
                         <Text style={{ fontWeight: "bold" }}>

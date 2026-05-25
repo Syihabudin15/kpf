@@ -59,6 +59,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
     id: "",
     name: "",
     by_mutasi: 0,
+    blokir: 0,
     is_active: true,
     created_at: new Date(),
   });
@@ -146,6 +147,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
       id: "",
       name: "",
       by_mutasi: 0,
+      blokir: 0,
       is_active: true,
       created_at: new Date(),
     });
@@ -492,6 +494,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                       id: tempJenis[0].id,
                       name: tempJenis[0].name,
                       by_mutasi: tempJenis[0].by_mutasi,
+                      blokir: tempJenis[0].blokir,
                       is_active: true,
                       created_at: new Date(),
                     });

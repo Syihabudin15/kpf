@@ -275,7 +275,12 @@ export default function ChanelingAkad({ data }: { data: DataDataPengajuan }) {
               <Text style={{ width: 100 }}>Alamat</Text>
               <Text style={{ width: 20 }}>:</Text>
               <Text style={{ width: 300 }}>
-                {data.DataPengajuanPasangan.alamat_pasangan}
+                {data.DataPengajuanPasangan.alamat_pasangan},
+                {data.DataPengajuanPasangan.kelurahan_pasangan}
+                {data.DataPengajuanPasangan.kecamatan_pasangan},
+                {data.DataPengajuanPasangan.kota_pasangan}
+                {data.DataPengajuanPasangan.provinsi_pasangan}
+                {data.DataPengajuanPasangan.kode_pos_pasangan}
               </Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", gap: 5 }}>

@@ -42,7 +42,7 @@ const CetakAkad = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 const EditPengajuan = dynamic(
@@ -50,7 +50,7 @@ const EditPengajuan = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 const ModalBerkas = dynamic(() => import("@/components/utils/ModalBerkas"), {
@@ -62,7 +62,7 @@ const ViewBerkasPengajuan = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 const CetakForm = dynamic(
@@ -70,10 +70,10 @@ const CetakForm = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
-export default function MonitoringEntryData() {
+export default function MonitoringEntryData({ role }: { role: string }) {
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
   const [from, setFrom] = useState<string>();
@@ -98,7 +98,7 @@ export default function MonitoringEntryData() {
   useEffect(() => {
     (async () => {
       const resProvinsi = await fetch(
-        "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"
+        "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json",
       );
       const dataProvinsi = await resProvinsi.json();
       setProvinsi(
@@ -107,7 +107,7 @@ export default function MonitoringEntryData() {
             label: data.name,
             value: data.id,
           };
-        })
+        }),
       );
 
       const resUp = await fetch("/api/master/unit/pelayanan");
@@ -141,7 +141,7 @@ export default function MonitoringEntryData() {
     const res = await fetch(
       `/api/monitoring/entry-data?page=${page}&pageSize=${pageSize}${
         nameOrNopen ? "&name=" + nameOrNopen : ""
-      }${from ? "&from=" + from : ""}${to ? "&to=" + to : ""}`
+      }${from ? "&from=" + from : ""}${to ? "&to=" + to : ""}`,
     );
     const { data, total } = await res.json();
     let currData = data;
@@ -150,7 +150,7 @@ export default function MonitoringEntryData() {
         currData &&
         currData.filter(
           (d: DataDataPengajuan) =>
-            d.DataPembiayaan.jenis_pembiayaan_id === null
+            d.DataPembiayaan.jenis_pembiayaan_id === null,
         );
     }
     if (group === "REGULER") {
@@ -158,7 +158,7 @@ export default function MonitoringEntryData() {
         currData &&
         currData.filter(
           (d: DataDataPengajuan) =>
-            d.DataPembiayaan.jenis_pembiayaan_id !== null
+            d.DataPembiayaan.jenis_pembiayaan_id !== null,
         );
     }
     if (pencairan === "PROSES") {
@@ -166,7 +166,7 @@ export default function MonitoringEntryData() {
         currData &&
         currData.filter(
           (d: DataDataPengajuan) =>
-            d.status_approval === "SETUJU" && d.status_pencairan !== "TRANSFER"
+            d.status_approval === "SETUJU" && d.status_pencairan !== "TRANSFER",
         );
     }
     if (pencairan === "ANTRI") {
@@ -177,27 +177,27 @@ export default function MonitoringEntryData() {
             (d.status_approval === "ANTRI" ||
               d.status_slik === "ANTRI" ||
               d.status_verifikasi === "ANTRI") &&
-            d.status_pencairan !== "BATAL"
+            d.status_pencairan !== "BATAL",
         );
     }
     if (pencairan === "CAIR") {
       currData =
         currData &&
         currData.filter(
-          (d: DataDataPengajuan) => d.status_pencairan === "TRANSFER"
+          (d: DataDataPengajuan) => d.status_pencairan === "TRANSFER",
         );
     }
     if (pencairan === "BATAL") {
       currData =
         currData &&
         currData.filter(
-          (d: DataDataPengajuan) => d.status_pencairan === "BATAL"
+          (d: DataDataPengajuan) => d.status_pencairan === "BATAL",
         );
     }
     setData(
       currData.map((d: DataDataPengajuan) => {
         return { ...d, key: d.id };
-      })
+      }),
     );
     setTotal(total);
     setLoading(false);
@@ -320,7 +320,7 @@ export default function MonitoringEntryData() {
         return (
           <Tooltip
             title={`Last Update: ${moment(
-              record.DataPembiayaan.updated_at
+              record.DataPembiayaan.updated_at,
             ).format("DD-MM-YYYY")}`}
           >
             {moment(record.DataPembiayaan.created_at).format("DD-MM-YYYY")}
@@ -496,8 +496,8 @@ export default function MonitoringEntryData() {
                   status === "SETUJU"
                     ? "green-inverse"
                     : ["ANTRI", "PENDING"].includes(status)
-                    ? "orange-inverse"
-                    : "red-inverse"
+                      ? "orange-inverse"
+                      : "red-inverse"
                 }
                 style={{ width: 70, textAlign: "center" }}
                 className="font-bold"
@@ -547,8 +547,8 @@ export default function MonitoringEntryData() {
                   status === "SETUJU"
                     ? "green-inverse"
                     : ["ANTRI", "PENDING"].includes(status)
-                    ? "orange-inverse"
-                    : "red-inverse"
+                      ? "orange-inverse"
+                      : "red-inverse"
                 }
                 style={{ width: 70, textAlign: "center" }}
                 className="font-bold"
@@ -598,8 +598,8 @@ export default function MonitoringEntryData() {
                   status === "SETUJU"
                     ? "green-inverse"
                     : ["ANTRI", "PENDING"].includes(status)
-                    ? "orange-inverse"
-                    : "red-inverse"
+                      ? "orange-inverse"
+                      : "red-inverse"
                 }
                 style={{ width: 70, textAlign: "center" }}
                 className="font-bold"
@@ -628,6 +628,7 @@ export default function MonitoringEntryData() {
       title: "STATUS DROPPING",
       dataIndex: "dropping",
       key: "dropping",
+      hidden: !["SLIK", "APPROVAL", "MASTER", "KEUANGAN"].includes(role),
       onHeaderCell: (text, record) => {
         return {
           ["style"]: {
@@ -649,10 +650,10 @@ export default function MonitoringEntryData() {
                   !status
                     ? "orange"
                     : status === "TRANSFER"
-                    ? "green-inverse"
-                    : status === "PROSES"
-                    ? "blue-inverse"
-                    : "red-inverse"
+                      ? "green-inverse"
+                      : status === "PROSES"
+                        ? "blue-inverse"
+                        : "red-inverse"
                 }
                 style={{ width: 70, textAlign: "center" }}
                 className="font-bold"

@@ -74,7 +74,7 @@ const ViewBerkasPengajuan = dynamic(
   },
 );
 
-export default function MonitoringPusat() {
+export default function MonitoringPusat({ role }: { role: string }) {
   const [selected, setSelected] = useState<DataDataPengajuan>();
   const [data, setData] = useState<DataDataPengajuan[]>();
   const [loading, setLoading] = useState(false);
@@ -682,6 +682,7 @@ export default function MonitoringPusat() {
           },
         };
       },
+      hidden: !["SLIK", "APPROVAL", "MASTER", "KEUANGAN"].includes(role),
       width: 200,
       render(value, record, index) {
         const status = record.status_pencairan;

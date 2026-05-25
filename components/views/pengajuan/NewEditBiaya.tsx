@@ -74,6 +74,7 @@ export default function NewEditBiaya({
     id: "",
     name: "",
     by_mutasi: 0,
+    blokir: 0,
     is_active: true,
     created_at: new Date(),
   });
@@ -138,7 +139,7 @@ export default function NewEditBiaya({
   const getTglDetail = (
     tglmulai: string,
     setTgl: Function,
-    tglakhir?: Date
+    tglakhir?: Date,
   ) => {
     var ar = tglmulai.split("");
     const filter = ar.filter((e) => e == "-");
@@ -225,6 +226,7 @@ export default function NewEditBiaya({
       id: "",
       name: "",
       by_mutasi: 0,
+      blokir: 0,
       is_active: true,
       created_at: new Date(),
     });
@@ -236,24 +238,24 @@ export default function NewEditBiaya({
     const tglMasuk = getTglDetail(
       tgl,
       setTgl,
-      tglRes ? tglRes.resTgl : inputDapem.tanggal_simulasi
+      tglRes ? tglRes.resTgl : inputDapem.tanggal_simulasi,
     );
     const { tanggalLunas, tahun, bulan, hari } = getUsiaTanggalLunas(
       tglRes
         ? tglRes.resTgl.toString()
         : inputDapem.tanggal_simulasi.toString(),
       tgl,
-      inputDapem.tenor
+      inputDapem.tenor,
     );
     const max_tenor = newGetMaxTenor(
       produk.max_usia_lunas,
       tglMasuk ? parseInt(tglMasuk.tahun?.toString() || "0") : inputDapem.tahun,
-      inputDapem.bulan
+      inputDapem.bulan,
     );
     const max_plafond = getMaxPlafond(
       produk.mg_bunga,
       inputDapem.tenor,
-      inputDapem.gaji * (bank.by_angsuran / 100)
+      inputDapem.gaji * (bank.by_angsuran / 100),
     );
     const angsuran =
       tambahan.jenis_margin === "FLAT"
@@ -264,10 +266,10 @@ export default function NewEditBiaya({
                 inputDapem.tenor,
                 inputDapem.plafond,
                 false,
-                true
-              )
+                true,
+              ),
             ),
-            bank.pembulatan
+            bank.pembulatan,
           )
         : ceiling(
             parseInt(
@@ -277,10 +279,10 @@ export default function NewEditBiaya({
                 inputDapem.plafond,
                 false,
                 false,
-                bank.kode
-              )
+                bank.kode,
+              ),
             ),
-            bank.pembulatan
+            bank.pembulatan,
           );
     const admin =
       inputDapem.plafond * ((bank.by_admin + bank.by_admin_bank) / 100);
@@ -426,17 +428,20 @@ export default function NewEditBiaya({
           by_mutasi: currData.DataPembiayaan.jenis_pembiayaan_id
             ? currData.DataPembiayaan.by_mutasi
             : 0,
+          blokir: currData.DataPembiayaan.jenis_pembiayaan_id
+            ? currData.DataPembiayaan.blokir
+            : 0,
           is_active: true,
           created_at: new Date(),
         });
         const { tahun, bulan, hari } = DateDiffUsiaMasuk(
           currData.DataPembiayaan.tanggal_lahir,
-          new Date(currData.DataPembiayaan.tanggal_input)
+          new Date(currData.DataPembiayaan.tanggal_input),
         );
         const tglLunas = DateDiffUsiaTanggalLunas(
           currData.DataPembiayaan.tanggal_lahir,
           currData.DataPembiayaan.tanggal_input.toString(),
-          currData.DataPembiayaan.tenor
+          currData.DataPembiayaan.tenor,
         );
         let tempProduk: string[] = [];
         bank.result.forEach((b: DataBankWithProduk) => {
@@ -491,7 +496,7 @@ export default function NewEditBiaya({
         });
         setTgl(currData.DataPembiayaan.tanggal_lahir);
         setTglSimulasi(
-          moment(currData.DataPembiayaan.tanggal_input).format("DD-MM-YYYY")
+          moment(currData.DataPembiayaan.tanggal_input).format("DD-MM-YYYY"),
         );
         setTempProvisi(currData.DataPembiayaan.by_provisi);
         setTempTatalaksana(currData.DataPembiayaan.by_tatalaksana);
@@ -769,6 +774,7 @@ export default function NewEditBiaya({
                       id: tempJenis[0].id,
                       name: tempJenis[0].name,
                       by_mutasi: tempJenis[0].by_mutasi,
+                      blokir: tempJenis[0].blokir,
                       is_active: true,
                       created_at: new Date(),
                     });
@@ -815,7 +821,7 @@ export default function NewEditBiaya({
                   for (let i = 0; i < dataBank.length; i++) {
                     for (let j = 0; j < dataBank[i].products.length; j++) {
                       const temp = dataBank[i].products.filter(
-                        (p) => p.id === e
+                        (p) => p.id === e,
                       );
                       if (temp.length !== 0) {
                         if (
@@ -830,7 +836,7 @@ export default function NewEditBiaya({
                               produkSesuai
                                 .filter((e, i, o) => o.indexOf(e) === i)
                                 .join(", ")
-                            }`
+                            }`,
                           );
                         }
                         setProduk((prev) => {
@@ -887,7 +893,7 @@ export default function NewEditBiaya({
                         } else {
                           setTempProvisi(
                             inputDapem.plafond *
-                              ((dataBank[i].by_provisi || 0) / 100)
+                              ((dataBank[i].by_provisi || 0) / 100),
                           );
                         }
                       }
@@ -1042,7 +1048,7 @@ export default function NewEditBiaya({
                       };
                     });
                     return setModalErr(
-                      `Maaf tenor yang diinput tidak dapat melebihi maksimal tenor yang tersedia!`
+                      `Maaf tenor yang diinput tidak dapat melebihi maksimal tenor yang tersedia!`,
                     );
                   }
                   setInputDapem((prev) => {
@@ -1091,12 +1097,12 @@ export default function NewEditBiaya({
                       };
                     });
                     return setModalErr(
-                      `Maaf plafond yang diinput tidak dapat melebihi maksimal plafond yang tersedia!`
+                      `Maaf plafond yang diinput tidak dapat melebihi maksimal plafond yang tersedia!`,
                     );
                   }
                   if (produk.name === "Flash Sisa Gaji") {
                     setTempTatalaksana(
-                      inputTextToDecimal(e.target.value) * (3 / 100)
+                      inputTextToDecimal(e.target.value) * (3 / 100),
                     );
                   } else {
                     setTempTatalaksana(bank.by_tatalaksana);
@@ -1106,7 +1112,7 @@ export default function NewEditBiaya({
                   } else {
                     setTempProvisi(
                       inputTextToDecimal(e.target.value || "0") *
-                        (bank.by_provisi / 100)
+                        (bank.by_provisi / 100),
                     );
                   }
                   setLastActivity((prev: string | undefined) => {
@@ -1148,7 +1154,7 @@ export default function NewEditBiaya({
               <Input
                 disabled
                 value={formatNumber(
-                  (inputDapem.gaji * (bank.by_angsuran / 100)).toFixed(0)
+                  (inputDapem.gaji * (bank.by_angsuran / 100)).toFixed(0),
                 )}
                 style={{ color: "black", backgroundColor: "white" }}
               />
@@ -1240,7 +1246,7 @@ export default function NewEditBiaya({
                   (
                     inputDapem.plafond *
                     ((bank.by_admin + bank.by_admin_bank) / 100)
-                  ).toFixed(0)
+                  ).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1286,7 +1292,7 @@ export default function NewEditBiaya({
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0)
+                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1331,7 +1337,7 @@ export default function NewEditBiaya({
                     return {
                       ...prev,
                       by_buka_rekening: inputTextToDecimal(
-                        e.target.value || "0"
+                        e.target.value || "0",
                       ),
                     };
                   });
@@ -1487,8 +1493,8 @@ export default function NewEditBiaya({
               <Input
                 value={formatNumber(
                   (inputDapem.plafond * (tambahan.refferal_fee / 100)).toFixed(
-                    0
-                  )
+                    0,
+                  ),
                 )}
                 disabled={true}
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1526,7 +1532,7 @@ export default function NewEditBiaya({
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0)
+                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1623,7 +1629,7 @@ export default function NewEditBiaya({
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0)
+                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}

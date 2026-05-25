@@ -14,14 +14,14 @@ const MonitoringEntryData = dynamic(
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 const MonitoringPusat = dynamic(
   () => import("@/components/views/monitoring/MonitoringPusat"),
   {
     ssr: false,
     loading: () => <LoadingOutlined />,
-  }
+  },
 );
 
 export default async function page() {
@@ -40,7 +40,11 @@ export default async function page() {
           MONITORING PEMBIAYAAN
         </h1>
       </div>
-      {user?.unit_cabang_id ? <MonitoringEntryData /> : <MonitoringPusat />}
+      {user?.unit_cabang_id ? (
+        <MonitoringEntryData role={user.role} />
+      ) : (
+        <MonitoringPusat role={user?.role || ""} />
+      )}
     </section>
   );
 }

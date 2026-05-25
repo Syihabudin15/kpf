@@ -12,6 +12,10 @@ const SIBprDassa = dynamic(() => import("@/components/views/dataPdf/SIBprDs"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
 });
+const SIBprCar = dynamic(() => import("@/components/views/dataPdf/SIBprCAR"), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 const SIBprHM = dynamic(() => import("@/components/views/dataPdf/SIBprHM"), {
   ssr: false,
   loading: () => <LoadingOutlined />,
@@ -40,6 +44,7 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
       {data.Bank.kode === "BPR BNM" && <SIBprBNM data={data} />}
       {data.Bank.kode === "BPR HASAMITRA" && <SIBprBNM data={data} />}
       {data.Bank.kode === "BPR SAGA" && <SIBprBNM data={data} />}
+      {data.Bank.kode === "BANK CAR" && <SIBprCar data={data} />}
       {(data.Bank.kode === "KOPJASFAS" || data.Bank.kode === "KPF") && (
         <SIBprBNM data={data} />
       )}

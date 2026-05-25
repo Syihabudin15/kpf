@@ -71,6 +71,7 @@ export default function NewInputBiaya({
     id: "",
     name: "",
     by_mutasi: 0,
+    blokir: 0,
     is_active: true,
     created_at: new Date(),
   });
@@ -136,7 +137,7 @@ export default function NewInputBiaya({
   const getTglDetail = (
     tglmulai: string,
     setTgl: Function,
-    tglakhir?: Date
+    tglakhir?: Date,
   ) => {
     var ar = tglmulai.split("");
     const filter = ar.filter((e) => e == "-");
@@ -223,6 +224,7 @@ export default function NewInputBiaya({
       id: "",
       name: "",
       by_mutasi: 0,
+      blokir: 0,
       is_active: true,
       created_at: new Date(),
     });
@@ -234,24 +236,24 @@ export default function NewInputBiaya({
     const tglMasuk = getTglDetail(
       tgl,
       setTgl,
-      tglRes ? tglRes.resTgl : inputDapem.tanggal_simulasi
+      tglRes ? tglRes.resTgl : inputDapem.tanggal_simulasi,
     );
     const { tanggalLunas, tahun, bulan, hari } = getUsiaTanggalLunas(
       tglRes
         ? tglRes.resTgl.toString()
         : inputDapem.tanggal_simulasi.toString(),
       tgl,
-      inputDapem.tenor
+      inputDapem.tenor,
     );
     const max_tenor = newGetMaxTenor(
       produk.max_usia_lunas,
       tglMasuk ? parseInt(tglMasuk.tahun?.toString() || "0") : inputDapem.tahun,
-      inputDapem.bulan
+      inputDapem.bulan,
     );
     const max_plafond = getMaxPlafond(
       produk.mg_bunga,
       inputDapem.tenor,
-      inputDapem.gaji * (bank.by_angsuran / 100)
+      inputDapem.gaji * (bank.by_angsuran / 100),
     );
     const angsuran =
       tambahan.jenis_margin === "FLAT"
@@ -262,10 +264,10 @@ export default function NewInputBiaya({
                 inputDapem.tenor,
                 inputDapem.plafond,
                 false,
-                true
-              )
+                true,
+              ),
             ),
-            bank.pembulatan
+            bank.pembulatan,
           )
         : ceiling(
             parseInt(
@@ -275,10 +277,10 @@ export default function NewInputBiaya({
                 inputDapem.plafond,
                 false,
                 false,
-                bank.kode
-              )
+                bank.kode,
+              ),
             ),
-            bank.pembulatan
+            bank.pembulatan,
           );
     const admin =
       inputDapem.plafond * ((bank.by_admin + bank.by_admin_bank) / 100);
@@ -370,11 +372,13 @@ export default function NewInputBiaya({
             }% (${asuransiProduk}%-${produk.by_asuransi}%). Tenor ${
               inputDapem.tenor
             }, Plafond ${formatNumber(
-              inputDapem.plafond.toFixed(0)
+              inputDapem.plafond.toFixed(0),
             )} TB Normal ${formatNumber(
-              (kotorNormal - (inputDapem.bpp + inputDapem.pelunasan)).toFixed(0)
+              (kotorNormal - (inputDapem.bpp + inputDapem.pelunasan)).toFixed(
+                0,
+              ),
             )}, TB Deviasi ${formatNumber(
-              (kotor - (inputDapem.bpp + inputDapem.pelunasan)).toFixed(0)
+              (kotor - (inputDapem.bpp + inputDapem.pelunasan)).toFixed(0),
             )}`,
       fee: reffFee,
       by_admin_bank: bank.by_admin_bank,
@@ -589,6 +593,7 @@ export default function NewInputBiaya({
                       id: tempJenis[0].id,
                       name: tempJenis[0].name,
                       by_mutasi: tempJenis[0].by_mutasi,
+                      blokir: tempJenis[0].blokir,
                       is_active: true,
                       created_at: new Date(),
                     });
@@ -628,7 +633,7 @@ export default function NewInputBiaya({
                   for (let i = 0; i < dataBank.length; i++) {
                     for (let j = 0; j < dataBank[i].products.length; j++) {
                       const temp = dataBank[i].products.filter(
-                        (p) => p.id === e
+                        (p) => p.id === e,
                       );
                       if (temp.length !== 0) {
                         if (
@@ -642,7 +647,7 @@ export default function NewInputBiaya({
                               produkSesuai
                                 .filter((e, i, o) => o.indexOf(e) === i)
                                 .join(", ")
-                            }`
+                            }`,
                           );
                         }
                         setAsuransiProduk(temp[0].by_asuransi);
@@ -707,7 +712,7 @@ export default function NewInputBiaya({
                         } else {
                           setTempProvisi(
                             inputDapem.plafond *
-                              ((dataBank[i].by_provisi || 0) / 100)
+                              ((dataBank[i].by_provisi || 0) / 100),
                           );
                         }
                       }
@@ -818,7 +823,7 @@ export default function NewInputBiaya({
                       };
                     });
                     return setModalErr(
-                      `Maaf tenor yang diinput tidak dapat melebihi maksimal tenor yang tersedia!`
+                      `Maaf tenor yang diinput tidak dapat melebihi maksimal tenor yang tersedia!`,
                     );
                   }
                   setInputDapem((prev) => {
@@ -860,12 +865,12 @@ export default function NewInputBiaya({
                       };
                     });
                     return setModalErr(
-                      `Maaf plafond yang diinput tidak dapat melebihi maksimal plafond yang tersedia!`
+                      `Maaf plafond yang diinput tidak dapat melebihi maksimal plafond yang tersedia!`,
                     );
                   }
                   if (produk.name === "Flash Sisa Gaji") {
                     setTempTatalaksana(
-                      inputTextToDecimal(e.target.value) * (3 / 100)
+                      inputTextToDecimal(e.target.value) * (3 / 100),
                     );
                   } else {
                     setTempTatalaksana(bank.by_tatalaksana);
@@ -875,7 +880,7 @@ export default function NewInputBiaya({
                   } else {
                     setTempProvisi(
                       inputTextToDecimal(e.target.value || "0") *
-                        (bank.by_provisi / 100)
+                        (bank.by_provisi / 100),
                     );
                   }
                   return setInputDapem((prev) => {
@@ -910,7 +915,7 @@ export default function NewInputBiaya({
               <Input
                 disabled
                 value={formatNumber(
-                  (inputDapem.gaji * (bank.by_angsuran / 100)).toFixed(0)
+                  (inputDapem.gaji * (bank.by_angsuran / 100)).toFixed(0),
                 )}
                 style={{ color: "black", backgroundColor: "white" }}
               />
@@ -971,7 +976,7 @@ export default function NewInputBiaya({
                   (
                     inputDapem.plafond *
                     ((bank.by_admin + bank.by_admin_bank) / 100)
-                  ).toFixed(0)
+                  ).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1003,7 +1008,7 @@ export default function NewInputBiaya({
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0)
+                  (inputDapem.plafond * (produk.by_asuransi / 100)).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1041,7 +1046,7 @@ export default function NewInputBiaya({
                     return {
                       ...prev,
                       by_buka_rekening: inputTextToDecimal(
-                        e.target.value || "0"
+                        e.target.value || "0",
                       ),
                     };
                   })
@@ -1155,8 +1160,8 @@ export default function NewInputBiaya({
               <Input
                 value={formatNumber(
                   (inputDapem.plafond * (tambahan.refferal_fee / 100)).toFixed(
-                    0
-                  )
+                    0,
+                  ),
                 )}
                 disabled={true}
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1187,7 +1192,7 @@ export default function NewInputBiaya({
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0)
+                  (inputDapem.blokir * inputDapem.angsuran).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
@@ -1270,7 +1275,7 @@ export default function NewInputBiaya({
             <div className="flex-1">
               <Input
                 value={formatNumber(
-                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0)
+                  (inputDapem.gaji - inputDapem.angsuran).toFixed(0),
                 )}
                 disabled
                 style={{ color: "black", backgroundColor: "white" }}
