@@ -16,6 +16,14 @@ export const GET = async (req: NextRequest) => {
       where: {
         nomor_surat: { contains: name },
         is_active: true,
+        DataPengajuan: {
+          some: {
+            nama: { contains: name },
+            nopen: { contains: name },
+            nomor_akad: { contains: name },
+            nomor_sk_pensiun: { contains: name },
+          },
+        },
       },
       include: {
         Bank: true,
@@ -105,7 +113,7 @@ export const GET = async (req: NextRequest) => {
 
   return NextResponse.json(
     { data: result, total: name ? result.length : total },
-    { status: 200 }
+    { status: 200 },
   );
 };
 
@@ -116,7 +124,7 @@ export const POST = async (req: NextRequest) => {
     const fileName = `${Date.now()}.${data.ext}`;
     const pathUrl = path.join(
       process.cwd(),
-      `/storage/${data.dir.toLowerCase()}/${fileName}`
+      `/storage/${data.dir.toLowerCase()}/${fileName}`,
     );
     fs.writeFile(pathUrl, buff);
 
@@ -125,13 +133,13 @@ export const POST = async (req: NextRequest) => {
         msg: "Upload surat pencairan berhasil",
         url: `/${data.dir.toLowerCase()}/${fileName}`,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err) {
     console.log(err);
     return NextResponse.json(
       { msg: "Gagal upload surat pencairan!" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
@@ -152,7 +160,7 @@ export const PUT = async (req: NextRequest) => {
       {
         msg: "Upload surat pencairan berhasil",
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err) {
     console.log(err);
@@ -160,7 +168,7 @@ export const PUT = async (req: NextRequest) => {
       {
         msg: "Gagal upload surat pencairan !",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 };
@@ -181,7 +189,7 @@ export const DELETE = async (req: NextRequest) => {
     });
     return NextResponse.json(
       { msg: "berhasil mengahapus file" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (err) {
     console.log(err);

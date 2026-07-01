@@ -246,6 +246,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
       produk.name === "Flash Sisa Gaji" ||
       produk.name === "Ultima Plus" ||
       produk.name === "Ultima" ||
+      produk.name === "Sisa Gaji (Bank Mantap)" ||
       (produk.name === "Platinum Plus" && bank.kode === "KPF")
         ? ceiling(
             parseInt(
@@ -291,11 +292,11 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
     const kotor = inputDapem.plafond - biayaAwal;
     if (
       inputDapem.gaji > 100000 &&
-      produk.name === "Flash Sisa Gaji" &&
+      ["Flash Sisa Gaji", "Sisa Gaji (Bank mantap)"].includes(produk.name) &&
       inputDapem.gaji - angsuran < 100000
     ) {
       setModalErr(
-        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 100.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!",
+        "Minimun sisa gaji untuk pengajuan Flash Sisa Gaji adalah Rp. 200.000 Mohon maaf perhitungan simulasi yang diajukan tidak memenuhi persyaratan!",
       );
     }
     return setInputDapem((prev) => {
@@ -579,14 +580,28 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                           };
                         });
                         if (
-                          produk.name === "Platinum Lintas" &&
-                          dataBank[0].kode === "KPF"
+                          dataBank[0].kode &&
+                          ["KPF"].includes(dataBank[0].kode)
                         ) {
                           setLabelTabungan("Tabungan Anggota");
                         }
-                        if (temp[0].name === "Flash Sisa Gaji") {
+                        if ((dataBank[i].by_provisi || 0) > 100) {
+                          setTempProvisi(dataBank[i].by_provisi || 0);
+                        } else {
+                          setTempProvisi(
+                            inputDapem.plafond *
+                              ((dataBank[i].by_provisi || 0) / 100),
+                          );
+                        }
+                        if (
+                          temp[0].name &&
+                          ["Sisa Gaji", "Sisa Gaji (Bank Mantap)"].includes(
+                            temp[0].name,
+                          )
+                        ) {
                           setLabelTabungan("Tabungan Anggota");
                           setTempTatalaksana(0);
+                          setTempProvisi(0);
                           setJenis((prev) => {
                             return {
                               ...prev,
@@ -601,18 +616,25 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                               by_flagging: 0,
                               by_epotpen: 0,
                               by_provisi: 0,
+                              by_tatalaksana: 0,
                             };
                           });
+                          if (
+                            moment().date() >= 20 &&
+                            temp[0].name === "Sisa Gaji (Bank Mantap)"
+                          ) {
+                            setInputDapem((prev) => ({ ...prev, blokir: 1 }));
+                          }
                         } else {
                           setTempTatalaksana(bank.by_tatalaksana);
-                        }
-                        if ((dataBank[i].by_provisi || 0) > 100) {
-                          setTempProvisi(dataBank[i].by_provisi || 0);
-                        } else {
-                          setTempProvisi(
-                            inputDapem.plafond *
-                              ((dataBank[i].by_provisi || 0) / 100),
-                          );
+                          setTempProvisi(0);
+                          setBank((prev) => {
+                            return {
+                              ...prev,
+                              by_epotpen: 0,
+                              by_flagging: 0,
+                            };
+                          });
                         }
                       }
                     }
@@ -1249,7 +1271,10 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                   {produk.name} ({bank.kode})
                 </span>
               </div>
-              <div className="flex justify-between border-b border-gray-200 py-1">
+              <div
+                className="flex justify-between border-b border-gray-200 py-1"
+                hidden={produk.name === "Sisa Gaji (Bank Mantap)"}
+              >
                 <span>Margin Bunga</span>
                 <span className="text-right">{produk.mg_bunga}</span>
               </div>

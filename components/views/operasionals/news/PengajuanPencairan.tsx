@@ -33,13 +33,13 @@ export default function PengajuanPencairan() {
   const getData = async () => {
     setLoading(true);
     const res = await fetch(
-      `/api/ops/pengajuan-pencairan?page=${page}${name ? "&name=" + name : ""}`
+      `/api/ops/pengajuan-pencairan?page=${page}${name ? "&name=" + name : ""}`,
     );
     const { data, total } = await res.json();
     setData(
       data.map((d: DataDataPencairan) => {
         return { ...d, key: d.id };
-      })
+      }),
     );
     setTotal(total);
     setLoading(false);
@@ -93,8 +93,8 @@ export default function PengajuanPencairan() {
               {!record.berkas_si
                 ? "ANTRI"
                 : !record.status
-                ? "PROSES"
-                : "SELESAI"}
+                  ? "PROSES"
+                  : "SELESAI"}
             </div>
           </div>
         );
@@ -333,10 +333,10 @@ export default function PengajuanPencairan() {
                       d.DataPembiayaan.tenor,
                       d.DataPembiayaan.plafond,
                       false,
-                      true
-                    )
+                      true,
+                    ),
                   ),
-                  d.DataPembiayaan.pembulatan
+                  d.DataPembiayaan.pembulatan,
                 )
               : ceiling(
                   parseInt(
@@ -346,10 +346,10 @@ export default function PengajuanPencairan() {
                       d.DataPembiayaan.plafond,
                       false,
                       false,
-                      d.Bank.kode
-                    )
+                      d.Bank.kode,
+                    ),
                   ),
-                  d.DataPembiayaan.pembulatan
+                  d.DataPembiayaan.pembulatan,
                 );
           total -= angsuran * d.DataPembiayaan.blokir;
         });
