@@ -169,7 +169,7 @@ export default function DebetRekening({ data }: { data: DataDataPengajuan }) {
         <Text style={{ width: 300 }}>
           {data.DataPengajuanPasangan.alamat_pasangan}, KELURAHAN{" "}
           {data.DataPengajuanPasangan.kelurahan_pasangan}, KECAMATAN{" "}
-          {data.DataPengajuanPasangan.kecamatan_pasangan},
+          {data.DataPengajuanPasangan.kecamatan_pasangan},{" "}
           {data.DataPengajuanPasangan.kota_pasangan},{" "}
           {data.DataPengajuanPasangan.provinsi_pasangan}{" "}
           {data.DataPengajuanPasangan.kode_pos_pasangan}

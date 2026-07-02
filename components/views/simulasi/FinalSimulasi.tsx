@@ -324,7 +324,7 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
     inputDapem.blokir,
     inputDapem.bpp,
     inputDapem.pelunasan,
-    jenis.by_mutasi,
+    jenis.name,
     tempTatalaksana,
     tempProvisi,
   ]);
@@ -579,11 +579,15 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                             pembulatan: dataBank[i].pembulatan || 0,
                           };
                         });
+                        setTempTatalaksana(dataBank[i].by_tatalaksana);
+                        setTempProvisi(dataBank[i].by_provisi || undefined);
                         if (
                           dataBank[0].kode &&
                           ["KPF"].includes(dataBank[0].kode)
                         ) {
                           setLabelTabungan("Tabungan Anggota");
+                        } else {
+                          setLabelTabungan("Buka Rekening");
                         }
                         if ((dataBank[i].by_provisi || 0) > 100) {
                           setTempProvisi(dataBank[i].by_provisi || 0);
@@ -626,9 +630,13 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                             setInputDapem((prev) => ({ ...prev, blokir: 1 }));
                           }
                         } else {
-                          setTempTatalaksana(bank.by_tatalaksana);
-                          setTempProvisi(0);
+                          setLabelTabungan("Buka Rekening");
                           setBank((prev) => {
+                            return {
+                              ...prev,
+                            };
+                          });
+                          setProduk((prev) => {
                             return {
                               ...prev,
                             };

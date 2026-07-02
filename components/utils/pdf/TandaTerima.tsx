@@ -68,13 +68,11 @@ export default function TandaTerima({ data }: { data: DataDataPengajuan }) {
             <Text style={{ width: 100 }}>Alamat</Text>
             <Text style={{ width: 20 }}>:</Text>
             <Text style={{ width: 150 }}>
-              {data.DataPengajuanAlamat.alamat}{" "}
-              {data.DataPengajuanAlamat.rt &&
-                data.DataPengajuanAlamat.rt + "/ "}{" "}
-              {data.DataPengajuanAlamat.rw},{" "}
-              {data.DataPengajuanAlamat.kelurahan},{" "}
+              {data.DataPengajuanAlamat.alamat} RT {data.DataPengajuanAlamat.rt}{" "}
+              RW {data.DataPengajuanAlamat.rw}, KELURAHAN{" "}
+              {data.DataPengajuanAlamat.kelurahan}, KECAMATAN{" "}
               {data.DataPengajuanAlamat.kecamatan},{" "}
-              {data.DataPengajuanAlamat.kode_pos},{" "}
+              {data.DataPengajuanAlamat.kota},{" "}
               {data.DataPengajuanAlamat.provinsi}{" "}
               {data.DataPengajuanAlamat.kode_pos}
             </Text>
@@ -268,13 +266,11 @@ export default function TandaTerima({ data }: { data: DataDataPengajuan }) {
             <Text style={{ width: 100 }}>Alamat</Text>
             <Text style={{ width: 20 }}>:</Text>
             <Text style={{ width: 150 }}>
-              {data.DataPengajuanAlamat.alamat}{" "}
-              {data.DataPengajuanAlamat.rt &&
-                data.DataPengajuanAlamat.rt + "/ "}{" "}
-              {data.DataPengajuanAlamat.rw},{" "}
-              {data.DataPengajuanAlamat.kelurahan},{" "}
+              {data.DataPengajuanAlamat.alamat} RT {data.DataPengajuanAlamat.rt}{" "}
+              RW {data.DataPengajuanAlamat.rw}, KELURAHAN{" "}
+              {data.DataPengajuanAlamat.kelurahan}, KECAMATAN{" "}
               {data.DataPengajuanAlamat.kecamatan},{" "}
-              {data.DataPengajuanAlamat.kode_pos},{" "}
+              {data.DataPengajuanAlamat.kota},{" "}
               {data.DataPengajuanAlamat.provinsi}{" "}
               {data.DataPengajuanAlamat.kode_pos}
             </Text>

@@ -27,7 +27,8 @@ export const GET = async () => {
     });
 
     const data: any = [];
-    for (const dapeng of find) {
+    for (let i = 0; i < find.length; i++) {
+      const dapeng = find[i];
       let dapem: any = {
         fullname: dapeng.DataPembiayaan.name,
         nopen: dapeng.DataPembiayaan.nopen,
