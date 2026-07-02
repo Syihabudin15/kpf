@@ -60,7 +60,7 @@ export default function FormPernyataanKuasa({
           <Text>
             {data.DataPembiayaan.tempat_lahir + ","}{" "}
             {moment(data.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
-              "DD - MM - YYYY"
+              "DD - MM - YYYY",
             )}
           </Text>
         </View>
@@ -80,8 +80,8 @@ export default function FormPernyataanKuasa({
           <Text>
             {[
               `${data.DataPengajuanAlamat.alamat} RT ${data.DataPengajuanAlamat.rt} RW ${data.DataPengajuanAlamat.rw}`,
-              `KEL. ${data.DataPengajuanAlamat.kelurahan} KEC. ${data.DataPengajuanAlamat.kecamatan}`,
-              `${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi} ${data.DataPengajuanAlamat.kode_pos}`,
+              `KEL. ${data.DataPengajuanAlamat.kelurahan}, KEC. ${data.DataPengajuanAlamat.kecamatan}`,
+              `${data.DataPengajuanAlamat.kota}, PROVINSI ${data.DataPengajuanAlamat.provinsi} ${data.DataPengajuanAlamat.kode_pos}`,
             ].join(", ")}
           </Text>
         </View>
@@ -158,7 +158,7 @@ export default function FormPernyataanKuasa({
             <View style={{ flex: 1, borderBottom: "1px solid #aaa" }}>
               {data.DataPengajuanPasangan.tempat_lahir_pasangan + ","}{" "}
               {moment(data.DataPengajuanPasangan.tanggal_lahir_pasangan).format(
-                "DD - MM - YYYY"
+                "DD - MM - YYYY",
               )}
             </View>
           </View>
@@ -239,11 +239,11 @@ export default function FormPernyataanKuasa({
                   data.DataPembiayaan.plafond,
                   false,
                   data.jenis_margin === "FLAT" ? true : false,
-                  data.Bank.kode
-                )
+                  data.Bank.kode,
+                ),
               ),
-              data.DataPembiayaan.pembulatan
-            ).toString()
+              data.DataPembiayaan.pembulatan,
+            ).toString(),
           )}
         </Text>{" "}
         dan menyetorkan uang hasil potongan tersebut kepada Koperasi pembiayaan

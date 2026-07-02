@@ -51,9 +51,9 @@ export default function Kesanggupan({
           <Text style={{ width: 120 }}>Alamat</Text>
           <Text style={{ width: 20 }}>:</Text>
           <Text style={{ width: 300 }}>
-            {data.DataPengajuanAlamat.alamat}{" "}
-            {data.DataPengajuanAlamat.rt && data.DataPengajuanAlamat.rt + "/"}{" "}
-            {data.DataPengajuanAlamat.rw}, {data.DataPengajuanAlamat.kelurahan}{" "}
+            {data.DataPengajuanAlamat.alamat} RT {data.DataPengajuanAlamat.rt}{" "}
+            RW {data.DataPengajuanAlamat.rw}, KELURAHAN{" "}
+            {data.DataPengajuanAlamat.kelurahan}, KECAMATAN{" "}
             {data.DataPengajuanAlamat.kecamatan},{" "}
             {data.DataPengajuanAlamat.kota}, {data.DataPengajuanAlamat.provinsi}{" "}
             {data.DataPengajuanAlamat.kode_pos}
@@ -89,10 +89,10 @@ export default function Kesanggupan({
                       data.DataPembiayaan.tenor,
                       data.DataPembiayaan.plafond,
                       false,
-                      true
-                    )
+                      true,
+                    ),
                   ),
-                  data.DataPembiayaan.pembulatan
+                  data.DataPembiayaan.pembulatan,
                 ).toString()
               : ceiling(
                   parseInt(
@@ -103,11 +103,11 @@ export default function Kesanggupan({
                       false,
                       false,
                       data.Bank.kode,
-                      data.DataPembiayaan.pembulatanKhusus
-                    )
+                      data.DataPembiayaan.pembulatanKhusus,
+                    ),
                   ),
-                  data.DataPembiayaan.pembulatan
-                ).toString()
+                  data.DataPembiayaan.pembulatan,
+                ).toString(),
           )}{" "}
           per bulan, selama {data.DataPembiayaan.tenor} bulan, terhitung mulai
           bulan {moment(data.tanggal_cetak_akad).add(1, "M").month()} tahun{" "}

@@ -48,9 +48,9 @@ export default function PemotonganGaji({
           <Text style={{ width: 120 }}>Alamat</Text>
           <Text style={{ width: 20 }}>:</Text>
           <Text style={{ width: 300 }}>
-            {data.DataPengajuanAlamat.alamat}{" "}
-            {data.DataPengajuanAlamat.rt && data.DataPengajuanAlamat.rt + "/"}
-            {data.DataPengajuanAlamat.rw}, {data.DataPengajuanAlamat.kelurahan},{" "}
+            {data.DataPengajuanAlamat.alamat} RT {data.DataPengajuanAlamat.rt}{" "}
+            RW {data.DataPengajuanAlamat.rw}, KELURAHAN{" "}
+            {data.DataPengajuanAlamat.kelurahan}, KECAMATAN{" "}
             {data.DataPengajuanAlamat.kecamatan},{" "}
             {data.DataPengajuanAlamat.kota}, {data.DataPengajuanAlamat.provinsi}{" "}
             {data.DataPengajuanAlamat.kode_pos}

@@ -408,6 +408,7 @@ export default function NewInputBiaya({
     inputDapem.pelunasan,
     jenis.by_mutasi,
     tempTatalaksana,
+    tempProvisi,
     tambahan,
   ]);
 

@@ -131,9 +131,9 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
               <Text style={{ width: 350 }}>
                 {data.DataPengajuanAlamat.alamat} RT{" "}
                 {data.DataPengajuanAlamat.rt} RW {data.DataPengajuanAlamat.rw},{" "}
-                KELURAHAN {data.DataPengajuanAlamat.kelurahan} KECAMATAN{" "}
+                KELURAHAN {data.DataPengajuanAlamat.kelurahan}, KECAMATAN{" "}
                 {data.DataPengajuanAlamat.kecamatan},{" "}
-                {data.DataPengajuanAlamat.kota}{" "}
+                {data.DataPengajuanAlamat.kota},{" "}
                 {data.DataPengajuanAlamat.provinsi}{" "}
                 {data.DataPengajuanAlamat.kode_pos}
               </Text>
@@ -181,9 +181,9 @@ export default function PKHM({ data }: { data: DataDataPengajuan }) {
               <Text style={{ width: 5 }}>:</Text>
               <Text style={{ width: 350 }}>
                 {data.DataPengajuanPasangan.alamat_pasangan}, KELURAHAN{" "}
-                {data.DataPengajuanPasangan.kelurahan_pasangan} KECAMATAN{" "}
-                {data.DataPengajuanPasangan.kecamatan_pasangan},{" "}
-                {data.DataPengajuanPasangan.kota_pasangan}{" "}
+                {data.DataPengajuanPasangan.kelurahan_pasangan}, KECAMATAN{" "}
+                {data.DataPengajuanPasangan.kecamatan_pasangan},
+                {data.DataPengajuanPasangan.kota_pasangan},{" "}
                 {data.DataPengajuanPasangan.provinsi_pasangan}{" "}
                 {data.DataPengajuanPasangan.kode_pos_pasangan}
               </Text>

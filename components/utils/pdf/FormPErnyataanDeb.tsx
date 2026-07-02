@@ -90,7 +90,7 @@ export default function FormPernyataanDebitur({
           <Text>
             {data.DataPembiayaan.tempat_lahir + ", "}{" "}
             {moment(data.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
-              "DD - MM - YYYY"
+              "DD - MM - YYYY",
             )}
           </Text>
         </View>
@@ -115,8 +115,8 @@ export default function FormPernyataanDebitur({
           <Text>
             {[
               `${data.DataPengajuanAlamat.alamat} RT ${data.DataPengajuanAlamat.rt} RW ${data.DataPengajuanAlamat.rw}`,
-              `KEL. ${data.DataPengajuanAlamat.kelurahan} KEC. ${data.DataPengajuanAlamat.kecamatan}`,
-              ` ${data.DataPengajuanAlamat.kota} PROVINSI ${data.DataPengajuanAlamat.provinsi} ${data.DataPengajuanAlamat.kode_pos}`,
+              `KEL. ${data.DataPengajuanAlamat.kelurahan}, KEC. ${data.DataPengajuanAlamat.kecamatan}`,
+              ` ${data.DataPengajuanAlamat.kota}, PROVINSI ${data.DataPengajuanAlamat.provinsi} ${data.DataPengajuanAlamat.kode_pos}`,
             ].join(", ")}
           </Text>
         </View>

@@ -21,7 +21,7 @@ export default function CetakDataPengajuan({
         return {
           NO: ind + 1,
           "TANGGAL PENGAJUAN": moment(d.DataPembiayaan.created_at).format(
-            "DD-MM-YYYY"
+            "DD/MM/YYYY",
           ),
           "UNIT PELAYANAN": d.User.unit_cabang_id
             ? d.User.UnitCabang.name
@@ -50,10 +50,10 @@ export default function CetakDataPengajuan({
                       d.DataPembiayaan.tenor,
                       d.DataPembiayaan.plafond,
                       false,
-                      true
-                    )
+                      true,
+                    ),
                   ),
-                  d.DataPembiayaan.pembulatan
+                  d.DataPembiayaan.pembulatan,
                 )
               : ceiling(
                   parseInt(
@@ -64,10 +64,10 @@ export default function CetakDataPengajuan({
                       false,
                       false,
                       d.Bank.kode,
-                      d.DataPembiayaan.pembulatanKhusus
-                    )
+                      d.DataPembiayaan.pembulatanKhusus,
+                    ),
                   ),
-                  d.DataPembiayaan.pembulatan
+                  d.DataPembiayaan.pembulatan,
                 ),
           MARKETING: d.User.first_name + " " + d.User.last_name,
           // "AGENT FRONTING": d.agent_fronting,
@@ -109,7 +109,7 @@ export default function CetakDataPengajuan({
       XLSX.utils.book_append_sheet(
         wb,
         ws,
-        "DATA PENGAJUAN " + new Date().getFullYear()
+        "DATA PENGAJUAN " + new Date().getFullYear(),
       );
       XLSX.writeFile(wb, `pengajuan_${new Date().getFullYear()}.xlsx`);
     } catch (err) {

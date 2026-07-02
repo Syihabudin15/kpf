@@ -247,12 +247,12 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       <Text style={{ width: 100 }}>Alamat</Text>
                       <Text style={{ width: 20 }}>:</Text>
                       <Text style={{ width: 300 }}>
-                        {data.DataPengajuanAlamat.alamat}{" "}
-                        {data.DataPengajuanAlamat.rt}/
+                        {data.DataPengajuanAlamat.alamat} RT{" "}
+                        {data.DataPengajuanAlamat.rt} RW{" "}
                         {data.DataPengajuanAlamat.rw}, KELURAHAN{" "}
-                        {data.DataPengajuanAlamat.kelurahan} KECAMATAN{" "}
+                        {data.DataPengajuanAlamat.kelurahan}, KECAMATAN{" "}
                         {data.DataPengajuanAlamat.kecamatan},{" "}
-                        {data.DataPengajuanAlamat.kota}{" "}
+                        {data.DataPengajuanAlamat.kota},{" "}
                         {data.DataPengajuanAlamat.provinsi}{" "}
                         {data.DataPengajuanAlamat.kode_pos}
                       </Text>
@@ -301,11 +301,11 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                       <Text style={{ width: 20 }}>:</Text>
                       <Text style={{ width: 300 }}>
                         {data.DataPengajuanPasangan.alamat_pasangan}, KELURAHAN{" "}
-                        {data.DataPengajuanPasangan.kelurahan_pasangan}{" "}
+                        {data.DataPengajuanPasangan.kelurahan_pasangan},{" "}
                         KECAMATAN{" "}
                         {data.DataPengajuanPasangan.kecamatan_pasangan},
-                        {data.DataPengajuanPasangan.kota_pasangan}
-                        {data.DataPengajuanPasangan.provinsi_pasangan}
+                        {data.DataPengajuanPasangan.kota_pasangan},{" "}
+                        {data.DataPengajuanPasangan.provinsi_pasangan}{" "}
                         {data.DataPengajuanPasangan.kode_pos_pasangan}
                       </Text>
                     </View>

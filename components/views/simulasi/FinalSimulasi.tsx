@@ -631,8 +631,6 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                           setBank((prev) => {
                             return {
                               ...prev,
-                              by_epotpen: 0,
-                              by_flagging: 0,
                             };
                           });
                         }
