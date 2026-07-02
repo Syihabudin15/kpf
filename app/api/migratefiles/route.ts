@@ -6,9 +6,8 @@ import prisma from "@/components/prisma";
 import { fileFromPath } from "formdata-node/file-from-path";
 import ExcelJS from "exceljs";
 
-const containerClient = getContainerClient();
-
 export const GET = async () => {
+  const containerClient = getContainerClient();
   try {
     const find = await prisma.dataPengajuan.findMany({
       where: {
