@@ -43,6 +43,7 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
       {data.Bank.kode === "BPR HM" && <SIBprHM data={data} />}
       {data.Bank.kode === "BPR BNM" && <SIBprBNM data={data} />}
       {data.Bank.kode === "BPR HASAMITRA" && <SIBprBNM data={data} />}
+      {data.Bank.kode === "KOP MAU" && <SIBprDassa data={data} />}
       {data.Bank.kode === "BPR SAGA" && <SIBprBNM data={data} />}
       {data.Bank.kode === "BANK CAR" && <SIBprCar data={data} />}
       {data.Bank.kode === "BPR DMM" && <SIBprCar data={data} />}

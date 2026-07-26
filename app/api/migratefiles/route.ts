@@ -104,12 +104,7 @@ export const GET = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Data Pengajuan");
     // 2. Tentukan Header Kolom
-    worksheet.columns = [
-      { header: "Nama", key: "nama", width: 30 },
-      { header: "NOPEN", key: "nopen", width: 20 },
-      { header: "Gaji Bersih", key: "gaji", width: 15 },
-      { header: "Status Berkas", key: "status", width: 20 },
-    ];
+
     worksheet.addRows(data);
     const buffer = await workbook.xlsx.writeBuffer();
 
