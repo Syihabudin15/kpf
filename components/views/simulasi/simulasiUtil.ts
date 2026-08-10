@@ -35,7 +35,7 @@ export function DateDiffUsiaMasuk(mulai: string, target: Date) {
 export function DateDiffUsiaTanggalLunas(
   mulai: string,
   target: string,
-  tenor: number
+  tenor: number,
 ) {
   const tgl = EDATE(moment(target).tz("Asia/Jakarta")._d, tenor);
   const tanggalLunas = moment(tgl).tz("Asia/Jakarta").format("DD-MM-YYYY");
@@ -70,10 +70,10 @@ export function getAngsuranPerBulan(
   fixed?: boolean,
   isFlat?: boolean,
   bpr?: string | null,
-  isKhusus?: boolean
+  isKhusus?: boolean,
 ) {
   if (isFlat) {
-    const r = Math.ceil(bunga / 12 / 100 / 0.001) * 0.001;
+    const r = bunga / 100 / 12;
     const pokok = parseInt((plafond / tenor).toString());
     const margin = parseInt((plafond * r).toString());
     const angsuran = Math.ceil(pokok + margin);
@@ -97,7 +97,7 @@ export function getAngsuranPerBulan(
 export function getAngsuranPerBulanPdf(
   bunga: number,
   tenor: number,
-  plafond: number
+  plafond: number,
 ) {
   const result = PMT(bunga / 12 / 100, tenor, plafond) * -1;
   return Math.ceil(+result.toFixed(0));
@@ -106,7 +106,7 @@ export function getAngsuranPerBulanPdf(
 export function getMaxTenor(
   max_usia: number,
   usia_tahun: number,
-  usia_bulan: number
+  usia_bulan: number,
 ) {
   const tmp = max_usia - usia_tahun;
   const result = tmp * 12 - (usia_bulan + 1);
@@ -115,7 +115,7 @@ export function getMaxTenor(
 export function newGetMaxTenor(
   max_usia: number,
   usia_tahun: number,
-  usia_bulan: number
+  usia_bulan: number,
 ) {
   let tmp = max_usia - usia_tahun;
   const max_tenor = usia_tahun <= max_usia ? tmp * 12 - (usia_bulan + 1) : 0;
@@ -125,7 +125,7 @@ export function newGetMaxTenor(
 export function getMaxPlafond(
   mg_bunga: number,
   tenor: number,
-  max_angsuran: number
+  max_angsuran: number,
 ) {
   const maxPlafond = PV(mg_bunga / 100 / 12, tenor, max_angsuran, 0, 0) * -1;
   return maxPlafond;
