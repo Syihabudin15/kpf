@@ -243,11 +243,12 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
       inputDapem.gaji * (bank.by_angsuran / 100),
     );
     const angsuran =
-      produk.name === "Flash Sisa Gaji" ||
-      produk.name === "Ultima Plus" ||
-      produk.name === "Ultima" ||
-      produk.name === "Sisa Gaji (Bank Mantap)" ||
-      (produk.name === "Platinum Plus" && bank.kode === "KPF")
+      bank.kode === "KPF" &&
+      (produk.name === "Flash Sisa Gaji" ||
+        produk.name === "Ultima Plus" ||
+        produk.name === "Ultima" ||
+        produk.name === "Sisa Gaji (Bank Mantap)" ||
+        produk.name === "Platinum Plus")
         ? ceiling(
             parseInt(
               getAngsuranPerBulan(
@@ -601,7 +602,8 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
                           temp[0].name &&
                           ["Sisa Gaji", "Sisa Gaji (Bank Mantap)"].includes(
                             temp[0].name,
-                          )
+                          ) &&
+                          bank.kode === "KPF"
                         ) {
                           setLabelTabungan("Tabungan Anggota");
                           setTempTatalaksana(0);
