@@ -903,32 +903,46 @@ export default function AkadChanneling({ data }: { data: DataDataPengajuan }) {
                     maka DEBITUR menyerahkan jaminan kepada BANK berupa :
                   </Text>
                   <View style={{ display: "flex", flexDirection: "column" }}>
+                    {!data.DataPembiayaan.JenisPembiayaan.name.includes(
+                      "Sisa Gaji",
+                    ) && (
+                      <View
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: 10,
+                        }}
+                      >
+                        <Text>a.</Text>
+                        <Text>
+                          Asli{" "}
+                          <Text style={{ fontWeight: "bold" }}>
+                            Surat Keputusan (SK) Pensiun : Nomor{" "}
+                            {data.nomor_sk_pensiun}
+                          </Text>{" "}
+                          tertanggal :{" "}
+                          <Text style={{ fontWeight: "bold" }}>
+                            {moment(data.tanggal_sk_pensiun).format(
+                              "DD-MM-YYYY",
+                            )}{" "}
+                          </Text>
+                          atas nama :{" "}
+                          <Text style={{ fontWeight: "bold" }}>
+                            {data.DataPembiayaan.name}
+                          </Text>
+                        </Text>
+                      </View>
+                    )}
                     <View
                       style={{ display: "flex", flexDirection: "row", gap: 10 }}
                     >
-                      <Text>a.</Text>
                       <Text>
-                        Asli{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          Surat Keputusan (SK) Pensiun : Nomor{" "}
-                          {data.nomor_sk_pensiun}
-                        </Text>{" "}
-                        tertanggal :{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          {moment(data.tanggal_sk_pensiun).format(
-                            "DD-MM-YYYY",
-                          )}{" "}
-                        </Text>
-                        atas nama :{" "}
-                        <Text style={{ fontWeight: "bold" }}>
-                          {data.DataPembiayaan.name}
-                        </Text>
+                        {!data.DataPembiayaan.JenisPembiayaan.name.includes(
+                          "Sisa Gaji",
+                        )
+                          ? "b."
+                          : "a."}
                       </Text>
-                    </View>
-                    <View
-                      style={{ display: "flex", flexDirection: "row", gap: 10 }}
-                    >
-                      <Text>b.</Text>
                       <Text>
                         Asli{" "}
                         <Text style={{ fontWeight: "bold" }}>

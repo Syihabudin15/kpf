@@ -270,7 +270,7 @@ export default function PKSaga({ data }: { data: DataDataPengajuan }) {
           <Text style={{ width: 100 }}>Suku Bunga</Text>
           <Text style={{ width: 4 }}>:</Text>
           <Text style={{ flex: 1 }}>
-            {data.DataPembiayaan.mg_bunga}% p.a efektif.
+            {data.DataPembiayaan.margin_bank}% p.a efektif.
           </Text>
         </View>
         <View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
