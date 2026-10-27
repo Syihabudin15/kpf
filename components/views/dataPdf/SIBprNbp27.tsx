@@ -29,7 +29,7 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
     const admin =
       data.Bank.kode === "BPR NBP 27"
         ? d.DataPembiayaan.plafond *
-          (d.DataPembiayaan.by_admin + d.DataPembiayaan.by_admin_bank / 100)
+          ((d.DataPembiayaan.by_admin + d.DataPembiayaan.by_admin_bank) / 100)
         : d.DataPembiayaan.plafond * (d.DataPembiayaan.by_admin_bank / 100);
     const newAdmin = admin;
 
@@ -134,20 +134,16 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                 <Text style={{ width: 20 }}>:</Text>
                 <Text style={{ fontWeight: "bold", width: 300 }}>
                   {data.Bank.kode === "BPR NBP 27"
-                    ? `Permohonan Transfer Sharing Fee Provisi atau Admin${" "}
-                  Periode Bulan ${new Date(data.tanggal_cetak).toLocaleString(
-                    "id-ID",
-                    {
-                      month: "long",
-                    },
-                  )}${" "}
-                  Tahun ${moment(data.tanggal_cetak).year()}`
+                    ? `Permohonan Transfer Sharing Fee Provisi atau Admin Periode Bulan ${new Date(
+                        data.tanggal_cetak,
+                      ).toLocaleString("id-ID", {
+                        month: "long",
+                      })} Tahun ${moment(data.tanggal_cetak).year()}`
                     : `Permohonan Dropping Dana Pemblayaan Penslun Periode Bulan ${new Date(
                         data.tanggal_cetak,
                       ).toLocaleString("id-ID", {
                         month: "long",
-                      })}${" "}
-                  Tahun ${moment(data.tanggal_cetak).year()}`}
+                      })} Tahun ${moment(data.tanggal_cetak).year()}`}
                 </Text>
               </View>
             </View>
