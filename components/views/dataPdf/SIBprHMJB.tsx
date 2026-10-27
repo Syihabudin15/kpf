@@ -280,11 +280,13 @@ export default function SIBprBNM({ data }: { data: DataDataPencairan }) {
                   display: "flex",
                 }}
               >
-                <Text>ADHI SOFYAR PRAMUDYA</Text>
+                <Text>
+                  {process.env.NEXT_PUBLIC_APP_SI_TTD || "ADHI SOFYAR PRAMUDYA"}
+                </Text>
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>
-                <Text>Kepala Operasional</Text>
+                <Text>Operasional</Text>
               </View>
             </View>
           </Page>
@@ -620,11 +622,14 @@ export default function SIBprBNM({ data }: { data: DataDataPencairan }) {
                     alignItems: "center",
                   }}
                 >
-                  <Text>ADHI SOFYAR PRAMUDYA</Text>
+                  <Text>
+                    {process.env.NEXT_PUBLIC_APP_SI_TTD ||
+                      "ADHI SOFYAR PRAMUDYA"}
+                  </Text>
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
-                  <Text>Kepala Operasional</Text>
+                  <Text>Operasional</Text>
                 </View>
               </View>
               <View

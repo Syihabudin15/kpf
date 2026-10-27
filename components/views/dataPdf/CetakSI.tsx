@@ -3,6 +3,7 @@ import { DataDataPencairan } from "@/components/utils/Interfaces";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
 import SIBprBNM from "./SIBprBNM";
+import SIBprNbp27 from "./SIBprNbp27";
 
 const SIBprSip = dynamic(() => import("@/components/views/dataPdf/SIBprSIP"), {
   ssr: false,
@@ -57,6 +58,9 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
       {(data.Bank.kode === "KOPJASFAS" || data.Bank.kode === "KPF") && (
         <SIBprBNM data={data} />
       )}
+      {["BPR NBP 27", "BPR NBP 28", "BPR ST"].includes(
+        data.Bank.kode || "",
+      ) && <SIBprNbp27 data={data} />}
     </>
   );
 }

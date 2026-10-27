@@ -36,7 +36,7 @@ export default function SIBprBds({ data }: { data: DataDataPencairan }) {
     const angs = getAngsuranPerBulan(
       d.DataPembiayaan.mg_bunga,
       d.DataPembiayaan.tenor,
-      d.DataPembiayaan.plafond
+      d.DataPembiayaan.plafond,
     );
     const angsuran =
       ceiling(parseInt(angs), d.DataPembiayaan.pembulatan) *
@@ -78,7 +78,7 @@ export default function SIBprBds({ data }: { data: DataDataPencairan }) {
     const angs = getAngsuranPerBulan(
       d.DataPembiayaan.mg_bunga,
       d.DataPembiayaan.tenor,
-      d.DataPembiayaan.plafond
+      d.DataPembiayaan.plafond,
     );
     const angsuran =
       ceiling(parseInt(angs), d.DataPembiayaan.pembulatan) *
@@ -576,11 +576,14 @@ export default function SIBprBds({ data }: { data: DataDataPencairan }) {
                     alignItems: "center",
                   }}
                 >
-                  <Text>ADHI SOFYAR PRAMUDYA</Text>
+                  <Text>
+                    {process.env.NEXT_PUBLIC_APP_SI_TTD ||
+                      "ADHI SOFYAR PRAMUDYA"}
+                  </Text>
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
-                  <Text>Kepala Operasional</Text>
+                  <Text>Operasional</Text>
                 </View>
               </View>
               <View
@@ -892,11 +895,14 @@ export default function SIBprBds({ data }: { data: DataDataPencairan }) {
                     alignItems: "center",
                   }}
                 >
-                  <Text>ADHI SOFYAR PRAMUDYA</Text>
+                  <Text>
+                    {process.env.NEXT_PUBLIC_APP_SI_TTD ||
+                      "ADHI SOFYAR PRAMUDYA"}
+                  </Text>
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
-                  <Text>Kepala Operasional</Text>
+                  <Text>Operasional</Text>
                 </View>
               </View>
               <View

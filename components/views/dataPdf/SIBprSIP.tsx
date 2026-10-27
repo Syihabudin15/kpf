@@ -43,10 +43,10 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 d.DataPembiayaan.tenor,
                 d.DataPembiayaan.plafond,
                 false,
-                true
-              )
+                true,
+              ),
             ),
-            d.DataPembiayaan.pembulatan
+            d.DataPembiayaan.pembulatan,
           )
         : ceiling(
             parseInt(
@@ -56,10 +56,10 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 d.DataPembiayaan.plafond,
                 false,
                 false,
-                d.Bank.kode
-              )
+                d.Bank.kode,
+              ),
             ),
-            d.DataPembiayaan.pembulatan
+            d.DataPembiayaan.pembulatan,
           );
     let angs = angsuran * d.DataPembiayaan.blokir;
     totalAngsuran += angs;
@@ -77,7 +77,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
         data: formatNumber(
           (
             d.DataPembiayaan.by_provisi + d.DataPembiayaan.by_buka_rekening
-          ).toFixed(0)
+          ).toFixed(0),
         ),
         width: 100,
       },
@@ -91,7 +91,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
           (
             d.DataPembiayaan.plafond -
             (newAdmin + rekening + d.DataPembiayaan.by_provisi + angs)
-          ).toFixed(0)
+          ).toFixed(0),
         ),
         width: 100,
       },
@@ -281,7 +281,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>
-                <Text>Kepala Operasional</Text>
+                <Text>Operasional</Text>
               </View>
             </View>
           </Page>
@@ -629,7 +629,7 @@ export default function SIBprSip({ data }: { data: DataDataPencairan }) {
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
-                  <Text>Kepala Operasional</Text>
+                  <Text>Operasional</Text>
                 </View>
               </View>
               <View

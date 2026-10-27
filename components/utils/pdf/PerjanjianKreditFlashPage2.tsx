@@ -406,13 +406,13 @@ export default function PerjanjianKreditFlashPage2({
               <Text style={{ height: 50 }}></Text>
               <Text>
                 {data.Bank.kode === "KPF"
-                  ? "Adhi Sofyar Pramudya"
+                  ? "YESIKA"
                   : process.env.NEXT_PUBLIC_APP_DIREKTUR}
               </Text>
               <Text
                 style={{ borderBottom: "1px solid #aaa", width: "80%" }}
               ></Text>
-              <Text>Manajer Operasional</Text>
+              <Text>Operasional</Text>
               <Text>
                 {data.Bank.kode === "KPF"
                   ? data.Bank.name

@@ -246,7 +246,7 @@ export default function SIBprDs({ data }: { data: DataDataPencairan }) {
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>
-                <Text>Kepala Operasional</Text>
+                <Text>Operasional</Text>
               </View>
             </View>
           </Page>
@@ -540,7 +540,7 @@ export default function SIBprDs({ data }: { data: DataDataPencairan }) {
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
-                  <Text>Kepala Operasional</Text>
+                  <Text>Operasional</Text>
                 </View>
               </View>
               <View
