@@ -24,6 +24,9 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
   let totalRekening = 0;
   let totalProvisi = 0;
   let totalAngsuran = 0;
+  let totalFeeProvisi = 0;
+  let totalCadangan = 0;
+  let totalTax = 0;
 
   let tables = data.DataPengajuan.map((d, i) => {
     const admin =
@@ -95,6 +98,35 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
       },
     ];
   });
+  let tables2 = data.DataPengajuan.map((d, i) => {
+    const provisi = d.DataPembiayaan.plafond * (2 / 100);
+    const tax = provisi * (2 / 100);
+    const saving = d.DataPembiayaan.plafond * (1.5 / 100);
+
+    totalFeeProvisi += provisi;
+    totalTax += tax;
+    totalCadangan += saving;
+
+    return [
+      { data: "FAS", width: 200 },
+      {
+        data: formatNumber(provisi.toString()),
+        width: 100,
+      },
+      {
+        data: formatNumber(tax.toString()),
+        width: 100,
+      },
+      {
+        data: formatNumber(saving.toString()),
+        width: 100,
+      },
+      {
+        data: formatNumber((provisi - tax).toString()),
+        width: 100,
+      },
+    ];
+  });
   return (
     <div className="w-full h-full">
       <PDFViewer className="w-full h-full">
@@ -133,17 +165,12 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                 <Text style={{ width: 50 }}>Perihal</Text>
                 <Text style={{ width: 20 }}>:</Text>
                 <Text style={{ fontWeight: "bold", width: 300 }}>
-                  {data.Bank.kode === "BPR NBP 27"
-                    ? `Permohonan Transfer Sharing Fee Provisi atau Admin Periode Bulan ${new Date(
-                        data.tanggal_cetak,
-                      ).toLocaleString("id-ID", {
-                        month: "long",
-                      })} Tahun ${moment(data.tanggal_cetak).year()}`
-                    : `Permohonan Dropping Dana Pemblayaan Penslun Periode Bulan ${new Date(
-                        data.tanggal_cetak,
-                      ).toLocaleString("id-ID", {
-                        month: "long",
-                      })} Tahun ${moment(data.tanggal_cetak).year()}`}
+                  Permohonan Dropping Dana Dan Transfer Sharing Admin Pembiayaan
+                  Pensiun Periode{" "}
+                  {new Date(data.tanggal_cetak).toLocaleString("id-ID", {
+                    month: "long",
+                  })}{" "}
+                  Tahun {moment(data.tanggal_cetak).year()}
                 </Text>
               </View>
             </View>
@@ -201,14 +228,24 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                   <Text style={{ width: 20 }}>:</Text>
                   <Text>Rp. {formatNumber(totalDropping.toFixed(0))}</Text>
                 </View>
+                <View
+                  style={{ display: "flex", flexDirection: "row", gap: 10 }}
+                >
+                  <Text style={{ width: 8 }}>4. </Text>
+                  <Text style={{ width: 150 }}>Transfer Sharing Admin</Text>
+                  <Text style={{ width: 20 }}>:</Text>
+                  <Text>
+                    Rp. {formatNumber((totalFeeProvisi - totalTax).toFixed(0))}
+                  </Text>
+                </View>
               </View>
               <View style={{ lineHeight: 1.8 }}>
                 <Text>
                   Rincian data kami lampirkan bersama dengan surat ini.
                 </Text>
                 <Text>
-                  Dana tersebut pada butir 2. diatas mohon dapat disetorkan /
-                  ditransfer kepada kami di :
+                  Dana tersebut mohon dapat disetorkan / ditransfer kepada kami
+                  di :
                 </Text>
                 <View
                   style={{
@@ -569,6 +606,171 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                 </View>
               </View>
             </View>
+
+            <View style={{ marginTop: 20 }}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  fontWeight: "bold",
+                }}
+              >
+                <View
+                  style={{
+                    width: 200,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 2,
+                  }}
+                >
+                  <Text>Keterangan</Text>
+                </View>
+                <View
+                  style={{
+                    width: 150,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 2,
+                  }}
+                >
+                  <Text>Nominal Fee Provisi</Text>
+                </View>
+                <View
+                  style={{
+                    width: 150,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1.5,
+                    padding: 2,
+                  }}
+                >
+                  <Text>Pph 23</Text>
+                </View>
+                <View
+                  style={{
+                    width: 150,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1.5,
+                    padding: 2,
+                  }}
+                >
+                  <Text>Dana Saving</Text>
+                </View>
+                <View
+                  style={{
+                    width: 150,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1.5,
+                    padding: 2,
+                  }}
+                >
+                  <Text>Provisi Nett</Text>
+                </View>
+              </View>
+              {tables2.map((tab, ind) => (
+                <View
+                  key={ind}
+                  style={{ display: "flex", flexDirection: "row" }}
+                >
+                  {tab.map((t, i) => (
+                    <View
+                      key={i}
+                      style={{
+                        border: "1px solid #aaa",
+                        padding: 2,
+                        width: t.width,
+                        textAlign: "center",
+                      }}
+                    >
+                      <Text>{t.data}</Text>
+                    </View>
+                  ))}
+                </View>
+              ))}
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  fontWeight: "bold",
+                }}
+              >
+                <View
+                  style={{
+                    width: 200,
+                    padding: 2,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                  }}
+                >
+                  <Text>TOTAL</Text>
+                </View>
+                <View
+                  style={{
+                    width: 150,
+                    padding: 2,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                  }}
+                >
+                  <Text>{formatNumber(totalFeeProvisi.toFixed(0))}</Text>
+                </View>
+                <View
+                  style={{
+                    width: 100,
+                    padding: 2,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                  }}
+                >
+                  <Text>{formatNumber(totalTax.toFixed(0))}</Text>
+                </View>
+                <View
+                  style={{
+                    width: 150,
+                    padding: 2,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                  }}
+                >
+                  <Text>{formatNumber(totalCadangan.toFixed(0))}</Text>
+                </View>
+                <View
+                  style={{
+                    width: 150,
+                    padding: 2,
+                    border: "1px solid #aaa",
+                    textAlign: "center",
+                  }}
+                >
+                  <Text>
+                    {formatNumber((totalFeeProvisi - totalTax).toFixed(0))}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
             <View
               style={{
                 marginTop: 50,

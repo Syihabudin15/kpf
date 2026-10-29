@@ -5,25 +5,28 @@ import { redirect } from "next/navigation";
 import dynamic from "next/dynamic";
 import { LoadingOutlined } from "@ant-design/icons";
 
-
 const MasterDashboard = dynamic(
   () => import("@/components/views/dahsboard/MasterDashboard"),
-  { ssr: false, loading: () => <p>Loading ..</p> }
+  { ssr: false, loading: () => <p>Loading ..</p> },
 );
+// const MasterDashboard = dynamic(() => import("@/app/(User)/dashboard/Master"), {
+//   ssr: false,
+//   loading: () => <p>Loading ..</p>,
+// });
 const DashboardMarketing = dynamic(
   () => import("@/components/views/dahsboard/DashboardMarketing"),
-  { ssr: false, loading: () => <p>Loading ..</p> }
+  { ssr: false, loading: () => <p>Loading ..</p> },
 );
 const DashboardEntry = dynamic(
   () => import("@/components/views/dahsboard/DashboardEntry"),
-  { ssr: false, loading: () => <p>Loading ..</p> }
+  { ssr: false, loading: () => <p>Loading ..</p> },
 );
 const BankDashboard = dynamic(
   () => import("@/components/views/dahsboard/BankDashboard"),
   {
     loading: () => <LoadingOutlined />,
     ssr: false,
-  }
+  },
 );
 
 export const metadata: Metadata = {
@@ -38,13 +41,22 @@ export default async function page() {
     },
   });
   if (!user) redirect("/");
-  
+
   return (
     <div>
-      {user.role === "MARKETING" && <DashboardMarketing/>}
-      {user.role === "ENTRY_DATA" && <DashboardEntry/>}
-      {user.bank_id && <BankDashboard/>}
-      {user.role === "MASTER" || user.role === "BISNIS" || user.role === "VERIFIKASI" || user.role === "OPERASIONAL" || user.role === "KEUANGAN" || user.role === "PEMBERKASAN" ? <MasterDashboard/> : ""}
+      {user.role === "MARKETING" && <DashboardMarketing />}
+      {user.role === "ENTRY_DATA" && <DashboardEntry />}
+      {user.bank_id && <BankDashboard />}
+      {user.role === "MASTER" ||
+      user.role === "BISNIS" ||
+      user.role === "VERIFIKASI" ||
+      user.role === "OPERASIONAL" ||
+      user.role === "KEUANGAN" ||
+      user.role === "PEMBERKASAN" ? (
+        <MasterDashboard />
+      ) : (
+        ""
+      )}
     </div>
-  )
+  );
 }
