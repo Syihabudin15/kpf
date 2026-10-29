@@ -111,19 +111,19 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
       { data: "FAS", width: 200 },
       {
         data: formatNumber(provisi.toString()),
-        width: 100,
+        width: 150,
       },
       {
         data: formatNumber(tax.toString()),
-        width: 100,
+        width: 150,
       },
       {
         data: formatNumber(saving.toString()),
-        width: 100,
+        width: 150,
       },
       {
         data: formatNumber((provisi - tax).toString()),
-        width: 100,
+        width: 150,
       },
     ];
   });
@@ -738,7 +738,7 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                 </View>
                 <View
                   style={{
-                    width: 100,
+                    width: 150,
                     padding: 2,
                     border: "1px solid #aaa",
                     textAlign: "center",
