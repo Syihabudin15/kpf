@@ -1275,7 +1275,7 @@ export default function NewEditBiaya({
                     setProduk((prev) => {
                       return {
                         ...prev,
-                        by_asuransi: parseInt(e.target.value),
+                        by_asuransi: parseFloat(e.target.value),
                       };
                     });
                     setLastActivity((prev: string | undefined) => {
