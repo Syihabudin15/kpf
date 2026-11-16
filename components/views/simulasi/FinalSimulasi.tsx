@@ -279,9 +279,8 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             bank.pembulatan,
           );
     if (
-      bank.kode === "NBP 29" &&
-      (produk.name === "Sisa Gaji (Bank Mantap)" ||
-        produk.name === "Flash Sisa Gaji")
+      bank.kode === "BPR NBP 29" &&
+      produk.name === "Sisa Gaji (Bank Mantap)"
     )
       angsuran = ceiling(
         parseInt(
