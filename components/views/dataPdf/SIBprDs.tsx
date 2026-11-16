@@ -274,9 +274,7 @@ export default function SIBprDs({ data }: { data: DataDataPencairan }) {
                   display: "flex",
                 }}
               >
-                <Text>
-                  {process.env.NEXT_PUBLIC_APP_SI_TTD || "ADHI SOFYAR PRAMUDYA"}
-                </Text>
+                <Text>{process.env.NEXT_PUBLIC_APP_SI_TTD || "YESIKA"}</Text>
                 <View
                   style={{ width: 120, borderBottom: "1px solid #888" }}
                 ></View>
@@ -593,10 +591,7 @@ export default function SIBprDs({ data }: { data: DataDataPencairan }) {
                     alignItems: "center",
                   }}
                 >
-                  <Text>
-                    {process.env.NEXT_PUBLIC_APP_SI_TTD ||
-                      "ADHI SOFYAR PRAMUDYA"}
-                  </Text>
+                  <Text>{process.env.NEXT_PUBLIC_APP_SI_TTD || "YESIKA"}</Text>
                   <View
                     style={{ width: 120, borderBottom: "1px solid #aaa" }}
                   ></View>
