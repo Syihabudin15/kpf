@@ -29,7 +29,6 @@ export interface DashboardMaster {
 
 export const GET = async (req: NextRequest) => {
   const banks: DataMasterDashboard[] = <any>await prisma.bank.findMany({
-    where: { is_active: true },
     include: {
       DataPengajuan: {
         include: {
@@ -62,8 +61,8 @@ export const GET = async (req: NextRequest) => {
               .toISOString(true),
             lte: moment(
               `${date.getFullYear()}-${j + 1}-${moment(
-                `${date.getFullYear()}-${j + 1}`
-              ).daysInMonth()} 23:59`
+                `${date.getFullYear()}-${j + 1}`,
+              ).daysInMonth()} 23:59`,
             )
               .tz("Asia/Jakarta")
               .toISOString(true),
@@ -323,9 +322,6 @@ export const GET = async (req: NextRequest) => {
   }
 
   const area = await prisma.unitPelayanan.findMany({
-    where: {
-      is_active: true,
-    },
     include: {
       UnitCabang: {
         include: {
@@ -398,7 +394,6 @@ export const GET = async (req: NextRequest) => {
   });
   const marketing = await prisma.user.findMany({
     where: {
-      status_active: true,
       role: "MARKETING",
     },
     include: {
@@ -444,12 +439,12 @@ export const GET = async (req: NextRequest) => {
       dataflash,
       dataArea: dataArea.sort((a, b) => b.total_pencairan - a.total_pencairan),
       marketingTerbaik: marketingFilter.sort(
-        (a, b) => b.total_plafond - a.total_plafond
+        (a, b) => b.total_plafond - a.total_plafond,
       ),
       cabang: cabang.sort(
-        (a: any, b: any) => b.total_pencairan - a.total_pencairan
+        (a: any, b: any) => b.total_pencairan - a.total_pencairan,
       ),
     },
-    { status: 200 }
+    { status: 200 },
   );
 };
