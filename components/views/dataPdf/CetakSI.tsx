@@ -46,7 +46,7 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
       )}
       {data.Bank.kode === "BPR BBS" && <SIBprBBS data={data} />}
       {data.Bank.kode === "BPR BBTM" && <SIBprDassa data={data} />}
-      {["BPR DASSA", "BPR NBP 12"].includes(data.Bank.kode || "") && (
+      {["BPR DASSA", "BPR NBP 12", "BPR ST"].includes(data.Bank.kode || "") && (
         <SIBprDassa data={data} />
       )}
       {data.Bank.kode === "BPR MAB" && <SIBprBBS data={data} />}
@@ -61,7 +61,7 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
       {(data.Bank.kode === "KOPJASFAS" || data.Bank.kode === "KPF") && (
         <SIBprBNM data={data} />
       )}
-      {["BPR NBP 28", "BPR ST"].includes(data.Bank.kode || "") && (
+      {["BPR NBP 28"].includes(data.Bank.kode || "") && (
         <SIBprNbp28 data={data} />
       )}
       {data.Bank.kode === "BPR NBP 27" && <SIBprNbp27 data={data} />}
