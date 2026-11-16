@@ -328,8 +328,10 @@ export default function DashboardMaster() {
                   tickFormatter={(v) => `${v / 1000000}JT`}
                 />
                 <Tooltip
-                  formatter={(value: number) => [
-                    `Rp ${value.toLocaleString("id-ID")}`,
+                  formatter={(value) => [
+                    typeof value === "number"
+                      ? `Rp ${value.toLocaleString("id-ID")}`
+                      : "Rp -",
                     "",
                   ]}
                 />

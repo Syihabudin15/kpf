@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   DateDiffUsiaMasuk,
   getAngsuranPerBulan,
+  getAnuitasPerBulan,
   getMaxPlafond,
   newGetMaxTenor,
 } from "./simulasiUtil";
@@ -242,7 +243,10 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
       inputDapem.tenor,
       inputDapem.gaji * (bank.by_angsuran / 100),
     );
-    const angsuran =
+
+    let angsuran = 0;
+
+    angsuran =
       bank.kode === "KPF" &&
       (produk.name === "Flash Sisa Gaji" ||
         produk.name === "Ultima Plus" ||
@@ -274,6 +278,22 @@ export default function Simulation({ is_deviasi }: { is_deviasi: boolean }) {
             ),
             bank.pembulatan,
           );
+    if (
+      bank.kode === "NBP 29" &&
+      (produk.name === "Sisa Gaji (Bank Mantap)" ||
+        produk.name === "Flash Sisa Gaji")
+    )
+      angsuran = ceiling(
+        parseInt(
+          getAnuitasPerBulan(
+            produk.mg_bunga,
+            inputDapem.tenor,
+            inputDapem.plafond,
+            false,
+          ),
+        ),
+        bank.pembulatan,
+      );
     const admin =
       inputDapem.plafond * ((bank.by_admin + bank.by_admin_bank) / 100);
     const asuransi = inputDapem.plafond * (produk.by_asuransi / 100);

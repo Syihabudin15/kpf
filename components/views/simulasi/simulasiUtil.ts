@@ -94,6 +94,29 @@ export function getAngsuranPerBulan(
     }
   }
 }
+export function getAnuitasPerBulan(
+  bunga: number,
+  tenor: number,
+  plafond: number,
+  fixed?: boolean,
+) {
+  // Bunga tahunan menjadi bunga bulanan
+  // const r = bunga / 100 / 12;
+
+  // // Jika tenor dalam tahun, gunakan tenor * 12
+  // const n = tenor;
+
+  // // Perhitungan angsuran anuitas
+  // let result =
+  //   r === 0
+  //     ? plafond / n
+  //     : plafond * ((r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
+
+  // return fixed ? result.toString() : result.toFixed(0);
+  const r = bunga / 100 / 12;
+  return Math.ceil(plafond / tenor + plafond * r).toFixed(0);
+}
+
 export function getAngsuranPerBulanPdf(
   bunga: number,
   tenor: number,

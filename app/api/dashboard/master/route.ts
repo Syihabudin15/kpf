@@ -32,7 +32,6 @@ export const GET = async (req: NextRequest) => {
     where: { is_active: true },
     include: {
       DataPengajuan: {
-        where: { is_active: true },
         include: {
           DataPembiayaan: {
             include: {

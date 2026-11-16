@@ -26,7 +26,6 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
   let totalAngsuran = 0;
   let totalFeeProvisi = 0;
   let totalCadangan = 0;
-  let totalTax = 0;
 
   let tables = data.DataPengajuan.map((d, i) => {
     const admin =
@@ -100,11 +99,9 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
   });
   let tables2 = data.DataPengajuan.map((d, i) => {
     const provisi = d.DataPembiayaan.plafond * (2 / 100);
-    const tax = provisi * (2 / 100);
     const saving = d.DataPembiayaan.plafond * (1.5 / 100);
 
     totalFeeProvisi += provisi;
-    totalTax += tax;
     totalCadangan += saving;
 
     return [
@@ -114,15 +111,11 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
         width: 150,
       },
       {
-        data: formatNumber(tax.toString()),
-        width: 150,
-      },
-      {
         data: formatNumber(saving.toString()),
         width: 150,
       },
       {
-        data: formatNumber((provisi - tax).toString()),
+        data: formatNumber(provisi.toString()),
         width: 150,
       },
     ];
@@ -234,9 +227,7 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                   <Text style={{ width: 8 }}>4. </Text>
                   <Text style={{ width: 150 }}>Transfer Sharing Admin</Text>
                   <Text style={{ width: 20 }}>:</Text>
-                  <Text>
-                    Rp. {formatNumber((totalFeeProvisi - totalTax).toFixed(0))}
-                  </Text>
+                  <Text>Rp. {formatNumber(totalFeeProvisi.toFixed(0))}</Text>
                 </View>
               </View>
               <View style={{ lineHeight: 1.8 }}>
@@ -656,21 +647,6 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                     padding: 2,
                   }}
                 >
-                  <Text>Pph 23</Text>
-                </View>
-                <View
-                  style={{
-                    width: 150,
-                    border: "1px solid #aaa",
-                    textAlign: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    lineHeight: 1.5,
-                    padding: 2,
-                  }}
-                >
                   <Text>Dana Saving</Text>
                 </View>
                 <View
@@ -744,16 +720,6 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                     textAlign: "center",
                   }}
                 >
-                  <Text>{formatNumber(totalTax.toFixed(0))}</Text>
-                </View>
-                <View
-                  style={{
-                    width: 150,
-                    padding: 2,
-                    border: "1px solid #aaa",
-                    textAlign: "center",
-                  }}
-                >
                   <Text>{formatNumber(totalCadangan.toFixed(0))}</Text>
                 </View>
                 <View
@@ -764,9 +730,7 @@ export default function SIBprNbp27({ data }: { data: DataDataPencairan }) {
                     textAlign: "center",
                   }}
                 >
-                  <Text>
-                    {formatNumber((totalFeeProvisi - totalTax).toFixed(0))}
-                  </Text>
+                  <Text>{formatNumber(totalFeeProvisi.toFixed(0))}</Text>
                 </View>
               </View>
             </View>

@@ -59,9 +59,9 @@ export default function CetakSI({ data }: { data: DataDataPencairan }) {
       {(data.Bank.kode === "KOPJASFAS" || data.Bank.kode === "KPF") && (
         <SIBprBNM data={data} />
       )}
-      {["BPR NBP 28", "BPR ST"].includes(data.Bank.kode || "") && (
-        <SIBprNbp28 data={data} />
-      )}
+      {["BPR NBP 28", "BPR ST", "BPR NBP 12"].includes(
+        data.Bank.kode || "",
+      ) && <SIBprNbp28 data={data} />}
       {data.Bank.kode === "BPR NBP 27" && <SIBprNbp27 data={data} />}
     </>
   );
