@@ -453,7 +453,9 @@ export const GET = async () => {
           nopen: dapem.nopen,
           fullname: dapem.nama || dapem.DataPembiayaan?.name || "-",
           birthdate: dapem.DataPembiayaan?.tanggal_lahir
-            ? moment(dapem.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").toDate()
+            ? moment(dapem.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
+                "DD/MM/YYYY",
+              )
             : null,
           birthplace: dapem.DataPembiayaan?.tempat_lahir || "",
           gender: dapem.jenis_kelamin || "",
@@ -475,10 +477,12 @@ export const GET = async () => {
           province: dapem.DataPengajuanAlamat?.provinsi || "",
           pos_code: dapem.DataPengajuanAlamat?.kode_pos || "",
           name_skep: dapem.nama_skep || "",
-          date_skep: dapem.tanggal_sk_pensiun || null,
+          date_skep: moment(dapem.tanggal_sk_pensiun || null).format(
+            "DD/MM/YYYY",
+          ),
           no_skep: dapem.nomor_sk_pensiun || "",
           soul_code: dapem.kode_jiwa || "",
-          tmt_skep: dapem.tmt_pensiun || null,
+          tmt_skep: moment(dapem.tmt_pensiun || null).format("DD/MM/YYYY"),
           job_year: dapem.masa_kerja || 0,
           group_skep: dapem.jenis_pensiun || "",
           rank_skep: dapem.golongan || "",
@@ -602,6 +606,7 @@ export const GET = async () => {
           file_sub: dapem.DataPencairan?.berkas_si || "",
           file_proof: dapem.DataPencairan?.bukti_transfer || "",
           newId: generateID("DRP", 5, dropping.length + 1),
+          status: dapem.DataPencairan?.status,
         };
         findDropping = tempDropping;
         dropping.push(tempDropping);
