@@ -598,7 +598,7 @@ export const GET = async () => {
       }
 
       // 12. Dropping
-      if (!findDropping && dapem.status_pencairan === "TRANSFER") {
+      if (!findDropping) {
         const tempDropping = {
           id:
             dapem.DataPencairan?.nomor_surat ||
@@ -725,8 +725,8 @@ export const GET = async () => {
         takeover_status: dapem.BerkasPengajuan?.pelunasan
           ? "DISETUJUI"
           : "DRAFT",
-        mutasi_status: dapem.BerkasPengajuan?.mutasi ? "DISETUJUI" : "DRAFT",
-        flagging_status: dapem.BerkasPengajuan?.mutasi ? "DISETUJUI" : "DRAFT",
+        mutasi_status: "DISETUJUI",
+        flagging_status: "DISETUJUI",
         cash_status: "DRAFT",
         file_slik: dapem.BerkasPengajuan?.berkas_slik
           ? `https://sipboss.kpfi.co.id${dapem.BerkasPengajuan.berkas_slik}`
@@ -751,6 +751,7 @@ export const GET = async () => {
           : "",
         status: dapem.is_active,
         created_at: dapem.DataPembiayaan?.tanggal_input || new Date(),
+        kc_pay_office: dapem.DataPembiayaan.juru_bayar_tujuan,
       });
       dapem.JadwalAngsuran.forEach((a, i) =>
         angsurans.push({
