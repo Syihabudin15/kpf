@@ -488,6 +488,8 @@ export const GET = async () => {
           rank_skep: dapem.golongan || "",
           publisher_skep: dapem.penerbit_sk || "",
           payOfficeId: findBanpot?.id || "",
+          account_number: dapem.DataPembiayaan.no_rekening,
+          account_name: dapem.DataPembiayaan.nama_bank,
         };
         debitur.push(tempDeb);
         findDeb = tempDeb;
@@ -607,6 +609,7 @@ export const GET = async () => {
           file_proof: dapem.DataPencairan?.bukti_transfer || "",
           newId: generateID("DRP", 5, dropping.length + 1),
           status: dapem.DataPencairan?.status,
+          sumdanId: findSumdan.new_id,
         };
         findDropping = tempDropping;
         dropping.push(tempDropping);
