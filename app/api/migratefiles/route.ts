@@ -295,7 +295,11 @@ export const GET = async () => {
             return nameMatch || codeMatch || relateMatch;
           })
         : undefined;
-      let findDeb = debitur.find((d) => d.nopen === dapem.nopen);
+      let findDeb = debitur.find(
+        (d) =>
+          d.nopen ===
+          (dapem.nopen?.trim() || dapem.DataPembiayaan.nopen.trim()),
+      );
       let findArea = area.find(
         (d) => d.id === dapem.User?.UnitCabang?.unit_pelayanan_id,
       );
@@ -450,7 +454,9 @@ export const GET = async () => {
       // 6. Debitur
       if (!findDeb) {
         const tempDeb = {
-          nopen: dapem.nopen,
+          nopen: dapem.nopen
+            ? dapem.nopen.trim()
+            : dapem.DataPembiayaan.nopen.trim(),
           fullname: dapem.nama || dapem.DataPembiayaan?.name || "-",
           birthdate: dapem.DataPembiayaan?.tanggal_lahir
             ? moment(dapem.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
