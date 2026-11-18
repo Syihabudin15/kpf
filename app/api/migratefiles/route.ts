@@ -639,8 +639,11 @@ export const GET = async () => {
         aw_nik: dapem.DataTaspen?.DataPasangan?.nik_pasangan || "",
         aw_birthplace:
           dapem.DataTaspen?.DataPasangan?.tempat_lahir_pasangan || "",
-        aw_birthdate:
-          dapem.DataTaspen?.DataPasangan?.tanggal_lahir_pasangan || null,
+        aw_birthdate: dapem.DataTaspen?.DataPasangan?.tanggal_lahir_pasangan
+          ? moment(
+              dapem.DataTaspen?.DataPasangan?.tanggal_lahir_pasangan,
+            ).format("DD/MM/YYYY")
+          : null,
         aw_job: dapem.DataTaspen?.DataPasangan?.pekerjaan_pasangan || "",
         aw_phone: "",
         aw_relate: "",
@@ -759,8 +762,10 @@ export const GET = async () => {
           counter: a.angsuran_ke,
           principal: a.pokok,
           margin: a.margin,
-          date_pay: a.tanggal_bayar,
-          date_paid: a.tanggal_pelunasan,
+          date_pay: moment(a.tanggal_bayar).format("DD/MM/YYYY"),
+          date_paid: a.tanggal_pelunasan
+            ? moment(a.tanggal_pelunasan).format("DD/MM/YYYY")
+            : null,
           remaining: a.sisa,
           inst_sumdan: a.margin_bank,
           fee_bapot: 0,
