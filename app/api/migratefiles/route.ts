@@ -703,7 +703,9 @@ export const GET = async () => {
         userId: findAdmin?.newId || "",
         aoId: findAO?.newId || "",
         no_contract: dapem.nomor_akad || "",
-        date_contract: dapem.tanggal_cetak_akad || null,
+        date_contract: dapem.tanggal_cetak_akad
+          ? moment(dapem.tanggal_cetak_akad).format("DD/MM/YYYY")
+          : null,
         tbo: 0,
         tbo_date: null,
         slik_status: dapem.status_slik
