@@ -244,7 +244,6 @@ export const GET = async () => {
       },
     ];
     const debitur: any[] = [];
-    const agent: any[] = [];
     const area: any[] = [];
     const cabang: any[] = [];
     const user: any[] = [];
@@ -297,14 +296,15 @@ export const GET = async () => {
           })
         : undefined;
       let findDeb = debitur.find((d) => d.nopen === dapem.nopen);
-      let findAgent = agent.find((d) => d.name === dapem.agent_fronting);
       let findArea = area.find(
         (d) => d.id === dapem.User?.UnitCabang?.unit_pelayanan_id,
       );
       let findCabang = cabang.find((d) => d.id === dapem.User?.unit_cabang_id);
       let findAO = user.find((d) => d.id === dapem.user_id);
       let findAdmin = user.find((d) => d.id === dapem.DataPembiayaan?.user_id);
-      let findDropping = dropping.find((d) => d.id === dapem.dataPencairanId);
+      let findDropping = dropping.find(
+        (d) => d.id === dapem.DataPencairan?.nomor_surat.trim(),
+      );
 
       // 1. Sumdan & Produk
       if (!findSumdan && dapem.bankId) {
@@ -495,19 +495,6 @@ export const GET = async () => {
         findDeb = tempDeb;
       }
 
-      // 7. Agent
-      if (!findAgent && dapem.agent_fronting) {
-        const tempAgent = {
-          id: generateID("A", 3, agent.length + 1),
-          name: dapem.agent_fronting,
-          code: dapem.agent_fronting,
-          status: true,
-          created_at: new Date(),
-        };
-        agent.push(tempAgent);
-        findAgent = tempAgent;
-      }
-
       // 8. Area (Unit Pelayanan)
       if (!findArea) {
         const tempArea = {
@@ -600,13 +587,17 @@ export const GET = async () => {
       // 12. Dropping
       if (!findDropping) {
         const tempDropping = {
-          id:
-            dapem.DataPencairan?.nomor_surat ||
-            generateID("DRP", 5, dropping.length + 1),
+          id: dapem.DataPencairan?.nomor_surat
+            ? dapem.DataPencairan?.nomor_surat.trim()
+            : generateID("DRP", 5, dropping.length + 1),
           created_at: dapem.DataPencairan?.tanggal_cetak || null,
           process_at: dapem.DataPencairan?.tanggal_proses || null,
-          file_sub: dapem.DataPencairan?.berkas_si || "",
-          file_proof: dapem.DataPencairan?.bukti_transfer || "",
+          file_sub: dapem.DataPencairan?.berkas_si
+            ? `https://sipboss.kpfi.co.id${dapem.DataPencairan?.berkas_si}`
+            : "",
+          file_proof: dapem.DataPencairan?.bukti_transfer
+            ? `https://sipboss.kpfi.co.id${dapem.DataPencairan?.bukti_transfer}`
+            : "",
           newId: generateID("DRP", 5, dropping.length + 1),
           status: dapem.DataPencairan?.status,
           sumdanId: findSumdan.new_id,
@@ -633,7 +624,7 @@ export const GET = async () => {
         house_year: dapem.menempati_tahun || "",
         job: dapem.pekerjaan_sekarang || "",
         job_address: dapem.alamat_pekerjaan || "",
-        businness: dapem.jenis_usaha || "",
+        business: dapem.jenis_usaha || "",
         marriage_status: dapem.status_kawin || "",
         aw_name: dapem.DataTaspen?.DataPasangan?.nama_pasangan || "",
         aw_nik: dapem.DataTaspen?.DataPasangan?.nik_pasangan || "",
@@ -665,8 +656,8 @@ export const GET = async () => {
         f_province: "",
         f_pos_code: "",
         used_for: dapem.tujuan_penggunaan1 || "",
-        produkId: findProduk?.newId || "",
-        jenisId: findJenis?.newId || "",
+        produkPembiayaanId: findProduk?.newId || "",
+        jenisPembiayaanId: findJenis?.newId || "",
         prevPayOfficeId: findPrevBanpot?.id || "",
         payOfficeId: findBanpot?.id || "",
         insuranceId: findInsurance?.id || "",
@@ -676,9 +667,12 @@ export const GET = async () => {
         est_takeover_date: null,
         tenor: dapem.DataPembiayaan?.tenor || 0,
         plafond: dapem.DataPembiayaan?.plafond || 0,
-        c_rounded: dapem.DataPembiayaan?.pembulatan || 0,
-        margin_type: dapem.jenis_margin || "",
-        c_margin_bank: dapem.DataPembiayaan?.margin_bank || 0,
+        rounded: dapem.DataPembiayaan?.pembulatan || 0,
+        margin_type:
+          dapem.jenis_margin === "ANUITAS"
+            ? "EFEKTIF"
+            : dapem.jenis_margin || "EFEKTIF",
+        c_margin_sumdan: dapem.DataPembiayaan?.margin_bank || 0,
         c_margin:
           (dapem.DataPembiayaan?.mg_bunga || 0) -
           (dapem.DataPembiayaan?.margin_bank || 0),
@@ -689,58 +683,87 @@ export const GET = async () => {
         c_insurance: dapem.DataPembiayaan?.by_asuransi || 0,
         c_gov: dapem.DataPembiayaan?.by_tatalaksana || 0,
         c_stamp: dapem.DataPembiayaan?.by_materai || 0,
-        c_information:
+        c_infomation:
           (dapem.DataPembiayaan?.by_epotpen || 0) +
           (dapem.DataPembiayaan?.by_flagging || 0),
         c_mutasi: dapem.DataPembiayaan?.by_mutasi || 0,
-        blokir: dapem.DataPembiayaan?.blokir || 0,
+        c_blokir: dapem.DataPembiayaan?.blokir || 0,
         c_takeover: dapem.DataPembiayaan?.pelunasan || 0,
-        c_bpp: dapem.DataPembiayaan?.bpp || 0,
+        c_fee_bpp: 0,
         c_ned: 0,
-        c_banpot: 0,
-        agentFrontingId: findAgent?.id || "",
+        c_fee_banpot: 0,
+        c_flagging: 0,
+        dom_status: true,
         userId: findAdmin?.newId || "",
         aoId: findAO?.newId || "",
-        contract_no: dapem.nomor_akad || "",
-        contract_date: dapem.tanggal_cetak_akad || null,
+        no_contract: dapem.nomor_akad || "",
+        date_contract: dapem.tanggal_cetak_akad || null,
         tbo: 0,
         tbo_date: null,
-        slik_status: dapem.status_slik || "",
+        slik_status: dapem.status_slik
+          ? dapem.status_slik === "SETUJU"
+            ? "DISETUJUI"
+            : dapem.status_slik === "ANTRI"
+              ? "PENDING"
+              : "DITOLAK"
+          : null,
         slik_desc: JSON.stringify({
           date: dapem.tanggal_slik,
           name: dapem.nama_pemeriksa_slik,
           desc: dapem.keterangan_slik,
         }),
-        verif_status: dapem.status_verifikasi || "",
+        verif_status: dapem.status_slik
+          ? dapem.status_verifikasi === "SETUJU"
+            ? "DISETUJUI"
+            : dapem.status_verifikasi === "ANTRI"
+              ? "PENDING"
+              : "DITOLAK"
+          : null,
         verif_desc: JSON.stringify({
           date: dapem.tanggal_verifikasi,
           name: dapem.nama_pemeriksa_verifikasi,
           desc: dapem.keterangan_verifikasi,
         }),
-        approv_status: dapem.status_approval || "",
+        approv_status: dapem.status_approval
+          ? dapem.status_approval === "SETUJU"
+            ? "DISETUJUI"
+            : dapem.status_approval === "ANTRI"
+              ? "PENDING"
+              : "DITOLAK"
+          : null,
         approv_desc: JSON.stringify({
           date: dapem.tanggal_approval,
           name: dapem.nama_pemeriksa_approval,
           desc: dapem.keterangan_approval,
         }),
-        dropping_status: dapem.status_pencairan || "",
-        droppingId: dapem.DataPencairan?.nomor_surat || "",
+        dropping_status: dapem.status_pencairan
+          ? dapem.status_pencairan === "TRANSFER"
+            ? "DISETUJUI"
+            : dapem.status_pencairan === "BATAL"
+              ? "BATAL"
+              : dapem.status_pencairan === "PROSES"
+                ? "PROSES"
+                : !dapem.status_slik
+                  ? "DRAFT"
+                  : "PENDING"
+          : "DRAFT",
+        droppingId: dapem.DataPencairan?.nomor_surat.trim() || "",
         takeover_status: dapem.BerkasPengajuan?.pelunasan
           ? "DISETUJUI"
           : "DRAFT",
         mutasi_status: "DISETUJUI",
         flagging_status: "DISETUJUI",
-        cash_status: "DRAFT",
+        cash_status: "DISETUJUI",
         file_slik: dapem.BerkasPengajuan?.berkas_slik
           ? `https://sipboss.kpfi.co.id${dapem.BerkasPengajuan.berkas_slik}`
           : "",
-        file_sub: dapem.BerkasPengajuan?.berkas_pengajuan
+        file_submission: dapem.BerkasPengajuan?.berkas_pengajuan
           ? `https://sipboss.kpfi.co.id${dapem.BerkasPengajuan.berkas_pengajuan}`
           : "",
-        file_interview: dapem.BerkasPengajuan?.video_wawancara
+        video_interview: dapem.BerkasPengajuan?.video_wawancara
           ? `https://sipboss.kpfi.co.id${dapem.BerkasPengajuan.video_wawancara}`
           : "",
-        file_insurance: dapem.BerkasPengajuan?.video_asuransi
+        video_insurance: dapem.BerkasPengajuan?.video_asuransi
           ? `https://sipboss.kpfi.co.id${dapem.BerkasPengajuan.video_asuransi}`
           : "",
         file_takeover: dapem.BerkasPengajuan?.pelunasan
@@ -754,7 +777,7 @@ export const GET = async () => {
           : "",
         status: dapem.is_active,
         created_at: dapem.DataPembiayaan?.tanggal_input || new Date(),
-        kc_pay_office: dapem.DataPembiayaan.juru_bayar_tujuan,
+        pay_next_kcp: dapem.DataPembiayaan.juru_bayar_tujuan,
       });
       dapem.JadwalAngsuran.forEach((a, i) =>
         angsurans.push({
@@ -804,7 +827,6 @@ export const GET = async () => {
     writeSheet("dapem", data);
     writeSheet("angsurans", angsurans);
     writeSheet("dropping", dropping);
-    writeSheet("agent", agent);
 
     const buffer = await workbook.xlsx.writeBuffer();
 
