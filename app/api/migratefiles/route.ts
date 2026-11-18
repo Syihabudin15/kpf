@@ -804,6 +804,7 @@ export const GET = async () => {
     writeSheet("dapem", data);
     writeSheet("angsurans", angsurans);
     writeSheet("dropping", dropping);
+    writeSheet("agent", agent);
 
     const buffer = await workbook.xlsx.writeBuffer();
 
