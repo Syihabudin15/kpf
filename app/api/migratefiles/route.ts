@@ -41,7 +41,20 @@ export const GET = async () => {
     const data: any[] = [];
     const sumdan: any[] = [];
     const produk: any[] = [];
-    const jenis: any[] = [];
+    const jenis: any[] = [
+      {
+        id: "__DEFAULT_JENIS__",
+        name: "LAINNYA",
+        blokir: 2,
+        c_mutasi: 0,
+        description: "",
+        status_mutasi: false,
+        status_takeover: false,
+        status: true,
+        created_at: new Date(),
+        newId: "J005",
+      },
+    ];
     const insurance: any[] = [];
     const banpot: any[] = [
       {
@@ -242,6 +255,15 @@ export const GET = async () => {
         status: true,
         created_at: new Date(),
       },
+      {
+        id: "PAY022",
+        code: "LAINNYA",
+        name: "LAINNYA",
+        relate: [],
+        status_mitra: true,
+        status: true,
+        created_at: new Date(),
+      },
     ];
     const debitur: any[] = [];
     const area: any[] = [];
@@ -249,8 +271,36 @@ export const GET = async () => {
     const user: any[] = [];
     const dropping: any[] = [];
     const angsurans: any[] = [];
+    sumdan.push({
+      id: "__NO_SUMDAN__",
+      name: "Tanpa Sumber Dana",
+      code: "-",
+      phone: "",
+      email: "",
+      address: "",
+      description: null,
+      contract_no: "",
+      contract_no2: "",
+      contract_date: new Date(),
+      contract_date2: new Date(),
+      limit: 0,
+      tbo: 4,
+      pic: "",
+      c_adm_sumdan: 0,
+      status: true,
+      created_at: new Date(),
+      new_id: "MITRA0000",
+    });
 
     for (const dapem of find) {
+      const dapemNopen = (
+        dapem.nopen?.trim() ||
+        dapem.DataPembiayaan?.nopen?.trim() ||
+        ""
+      );
+      const nopen = dapemNopen || `NOPEN-MISSING-${String(data.length + 1).padStart(6, "0")}`;
+      const droppingId = dapem.DataPencairan?.nomor_surat?.trim() || "";
+
       let findSumdan = sumdan.find((s) => s.id === dapem.bankId);
       let findProduk = produk.find(
         (p) => p.id === dapem.DataPembiayaan?.produk_id,
@@ -296,9 +346,7 @@ export const GET = async () => {
           })
         : undefined;
       let findDeb = debitur.find(
-        (d) =>
-          d.nopen ===
-          (dapem.nopen?.trim() || dapem.DataPembiayaan.nopen.trim()),
+        (d) => d.nopen === nopen,
       );
       let findArea = area.find(
         (d) => d.id === dapem.User?.UnitCabang?.unit_pelayanan_id,
@@ -307,7 +355,7 @@ export const GET = async () => {
       let findAO = user.find((d) => d.id === dapem.user_id);
       let findAdmin = user.find((d) => d.id === dapem.DataPembiayaan?.user_id);
       let findDropping = dropping.find(
-        (d) => d.id === dapem.DataPencairan?.nomor_surat.trim(),
+        (d) => d.id === droppingId,
       );
 
       // 1. Sumdan & Produk
@@ -383,6 +431,9 @@ export const GET = async () => {
           }
         }
       }
+      if (!findSumdan) {
+        findSumdan = sumdan[0];
+      }
 
       // 2. Jenis Pembiayaan
       if (!findJenis && dapem.DataPembiayaan?.jenis_pembiayaan_id) {
@@ -454,9 +505,7 @@ export const GET = async () => {
       // 6. Debitur
       if (!findDeb) {
         const tempDeb = {
-          nopen: dapem.nopen
-            ? dapem.nopen.trim()
-            : dapem.DataPembiayaan.nopen.trim(),
+          nopen,
           fullname: dapem.nama || dapem.DataPembiayaan?.name || "-",
           birthdate: dapem.DataPembiayaan?.tanggal_lahir
             ? moment(dapem.DataPembiayaan.tanggal_lahir, "DD-MM-YYYY").format(
@@ -486,16 +535,18 @@ export const GET = async () => {
           date_skep: moment(dapem.tanggal_sk_pensiun || null).format(
             "DD/MM/YYYY",
           ),
-          no_skep: dapem.nomor_sk_pensiun || "",
+          no_skep: dapem.nomor_sk_pensiun || null,
           soul_code: dapem.kode_jiwa || "",
           tmt_skep: moment(dapem.tmt_pensiun || null).format("DD/MM/YYYY"),
           job_year: dapem.masa_kerja || 0,
-          group_skep: dapem.jenis_pensiun || "",
-          rank_skep: dapem.golongan || "",
-          publisher_skep: dapem.penerbit_sk || "",
-          payOfficeId: findBanpot?.id || "",
-          account_number: dapem.DataPembiayaan.no_rekening,
-          account_name: dapem.DataPembiayaan.nama_bank,
+          group_skep: dapem.jenis_pensiun
+            ? "PT. " + dapem.jenis_pensiun.toUpperCase()
+            : "",
+          rank_skep: dapem.golongan || null,
+          publisher_skep: dapem.penerbit_sk || null,
+          payOfficeId: findBanpot?.id || "PAY022",
+          account_number: dapem.DataPembiayaan.no_rekening || null,
+          account_name: dapem.DataPembiayaan.nama_bank || null,
         };
         debitur.push(tempDeb);
         findDeb = tempDeb;
@@ -593,9 +644,7 @@ export const GET = async () => {
       // 12. Dropping
       if (!findDropping) {
         const tempDropping = {
-          id: dapem.DataPencairan?.nomor_surat
-            ? dapem.DataPencairan?.nomor_surat.trim()
-            : generateID("DRP", 5, dropping.length + 1),
+          id: droppingId || generateID("DRP", 5, dropping.length + 1),
           created_at: dapem.DataPencairan?.tanggal_cetak || null,
           process_at: dapem.DataPencairan?.tanggal_proses || null,
           file_sub: dapem.DataPencairan?.berkas_si
@@ -616,7 +665,7 @@ export const GET = async () => {
       const dId = generateID("P", 6, data.length + 1);
       data.push({
         id: dId,
-        nopen: dapem.nopen || "",
+        nopen,
         salary: dapem.DataPembiayaan?.gaji_bersih || 0,
         address: `${dapem.DataPengajuanAlamat?.alamat_domisili || ""} RT ${
           dapem.DataPengajuanAlamat?.rt_domisili || ""
@@ -663,9 +712,9 @@ export const GET = async () => {
         f_pos_code: "",
         used_for: dapem.tujuan_penggunaan1 || "",
         produkPembiayaanId: findProduk?.newId || "",
-        jenisPembiayaanId: findJenis?.newId || "",
-        prevPayOfficeId: findPrevBanpot?.id || "",
-        payOfficeId: findBanpot?.id || "",
+        jenisPembiayaanId: findJenis?.newId || "J005",
+        prevPayOfficeId: findPrevBanpot?.id || "PAY022",
+        payOfficeId: findBanpot?.id || "PAY022",
         insuranceId: findInsurance?.id || "",
         account_number: dapem.DataPembiayaan?.no_rekening || "",
         account_name: dapem.DataPembiayaan?.nama_bank || "",
@@ -684,7 +733,7 @@ export const GET = async () => {
           (dapem.DataPembiayaan?.margin_bank || 0),
         c_adm: dapem.DataPembiayaan?.by_admin || 0,
         c_adm_sumdan: dapem.DataPembiayaan?.by_admin_bank || 0,
-        c_account: dapem.DataPembiayaan?.by_buka_rekening || 0,
+        c_account_sumdan: dapem.DataPembiayaan?.by_buka_rekening || 0,
         c_provisi: dapem.DataPembiayaan?.by_provisi || 0,
         c_insurance: dapem.DataPembiayaan?.by_asuransi || 0,
         c_gov: dapem.DataPembiayaan?.by_tatalaksana || 0,
@@ -697,7 +746,7 @@ export const GET = async () => {
         c_takeover: dapem.DataPembiayaan?.pelunasan || 0,
         c_fee_bpp: 0,
         c_ned: 0,
-        c_fee_banpot: 0,
+        fee_banpot: 0,
         c_flagging: 0,
         dom_status: true,
         userId: findAdmin?.newId || "",
@@ -755,7 +804,7 @@ export const GET = async () => {
                   ? "DRAFT"
                   : "PENDING"
           : "DRAFT",
-        droppingId: dapem.DataPencairan?.nomor_surat.trim() || "",
+        droppingId: findDropping?.id || null,
         takeover_status: dapem.BerkasPengajuan?.pelunasan
           ? "DISETUJUI"
           : "DRAFT",
