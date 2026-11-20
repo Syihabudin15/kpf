@@ -41,20 +41,7 @@ export const GET = async () => {
     const data: any[] = [];
     const sumdan: any[] = [];
     const produk: any[] = [];
-    const jenis: any[] = [
-      {
-        id: "__DEFAULT_JENIS__",
-        name: "LAINNYA",
-        blokir: 2,
-        c_mutasi: 0,
-        description: "",
-        status_mutasi: false,
-        status_takeover: false,
-        status: true,
-        created_at: new Date(),
-        newId: "J005",
-      },
-    ];
+    const jenis: any[] = [];
     const insurance: any[] = [];
     const banpot: any[] = [
       {
@@ -271,40 +258,16 @@ export const GET = async () => {
     const user: any[] = [];
     const dropping: any[] = [];
     const angsurans: any[] = [];
-    sumdan.push({
-      id: "MITRA0000",
-      old_id: "__NO_SUMDAN__",
-      name: "Tanpa Sumber Dana",
-      code: "-",
-      phone: "",
-      email: "",
-      address: "",
-      description: null,
-      contract_no: "",
-      contract_no2: "",
-      contract_date: new Date(),
-      contract_date2: new Date(),
-      limit: 0,
-      tbo: 4,
-      pic: "",
-      c_adm_sumdan: 0,
-      status: true,
-      created_at: new Date(),
-      new_id: "MITRA0000",
-    });
 
     for (const dapem of find) {
-      const dapemNopen = (
-        dapem.nopen?.trim() ||
-        dapem.DataPembiayaan?.nopen?.trim() ||
-        ""
-      );
-      const nopen = dapemNopen || `NOPEN-MISSING-${String(data.length + 1).padStart(6, "0")}`;
+      const dapemNopen =
+        dapem.nopen?.trim() || dapem.DataPembiayaan?.nopen?.trim() || "";
+      const nopen =
+        dapemNopen ||
+        `NOPEN-MISSING-${String(data.length + 1).padStart(6, "0")}`;
       const droppingId = dapem.DataPencairan?.nomor_surat?.trim() || "";
 
-      let findSumdan = sumdan.find(
-        (s) => s.old_id === dapem.bankId || s.id === dapem.bankId,
-      );
+      let findSumdan = sumdan.find((s) => s.id === dapem.bankId);
       let findProduk = produk.find(
         (p) => p.id === dapem.DataPembiayaan?.produk_id,
       );
@@ -348,29 +311,19 @@ export const GET = async () => {
             return nameMatch || codeMatch || relateMatch;
           })
         : undefined;
-      let findDeb = debitur.find(
-        (d) => d.nopen === nopen,
-      );
+      let findDeb = debitur.find((d) => d.nopen === nopen);
       let findArea = area.find(
         (d) => d.id === dapem.User?.UnitCabang?.unit_pelayanan_id,
       );
       let findCabang = cabang.find((d) => d.id === dapem.User?.unit_cabang_id);
       let findAO = user.find((d) => d.id === dapem.user_id);
       let findAdmin = user.find((d) => d.id === dapem.DataPembiayaan?.user_id);
-      let findDropping = dropping.find(
-        (d) => d.id === droppingId,
-      );
+      let findDropping = dropping.find((d) => d.id === droppingId);
 
       // 1. Sumdan & Produk
       if (!findSumdan && dapem.bankId) {
-        const sumdanNewId = generateID(
-          "MITRA",
-          4,
-          sumdan.length,
-        );
         const tempSumdan = {
-          id: sumdanNewId,
-          old_id: dapem.bankId,
+          id: dapem.bankId,
           name: dapem.Bank?.name || "-",
           code: dapem.Bank?.kode || "-",
           phone: dapem.Bank?.no_telepon || "",
@@ -390,7 +343,7 @@ export const GET = async () => {
           c_adm: dapem.Bank?.by_admin || 0,
           status: dapem.Bank?.is_active ?? true,
           created_at: dapem.Bank?.created_at || new Date(),
-          new_id: sumdanNewId,
+          new_id: generateID("MITRA", 4, sumdan.length + 1),
         };
         findSumdan = tempSumdan;
         sumdan.push(tempSumdan);
@@ -881,10 +834,7 @@ export const GET = async () => {
       worksheet.addRows(rows);
     };
 
-    writeSheet(
-      "sumdan",
-      sumdan.map(({ old_id, ...row }) => row),
-    );
+    writeSheet("sumdan", sumdan);
     writeSheet("produk", produk);
     writeSheet("jenis", jenis);
     writeSheet("area", area);
